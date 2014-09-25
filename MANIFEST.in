@@ -1,0 +1,2 @@
+recursive-include synnefo_ui/ui/static *
+include distribute_setup.py

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>UiWeb</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{BASE_TAG}}
+
+    <link rel="stylesheet" href="{{ UI_STATIC_MEDIA_URL }}css/vendor.css">
+    <link rel="stylesheet" href="{{ UI_STATIC_MEDIA_URL }}css/ui-web.css">
+  </head>
+  <body>
+    <script>
+      window.EmberENV = {{EMBER_ENV}};
+    </script>
+    <script src="{{ UI_STATIC_MEDIA_URL }}js/vendor.js"></script>
+    <script src="{{ UI_STATIC_MEDIA_URL }}/js/ui-web.js"></script>
+    <script>
+      window.UiWeb = require('ui-web/app')['default'].create({{APP_CONFIG}});
+      var extras = {
+        logo_url: "{{ BRANDING_IMAGE_MEDIA_URL }}dashboard_logo.png",
+      };
+      window.UiWeb.extras = extras;
+    </script>
+  </body>
+</html>
