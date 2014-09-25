@@ -14,18 +14,36 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from urllib import unquote
 
 from django.views.generic.simple import direct_to_template
 from synnefo_ui import ui_settings
 
 def home(request):
+
+    extras_dict = {
+        'NAME': 'olga',
+        'UI_STATIC_MEDIA_URL': ui_settings.UI_STATIC_MEDIA_URL,
+        'token': get_token_from_cookie(request, ui_settings.AUTH_COOKIE_NAME),
+    }
+
     return direct_to_template(request, "ui/index.html",
                               extra_context=extras_dict)
 
 
-""" Extra variables that can be used in ember app """
 
-extras_dict = {
-    'NAME': 'olga',
-    'UI_STATIC_MEDIA_URL': ui_settings.UI_STATIC_MEDIA_URL,
-}
+def get_token_from_cookie(request, cookiename):
+    """Extract token from provided cookie.
+
+    Extract token from the cookie name provided. Cookie should be in the same
+    form as astakos service sets its cookie contents::
+
+        <user_uniq>|<user_token>
+    """
+    try:
+        cookie_content = unquote(request.COOKIES.get(cookiename, None))
+        return cookie_content.split("|")[1]
+    except AttributeError:
+        pass
+
+    return None

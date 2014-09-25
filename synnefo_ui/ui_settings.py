@@ -30,3 +30,5 @@ BASE_URL = getattr(settings, 'UI_BASE_URL',
 
 BASE_HOST, BASE_PATH = parse_base_url(BASE_URL)
 UI_STATIC_MEDIA_URL = getattr(settings, 'UI_STATIC_MEDIA_URL', settings.MEDIA_URL + 'ui/')
+
+AUTH_COOKIE_NAME = getattr(settings, 'UI_AUTH_COOKIE_NAME','_pithos2_a')

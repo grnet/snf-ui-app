@@ -13,13 +13,14 @@
     <link rel="stylesheet" href="{{ UI_STATIC_MEDIA_URL }}css/ui-web.css">
   </head>
   <body>
+  token: {{ token }}
     <script>
-      window.EmberENV = {"modulePrefix":"ui-web","environment":"development","baseURL":"ui","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"game":"play","LOG_ACTIVE_GENERATION":true,"LOG_VIEW_LOOKUPS":true}};
+      window.EmberENV = {"modulePrefix":"ui-web","environment":"development","baseURL":"ui","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"myOption":"my-option","LOG_ACTIVE_GENERATION":true,"LOG_VIEW_LOOKUPS":true}};
     </script>
     <script src="{{ UI_STATIC_MEDIA_URL }}js/vendor.js"></script>
     <script src="{{ UI_STATIC_MEDIA_URL }}/js/ui-web.js"></script>
     <script>
-      window.UiWeb = require('ui-web/app')['default'].create({"game":"play","LOG_ACTIVE_GENERATION":true,"LOG_VIEW_LOOKUPS":true});
+      window.UiWeb = require('ui-web/app')['default'].create({"myOption":"my-option","LOG_ACTIVE_GENERATION":true,"LOG_VIEW_LOOKUPS":true});
       var extras = {
         logo_url: "{{ BRANDING_IMAGE_MEDIA_URL }}dashboard_logo.png",
       };

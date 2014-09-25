@@ -14,7 +14,7 @@ module.exports = function(environment) {
     },
 
     APP: {
-        game: 'play',
+        myOption: 'my-option',
       // Here you can pass flags/options to your application instance
       // when it is created
     }
