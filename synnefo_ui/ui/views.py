@@ -14,21 +14,29 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import json
+
 from urllib import unquote
 
 from django.views.generic.simple import direct_to_template
+from django.conf import settings
+from synnefo_branding import settings as branding_settings
+
 from synnefo_ui import ui_settings
 
 def home(request):
 
-    extras_dict = {
-        'NAME': 'olga',
-        'UI_STATIC_MEDIA_URL': ui_settings.UI_STATIC_MEDIA_URL,
+    app_settings = {
+        'service_name': branding_settings.SERVICE_NAME,
+        'logo_url': branding_settings.IMAGE_MEDIA_URL + 'dashboard_logo.png',
         'token': get_token_from_cookie(request, ui_settings.AUTH_COOKIE_NAME),
     }
+    
+    context = {
+        'app_settings': json.dumps(app_settings)
+    }
 
-    return direct_to_template(request, "ui/index.html",
-                              extra_context=extras_dict)
+    return direct_to_template(request, "ui/index.html", extra_context=context)
 
 
 

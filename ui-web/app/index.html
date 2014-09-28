@@ -9,22 +9,20 @@
 
     {{BASE_TAG}}
 
-    <link rel="stylesheet" href="{{ UI_STATIC_MEDIA_URL }}css/vendor.css">
-    <link rel="stylesheet" href="{{ UI_STATIC_MEDIA_URL }}css/ui-web.css">
+    <link rel="stylesheet" href="{{ MEDIA_URL }}ui/css/vendor.css">
+    <link rel="stylesheet" href="{{ MEDIA_URL }}ui/css/ui-web.css">
   </head>
   <body>
-  token: {{ token }}
+    <script>
+      window.SETTINGS = {{ app_settings|safe }}
+    </script>
     <script>
       window.EmberENV = {{EMBER_ENV}};
     </script>
-    <script src="{{ UI_STATIC_MEDIA_URL }}js/vendor.js"></script>
-    <script src="{{ UI_STATIC_MEDIA_URL }}/js/ui-web.js"></script>
+    <script src="{{ MEDIA_URL }}ui/js/vendor.js"></script>
+    <script src="{{ MEDIA_URL }}ui/js/ui-web.js"></script>
     <script>
       window.UiWeb = require('ui-web/app')['default'].create({{APP_CONFIG}});
-      var extras = {
-        logo_url: "{{ BRANDING_IMAGE_MEDIA_URL }}dashboard_logo.png",
-      };
-      window.UiWeb.extras = extras;
     </script>
-  </body>
+ </body>
 </html>
