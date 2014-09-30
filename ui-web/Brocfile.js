@@ -2,7 +2,12 @@
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
+
 var app = new EmberApp({
+  compassOptions: {
+    outputStyle: 'expanded',
+  },
+  /*
   outputPaths: {
     app: {
       css: '/css/ui-web.css',
@@ -12,7 +17,7 @@ var app = new EmberApp({
       css: '/css/vendor.css',
       js: '/js/vendor.js'
     }
-  }
+  }*/
 });
 
 // Use `app.import` to add additional libraries to the generated

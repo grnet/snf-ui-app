@@ -22,7 +22,10 @@ from django.views.generic.simple import direct_to_template
 from django.conf import settings
 from synnefo_branding import settings as branding_settings
 
+
 from synnefo_ui import ui_settings
+from astakosclient import AstakosClient
+
 
 def home(request):
 
@@ -55,3 +58,6 @@ def get_token_from_cookie(request, cookiename):
         pass
 
     return None
+
+
+
