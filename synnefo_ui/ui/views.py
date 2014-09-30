@@ -37,6 +37,7 @@ def home(request):
         'token': token,
         'storage_url': get_publicURL_by_service(token, 'object-store'),
         'weblogin_url': get_publicURL_by_service(token, 'astakos_weblogin'),
+        'account_url': get_publicURL_by_service(token, 'account'),
     }
     
     context = {
