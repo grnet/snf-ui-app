@@ -20,5 +20,5 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns(
     'synnefo_ui.ui.views',
-    url(r'^$', 'home', name='ui-home'),
+    url(r'^.*$', 'home', name='ui-home'),
 )
