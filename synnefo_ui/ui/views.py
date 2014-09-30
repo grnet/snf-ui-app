@@ -24,15 +24,19 @@ from synnefo_branding import settings as branding_settings
 
 
 from synnefo_ui import ui_settings
-from astakosclient import AstakosClient
+from astakosclient import AstakosClient, parse_endpoints
 
 
 def home(request):
 
+    token = get_token_from_cookie(request, ui_settings.AUTH_COOKIE_NAME)
+
     app_settings = {
         'service_name': branding_settings.SERVICE_NAME,
         'logo_url': branding_settings.IMAGE_MEDIA_URL + 'dashboard_logo.png',
-        'token': get_token_from_cookie(request, ui_settings.AUTH_COOKIE_NAME),
+        'token': token,
+        'storage_url': get_publicURL_by_service(token, 'object-store'),
+        'weblogin_url': get_publicURL_by_service(token, 'astakos_weblogin'),
     }
     
     context = {
@@ -58,6 +62,18 @@ def get_token_from_cookie(request, cookiename):
         pass
 
     return None
+
+
+def get_publicURL_by_service(token, service_type):
+    """
+    Extract endpoint publicURL from token and service type
+    """
+
+    auth_url =  ui_settings.AUTH_URL
+    astakos_client = AstakosClient(token, auth_url)
+    endpoint = parse_endpoints(astakos_client.get_endpoints(), ep_type=service_type)
+    publicURL = endpoint[0]['endpoints'][0]['publicURL']
+    return publicURL
 
 
 
