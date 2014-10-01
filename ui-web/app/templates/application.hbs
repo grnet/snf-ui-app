@@ -1,8 +1,9 @@
-<img {{bind-attr src=settings.logo_url }}>
-<h2 id='title'>Welcome to Ember.js</h2>
-{{title}}
+<div class="row">
+    <img {{bind-attr src=settings.logo_url }}>
+    <h2 id='title'>Welcome to Ember.js</h2>
+    <h3>{{title}}</h3>
 
-token: {{settings.token}}
+    <p><strong>token:</strong> {{settings.token}}</p>
 
-
-{{outlet}}
+    {{outlet}}
+</div>

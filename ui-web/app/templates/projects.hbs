@@ -1,0 +1,7 @@
+{{outlet}}
+<h4>Projects page</h4>
+<ul>
+{{#each}}
+    <li>{{#link-to 'project' this}}{{name}}{{/link-to}}</li>
+{{/each}}
+</ul>
