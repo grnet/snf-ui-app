@@ -2,8 +2,7 @@
 {{#each}}
     <li>
         {{#link-to 'container' this}}{{name}}{{/link-to}}
-        {{project.name}}
-        {{project}}
+        <strong>project:</strong> {{project.name}}
     </li>
 {{/each}}
 </ul>

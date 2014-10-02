@@ -27,6 +27,7 @@ export default DS.RESTSerializer.extend({
   normalizeHash: {
     containers: function(hash) {
       hash.id = hash.name;
+      hash.project = hash.x_container_policy.project;
       return hash;
     }
   },
