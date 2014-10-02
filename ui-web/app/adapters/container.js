@@ -10,7 +10,13 @@ export default DS.RESTAdapter.extend({
     return this.get('settings').get('storage_host');
   }.property(),
   buildURL: function(type, id, record){
-    var host = this.get('host');
-    return host;
+    var url = [],
+        host = this.get('host');
+    url.push(host);
+    if (id) {
+        url.push(id);
+    }
+    url = url.join('/');
+    return url;
   }
 });

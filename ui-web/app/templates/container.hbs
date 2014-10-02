@@ -1,2 +1,14 @@
 {{outlet}}
-{{name}}
+<h4>Container:{{id}}</h4>
+<ul>
+{{#each o in objects}}
+    <li>
+    {{#if o.is_dir}}
+        {{fa-icon "fa-folder-open"}}
+    {{else}}
+        {{fa-icon "fa-file-o"}}
+    {{/if}}
+        {{o.name}}
+    </li>
+{{/each}}
+</ul>

@@ -6,5 +6,5 @@ export default DS.RESTAdapter.extend({
               'X-Requested-With': 'XMLHttpRequest',
               'Content-Type': 'application/json'};
   }.property(),
-  host: 'https://synnefo.live/pithos/_astakos/account',
+  host: 'https://pithos.synnefo.live/pithos/_astakos/account',
 });
