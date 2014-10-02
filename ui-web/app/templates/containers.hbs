@@ -1,5 +1,9 @@
 <ul>
 {{#each}}
-    <li>{{#link-to 'container' this}}{{name}}{{/link-to}}</li>
+    <li>
+        {{#link-to 'container' this}}{{name}}{{/link-to}}
+        {{project.name}}
+        {{project}}
+    </li>
 {{/each}}
 </ul>

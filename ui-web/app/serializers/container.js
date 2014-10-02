@@ -6,12 +6,6 @@ export default DS.RESTSerializer.extend({
     payload = { containers: payload_list};
     return this._super(store, type, payload);
   },
-  normalizeHash: {
-    containers: function(hash) {
-      hash.id = hash.name;
-      return hash;
-    }
-  },
   extractSingle: function(store, type, payload, id) {
     var object_ids = [];
     var object_list = payload;
@@ -21,6 +15,7 @@ export default DS.RESTSerializer.extend({
     });
     var container = { 
       id: id,
+      name: id,
       objects: object_ids,
     };
     payload = { 
@@ -28,5 +23,12 @@ export default DS.RESTSerializer.extend({
       objects: object_list
     };
     return this._super(store, type, payload, id);
-  }
+  },
+  normalizeHash: {
+    containers: function(hash) {
+      hash.id = hash.name;
+      return hash;
+    }
+  },
+
 });
