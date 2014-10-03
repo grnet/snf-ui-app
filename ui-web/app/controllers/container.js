@@ -5,8 +5,8 @@ export default Ember.ObjectController.extend({
 
   availableProjects: function(){
     var that = this;
-    return this.store.filter('project',{}, function(p) {
-      return p.get('id') != that.get('selectedProject').get('id');
+    return this.store.filter('project',{mode:"member"}, function(p) {
+      return p.get('id') !== that.get('selectedProject').get('id');
     });
   }.property('selectedProject'),
 
