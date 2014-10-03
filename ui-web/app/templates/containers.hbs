@@ -3,6 +3,7 @@
     <li>
         {{#link-to 'container' this}}{{name}}{{/link-to}}
         Selected project: {{selectedProject.name}}
+        <br>Member diskspace: {{selectedProject.diskspace}}
 
         {{view Ember.Select content=availableProjects
                optionLabelPath="content.name"
