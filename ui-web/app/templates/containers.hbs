@@ -1,10 +1,20 @@
+{{input type="text" placeholder="Container name" value=newName}}
+{{view Ember.Select content=projects
+   optionLabelPath="content.name"
+   optionValuePath="content.id"
+   prompt="Reassign project:"
+   selection=newProject}}
+
+<button {{action 'createContainer' }}>Create container</button>
+
 <ul>
 {{#each}}
     <li>
         {{#link-to 'container' this}}{{name}}{{/link-to}}
         Selected project: {{selectedProject.name}}
-        <br>Member diskspace: {{selectedProject.diskspace}}
-
+        <br>Project member diskspace: {{selectedProject.diskspace}}
+        <br>Containers bytes: {{bytes}}
+        <br>Total items: {{count}}
         {{view Ember.Select content=availableProjects
                optionLabelPath="content.name"
                optionValuePath="content.id"
@@ -13,4 +23,5 @@
     </li>
 {{/each}}
 </ul>
+
 

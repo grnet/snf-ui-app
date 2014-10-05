@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
 export default DS.RESTAdapter.extend({
   headers: function(){
@@ -18,5 +19,37 @@ export default DS.RESTAdapter.extend({
     }
     url = url.join('/');
     return url;
+  },
+  ajaxSuccess: function(jsonPayload, jqXHR) {
+    var ret = this._super(jsonPayload, jqXHR);
+    return ret;
+  },
+
+  createRecord: function(store, type, record) {
+    var data = this.serialize(record, { includeId: true });
+    var url = this.buildURL(type.typeKey, null , record) + '/'+data.name;
+    var headers = this.get('headers');
+    // edw an valw to project id mia xara ftiaxnei ton container.
+    // Den mporw omws na perasw to project apo ton controller edw
+    // Kati paizei me ton serializer?
+    $.extend(headers, {'X-Container-Policy-Project': '7140a2ea-e102-485f-b74d-d37ddcbf5ca9'});
+
+    console.log(headers, 'headers');
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'PUT',
+        url: url,
+        dataType: 'json',
+        headers: headers,
+        // xreiazontai alla data?
+        //data: data,
+      }).then(function(data) {
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
   }
 });

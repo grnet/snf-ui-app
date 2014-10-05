@@ -31,5 +31,4 @@ export default DS.RESTSerializer.extend({
       return hash;
     }
   },
-
 });
