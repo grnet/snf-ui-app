@@ -24,7 +24,6 @@ export default DS.RESTAdapter.extend({
     var ret = this._super(jsonPayload, jqXHR);
     return ret;
   },
-
   createRecord: function(store, type, record) {
     var data = this.serialize(record, { includeId: true });
     var url = this.buildURL(type.typeKey, null , record) + '/'+data.name;
@@ -47,6 +46,7 @@ export default DS.RESTAdapter.extend({
       }).then(function(data) {
         Ember.run(null, resolve, data);
       }, function(jqXHR) {
+        console.log(jqXHR.status, 'response STATUS');
         jqXHR.then = null; // tame jQuery's ill mannered promises
         Ember.run(null, reject, jqXHR);
       });
