@@ -12,8 +12,8 @@
     <li>
         {{#link-to 'container' this}}{{name}}{{/link-to}}
         Selected project: {{selectedProject.name}}
-        <br>Project member diskspace: {{selectedProject.diskspace}}
-        <br>Containers bytes: {{bytes}}
+        <br>Project member diskspace: {{convert-bytes selectedProject.diskspace}}
+        <br>Containers bytes: {{convert-bytes bytes}}
         <br>Total items: {{count}}
         {{view Ember.Select content=availableProjects
                optionLabelPath="content.name"
@@ -21,6 +21,7 @@
                prompt="Reassign project:"
                selection=selectedProject}}
     </li>
+    <a class="button alert small" {{action 'deleteContainer'}}>Delete container</a>
 {{/each}}
 </ul>
 

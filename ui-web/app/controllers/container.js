@@ -6,17 +6,32 @@ export default Ember.ObjectController.extend({
   availableProjects: function(){
     var that = this;
     return this.store.filter('project',{mode:"member"}, function(p) {
-      return p.get('id') !== that.get('selectedProject').get('id');
+      if (that.get('selectedProject')){
+        return p.get('id') !== that.get('selectedProject').get('id');
+      } else {
+        return p;
+      }
+
     });
   }.property('selectedProject'),
 
   selectedProject: function(){
     return this.get('model').get('project');
-  }.property('model.project'),
+  }.property('project'),
 
   watchProject: function(){
     console.log('CHANGED', this.get('model'));
     console.log(this.get('selectedProject'));
   }.observes('selectedProject'),
+
+  actions: {
+    deleteContainer: function(){
+      console.log('I am about to delete this container');
+      var container = this.get('model');
+      console.log('container name', this.get('model').get('name'));
+      container.deleteRecord();
+      container.save();
+    }
+  }
 
 });

@@ -15,7 +15,7 @@ export default DS.RESTAdapter.extend({
         host = this.get('host');
     url.push(host);
     if (id) {
-        url.push(id);
+      url.push(id);
     }
     url = url.join('/');
     return url;
@@ -24,16 +24,17 @@ export default DS.RESTAdapter.extend({
     var ret = this._super(jsonPayload, jqXHR);
     return ret;
   },
+  // this is a DS.adapter method
+  // it could be a d DS.rest_adapter method 
   createRecord: function(store, type, record) {
     var data = this.serialize(record, { includeId: true });
-    var url = this.buildURL(type.typeKey, null , record) + '/'+data.name;
+    var url = this.buildURL(type.typeKey, data.name , null);
     var headers = this.get('headers');
     // edw an valw to project id mia xara ftiaxnei ton container.
     // Den mporw omws na perasw to project apo ton controller edw
     // Kati paizei me ton serializer?
     $.extend(headers, {'X-Container-Policy-Project': '7140a2ea-e102-485f-b74d-d37ddcbf5ca9'});
 
-    console.log(headers, 'headers');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       jQuery.ajax({
@@ -51,5 +52,12 @@ export default DS.RESTAdapter.extend({
         Ember.run(null, reject, jqXHR);
       });
     });
+  },
+  deleteRecord: function(store, type, record){
+    var id = Ember.get(record, 'id');
+    console.log('>>>>>>',id);
+    return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
+
   }
+
 });

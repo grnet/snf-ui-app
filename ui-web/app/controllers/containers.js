@@ -13,6 +13,7 @@ export default Ember.ArrayController.extend({
       // edw to  project erxetai
       var container = this.store.createRecord('container', {
         name: name,
+        id: name,
         project: project,
       });
       this.set('newName', '');
