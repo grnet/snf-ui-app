@@ -57,7 +57,9 @@ export default DS.RESTAdapter.extend({
     var id = Ember.get(record, 'id');
     console.log('>>>>>>',id);
     return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
-
-  }
-
+  },
+  emptyContainer: function(store, record){
+    alert('I am going to empty this container');
+  },
 });
+

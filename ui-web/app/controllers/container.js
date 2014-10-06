@@ -31,6 +31,10 @@ export default Ember.ObjectController.extend({
       console.log('container name', this.get('model').get('name'));
       container.deleteRecord();
       container.save();
+    },
+    emptyContainer: function(){
+      var container = this.get('model');
+      container.emptyContainer();
     }
   }
 

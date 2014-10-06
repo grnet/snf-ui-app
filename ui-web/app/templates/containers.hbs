@@ -7,22 +7,32 @@
 
 <button {{action 'createContainer' }}>Create container</button>
 
-<ul>
+<table>
+<tbody>
 {{#each}}
-    <li>
-        {{#link-to 'container' this}}{{name}}{{/link-to}}
-        Selected project: {{selectedProject.name}}
-        <br>Project member diskspace: {{convert-bytes selectedProject.diskspace}}
-        <br>Containers bytes: {{convert-bytes bytes}}
-        <br>Total items: {{count}}
-        {{view Ember.Select content=availableProjects
-               optionLabelPath="content.name"
-               optionValuePath="content.id"
-               prompt="Reassign project:"
-               selection=selectedProject}}
-    </li>
-    <a class="button alert small" {{action 'deleteContainer'}}>Delete container</a>
+    <tr>
+        <td>
+            <h4>{{#link-to 'container' this}}{{name}}{{/link-to}}</h4>
+            <strong>Selected project:</strong> {{selectedProject.name}}<br>
+            <strong>Project member diskspace:</strong> {{convert-bytes selectedProject.diskspace}}<br>
+            <strong>Containers bytes:</strong> {{convert-bytes bytes}}<br>
+            <strong>Total items:</strong> {{count}}<br>
+        </td>
+        <td>
+            {{view Ember.Select content=availableProjects
+                   optionLabelPath="content.name"
+                   optionValuePath="content.id"
+                   prompt="Reassign project:"
+                   selection=selectedProject}}
+        </td>
+        <td>
+            <a class="button alert small" {{action 'deleteContainer'}}>Delete container</a>
+        </td>
+        <td>
+            <a class="button secondary small" {{action 'emptyContainer'}}>Empty container</a>
+        </td>
+
+    </tr>
 {{/each}}
-</ul>
-
-
+</tbody>
+</table>
