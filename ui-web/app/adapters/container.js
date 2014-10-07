@@ -26,13 +26,11 @@ export default DS.RESTAdapter.extend({
   },
   // this is a DS.adapter method
   // it could be a d DS.rest_adapter method 
+  // record is returned from Store's createRecord method
   createRecord: function(store, type, record) {
     var data = this.serialize(record, { includeId: true });
     var url = this.buildURL(type.typeKey, data.name , null);
     var headers = this.get('headers');
-    // edw an valw to project id mia xara ftiaxnei ton container.
-    // Den mporw omws na perasw to project apo ton controller edw
-    // Kati paizei me ton serializer?
     $.extend(headers, {'X-Container-Policy-Project': '7140a2ea-e102-485f-b74d-d37ddcbf5ca9'});
 
 
