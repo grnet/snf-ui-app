@@ -31,28 +31,35 @@ export default DS.RESTAdapter.extend({
     var data = this.serialize(record, { includeId: true });
     var url = this.buildURL(type.typeKey, data.name , null);
     var headers = this.get('headers');
-    $.extend(headers, {'X-Container-Policy-Project': '7140a2ea-e102-485f-b74d-d37ddcbf5ca9'});
 
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      jQuery.ajax({
-        type: 'PUT',
-        url: url,
-        // http://stackoverflow.com/questions/5061310/
-        dataType: 'text',
-        headers: headers,
-      }).then(function(data) {
-        Ember.run(null, resolve, data);
-      }, function(jqXHR) {
-        var response = Ember.$.parseJSON(jqXHR.responseText);
-        console.log(response, '####');
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
+      record.get('project').then(function(project){
+ 
+        $.extend(headers, {'X-Container-Policy-Project': project.get('id')});
+
+        jQuery.ajax({
+          type: 'PUT',
+          url: url,
+          // http://stackoverflow.com/questions/5061310/
+          dataType: 'text',
+          headers: headers,
+        }).then(function(data) {
+          Ember.run(null, resolve, data);
+        }, function(jqXHR) {
+          var response = Ember.$.parseJSON(jqXHR.responseText);
+          jqXHR.then = null; // tame jQuery's ill mannered promises
+          Ember.run(null, reject, jqXHR);
+        });
+
+      }, function() {
+        Ember.run(null, reject, "Invalid project");
       });
     });
   },
   deleteRecord: function(store, type, record){
     var id = Ember.get(record, 'id');
+    console.log(id, '0');
     return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
   },
   emptyContainer: function(store, record){
