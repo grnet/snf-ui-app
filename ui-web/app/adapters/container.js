@@ -40,14 +40,14 @@ export default DS.RESTAdapter.extend({
       jQuery.ajax({
         type: 'PUT',
         url: url,
-        dataType: 'json',
+        // http://stackoverflow.com/questions/5061310/
+        dataType: 'text',
         headers: headers,
-        // xreiazontai alla data?
-        //data: data,
       }).then(function(data) {
         Ember.run(null, resolve, data);
       }, function(jqXHR) {
-        console.log(jqXHR.status, 'response STATUS');
+        var response = Ember.$.parseJSON(jqXHR.responseText);
+        console.log(response, '####');
         jqXHR.then = null; // tame jQuery's ill mannered promises
         Ember.run(null, reject, jqXHR);
       });
@@ -55,7 +55,6 @@ export default DS.RESTAdapter.extend({
   },
   deleteRecord: function(store, type, record){
     var id = Ember.get(record, 'id');
-    console.log('>>>>>>',id);
     return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
   },
   emptyContainer: function(store, record){
