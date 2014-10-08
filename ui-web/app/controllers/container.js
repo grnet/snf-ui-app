@@ -26,11 +26,11 @@ export default Ember.ObjectController.extend({
     },
     emptyContainer: function(){
       var container = this.get('model');
-      this.store.emptyContainer();
+      this.store.emptyContainer(container);
     },
     reassignContainer: function(){
       var container = this.get('model');
-      this.store.reassignContainer();
+      this.store.reassignContainer(container);
     }
   }
 

@@ -65,6 +65,9 @@ export default DS.RESTAdapter.extend({
     // return first level contents (files or folders)
     return this.ajax(this.buildURL(type.typeKey, id, record)+'?path=/', 'GET');
   },
+  reassignContainer: function(store, record){
+    alert('I am going to reassign this container');
+  },
   emptyContainer: function(store, record){
     alert('I am going to empty this container');
   },
