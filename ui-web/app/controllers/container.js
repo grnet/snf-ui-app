@@ -26,9 +26,7 @@ export default Ember.ObjectController.extend({
 
   actions: {
     deleteContainer: function(){
-      console.log('I am about to delete this container');
       var container = this.get('model');
-      console.log('container name', this.get('model').get('name'));
       container.deleteRecord();
       container.save();
     },

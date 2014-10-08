@@ -59,8 +59,11 @@ export default DS.RESTAdapter.extend({
   },
   deleteRecord: function(store, type, record){
     var id = Ember.get(record, 'id');
-    console.log(id, '0');
     return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
+  },
+  find: function(store, type, id, record) {
+    // return first level contents (files or folders)
+    return this.ajax(this.buildURL(type.typeKey, id, record)+'?path=/', 'GET');
   },
   emptyContainer: function(store, record){
     alert('I am going to empty this container');
