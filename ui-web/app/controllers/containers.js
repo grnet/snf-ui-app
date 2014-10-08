@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
   itemController: 'container',
   projects: function(){
-    return this.store.find('project');
+    return this.store.find('project', {mode: 'member'});
   }.property(),
   actions: {
     createContainer: function(){
@@ -14,7 +14,6 @@ export default Ember.ArrayController.extend({
       if (!name) { return false; }
       if (!name.trim()) { return; }
 
-      // edw to  project erxetai
       var container = this.store.createRecord('container', {
         name: name,
         id: name,

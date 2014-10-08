@@ -6,12 +6,7 @@ export default Ember.ObjectController.extend({
   availableProjects: function(){
     var that = this;
     return this.store.filter('project',{mode:"member"}, function(p) {
-      if (that.get('selectedProject')){
-        return p.get('id') !== that.get('selectedProject').get('id');
-      } else {
-        return p;
-      }
-
+      return (p.get('id') !== that.get('selectedProject').get('id')) && ( that.get('model').get('bytes')< p.get('diskspace'));
     });
   }.property('selectedProject'),
 
@@ -20,8 +15,7 @@ export default Ember.ObjectController.extend({
   }.property('project'),
 
   watchProject: function(){
-    console.log('CHANGED', this.get('model'));
-    console.log(this.get('selectedProject'));
+    this.send('reassignContainer');
   }.observes('selectedProject'),
 
   actions: {
@@ -32,7 +26,11 @@ export default Ember.ObjectController.extend({
     },
     emptyContainer: function(){
       var container = this.get('model');
-      container.emptyContainer();
+      this.store.emptyContainer();
+    },
+    reassignContainer: function(){
+      var container = this.get('model');
+      this.store.reassignContainer();
     }
   }
 
