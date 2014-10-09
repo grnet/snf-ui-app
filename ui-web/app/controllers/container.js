@@ -24,13 +24,22 @@ export default Ember.ObjectController.extend({
       container.deleteRecord();
       container.save();
     },
+
     emptyContainer: function(){
       var container = this.get('model');
-      this.store.emptyContainer(container);
+      this.store.emptyContainer(container).then(function(){
+        container.set('count',0);
+        container.set('bytes',0);
+      });
+
+
     },
+
     reassignContainer: function(){
       var container = this.get('model');
-      this.store.reassignContainer(container);
+      this.store.reassignContainer(container).then(function(res){
+        console.log(res, 'res');
+      });
     }
   }
 

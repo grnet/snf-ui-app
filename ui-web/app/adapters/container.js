@@ -61,14 +61,25 @@ export default DS.RESTAdapter.extend({
     var id = Ember.get(record, 'id');
     return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
   },
-  find: function(store, type, id, record) {
-    return this.ajax(this.buildURL(type.typeKey, id, record), 'GET');
+  findQuery: function(store, type, query) {
+
+    // extract path from query
+    var path = query.path;
+
+    // extract id from query
+    var id = query.id;
+
+    return this.ajax(this.buildURL(type.typeKey, id, null)+'?path='+path, "GET", null);
   },
+
   reassignContainer: function(store, record){
+    console.log(record);
     alert('I am going to reassign this container');
   },
-  emptyContainer: function(store, record){
-    alert('I am going to empty this container');
+
+
+  emptyContainer: function(store, container_id){
+    return this.ajax(this.buildURL('container', container_id, null)+'?delimiter=/', "DELETE");
   },
 });
 

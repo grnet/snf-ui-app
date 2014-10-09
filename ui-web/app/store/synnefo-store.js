@@ -7,7 +7,8 @@ var SynnefoStore = DS.Store.extend({
   },
   emptyContainer: function(record){
     var adapter = this.adapterFor(record.constructor);
-    adapter.emptyContainer(record);
+    var container_id = record.id;
+    return adapter.emptyContainer(record, container_id);
   }
 
 });
