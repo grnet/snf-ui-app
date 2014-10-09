@@ -4,11 +4,14 @@
 {{#each o in objects}}
     <li>
     {{#if o.is_dir}}
-        {{fa-icon "fa-folder-open"}}
+        {{#link-to 'container' name o.name }}
+            {{fa-icon "fa-folder-open"}}
+            {{o.name}}
+        {{/link-to}}
     {{else}}
         {{fa-icon "fa-file-o"}}
-    {{/if}}
         {{o.name}}
+    {{/if}}
     </li>
 {{/each}}
 </ul>

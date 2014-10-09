@@ -62,8 +62,7 @@ export default DS.RESTAdapter.extend({
     return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
   },
   find: function(store, type, id, record) {
-    // return first level contents (files or folders)
-    return this.ajax(this.buildURL(type.typeKey, id, record)+'?path=/', 'GET');
+    return this.ajax(this.buildURL(type.typeKey, id, record), 'GET');
   },
   reassignContainer: function(store, record){
     alert('I am going to reassign this container');
