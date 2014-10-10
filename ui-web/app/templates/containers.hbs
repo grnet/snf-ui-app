@@ -1,6 +1,6 @@
 {{input type="text" placeholder="Container name" value=newName}}
 {{view Ember.Select content=projects
-   optionLabelPath="content.name"
+   optionLabelPath="content.select_label"
    optionValuePath="content.id"
    selection=newProject}}
 
@@ -19,7 +19,7 @@
         </td>
         <td>
             {{view Ember.Select content=availableProjects
-                   optionLabelPath="content.name"
+                   optionLabelPath="content.select_label"
                    optionValuePath="content.id"
                    prompt="Reassign project:"
                    selection=selectedProject}}

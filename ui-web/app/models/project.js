@@ -5,4 +5,7 @@ export default DS.Model.extend({
   homepage: DS.attr('string'),
   diskspace: DS.attr('string'),
   system_project: DS.attr('boolean', {defaultValue: false}),
+  select_label: function(){
+    return this.get('name') + " (" + this.get('diskspace') +  " bytes available)";
+  }.property('name', 'diskspace')
 });
