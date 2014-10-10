@@ -5,6 +5,12 @@ export default Ember.ArrayController.extend({
   projects: function(){
     return this.store.find('project', {mode: 'member'});
   }.property(),
+  
+  newProject: function(){
+    return this.get('systemProject');
+  }.property('systemProject'),
+
+
   actions: {
     createContainer: function(){
 
@@ -21,15 +27,15 @@ export default Ember.ArrayController.extend({
       });
 
       this.set('newName', '');
-      this.set('newProject', '');
+      this.set('newProject', this.get('systemProject'));
       
       var onSuccess = function(container) {
         console.log('onSuccess');
-      }
+      };
       
       var onFail = function(reason){
         console.log(reason);
-      }
+      };
 
       container.save().then(onSuccess, onFail);
     }
