@@ -58,18 +58,27 @@ export default DS.RESTAdapter.extend({
     });
   },
   deleteRecord: function(store, type, record){
-    var id = Ember.get(record, 'id');
-    return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
-  },
-  findQuery: function(store, type, query) {
 
-    // extract path from query
-    var path = query.path;
+    var data = this.serialize(record, { includeId: true });
+    var id = record.get('id');
+    var url = this.buildURL(type.typeKey, id , null);
+    var headers = this.get('headers');
 
-    // extract id from query
-    var id = query.id;
-
-    return this.ajax(this.buildURL(type.typeKey, id, null)+'?path='+path, "GET", null);
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'DELETE',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+        data: data
+      }).then(function(data) {
+        console.log('success data', data);
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
   },
 
   reassignContainer: function(store, record){
@@ -78,8 +87,25 @@ export default DS.RESTAdapter.extend({
   },
 
 
-  emptyContainer: function(store, container_id){
-    return this.ajax(this.buildURL('container', container_id, null)+'?delimiter=/', "DELETE");
+  emptyContainer: function(store, id){
+    var url = this.buildURL('container', id , null)+'?delimiter=/';
+    var headers = this.get('headers');
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'DELETE',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+      }).then(function(data) {
+        console.log('success data', data);
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
+
   },
 });
 

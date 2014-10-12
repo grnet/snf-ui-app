@@ -3,10 +3,16 @@ import Ember from 'ember';
 export default Ember.ObjectController.extend({
   title: 'object controller title',
 
+
+  // TODO:
+  // this should not be triggered if the project is deleted
   availableProjects: function(){
     var that = this;
+    console.log(this.get('selectedProject'), 'selectedproject');
     return this.store.filter('project',{mode:"member"}, function(p) {
-      return (p.get('id') !== that.get('selectedProject').get('id')) && ( that.get('model').get('bytes')< p.get('diskspace'));
+      if (that.get('selectedProject')) {
+        return (p.get('id') !== that.get('selectedProject').get('id')) && ( that.get('model').get('bytes')< p.get('diskspace'));
+        }
     });
   }.property('selectedProject'),
 
@@ -15,7 +21,7 @@ export default Ember.ObjectController.extend({
   }.property('project'),
 
   watchProject: function(){
-    this.send('reassignContainer');
+    //this.send('reassignContainer');
   }.observes('selectedProject'),
 
   actions: {
