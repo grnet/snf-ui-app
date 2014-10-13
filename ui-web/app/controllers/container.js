@@ -15,7 +15,6 @@ export default Ember.ObjectController.extend({
     });
   }.property('project'),
 
-/*
   watchProject: function(){
     var isClean = !this.get('model').get('isDirty');
     
@@ -25,7 +24,7 @@ export default Ember.ObjectController.extend({
     this.get('model').set('project', this.get('selectedProject'));
     
   }.observes('selectedProject'),
-*/
+
   actions: {
     deleteContainer: function(){
       var container = this.get('model');

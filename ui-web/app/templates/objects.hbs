@@ -1,0 +1,18 @@
+{{outlet}}
+<h4>Container:{{id}}</h4>
+<ul>
+{{#each}}
+    <li>
+    {{#if is_dir}}
+        {{#link-to 'container' name }}
+            {{fa-icon "fa-folder-open"}}
+            {{stripped_name}}
+        {{/link-to}}
+    {{else}}
+        {{fa-icon "fa-file-o"}}
+        {{stripped_name}}
+    {{/if}}
+    </li>
+{{/each}}
+</ul>
+      
