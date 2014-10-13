@@ -10,7 +10,7 @@ Router.map(function() {
   this.resource('project', { path: '/projects/:project_id' });
   this.resource('containers');
   this.resource('container', { path: '/containers/:container_id'});
-  this.resource('container', { path: '/containers/:container_id/*path'});
+  this.resource('container', { path: '/containers/:container_id/*current_path'});
 });
 
 export default Router;

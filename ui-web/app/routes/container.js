@@ -2,17 +2,15 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function(params){
-
     // if path is not set, then default path is current folder '/'
-    var path = params.path ? params.path : '/';
-    var query = {
-      id: params.container_id,
-      path: path
-    };
-    return this.store.find('container', params.container_id);
+    var current_path = params.current_path ? params.current_path : '/';
+    var container_id = params.container_id;
+    return this.store.findByPath('container', container_id, current_path);
   },
+
   setupController: function(controller, model) {
-    model.reload();
+    //model.reload();
     this._super(controller, model);
+   
   },
 });

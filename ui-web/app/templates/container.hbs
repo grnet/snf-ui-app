@@ -15,3 +15,9 @@
     </li>
 {{/each}}
 </ul>
+            {{view Ember.Select content=availableProjects
+                   optionLabelPath="content.select_label"
+                   optionValuePath="content.id"
+                   prompt="Reassign project:"
+                   selection=selectedProject}}
+

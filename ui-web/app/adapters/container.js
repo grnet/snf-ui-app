@@ -72,18 +72,36 @@ export default DS.RESTAdapter.extend({
         headers: headers,
         data: data
       }).then(function(data) {
-        console.log('success data', data);
         Ember.run(null, resolve, data);
       }, function(jqXHR) {
         jqXHR.then = null; // tame jQuery's ill mannered promises
         Ember.run(null, reject, jqXHR);
       });
     });
+
   },
 
-  reassignContainer: function(store, record){
-    console.log(record);
-    alert('I am going to reassign this container');
+  reassignContainer: function(record, project_id){
+
+    var id = record.get('id');
+    var url = this.buildURL('container', id , null);
+    var headers = this.get('headers');
+
+    $.extend(headers, {'X-Container-Policy-Project': project_id });
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+      }).then(function(data) {
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
+
   },
 
 
@@ -98,7 +116,6 @@ export default DS.RESTAdapter.extend({
         dataType: 'text',
         headers: headers,
       }).then(function(data) {
-        console.log('success data', data);
         Ember.run(null, resolve, data);
       }, function(jqXHR) {
         jqXHR.then = null; // tame jQuery's ill mannered promises
@@ -107,5 +124,17 @@ export default DS.RESTAdapter.extend({
     });
 
   },
+
+  
+  find: function(store, type, id, record) {
+    var current_path = record._current_path;
+    delete record._current_path;
+    if (current_path) {
+      var url = this.buildURL(type.typeKey, id, record)+'?path='+current_path;
+    } else {
+      var url = this.buildURL(type.typeKey, id, record);
+    }
+    return this.ajax(url, 'GET');
+  }
 });
 

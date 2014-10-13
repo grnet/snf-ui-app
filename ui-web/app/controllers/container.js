@@ -8,22 +8,24 @@ export default Ember.ObjectController.extend({
   // this should not be triggered if the project is deleted
   availableProjects: function(){
     var that = this;
-    console.log(this.get('selectedProject'), 'selectedproject');
     return this.store.filter('project',{mode:"member"}, function(p) {
-      if (that.get('selectedProject')) {
-        return (p.get('id') !== that.get('selectedProject').get('id')) && ( that.get('model').get('bytes')< p.get('diskspace'));
+      if (that.get('project')) {
+        return (p.get('id') !== that.get('project').get('id')) && ( that.get('model').get('bytes')< p.get('diskspace'));
         }
     });
-  }.property('selectedProject'),
-
-  selectedProject: function(){
-    return this.get('model').get('project');
   }.property('project'),
 
+/*
   watchProject: function(){
-    //this.send('reassignContainer');
+    var isClean = !this.get('model').get('isDirty');
+    
+    if ( isClean )  {
+      this.send('reassignContainer', this.get('selectedProject').get('id'));
+    }
+    this.get('model').set('project', this.get('selectedProject'));
+    
   }.observes('selectedProject'),
-
+*/
   actions: {
     deleteContainer: function(){
       var container = this.get('model');
@@ -37,15 +39,12 @@ export default Ember.ObjectController.extend({
         container.set('count',0);
         container.set('bytes',0);
       });
-
-
     },
 
-    reassignContainer: function(){
+    reassignContainer: function(project_id){
       var container = this.get('model');
-      this.store.reassignContainer(container).then(function(res){
-        console.log(res, 'res');
-      });
+
+      this.store.reassignContainer(container, project_id);
     }
   }
 
