@@ -125,7 +125,7 @@ export default DS.RESTAdapter.extend({
 
   },
 
-  
+ /* 
   find: function(store, type, id, record) {
     var current_path = record._current_path;
     delete record._current_path;
@@ -135,6 +135,6 @@ export default DS.RESTAdapter.extend({
       var url = this.buildURL(type.typeKey, id, record);
     }
     return this.ajax(url, 'GET');
-  }
+  }*/
 });
 

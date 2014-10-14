@@ -5,9 +5,9 @@ export default Ember.Route.extend({
     // if path is not set, then default path is current folder '/'
     
     var current_path = params.current_path ? params.current_path : '/';
-    //var container_id = params.container_id;
+    var container_id = params.container_id;
     //return this.store.findByPath('container', container_id, current_path);
-    return this.store.find('object', {path: current_path});
+    return this.store.find('object', {container_id: container_id, path: current_path});
     
   },
 
