@@ -11,6 +11,8 @@
     {{else}}
         {{fa-icon "fa-file-o"}}
         {{stripped_name}}
+        {{view_src}}
+        <img {{bind-attr scr=view_src}} />
     {{/if}}
     </li>
 {{/each}}

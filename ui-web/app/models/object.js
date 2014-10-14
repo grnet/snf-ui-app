@@ -13,5 +13,6 @@ export default DS.Model.extend({
 
   stripped_name: function(){
     return this.get('name').split('/').pop();
-  }.property('name')
+  }.property('name'),
+
 });
