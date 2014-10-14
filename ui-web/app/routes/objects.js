@@ -4,9 +4,9 @@ export default Ember.Route.extend({
   model: function(params){
     var container_id = this.modelFor('container').get('name');
     var current_path = params.current_path ? params.current_path : '/';
-
-    return this.store.find('object', {container_id: container_id, path: current_path});
-    //return this.store.find('object', {path: current_path});
+    this.store.set('container_id', container_id);
+    //return this.store.find('object', {container_id: container_id, path: current_path});
+    return this.store.find('object', {path: current_path});
   },
   /*
   setupController: function(controller, model) {

@@ -1,5 +1,5 @@
 {{outlet}}
-<h4>Container:{{id}}</h4>
+<h4>Objects</h4>
 <ul>
 {{#each}}
     <li>
@@ -12,6 +12,7 @@
         {{fa-icon "fa-file-o"}}
         {{stripped_name}}
         <img {{bind-attr scr=view_src}} />
+        <a {{action 'deleteObject'}} class="button tiny alert">Delete object</a>
     {{/if}}
     </li>
 {{/each}}

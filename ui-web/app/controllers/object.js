@@ -9,4 +9,12 @@ export default Ember.ObjectController.extend({
     var name = this.get('model').get('name');
     return base_url+uuid+'/'+container_id+name;
   }.property('model.name'),
+  actions: {
+    deleteObject: function(){
+      var object = this.get('model');
+      object.deleteRecord();
+      object.save();
+    },
+  
+  }
 });
