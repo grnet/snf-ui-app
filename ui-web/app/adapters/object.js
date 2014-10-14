@@ -23,6 +23,7 @@ export default DS.RESTAdapter.extend({
         url.push(id);
     }
     url = url.join('/');
+    console.log(url, 'url');
     return url;
   },
 
@@ -31,5 +32,4 @@ export default DS.RESTAdapter.extend({
     delete query.container_id;
     return this.ajax(this.buildURL(type.typeKey,null, null, container_id), 'GET', { data: query });
   },
-
 });

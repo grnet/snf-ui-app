@@ -1,6 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  afterModel: function(container, transition){
+    this.transitionTo('objects', '');
+  },
+/*
   model: function(params){
     // if path is not set, then default path is current folder '/'
     var current_path = params.current_path ? params.current_path : '/';
@@ -19,5 +23,5 @@ export default Ember.Route.extend({
     controller.set('model', model);
     controller.set('container_id', this.get('container_id'));
   },
-
+*/
 });
