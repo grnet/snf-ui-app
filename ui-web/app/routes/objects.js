@@ -5,7 +5,6 @@ export default Ember.Route.extend({
     var container_id = this.modelFor('container').get('name');
     var current_path = params.current_path ? params.current_path : '/';
     this.store.set('container_id', container_id);
-    //return this.store.find('object', {container_id: container_id, path: current_path});
     return this.store.find('object', {path: current_path});
   },
   setupController: function(controller,model){
@@ -13,17 +12,4 @@ export default Ember.Route.extend({
     var container_id = this.modelFor('container').get('name');
     controller.set('container_id', container_id);
   }
-  /*
-  setupController: function(controller, model) {
-    controller.set('model', model);
-    this.store.find('project', controller.settings.get('uuid')).then(function(p) {
-      controller.set('systemProject', p);
-    });
-  },
-  ajaxSuccess: function(jsonPayload, jqXHR) {
-    var ret = this._super(jsonPayload, jqXHR);
-    ret.myCustomValue = jqXHR.headers['Server'];
-    return ret;
-  }
-  */
 });
