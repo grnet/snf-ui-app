@@ -1,5 +1,17 @@
 {{outlet}}
 <h4>Objects</h4>
+
+<div>
+{{input type="text" placeholder="Create new directory" value=newDir}}
+<a {{action 'createDir'}}>{{fa-icon "fa-check"}}</a>
+</div>
+
+<div>
+{{#if hasUpPath}}
+{{#link-to 'objects' upPath }} {{fa-icon "fa-level-up"}} {{/link-to}}
+{{/if}}
+</div>
+
 <table>
 <tbody>
 {{#each}}

@@ -60,8 +60,34 @@ export default DS.RESTAdapter.extend({
         Ember.run(null, reject, jqXHR);
       });
     });
+  },
+
+  createRecord: function(store, type, record) {
+    var data = this.serialize(record, { includeId: true });
+    var url = this.buildURL(type.typeKey, record.get('name') , null);
+    var headers = this.get('headers');
 
 
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+ 
+        $.extend(headers, {'Content-Type': record.get('content_type')});
+
+        console.log(headers);
+        jQuery.ajax({
+          type: 'PUT',
+          url: url,
+          // http://stackoverflow.com/questions/5061310/
+          dataType: 'text',
+          headers: headers,
+        }).then(function(data) {
+          Ember.run(null, resolve, data);
+        }, function(jqXHR) {
+          var response = Ember.$.parseJSON(jqXHR.responseText);
+          jqXHR.then = null; // tame jQuery's ill mannered promises
+          Ember.run(null, reject, jqXHR);
+        });
+
+      });
   },
 
 });
