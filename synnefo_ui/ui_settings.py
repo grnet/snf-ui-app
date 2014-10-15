@@ -32,3 +32,5 @@ BASE_HOST, BASE_PATH = parse_base_url(BASE_URL)
 
 AUTH_COOKIE_NAME = getattr(settings, 'UI_AUTH_COOKIE_NAME','_pithos2_a')
 AUTH_URL = getattr(settings, 'UI_AUTH_URL', 'https://astakos.synnefo.live/astakos/identity/v2.0')
+
+STORAGE_VIEW_URL = "https://pithos.synnefo.live/ui/view/";

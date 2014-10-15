@@ -8,6 +8,11 @@ export default Ember.Route.extend({
     //return this.store.find('object', {container_id: container_id, path: current_path});
     return this.store.find('object', {path: current_path});
   },
+  setupController: function(controller,model){
+    controller.set('model', model);
+    var container_id = this.modelFor('container').get('name');
+    controller.set('container_id', container_id);
+  }
   /*
   setupController: function(controller, model) {
     controller.set('model', model);

@@ -17,11 +17,14 @@ var SynnefoStore = DS.Store.extend({
   findByPath: function(typeName, id, current_path, preload) {
     var type = this.modelFor(typeName);
     var record = this.recordForId(type, id);
-    
     record._current_path = current_path;
     return this._findByRecord(record, preload);
   },
 
+  renameObject: function(record, old_path, new_name) {
+    var adapter = this.adapterFor(record.constructor);
+    return adapter.renameObject(record, old_path, new_name);
+  },
 
 });
 

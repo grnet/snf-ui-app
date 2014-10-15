@@ -1,20 +1,27 @@
 {{outlet}}
 <h4>Objects</h4>
-<ul>
+<table>
+<tbody>
 {{#each}}
-    <li>
-    {{#if is_dir}}
-        {{#link-to 'objects' name }}
-            {{fa-icon "fa-folder-open"}}
-            {{stripped_name}}
-        {{/link-to}}
-    {{else}}
-        {{fa-icon "fa-file-o"}}
-        {{stripped_name}}
-        <img {{bind-attr scr=view_src}} />
-        <a {{action 'deleteObject'}} class="button tiny alert">Delete object</a>
-    {{/if}}
-    </li>
+    <tr>
+        <td>
+            {{#if is_dir}}
+                {{#link-to 'objects' name }}
+                    {{fa-icon "fa-folder-open"}}
+                    {{stripped_name}}
+                {{/link-to}}
+            {{else}}
+                {{fa-icon "fa-file-o"}}
+                {{stripped_name}}
+                <img {{bind-attr scr=view_src}} />
+                <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-trash"}}</a>
+            {{/if}}
+        </td>
+        <td>
+            {{input value=new_name placeholder=stripped_name}}
+            <a {{action 'renameObject'}} title="rename Folder">{{fa-icon "fa-pencil"}}</a>
+        </td>
+    </tr>
 {{/each}}
-</ul>
-      
+</tbody>
+</table>

@@ -132,8 +132,8 @@ export default DS.RESTAdapter.extend({
     if (current_path) {
       var url = this.buildURL(type.typeKey, id, record)+'?path='+current_path;
     } else {
-      var url = this.buildURL(type.typeKey, id, record);
-    }
+       var url = this.buildURL(type.typeKey, id, record);
+
     return this.ajax(url, 'GET');
   }*/
 });

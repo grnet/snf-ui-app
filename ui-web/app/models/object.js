@@ -8,7 +8,8 @@ export default DS.Model.extend({
   x_object_uuid: DS.attr('string'),
 
   is_dir: function(){
-    return (this.get('content_type') === "application/directory");
+    var dirs = ['application/directory', 'application/folder']
+    return (dirs.indexOf(this.get('content_type'))>-1);
   }.property('content_type'),
 
   stripped_name: function(){

@@ -26,16 +26,42 @@ export default DS.RESTAdapter.extend({
     return url;
   },
   deleteRecord: function(store, type, record) {
-    //var container_id = store.get('container_id');
     var id = record.get('name');
     return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
   },
 
   findQuery: function(store, type, query) {
-    //var container_id = query.container_id;
     var container_id = store.get('container_id');
     this.set('container_id', container_id);
-    //delete query.container_id;
     return this.ajax(this.buildURL(type.typeKey, null, null), 'GET', { data: query });
   },
+
+  renameObject: function(record, old_path, new_name) {
+    var url = this.buildURL('object', new_name, null);
+    if (record.get('is_dir')){
+      url = url+'?delimiter=/'
+    }
+    var headers = this.get('headers');
+
+    $.extend(headers, {
+      'X-Move-From': old_path,
+      'Content-Type': record.get('content_type'), 
+    });
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'PUT',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+      }).then(function(data) {
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
+
+
+  },
+
 });
