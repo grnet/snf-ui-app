@@ -15,5 +15,13 @@ export default DS.Model.extend({
   stripped_name: function(){
     return this.get('name').split('/').pop();
   }.property('name'),
+  
+  img_src: function(){
+    var imgs = ['image/jpeg'];
+    if (imgs.indexOf(this.get('content_type'))>-1){
+      return this.get('settings').get('storage_view_url')+this.get('name');
+    }
+    
+  }.property('content_type', 'name'),
 
 });

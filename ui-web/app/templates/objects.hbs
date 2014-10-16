@@ -1,6 +1,7 @@
 {{outlet}}
 <h4>Objects</h4>
 
+{{upPath}}
 <div>
 {{input type="text" placeholder="Create new directory" value=newDir}}
 <a {{action 'createDir'}}>{{fa-icon "fa-check"}}</a>
@@ -25,7 +26,10 @@
             {{else}}
                 {{fa-icon "fa-file-o"}}
                 {{stripped_name}}
-                <img {{bind-attr scr=view_src}} />
+                {{#if img_src}}
+                    {{img_src}}
+                    <img {{bind-attr scr=img_src}} />
+                {{/if}}
                 <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-trash"}}</a>
             {{/if}}
         </td>
