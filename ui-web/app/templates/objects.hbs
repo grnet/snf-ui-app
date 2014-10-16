@@ -1,15 +1,14 @@
-{{outlet}}
 <h4>Objects</h4>
 
 {{upPath}}
-<div>
+<div class="panel">
 {{input type="text" placeholder="Create new directory" value=newDir}}
-<a {{action 'createDir'}}>{{fa-icon "fa-check"}}</a>
+<a {{action 'createDir'}}>{{fa-icon "fa-save"}}</a>
 </div>
 
 <div>
 {{#if hasUpPath}}
-{{#link-to 'objects' upPath }} {{fa-icon "fa-level-up"}} {{/link-to}}
+    {{#link-to 'objects' upPath }} {{fa-icon "fa-level-up"}} {{/link-to}}
 {{/if}}
 </div>
 
@@ -40,6 +39,8 @@
             <a {{action 'renameObject'}} title="rename Folder">{{fa-icon "fa-pencil"}}</a>
         </td>
     </tr>
+{{else}}
+    <tr><td>No objects in this directory</td></tr>
 {{/each}}
 </tbody>
 </table>
