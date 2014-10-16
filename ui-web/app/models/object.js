@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
-  bytes: DS.attr('number'),
+  bytes: DS.attr('number', {defaultValue: 0}),
   content_type: DS.attr('string'),
   hash: DS.attr('string'),
   x_object_uuid: DS.attr('string'),
@@ -16,12 +16,9 @@ export default DS.Model.extend({
     return this.get('name').split('/').pop();
   }.property('name'),
   
-  img_src: function(){
+  is_img: function(){
     var imgs = ['image/jpeg'];
-    if (imgs.indexOf(this.get('content_type'))>-1){
-      return this.get('settings').get('storage_view_url')+this.get('name');
-    }
-    
-  }.property('content_type', 'name'),
+    return (imgs.indexOf(this.get('content_type'))>-1)
+  }.property('content_type'),
 
 });

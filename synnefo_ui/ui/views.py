@@ -40,7 +40,7 @@ def home(request):
         'account_url': get_publicURL_by_service(token, 'account'),
         'storage_host': get_publicURL_by_service(token, 'object-store') + '/' + request.user.uuid,
         'uuid': request.user.uuid,
-        'storage_view_url': ui_settings.STORAGE_VIEW_URL,
+        'storage_view_url': ui_settings.STORAGE_VIEW_URL+request.user.uuid+ '/',
 
     }
     

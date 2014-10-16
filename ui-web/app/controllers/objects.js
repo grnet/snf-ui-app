@@ -31,7 +31,7 @@ export default Ember.ArrayController.extend({
         content_type: 'application/directory',
       });
 
-      var onSuccess = function(container) {
+      var onSuccess = function(object) {
         console.log('onSuccess');
       };
       

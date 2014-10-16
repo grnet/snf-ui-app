@@ -26,9 +26,9 @@
             {{else}}
                 {{fa-icon "fa-file-o"}}
                 {{stripped_name}}
-                {{#if img_src}}
-                    {{img_src}}
-                    <img {{bind-attr scr=img_src}} />
+                {{#if is_img}}
+                    {{view_src}}
+                    <img {{bind-attr scr=view_src}} />
                 {{/if}}
                 <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-trash"}}</a>
             {{/if}}
