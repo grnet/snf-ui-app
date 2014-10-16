@@ -15,17 +15,17 @@ export default Ember.ObjectController.extend({
     });
   }.property('project'),
 
-/*
   watchProject: function(){
     var isClean = !this.get('model').get('isDirty');
+    var hasSelected = this.get('model').get('selectedProject');
     
-    if ( isClean )  {
+    if ( isClean && hasSelected)  {
       this.send('reassignContainer', this.get('selectedProject').get('id'));
     }
     this.get('model').set('project', this.get('selectedProject'));
     
   }.observes('selectedProject'),
-*/
+
   actions: {
     deleteContainer: function(){
       var container = this.get('model');
