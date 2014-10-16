@@ -30,8 +30,10 @@
                     {{view_src}}
                     <img {{bind-attr scr=view_src}} />
                 {{/if}}
-                <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-trash"}}</a>
             {{/if}}
+        </td>
+        <td>
+            <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-trash"}}</a>
         </td>
         <td>
             {{input value=new_name placeholder=stripped_name}}

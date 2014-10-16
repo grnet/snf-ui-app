@@ -27,7 +27,12 @@ export default DS.RESTAdapter.extend({
   },
   deleteRecord: function(store, type, record) {
     var id = record.get('name');
-    return this.ajax(this.buildURL(type.typeKey, id, record), "DELETE");
+    var url = this.buildURL(type.typeKey, id, record);
+    if (record.get('is_dir')){
+      url = url+'?delimiter=/'
+    }
+
+    return this.ajax(url, "DELETE");
   },
 
   findQuery: function(store, type, query) {
