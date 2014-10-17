@@ -1,0 +1,16 @@
+{{outlet}}
+[quotas.hbs]
+<ul>
+{{#each}}
+    <li>
+        <ul>
+            <li>ID: {{id}},</li>
+            <li>Project limit: {{pithos_diskspace_project_limit}} bytes</li>
+            <li>Taken by Others: {{pithos_diskspace_taken_by_others}} bytes</li>
+            <li>Effective limit: {{pithos_diskspace_effective_limit}} bytes</li>
+            <li>Used by user: {{pithos_diskspace_usage}} bytes</li>
+            <li><b>Free</b>: {{pithos_diskspace_free}} bytes</li>
+        </ul>
+    </li>
+{{/each}}
+</ul>

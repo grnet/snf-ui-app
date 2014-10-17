@@ -12,6 +12,7 @@ Router.map(function() {
   this.resource('container', { path: '/containers/:container_id'}, function(){
     this.resource('objects', { path: '/*current_path'});
   });
+  this.resource('quotas');
 });
 
 export default Router;
