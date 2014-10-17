@@ -3,6 +3,7 @@
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 
+
 var app = new EmberApp({
   compassOptions: {
     outputStyle: 'expanded',
@@ -32,5 +33,7 @@ var app = new EmberApp({
 // modules that you would like to import into your application
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
+
+app.import('bower_components/ember-droplet/dist/ember-droplet.js');
 
 module.exports = app.toTree();

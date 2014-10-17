@@ -17,3 +17,23 @@ table td img {
     height: 40px;
 }
 
+
+.droppable {
+    color: white;
+    padding: 50px 20px;
+    background: $secondary-color;
+    margin: 0 0 20px;
+    a {
+        color: white;
+    }
+}
+
+div.droppable div.file {
+    margin: 1em;
+    float: left;
+    img {
+        height: 60px;
+        border: 2px solid white;
+    }
+}
+
