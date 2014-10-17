@@ -24,11 +24,10 @@
                 {{/link-to}}
             {{else}}
                 {{fa-icon "fa-file-o"}}
-                {{stripped_name}}
                 {{#if is_img}}
-                    {{view_src}}
-                    <img {{bind-attr scr=view_src}} />
+                    {{light-box href=view_src data-lightbox="g-1" data-title=stripped_name}}
                 {{/if}}
+                {{stripped_name}}
             {{/if}}
         </td>
         <td>
@@ -44,3 +43,4 @@
 {{/each}}
 </tbody>
 </table>
+
