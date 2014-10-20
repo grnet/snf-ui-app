@@ -1,26 +1,6 @@
-<h4>Objects</h4>
-
-<div class="panel">
-{{input type="text" placeholder="Create new directory" value=newDir}}
-<a {{action 'createDir'}}>{{fa-icon "fa-save"}}</a>
-</div>
-
 <div class="panel">
 
     <h4>Upload Files ({{files.length}} in total)</h4>
-
-    <ul class="counts">
-        <li class="valid">Valid: {{validFiles.length}}</li>
-        <li class="invalid">Invalid: {{invalidFiles.length}}</li>
-        <li class="uploaded">Uploaded: {{uploadedFiles.length}}</li>
-        <li class="deleted">Deleted: {{deletedFiles.length}}</li>
-    </ul>
-
-    <div class="buttons">
-        <button {{action "uploadAllFiles"}}>Upload All</button>
-        <button class="success" {{action "clearAllFiles"}}>Clear</button>
-        <button class="alert" {{action "abortUpload"}}>Abort Upload</button>
-    </div>
 
     {{#if uploadStatus.uploading}}
         <h3 class="uploading-percentage">Uploaded Percentage: {{uploadStatus.percentComplete}}%</h3>
@@ -46,9 +26,27 @@
 
     {{/view}}
 
+    <ul class="counts">
+        <li class="valid">Valid: {{validFiles.length}}</li>
+        <li class="invalid">Invalid: {{invalidFiles.length}}</li>
+        <li class="uploaded">Uploaded: {{uploadedFiles.length}}</li>
+        <li class="deleted">Deleted: {{deletedFiles.length}}</li>
+    </ul>
+
+    <div class="buttons">
+        <button {{action "uploadAllFiles"}}>Upload All</button>
+        <button class="success" {{action "clearAllFiles"}}>Clear</button>
+        <button class="alert" {{action "abortUpload"}}>Abort Upload</button>
+    </div>
 
 
 </div>
+
+<div class="panel">
+{{input type="text" placeholder="Create new directory" value=newDir}}
+<a {{action 'createDir'}}>{{fa-icon "fa-save"}}</a>
+</div>
+
 
 
 <div>

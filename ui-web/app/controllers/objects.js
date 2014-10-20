@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import SnfDropletController from '../lib/droplet';
 
-export default Ember.ArrayController.extend(DropletController, {
+export default Ember.ArrayController.extend(SnfDropletController, {
   itemController: 'object',
 
   hasUpPath: function(){
@@ -12,6 +13,19 @@ export default Ember.ArrayController.extend(DropletController, {
     arr.pop();
     return arr.join('/');
   }.property('current_path'),
+
+  dropletUrl: function(){
+    var url =  this.get('settings').get('storage_host')+'/'+this.get('container_id')+'/';
+    if (this.get('current_path') !== '/') {
+      url = url + this.get('current_path')+ '/';
+    }
+    return url;
+  }.property('current_path'),
+
+  dropletHeaders: function(){
+    return {'X-Auth-Token': this.get('settings').get('token'),
+              'X-Requested-With': 'XMLHttpRequest'};
+  }.property(),
 
   actions: {
     createDir: function(){

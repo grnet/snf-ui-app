@@ -8,7 +8,7 @@ export default DS.Model.extend({
   x_object_uuid: DS.attr('string'),
 
   is_dir: function(){
-    var dirs = ['application/directory', 'application/folder']
+    var dirs = ['application/directory', 'application/folder'];
     return (dirs.indexOf(this.get('content_type'))>-1);
   }.property('content_type'),
 
@@ -17,8 +17,8 @@ export default DS.Model.extend({
   }.property('name'),
   
   is_img: function(){
-    var imgs = ['image/jpeg'];
-    return (imgs.indexOf(this.get('content_type'))>-1)
+    var imgs = ['image/jpeg', 'image/png'];
+    return (imgs.indexOf(this.get('content_type'))>-1);
   }.property('content_type'),
 
 });
