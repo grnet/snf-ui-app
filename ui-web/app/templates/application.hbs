@@ -1,12 +1,7 @@
-<div class="row">
-	hi you [from application.hbs]
-    <ul>
-        <li>{{#link-to "projects"}}projects{{/link-to}}</li>
-        <li>{{#link-to "containers"}}containers{{/link-to}}</li>
-        <li>{{#link-to "quotas"}}diskspace quotas{{/link-to}}</li>
-    </ul>
-    <img {{bind-attr src=settings.logo_url }}>
-    <h3>{{title}}</h3>
+{{partial "header"}}
 
-    {{outlet}}
+<div class="body-wrapper">
+    <div class="row">
+        {{outlet}}
+    </div>
 </div>

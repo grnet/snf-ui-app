@@ -96,8 +96,8 @@ $include-html-global-classes: $include-html-classes;
 // $font-weight-bold: bold !default;
 
 // We use these as default colors throughout
-$primary-color: #FC32BB;
-$secondary-color: #4870EC;
+$primary-color: #31c49c;
+$secondary-color: #F02A66;
 // $alert-color: #f04124;
 $success-color: #4358AC;
 // $warning-color: #f08a24;
@@ -124,7 +124,7 @@ $success-color: #4358AC;
 // $black       : #000000;
 
 // We use these to control various global styles
-$body-bg: #D8FCD9;
+// $body-bg: #fff;
 // $body-font-color: $jet;
 // $body-font-family: $font-family-sans-serif;
 // $body-font-weight: $font-weight-normal;
@@ -256,7 +256,7 @@ $body-bg: #D8FCD9;
 // $anchor-text-decoration: none;
 // $anchor-text-decoration-hover: none;
 // $anchor-font-color: $primary-color;
-// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);
+$anchor-font-color-hover: $secondary-color;
 
 // We use these to style the <hr> element
 // $hr-border-width: 1px;

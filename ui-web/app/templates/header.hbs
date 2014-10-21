@@ -1,0 +1,23 @@
+<header class="header">
+    <nav>
+        <ul>
+            <li>{{link-to "projects" "projects"}}</li>
+            <li>{{link-to "containers" "containers" currentWhen="containers"}}</li>
+            <li>{{link-to "quotas" "quotas"}}</li>
+        </ul>
+    </nav>
+    <div class="login">
+        <div class="wrap">
+            <a href="">{{settings.username}}</a>
+            <ul>
+                <li><a href="">dashboard</a></li>
+                <li><a href="">sign out</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="logo">
+        {{#link-to "containers"}}<img {{bind-attr src=settings.logo_url alt=title }}>{{/link-to}}
+    </div>
+</header>
+
+

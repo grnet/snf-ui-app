@@ -1,7 +1,10 @@
+@import "settings";
+
 @import "foundation/settings";
 @import "foundation";
 
-.row { padding: 2em;}
+@import "global";
+
 #loader {
     text-align: center;
     padding: 3em;
