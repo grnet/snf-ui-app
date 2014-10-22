@@ -63,16 +63,33 @@ export default DS.RESTAdapter.extend({
     var id = record.get('id');
     var url = this.buildURL(type.typeKey, id , null);
     var headers = this.get('headers');
+    var timestamp = new Date().getTime();
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       jQuery.ajax({
         type: 'DELETE',
-        url: url,
+
+        // First, we empty the container
+        url: url+'?delimiter=/',
         dataType: 'text',
         headers: headers,
         data: data
       }).then(function(data) {
-        Ember.run(null, resolve, data);
+
+        jQuery.ajax({
+          type: 'DELETE',
+          // Then, we purge it until this time
+          url: url+'?until='+timestamp,
+          dataType: 'text',
+          headers: headers,
+          data: data
+        }).then(function(data) {
+          Ember.run(null, resolve, data);
+        }, function(jqXHR) {
+          jqXHR.then = null; // tame jQuery's ill mannered promises
+          Ember.run(null, reject, jqXHR);
+        });
+
       }, function(jqXHR) {
         jqXHR.then = null; // tame jQuery's ill mannered promises
         Ember.run(null, reject, jqXHR);
