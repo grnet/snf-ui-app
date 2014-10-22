@@ -2,18 +2,16 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
   title: 'object controller title',
+  needs: ['containers'],
+  projects: Ember.computed.alias("controllers.containers.projects"),
 
-
-  // TODO:
-  // this should not be triggered if the project is deleted
   availableProjects: function(){
     var that = this;
-    return this.store.filter('project',{mode:"member"}, function(p) {
-      if (that.get('project')) {
-        return (p.get('id') !== that.get('project').get('id')) && ( that.get('model').get('bytes')< p.get('diskspace'));
-        }
+    // show only projects whose free space is enough for the container
+    return this.get('projects').filter(function(p){
+      return that.get('model').get('bytes')< p.get('diskspace');
     });
-  }.property('project'),
+  }.property('projects.@each'),
 
   watchProject: function(){
     var isClean = !this.get('model').get('isDirty');
