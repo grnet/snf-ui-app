@@ -2,22 +2,20 @@
 
     <h4>Upload Files ({{files.length}} in total)</h4>
 
-    {{#if uploadStatus.uploading}}
-        <h3 class="uploading-percentage">Uploaded Percentage: {{uploadStatus.percentComplete}}%</h3>
-    {{/if}}
-
     {{#view view.DragDrop}}
-
-        {{#if uploadStatus.error}}
-            <div class="error">An error occurred during the upload process. Please try again later.</div>
-        {{/if}}
-
         {{#each controller.validFiles}}
 
             <div {{bind-attr class="className :file"}}>
-                {{view view.ImagePreview imageBinding="this"}}
-                {{name}}
+               {{view view.ImagePreview imageBinding="this"}}
+                file.name: {{file.name}}
                 <a class="remove" {{action "deleteFile" this}} tilte="Remove file">{{fa-icon "fa-times"}}</a>
+                {{#if uploadStatus.uploading}}
+                    <div class="uploading-percentage">Uploaded Percentage: {{uploadStatus.percentComplete}}%</div>
+                {{/if}}
+
+                {{#if uploadStatus.error}}
+                    <div class="error">An error occurred during the upload process. Please try again later.</div>
+                {{/if}}
             </div>
 
         {{/each}}
