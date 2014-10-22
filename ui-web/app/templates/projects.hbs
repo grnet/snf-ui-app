@@ -2,6 +2,6 @@
 <h4>Projects page</h4>
 <ul>
 {{#each}}
-    <li>{{#link-to 'project' this}}{{name}}{{/link-to}}/{{diskspace}}/{{homepage}}</li>
+    <li>{{#link-to 'project' this}}{{name}}{{/link-to}}  homepage: {{homepage}}, free space: {{convert-bytes free_space}} ({{free_space}} bytes)</li>
 {{/each}}
 </ul>

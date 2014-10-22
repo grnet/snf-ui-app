@@ -7,7 +7,7 @@ export default DS.Model.extend({
 	pithos_diskspace_project_usage: DS.attr('number'),
 
 	pithos_diskspace_taken_by_others:  function() {
-    return Math.abs(this.get('pithos_diskspace_project_usage') - this.get('pithos_diskspace_usage'));
+    return this.get('pithos_diskspace_project_usage') - this.get('pithos_diskspace_usage');
   }.property('pithos_diskspace_project_usage', 'pithos_diskspace_usage'),
 
   pithos_diskspace_effective_limit: function() {
