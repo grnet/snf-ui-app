@@ -13,5 +13,22 @@ export default Ember.Route.extend({
     var container_id = this.modelFor('container').get('name');
     controller.set('container_id', container_id);
     controller.set('current_path', this.get('current_path'));
+  },
+  actions:  {
+    showObjectVersions: function(model){
+      return this.render('object/versions', {
+        into: 'objects',
+        outlet: 'versions',
+        controller: 'object/versions',
+        model: model
+      });
+    },
+    hideObjectVersions: function(){
+      return this.disconnectOutlet({
+        outlet: 'versions',
+        parentView: 'objects'
+      });
+    },
+ 
   }
 });

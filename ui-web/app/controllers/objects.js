@@ -54,7 +54,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       };
 
       object.save().then(onSuccess, onFail);
-    }
+    },
   }
 
 });

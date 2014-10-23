@@ -1,0 +1,24 @@
+<div class="panel callout">
+    <a {{action 'hideObjectVersions'}} class="close">{{fa-icon "fa-close"}}</a>
+    <table>
+        <caption>Versions for {{model.stripped_name}}</caption>
+        <thead>
+            <tr>
+                <th>Version</th>
+                <th>Date</th>
+                <th>Download</th>
+                <th>Restore</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each v in versions}}
+            <tr>
+                <td>{{v.id}}</td>
+                <td>{{timestamp-to-human v.timestamp}}</td>
+                <td><a {{action 'downloadObject' v.id}} title="Download version">{{fa-icon "fa-download"}}</a></td>
+                <td><a {{action 'restoreObject' v.id}} title="Restore version">{{fa-icon "fa-database"}}</a></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>

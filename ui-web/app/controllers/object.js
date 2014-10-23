@@ -32,7 +32,13 @@ export default Ember.ObjectController.extend({
       // new_name will be used when formating the ajax url
       var new_name = temp.join('/');
       this.store.renameObject(object, old_path, new_name);
+    },
+    downloadObject: function(version){
+      alert('downloadObject action has been triggered');
+    }, 
+    restoreObject: function(version){
+      var object = this.get('model');
+      this.store.restoreObject(object, version);
     }
-  
   }
 });

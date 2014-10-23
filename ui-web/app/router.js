@@ -10,7 +10,11 @@ Router.map(function() {
   this.resource('project', { path: '/projects/:project_id' });
   this.resource('containers');
   this.resource('container', { path: '/containers/:container_id'}, function(){
-    this.resource('objects', { path: '/*current_path'});
+    this.resource('objects', { path: '/*current_path'}, function(){
+      this.resource('object', function(){
+        this.route('versions');
+      });
+    });
   });
   this.resource('quotas');
 });

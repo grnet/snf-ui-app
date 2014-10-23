@@ -67,6 +67,33 @@ export default DS.RESTAdapter.extend({
     });
   },
 
+  restoreObject: function(record, version) {
+    var name = record.get('name');
+    var path = '/'+this.get('container_id') +'/'+name;
+    var url = this.buildURL('object', name, null)+'?update=';
+    var headers = this.get('headers');
+    debugger;
+
+    $.extend(headers, {
+      'X-Source-Object': path,
+      'X-Source-Version': version,
+      'Content-Range': 'bytes 0-/*',
+    });
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+      }).then(function(data) {
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
+  },
+
   createRecord: function(store, type, record) {
     var data = this.serialize(record, { includeId: true });
     var url = this.buildURL(type.typeKey, record.get('name') , null);
