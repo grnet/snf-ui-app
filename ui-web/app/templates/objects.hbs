@@ -73,6 +73,9 @@
             {{/if}}
         </td>
         <td>
+            <a {{bind-attr href=view_src}} title="download Item" download>{{fa-icon "fa-download"}}</a>
+        </td>
+       <td>
             <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-trash"}}</a>
         </td>
         <td>
