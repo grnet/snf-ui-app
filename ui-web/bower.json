@@ -18,5 +18,8 @@
   },
   "devDependencies": {
     "ember-droplet": "~0.8.0"
+  },
+  "resolutions": {
+    "jquery": "~2.1.1"
   }
 }
