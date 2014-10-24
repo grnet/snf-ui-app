@@ -36,5 +36,9 @@ var app = new EmberApp({
 
 app.import('bower_components/ember-droplet/dist/ember-droplet.js');
 app.import('bower_components/moment/moment.js');
+// foundation core
+app.import('bower_components/foundation/js/foundation/foundation.js');
+// foundation reveal modals
+app.import('bower_components/foundation/js/foundation/foundation.reveal.js');
 
 module.exports = app.toTree();
