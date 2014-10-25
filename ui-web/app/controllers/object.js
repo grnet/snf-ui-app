@@ -18,6 +18,7 @@ export default Ember.ObjectController.extend({
       object.deleteRecord();
       object.save();
     },
+
     renameObject: function(){
       var object = this.get('model');
       var old_name = object.get('name');
@@ -33,12 +34,20 @@ export default Ember.ObjectController.extend({
       var new_name = temp.join('/');
       this.store.renameObject(object, old_path, new_name);
     },
+
     downloadObject: function(version){
       alert('downloadObject action has been triggered');
     }, 
+
     restoreObject: function(version){
       var object = this.get('model');
       this.store.restoreObject(object, version);
+    },
+
+    moveToTrash: function(){
+      var object = this.get('model');
+      this.store.moveToTrash(object);
+
     }
   }
 });

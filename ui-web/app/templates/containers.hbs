@@ -12,7 +12,7 @@
     <tr>
         <td>
             <h4>{{#link-to 'container' name}}{{name}}{{/link-to}}</h4>
-            <strong>Selected project:</strong> {{selectedProject.name}}<br>
+            <strong>Selected project:</strong> {{selectedProject.name}}//{{project.name}}<br>
             <strong>Project member diskspace:</strong> {{convert-bytes selectedProject.diskspace}}<br>
             <strong>Containers bytes:</strong> {{convert-bytes bytes}}<br>
             <strong>Total items:</strong> {{count}}<br>

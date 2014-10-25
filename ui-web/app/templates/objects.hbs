@@ -75,8 +75,11 @@
         <td>
             <a {{bind-attr href=view_src}} title="download Item" download>{{fa-icon "fa-download"}}</a>
         </td>
-       <td>
-            <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-trash"}}</a>
+        <td>
+            <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
+        </td>
+         <td>
+            <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
         </td>
         <td>
             {{input value=new_name placeholder=stripped_name}}

@@ -11,13 +11,17 @@ export default DS.RESTAdapter.extend({
     return this.get('settings').get('storage_host');
   }.property(),
 
-  buildURL: function(type, id, record){
+  buildURL: function(type, id, record, trash){
     var url = [],
         host = this.get('host');
     url.push(host);
 
-    if (this.get('container_id')) {
-      url.push(this.get('container_id'));
+    if (trash) {
+      url.push('trash');
+    } else{
+       if (this.get('container_id')) {
+        url.push(this.get('container_id'));
+      }
     }
     if (id) {
         url.push(id);
@@ -25,12 +29,15 @@ export default DS.RESTAdapter.extend({
     url = url.join('/');
     return url;
   },
+
   deleteRecord: function(store, type, record) {
     var id = record.get('name');
     var url = this.buildURL(type.typeKey, id, record);
+    var timestamp =(new Date().getTime())/1000;
+    url = url+'?until='+timestamp;
     if (record.get('is_dir')){
-      url = url+'?delimiter=/'
-    }
+      url = url+'&delimiter=/';
+    } 
 
     return this.ajax(url, "DELETE");
   },
@@ -41,7 +48,7 @@ export default DS.RESTAdapter.extend({
     return this.ajax(this.buildURL(type.typeKey, null, null), 'GET', { data: query });
   },
 
-  renameObject: function(record, old_path, new_name) {
+   renameObject: function(record, old_path, new_name) {
     var url = this.buildURL('object', new_name, null);
     if (record.get('is_dir')){
       url = url+'?delimiter=/'
@@ -51,6 +58,31 @@ export default DS.RESTAdapter.extend({
     $.extend(headers, {
       'X-Move-From': old_path,
       'Content-Type': record.get('content_type'), 
+    });
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'PUT',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+      }).then(function(data) {
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
+  },
+  
+  moveToTrash: function(record) {
+    var name = record.get('name');
+    var old_path = '/'+this.get('container_id') +'/'+name;
+    var url = this.buildURL('object', name, null, true);
+    var headers = this.get('headers');
+    console.log('####', old_path);
+
+    $.extend(headers, {
+      'X-Move-From': old_path,
     });
     return new Ember.RSVP.Promise(function(resolve, reject) {
       jQuery.ajax({

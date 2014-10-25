@@ -24,8 +24,8 @@ export default Ember.ObjectController.extend({
   }.observes('selectedProject'),
 
   selectedProject: function(){
-    return this.get('model').get('project');
-  }.property('project'),
+    return this.get('project');
+  }.property('model.project'),
 
   actions: {
     deleteContainer: function(){
