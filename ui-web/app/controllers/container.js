@@ -11,7 +11,7 @@ export default Ember.ObjectController.extend({
     return this.get('projects').filter(function(p){
       return that.get('model').get('bytes')< p.get('diskspace');
     });
-  }.property('projects.@each'),
+  }.property('projects.@each', 'model.project'),
 
   watchProject: function(){
     var isClean = !this.get('model').get('isDirty');
@@ -19,6 +19,7 @@ export default Ember.ObjectController.extend({
     
     if ( isClean && hasSelected)  {
       this.send('reassignContainer', hasSelected.get('id'));
+      this.get('model').set('project', hasSelected);
     }
     
   }.observes('selectedProject'),
