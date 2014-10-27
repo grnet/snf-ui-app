@@ -40,11 +40,6 @@ export default Ember.ObjectController.extend({
       alert('downloadObject action has been triggered');
     }, 
 
-    restoreObject: function(version){
-      var object = this.get('model');
-      this.store.restoreObject(object, version);
-    },
-
     moveToTrash: function(){
       var object = this.get('model');
       var that = this;

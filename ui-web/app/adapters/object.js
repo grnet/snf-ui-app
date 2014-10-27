@@ -95,8 +95,8 @@ export default DS.RESTAdapter.extend({
 
   restoreObject: function(record, version) {
     var name = record.get('name');
-    var path = '/'+this.get('container_id') +'/'+name;
-    var url = this.buildURL('object', name, null)+'?update=';
+    var path = '/'+record.get('id');
+    var url = this.buildURL('object', record.get('id'))+'?update=';
     var headers = this.get('headers');
 
     $.extend(headers, {

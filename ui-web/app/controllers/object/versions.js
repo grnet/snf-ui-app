@@ -11,4 +11,16 @@ export default ObjectController.extend({
     return this.store.find('version', {format:'json', version:'list', t: timestamp});
   }.property('model'),
 
+  actions: {
+    restoreObject: function(version){
+      var object = this.get('model');
+      var that = this;
+      this.store.restoreObject(object, version).then(function(){
+        that.send('refreshRoute');
+      });
+    },
+
+
+  }
+
 });

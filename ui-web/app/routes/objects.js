@@ -8,6 +8,12 @@ export default Ember.Route.extend({
     this.set('current_path', current_path);
     return this.store.find('object', {path: current_path});
   },
+  afterModel: function(){
+     this.disconnectOutlet({
+      outlet: 'versions',
+      parentView: 'objects'
+    });
+  },
   setupController: function(controller,model){
     controller.set('model', model);
     var container_id = this.modelFor('container').get('name');
