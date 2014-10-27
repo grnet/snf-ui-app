@@ -12,12 +12,12 @@
             </tr>
         </thead>
         <tbody>
-        {{#each v in versions}}
+        {{#each v in versions itemController='object/version'}}
 
             <tr>
                 <td>{{v.id}}</td>
                 <td>{{timestamp-to-human v.timestamp}}</td>
-                <td><a {{action 'downloadObject' v.id}} title="Download version">{{fa-icon "fa-download"}}</a></td>
+                <td><a {{bind-attr  href=v.view_src_version}} title="Download version" download>{{fa-icon "fa-download"}}</a></td>
                 <td><a {{action 'restoreObject' v.id}} title="Restore version">{{fa-icon "fa-database"}}</a></td>
             </tr>
         {{/each}}
