@@ -1,7 +1,8 @@
 <div class="panel callout">
+    {{#with controller as file}}
     <a {{action 'hideObjectVersions'}} class="close">{{fa-icon "fa-close"}}</a>
     <table>
-        <caption>Versions for {{model.stripped_name}}</caption>
+        <caption>Versions for {{file.stripped_name}}</caption>
         <thead>
             <tr>
                 <th>Version</th>
@@ -21,4 +22,5 @@
         {{/each}}
         </tbody>
     </table>
+    {{/with}}
 </div>
