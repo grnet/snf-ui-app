@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
 export default DS.RESTAdapter.extend({
   headers: function(){
@@ -11,45 +12,39 @@ export default DS.RESTAdapter.extend({
     return this.get('settings').get('storage_host');
   }.property(),
 
-  buildURL: function(type, id, record, trash){
+  buildURL: function(type, id, record){
     var url = [],
         host = this.get('host');
     url.push(host);
 
-    if (trash) {
-      url.push('trash');
-    } else{
-       if (this.get('container_id')) {
-        url.push(this.get('container_id'));
-      }
-    }
     if (id) {
-        url.push(id);
+      url.push(id);
+    } else {
+      url.push(this.get('container_id'));
     }
+
     url = url.join('/');
     return url;
   },
 
   deleteRecord: function(store, type, record) {
-    var id = record.get('name');
-    var url = this.buildURL(type.typeKey, id, record);
+    var url = this.buildURL(type.typeKey, record.get('id'), record);
     var timestamp =(new Date().getTime())/1000;
     url = url+'?until='+timestamp;
     if (record.get('is_dir')){
       url = url+'&delimiter=/';
     } 
-
     return this.ajax(url, "DELETE");
   },
 
   findQuery: function(store, type, query) {
     var container_id = store.get('container_id');
     this.set('container_id', container_id);
-    return this.ajax(this.buildURL(type.typeKey, null, null), 'GET', { data: query });
+    return this.ajax(this.buildURL(type.typeKey), 'GET', { data: query });
   },
 
-   renameObject: function(record, old_path, new_name) {
-    var url = this.buildURL('object', new_name, null);
+  renameObject: function(record, old_path, new_id) {
+    var url = this.buildURL('object', new_id, null);
     if (record.get('is_dir')){
       url = url+'?delimiter=/'
     }
@@ -75,11 +70,10 @@ export default DS.RESTAdapter.extend({
   },
   
   moveToTrash: function(record) {
-    var name = record.get('name');
-    var old_path = '/'+this.get('container_id') +'/'+name;
-    var url = this.buildURL('object', name, null, true);
+    var old_path = '/'+record.get('id');
+    var new_id = 'trash/'+record.get('name');
+    var url = this.buildURL('object', new_id);
     var headers = this.get('headers');
-    console.log('####', old_path);
 
     $.extend(headers, {
       'X-Move-From': old_path,
@@ -104,7 +98,6 @@ export default DS.RESTAdapter.extend({
     var path = '/'+this.get('container_id') +'/'+name;
     var url = this.buildURL('object', name, null)+'?update=';
     var headers = this.get('headers');
-    debugger;
 
     $.extend(headers, {
       'X-Source-Object': path,
@@ -128,7 +121,7 @@ export default DS.RESTAdapter.extend({
 
   createRecord: function(store, type, record) {
     var data = this.serialize(record, { includeId: true });
-    var url = this.buildURL(type.typeKey, record.get('name') , null);
+    var url = this.buildURL(type.typeKey, record.get('id') , null);
     var headers = this.get('headers');
 
 

@@ -3,6 +3,10 @@ import DS from 'ember-data';
 export default DS.RESTSerializer.extend({
   extractArray: function(store, type, payload) {
     var payload_list = payload;
+    var container_id = store.get('container_id');
+    payload_list.forEach(function(el){
+      el.id = container_id+'/'+el.name;
+    });
     payload = { objects: payload_list};
     return this._super(store, type, payload);
   },
@@ -26,10 +30,4 @@ export default DS.RESTSerializer.extend({
     return this._super(store, type, payload, id);
   },
 */
-  normalizeHash: {
-    objects: function(hash) {
-      hash.id = hash.x_object_uuid;
-      return hash;
-    }
-  },
 });

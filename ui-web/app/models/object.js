@@ -5,7 +5,6 @@ export default DS.Model.extend({
   bytes: DS.attr('number', {defaultValue: 0}),
   content_type: DS.attr('string'),
   hash: DS.attr('string'),
-  x_object_uuid: DS.attr('string'),
 
   is_dir: function(){
     var dirs = ['application/directory', 'application/folder'];

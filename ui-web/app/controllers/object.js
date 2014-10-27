@@ -7,10 +7,8 @@ export default Ember.ObjectController.extend({
 
   view_src: function(){
     var base_url = this.get('settings').get('storage_view_url');
-    var container_id = this.get('container_id');
-    var name = this.get('model').get('name');
-    return base_url+container_id+'/'+name;
-  }.property('model.name'),
+    return base_url+this.get('model').get('id');
+  }.property('model.id'),
 
   actions: {
     deleteObject: function(){
@@ -21,18 +19,21 @@ export default Ember.ObjectController.extend({
 
     renameObject: function(){
       var object = this.get('model');
-      var old_name = object.get('name');
+      var old_id = object.get('id');
       var stripped_name = this.get('new_name');
 
       // old_path will be used for X-Move-From Header
-      var old_path = '/'+this.get('container_id')+'/'+old_name;
-      var temp = old_name.split('/');
+      var old_path = '/'+ old_id;
+      var temp = old_id.split('/');
       temp.pop();
       temp.push(stripped_name);
+      var that = this;
 
-      // new_name will be used when formating the ajax url
-      var new_name = temp.join('/');
-      this.store.renameObject(object, old_path, new_name);
+      // new_id will be used when formating the ajax url
+      var new_id = temp.join('/');
+      this.store.renameObject(object, old_path, new_id).then(function(){
+        that.send('refreshRoute');
+      });
     },
 
     downloadObject: function(version){
@@ -46,7 +47,10 @@ export default Ember.ObjectController.extend({
 
     moveToTrash: function(){
       var object = this.get('model');
-      this.store.moveToTrash(object);
+      var that = this;
+      this.store.moveToTrash(object).then(function(){
+        that.send('refreshRoute');
+      });
 
     }
   }

@@ -23,6 +23,9 @@ export default Ember.Route.extend({
         model: model
       });
     },
+    refreshRoute: function(){
+      this.refresh();
+    },
     hideObjectVersions: function(){
       return this.disconnectOutlet({
         outlet: 'versions',

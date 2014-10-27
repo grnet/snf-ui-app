@@ -9,9 +9,11 @@ export default DS.RESTSerializer.extend({
   extractSingle: function(store, type, payload, id) {
     var object_ids = [];
     var object_list = payload;
+
     object_list.forEach(function(el){
-      object_ids.push(el.x_object_uuid);
-      el.id = el.x_object_uuid;
+      var obj_id = id+'/'+el.name;
+      object_ids.push(obj_id);
+      el.id = obj_id;
     });
     var container = { 
       id: id,

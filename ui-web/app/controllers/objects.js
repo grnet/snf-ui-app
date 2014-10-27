@@ -29,6 +29,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
 
   actions: {
     createDir: function(){
+      var that = this;
       var dir_name = this.get('newDir');
       
       if (!dir_name) { return false; }
@@ -36,24 +37,30 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       
       var name = dir_name;
 
+      var temp = [];
+      temp.push(this.get('container_id'));
+
       if (this.get('hasUpPath')) {
-        name = this.get('current_path')+'/'+ name;
+        temp.push(this.get('current_path'));
       }
+      temp.push(name);
+      var id = temp.join('/');
       
       var object = this.store.createRecord('object', {
+        id: id, 
         name: name,
         content_type: 'application/directory',
       });
 
-      var onSuccess = function(object) {
-        console.log('onSuccess');
+      var onsuccess = function(object) {
+        that.send('refreshroute');
       };
       
-      var onFail = function(reason){
+      var onfail = function(reason){
         console.log(reason);
       };
 
-      object.save().then(onSuccess, onFail);
+      object.save().then(onsuccess, onfail);
     },
   }
 
