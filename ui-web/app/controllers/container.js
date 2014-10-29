@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
+  itemType: 'container',
   title: 'object controller title',
   needs: ['containers'],
   projects: Ember.computed.alias("controllers.containers.projects"),
@@ -12,7 +13,7 @@ export default Ember.ObjectController.extend({
       return that.get('model').get('bytes')< p.get('diskspace');
     });
   }.property('projects.@each', 'model.project'),
-
+  actionToPerform: undefined,
   watchProject: function(){
     var isClean = !this.get('model').get('isDirty');
     var hasSelected = this.get('selectedProject');

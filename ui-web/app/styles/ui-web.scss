@@ -13,13 +13,11 @@
 input[type="text"]{
     width: 200px;
     display: inline;
-
 }
 
 table td img {
     height: 40px;
 }
-
 
 .droppable {
     color: white;
@@ -55,3 +53,7 @@ div.droppable div.file {
     color: #0DA3FF;
 }
 
+.reveal-modal .button {
+    position: inherit;
+    color: white;
+}

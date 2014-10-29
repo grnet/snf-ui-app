@@ -21,6 +21,11 @@
       window.EmberENV = {{EMBER_ENV}};
     </script>
     <script src="{{ MEDIA_URL }}ui/assets/vendor.js"></script>
+    <script>
+      $(document).foundation({
+        animation_speed: 400
+      });
+    </script>
     <script src="{{ MEDIA_URL }}ui/assets/ui-web.js"></script>
     <script>
       window.UiWeb = require('ui-web/app')['default'].create({{APP_CONFIG}});
