@@ -51,9 +51,12 @@
     {{#link-to 'objects' upPath }} {{fa-icon "fa-level-up"}} {{/link-to}}
 {{/if}}
 </div>
-
 <div>
-    <a {{action 'pasteObject'}} title="paste Item" class="obvious">{{fa-icon "fa-paste"}}</a>
+    Current path: <strong>{{current_path}}</strong>
+    {{#if cutObject}}
+    <a {{action 'pasteObject'}} title="paste Item" class="obvious">{{fa-icon "fa-paste"}}</a>&nbsp;
+    {{/if}}
+    <a {{action 'refresh'}} title="Refresh Folder">{{fa-icon "fa-refresh"}}</a>
 </div>
 
 {{outlet versions}}

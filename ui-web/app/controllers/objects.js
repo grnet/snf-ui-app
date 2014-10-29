@@ -78,6 +78,9 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       this.set('cutObject', null);
 
     },
+    refresh: function(){
+      this.send('refreshRoute');
+    }
   }
 
 });
