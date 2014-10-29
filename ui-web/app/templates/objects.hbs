@@ -46,11 +46,14 @@
 </div>
 
 
-
 <div>
 {{#if hasUpPath}}
     {{#link-to 'objects' upPath }} {{fa-icon "fa-level-up"}} {{/link-to}}
 {{/if}}
+</div>
+
+<div>
+    <a {{action 'pasteObject'}} title="paste Item" class="obvious">{{fa-icon "fa-paste"}}</a>
 </div>
 
 {{outlet versions}}
@@ -78,8 +81,11 @@
         <td>
             <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
         </td>
-         <td>
+        <td>
             <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
+        </td>
+        <td>
+            <a {{action 'cutObject'}} title="cut Item" class="obvious">{{fa-icon "fa-cut"}}</a>
         </td>
         <td>
             {{input value=new_name placeholder=stripped_name}}

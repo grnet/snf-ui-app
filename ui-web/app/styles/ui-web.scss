@@ -30,6 +30,11 @@ table td img {
         color: white;
     }
 }
+.counts {
+    li {
+        display: inline-block;
+    }
+}
 
 div.droppable div.file {
     margin: 1em;
@@ -44,3 +49,9 @@ div.droppable div.file {
     float: right;   
     font-size: 15px;
 }
+
+.obvious {
+    font-size: 16px;
+    color: #0DA3FF;
+}
+

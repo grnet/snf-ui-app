@@ -10,6 +10,7 @@ export default Ember.ObjectController.extend({
     return base_url+this.get('model').get('id');
   }.property('model.id'),
 
+
   actions: {
     deleteObject: function(){
       var object = this.get('model');
@@ -36,17 +37,19 @@ export default Ember.ObjectController.extend({
       });
     },
 
-    downloadObject: function(version){
-      alert('downloadObject action has been triggered');
-    }, 
-
     moveToTrash: function(){
       var object = this.get('model');
       var that = this;
       this.store.moveToTrash(object).then(function(){
         that.send('refreshRoute');
       });
+    },
+    
+    cutObject: function(){
+      var object = this.get('model');
+      this.set('controllers.objects.cutObject', object);
+    },
 
-    }
+
   }
 });

@@ -62,6 +62,22 @@ export default Ember.ArrayController.extend(SnfDropletController, {
 
       object.save().then(onsuccess, onfail);
     },
+
+    pasteObject: function(){
+      if (!this.get('cutObject')){
+        console.log('Nothing has been cut or copied');
+        return false;
+      }
+      var object = this.get('cutObject');
+      var old_path = '/'+object.get('id');
+      var new_id = this.get('container_id')+this.get('current_path')+object.get('stripped_name');
+      var that = this;
+      this.store.renameObject(object, old_path, new_id).then(function(){
+        that.send('refreshRoute');
+      });
+      this.set('cutObject', null);
+
+    },
   }
 
 });
