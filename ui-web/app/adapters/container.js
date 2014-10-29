@@ -63,7 +63,7 @@ export default DS.RESTAdapter.extend({
     var id = record.get('id');
     var url = this.buildURL(type.typeKey, id , null);
     var headers = this.get('headers');
-    var timestamp = new Date().getTime();
+    var timestamp = (new Date().getTime())/1000;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       jQuery.ajax({
@@ -142,16 +142,5 @@ export default DS.RESTAdapter.extend({
 
   },
 
- /* 
-  find: function(store, type, id, record) {
-    var current_path = record._current_path;
-    delete record._current_path;
-    if (current_path) {
-      var url = this.buildURL(type.typeKey, id, record)+'?path='+current_path;
-    } else {
-       var url = this.buildURL(type.typeKey, id, record);
-
-    return this.ajax(url, 'GET');
-  }*/
 });
 
