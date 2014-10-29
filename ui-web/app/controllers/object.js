@@ -47,7 +47,13 @@ export default Ember.ObjectController.extend({
     
     cutObject: function(){
       var object = this.get('model');
-      this.set('controllers.objects.cutObject', object);
+      this.set('controllers.objects.toPasteObject', object);
+    },
+
+    copyObject: function(){
+      var object = this.get('model');
+      this.set('controllers.objects.toPasteObject', object);
+      this.set('controllers.objects.copyFlag', true);
     },
 
 

@@ -53,7 +53,9 @@
 </div>
 <div>
     Current path: <strong>{{current_path}}</strong>
-    {{#if cutObject}}
+
+    {{objectsCount}} objects total 
+    {{#if toPasteObject}}
     <a {{action 'pasteObject'}} title="paste Item" class="obvious">{{fa-icon "fa-paste"}}</a>&nbsp;
     {{/if}}
     <a {{action 'refresh'}} title="Refresh Folder">{{fa-icon "fa-refresh"}}</a>
@@ -87,8 +89,11 @@
         <td>
             <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
         </td>
-        <td>
-            <a {{action 'cutObject'}} title="cut Item" class="obvious">{{fa-icon "fa-cut"}}</a>
+       <td>
+            <a {{action 'cutObject'}} title="cut Item">{{fa-icon "fa-cut"}}</a>
+        </td>
+       <td>
+            <a {{action 'copyObject'}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
         </td>
         <td>
             {{input value=new_name placeholder=stripped_name}}

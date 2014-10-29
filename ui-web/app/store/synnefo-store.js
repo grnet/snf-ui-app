@@ -21,9 +21,9 @@ var SynnefoStore = DS.Store.extend({
     return this._findByRecord(record, preload);
   },
 
-  renameObject: function(record, old_path, new_id) {
+  renameObject: function(record, old_path, new_id, copy_flag) {
     var adapter = this.adapterFor(record.constructor);
-    return adapter.renameObject(record, old_path, new_id);
+    return adapter.renameObject(record, old_path, new_id, copy_flag);
   },
 
   restoreObject: function(record, version){

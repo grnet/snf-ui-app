@@ -27,6 +27,10 @@ export default Ember.ArrayController.extend(SnfDropletController, {
               'X-Requested-With': 'XMLHttpRequest'};
   }.property(),
 
+  objectsCount: function(){
+    return this.get('length');
+  }.property('@each'),
+
   actions: {
     createDir: function(){
       var that = this;
@@ -53,7 +57,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       });
 
       var onsuccess = function(object) {
-        that.send('refreshroute');
+        that.send('refreshRoute');
       };
       
       var onfail = function(reason){
@@ -63,19 +67,27 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       object.save().then(onsuccess, onfail);
     },
 
+    copyFlag: false,
+
     pasteObject: function(){
-      if (!this.get('cutObject')){
+      if (!this.get('toPasteObject')){
         console.log('Nothing has been cut or copied');
         return false;
       }
-      var object = this.get('cutObject');
+      var object = this.get('toPasteObject');
       var old_path = '/'+object.get('id');
-      var new_id = this.get('container_id')+this.get('current_path')+object.get('stripped_name');
+      var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
+      console.log(current_path);
+      var new_id = this.get('container_id')+current_path+object.get('stripped_name');
       var that = this;
-      this.store.renameObject(object, old_path, new_id).then(function(){
+      var copy_flag = this.get('copyFlag');
+
+
+      this.store.renameObject(object, old_path, new_id, copy_flag).then(function(){
         that.send('refreshRoute');
       });
-      this.set('cutObject', null);
+      this.set('toPasteObject', null);
+      this.set('copyFlag', false);
 
     },
     refresh: function(){

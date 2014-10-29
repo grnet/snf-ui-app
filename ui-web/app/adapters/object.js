@@ -43,7 +43,37 @@ export default DS.RESTAdapter.extend({
     return this.ajax(this.buildURL(type.typeKey), 'GET', { data: query });
   },
 
-  renameObject: function(record, old_path, new_id) {
+  renameObject: function(record, old_path, new_id, copy_flag) {
+    var url = this.buildURL('object', new_id, null);
+    if (record.get('is_dir')){
+      url = url+'?delimiter=/'
+    }
+    var headers = this.get('headers');
+  
+    headers['Content-Type'] = record.get('content_type');
+
+    if (copy_flag) {
+      headers['X-Copy-From'] = old_path;
+    } else {
+      headers['X-Move-From'] = old_path;
+    }
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'PUT',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+      }).then(function(data) {
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
+  },
+ 
+  copyObject: function(record, old_path, new_id) {
     var url = this.buildURL('object', new_id, null);
     if (record.get('is_dir')){
       url = url+'?delimiter=/'
@@ -51,7 +81,7 @@ export default DS.RESTAdapter.extend({
     var headers = this.get('headers');
 
     $.extend(headers, {
-      'X-Move-From': old_path,
+      'X-Copy-From': old_path,
       'Content-Type': record.get('content_type'), 
     });
     return new Ember.RSVP.Promise(function(resolve, reject) {
@@ -68,7 +98,7 @@ export default DS.RESTAdapter.extend({
       });
     });
   },
-  
+ 
   moveToTrash: function(record) {
     var old_path = '/'+record.get('id');
     var new_id = 'trash/'+record.get('name');
