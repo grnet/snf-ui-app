@@ -81,8 +81,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       var that = this;
       var copy_flag = this.get('copyFlag');
 
-
-      this.store.renameObject(object, old_path, new_id, copy_flag).then(function(){
+      this.store.moveObject(object, old_path, new_id, copy_flag).then(function(){
         that.send('refreshRoute');
       });
       this.set('toPasteObject', null);

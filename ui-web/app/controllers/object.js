@@ -32,7 +32,7 @@ export default Ember.ObjectController.extend({
 
       // new_id will be used when formating the ajax url
       var new_id = temp.join('/');
-      this.store.renameObject(object, old_path, new_id).then(function(){
+      this.store.moveObject(object, old_path, new_id).then(function(){
         that.send('refreshRoute');
       });
     },
@@ -45,7 +45,7 @@ export default Ember.ObjectController.extend({
       var new_id = 'trash/'+object.get('name');
       var that = this;
 
-      this.store.renameObject(object, old_path, new_id).then(function(){
+      this.store.moveObject(object, old_path, new_id).then(function(){
         that.send('refreshRoute');
       });
 

@@ -43,7 +43,25 @@ export default DS.RESTAdapter.extend({
     return this.ajax(this.buildURL(type.typeKey), 'GET', { data: query });
   },
 
-  renameObject: function(record, old_path, new_id, copy_flag) {
+  /*
+   * moveObject method can be used for rename object, for
+   * cut & paste, for copy & paste and for move to trash
+   *
+  */
+
+
+  /**
+   * Can be used for object rename, cut&paste, copy&paste, move to trash
+   * 
+   * @method moveObject
+   * @param record {Object}
+   * @param old_path {string} Orign path ex. '/pithos/folder1/example.txt'
+   * @param new_id {string} Desination path ex. '/trash/folder1/examplet.txt'
+   * @param copy_flag {bool} If true, the object is copied instead of moved
+
+   */
+
+  moveObject: function(record, old_path, new_id, copy_flag) {
     var url = this.buildURL('object', new_id, null);
     if (record.get('is_dir')){
       url = url+'?delimiter=/';
@@ -51,11 +69,11 @@ export default DS.RESTAdapter.extend({
     var headers = this.get('headers');
   
     headers['Content-Type'] = record.get('content_type');
-
-    if (copy_flag) {
+    headers['X-Move-From'] = old_path;
+    
+    if (copy_flag === true) {
       headers['X-Copy-From'] = old_path;
-    } else {
-      headers['X-Move-From'] = old_path;
+      delete headers['X-Move-From'];
     }
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
@@ -74,14 +92,13 @@ export default DS.RESTAdapter.extend({
   },
 
   restoreObject: function(record, version) {
-    var name = record.get('name');
     var path = '/'+record.get('id');
     var url = this.buildURL('object', record.get('id'))+'?update=';
     var headers = this.get('headers');
 
     headers['X-Source-Object'] = path;
     headers['X-Source-Version'] = version;
-    headers['X-Content-Range'] = 'bytes 0-/*'
+    headers['X-Content-Range'] = 'bytes 0-/*';
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       jQuery.ajax({
