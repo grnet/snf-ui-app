@@ -20,23 +20,16 @@ export default DS.RESTAdapter.extend({
     url = url.join('/');
     return url;
   },
-  ajaxSuccess: function(jsonPayload, jqXHR) {
-    var ret = this._super(jsonPayload, jqXHR);
-    return ret;
-  },
-  // this is a DS.adapter method
-  // it could be a d DS.rest_adapter method 
-  // record is returned from Store's createRecord method
+
   createRecord: function(store, type, record) {
     var data = this.serialize(record, { includeId: true });
     var url = this.buildURL(type.typeKey, data.name , null);
     var headers = this.get('headers');
 
-
     return new Ember.RSVP.Promise(function(resolve, reject) {
       record.get('project').then(function(project){
- 
-        $.extend(headers, {'X-Container-Policy-Project': project.get('id')});
+
+        headers['X-Container-Policy-Project'] = project.get('id');
 
         jQuery.ajax({
           type: 'PUT',
@@ -57,6 +50,7 @@ export default DS.RESTAdapter.extend({
       });
     });
   },
+
   deleteRecord: function(store, type, record){
 
     var data = this.serialize(record, { includeId: true });
@@ -99,12 +93,12 @@ export default DS.RESTAdapter.extend({
   },
 
   reassignContainer: function(record, project_id){
-
     var id = record.get('id');
     var url = this.buildURL('container', id , null);
     var headers = this.get('headers');
 
-    $.extend(headers, {'X-Container-Policy-Project': project_id });
+    headers['X-Container-Policy-Project'] =  project_id;
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
       jQuery.ajax({
         type: 'POST',
