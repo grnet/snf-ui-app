@@ -31,12 +31,6 @@ var SynnefoStore = DS.Store.extend({
     return adapter.restoreObject(record, version);
   },
 
-  moveToTrash: function(record){
-    var adapter = this.adapterFor(record.constructor);
-    return adapter.moveToTrash(record);
-  }
-
-
 });
 
 

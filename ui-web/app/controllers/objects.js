@@ -77,7 +77,6 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       var object = this.get('toPasteObject');
       var old_path = '/'+object.get('id');
       var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
-      console.log(current_path);
       var new_id = this.get('container_id')+current_path+object.get('stripped_name');
       var that = this;
       var copy_flag = this.get('copyFlag');

@@ -39,10 +39,16 @@ export default Ember.ObjectController.extend({
 
     moveToTrash: function(){
       var object = this.get('model');
+      var old_id = object.get('id');
+      var old_path = '/'+ old_id;
+
+      var new_id = 'trash/'+object.get('name');
       var that = this;
-      this.store.moveToTrash(object).then(function(){
+
+      this.store.renameObject(object, old_path, new_id).then(function(){
         that.send('refreshRoute');
       });
+
     },
     
     cutObject: function(){

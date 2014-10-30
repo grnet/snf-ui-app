@@ -46,7 +46,7 @@ export default DS.RESTAdapter.extend({
   renameObject: function(record, old_path, new_id, copy_flag) {
     var url = this.buildURL('object', new_id, null);
     if (record.get('is_dir')){
-      url = url+'?delimiter=/'
+      url = url+'?delimiter=/';
     }
     var headers = this.get('headers');
   
@@ -72,56 +72,6 @@ export default DS.RESTAdapter.extend({
       });
     });
   },
- 
-  copyObject: function(record, old_path, new_id) {
-    var url = this.buildURL('object', new_id, null);
-    if (record.get('is_dir')){
-      url = url+'?delimiter=/'
-    }
-    var headers = this.get('headers');
-
-    $.extend(headers, {
-      'X-Copy-From': old_path,
-      'Content-Type': record.get('content_type'), 
-    });
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      jQuery.ajax({
-        type: 'PUT',
-        url: url,
-        dataType: 'text',
-        headers: headers,
-      }).then(function(data) {
-        Ember.run(null, resolve, data);
-      }, function(jqXHR) {
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
-      });
-    });
-  },
- 
-  moveToTrash: function(record) {
-    var old_path = '/'+record.get('id');
-    var new_id = 'trash/'+record.get('name');
-    var url = this.buildURL('object', new_id);
-    var headers = this.get('headers');
-
-    $.extend(headers, {
-      'X-Move-From': old_path,
-    });
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      jQuery.ajax({
-        type: 'PUT',
-        url: url,
-        dataType: 'text',
-        headers: headers,
-      }).then(function(data) {
-        Ember.run(null, resolve, data);
-      }, function(jqXHR) {
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
-      });
-    });
-  },
 
   restoreObject: function(record, version) {
     var name = record.get('name');
@@ -129,11 +79,10 @@ export default DS.RESTAdapter.extend({
     var url = this.buildURL('object', record.get('id'))+'?update=';
     var headers = this.get('headers');
 
-    $.extend(headers, {
-      'X-Source-Object': path,
-      'X-Source-Version': version,
-      'Content-Range': 'bytes 0-/*',
-    });
+    headers['X-Source-Object'] = path;
+    headers['X-Source-Version'] = version;
+    headers['X-Content-Range'] = 'bytes 0-/*'
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
       jQuery.ajax({
         type: 'POST',
@@ -151,15 +100,12 @@ export default DS.RESTAdapter.extend({
 
   createRecord: function(store, type, record) {
     var data = this.serialize(record, { includeId: true });
-    var url = this.buildURL(type.typeKey, record.get('id') , null);
+    var url = this.buildURL(type.typeKey, record.get('id'));
     var headers = this.get('headers');
 
+    headers['Content-Type'] = record.get('content_type');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
- 
-        $.extend(headers, {'Content-Type': record.get('content_type')});
-
-        console.log(headers);
         jQuery.ajax({
           type: 'PUT',
           url: url,
