@@ -21,6 +21,11 @@ export default DS.RESTAdapter.extend({
     return url;
   },
 
+  ajaxSuccess: function(jqXHR, jsonPayload) {
+    jsonPayload.groups = ['group-1','group-2'];
+    return jsonPayload;
+  },
+
   createRecord: function(store, type, record) {
     var data = this.serialize(record, { includeId: true });
     var url = this.buildURL(type.typeKey, data.name , null);
