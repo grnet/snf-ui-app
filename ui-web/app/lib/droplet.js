@@ -124,7 +124,6 @@
                     $ember.set(this, 'uploadStatus.uploading', false);
                     // Invoke the `didUploadFiles` callback if it exists.
                     $ember.tryInvoke(this, 'didUploadFiles', [response]);
-
                     return response;
                 })).catch(function(reason){
                     console.log(reason, 'reason');
