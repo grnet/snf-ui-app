@@ -4,7 +4,7 @@ export default Ember.ObjectController.extend({
   needs: ['projects'],
 	free_space: function() {
 		var quotas = this.get('controllers.projects.quotas');
-    if (quotas == undefined) {
+    if (quotas === undefined) {
         return "loading...";
     }
 

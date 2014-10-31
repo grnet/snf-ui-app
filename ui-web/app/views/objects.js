@@ -12,8 +12,7 @@ export default Ember.View.extend({
          */
         traverseFiles: function(files) {
 
-            var controller  = Ember.get(this, 'controller'),
-                options     = Ember.get(controller, 'dropletOptions') || { limit: Infinity };
+            var controller  = Ember.get(this, 'controller');
 
             for (var index = 0, numFiles = files.length; index < numFiles; index++) {
 
