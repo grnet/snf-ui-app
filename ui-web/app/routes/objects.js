@@ -8,36 +8,15 @@ export default Ember.Route.extend({
     this.set('current_path', current_path);
     return this.store.find('object', {path: current_path});
   },
-  afterModel: function(){
-     this.disconnectOutlet({
-      outlet: 'versions',
-      parentView: 'objects'
-    });
-  },
   setupController: function(controller,model){
     controller.set('model', model);
     var container_id = this.modelFor('container').get('name');
     controller.set('container_id', container_id);
     controller.set('current_path', this.get('current_path'));
   },
-  actions:  {
-    showObjectVersions: function(model){
-      return this.render('object/versions', {
-        into: 'objects',
-        outlet: 'versions',
-        controller: 'object/versions',
-        model: model
-      });
-    },
+  actions: {
     refreshRoute: function(){
       this.refresh();
-    },
-    hideObjectVersions: function(){
-      return this.disconnectOutlet({
-        outlet: 'versions',
-        parentView: 'objects'
-      });
-    },
- 
+    }
   }
 });

@@ -30,6 +30,9 @@ export default Ember.Route.extend({
         outlet: 'dialogs',
         parentView: 'application'
       });
+		},
+		willTransition: function(transition) {
+			this.send('removeDialog');
 		}
 	}
 });

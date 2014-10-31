@@ -16,7 +16,10 @@ export default Ember.View.extend({
 		});
 		this._super();
 	},
-
+	willDestroy: function() {
+		$(document).find('.reveal-modal-bg').remove();
+		this._super();
+	},
 	// Use in the confirmSimple dialog
 	title: function() {
 		var action = this.get('controller').get('actionToPerform');
