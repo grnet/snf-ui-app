@@ -12,11 +12,12 @@ export default Ember.View.extend({
 	didInsertElement: function() {
 		var self = this;
 		$(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
-	  	self.get('controller').send('removeModal');
+			self.get('controller').send('removeDialog');
 		});
 		this._super();
 	},
 
+	// Use in the confirmSimple dialog
 	title: function() {
 		var action = this.get('controller').get('actionToPerform');
 		return this.get(action).title;

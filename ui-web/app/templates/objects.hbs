@@ -92,7 +92,7 @@
             <a {{action 'renameObject'}} title="rename Folder">{{fa-icon "fa-pencil"}}</a>
         </td>
         <td>
-            <a {{action 'showObjectVersions' this}}> Show object versions</a>
+            <a {{action 'showDialog' 'versions' 'object/versions' this}}>Show object versions</a>
         </td>
     </tr>
 {{else}}

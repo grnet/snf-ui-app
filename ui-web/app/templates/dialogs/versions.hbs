@@ -1,6 +1,9 @@
 <div class="panel callout">
     {{#with controller as file}}
-    <a {{action 'hideObjectVersions'}} class="close">{{fa-icon "fa-close"}}</a>
+            <p>* {{this}}</p>
+            <p>* {{this.controller}}</p>
+            <p>* {{versions}}</p>
+    <a class="close-reveal-modal">{{fa-icon "fa-close"}}</a>
     <table>
         <caption>Versions for {{file.stripped_name}}</caption>
         <thead>
@@ -20,6 +23,7 @@
                 <td><a {{bind-attr  href=v.view_src_version}} title="Download version" download>{{fa-icon "fa-download"}}</a></td>
                 <td><a {{action 'restoreObject' v.id}} title="Restore version">{{fa-icon "fa-database"}}</a></td>
             </tr>
+
         {{/each}}
         </tbody>
     </table>

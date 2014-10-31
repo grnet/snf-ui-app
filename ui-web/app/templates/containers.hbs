@@ -28,7 +28,7 @@
             <a class="button alert small" {{action 'deleteContainer'}}>Delete Container</a>
         </td>
         <td>
-            <a class="button secondary small" {{action 'showModal' 'emptyContainer' this.controller}}>Empty container</a>
+            <a class="button secondary small" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>Empty container</a>
         </td>
 
     </tr>

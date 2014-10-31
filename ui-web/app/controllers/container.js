@@ -13,7 +13,9 @@ export default Ember.ObjectController.extend({
       return that.get('model').get('bytes')< p.get('diskspace');
     });
   }.property('projects.@each', 'model.project'),
+
   actionToPerform: undefined,
+
   watchProject: function(){
     var isClean = !this.get('model').get('isDirty');
     var hasSelected = this.get('selectedProject');
