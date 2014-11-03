@@ -14,9 +14,5 @@ export default Ember.Route.extend({
       controller.set('quotas', q);
     });
   },
-  ajaxSuccess: function(jsonPayload, jqXHR) {
-    var ret = this._super(jsonPayload, jqXHR);
-    ret.myCustomValue = jqXHR.headers['Server'];
-    return ret;
-  }
+
 });

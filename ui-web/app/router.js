@@ -17,6 +17,7 @@ Router.map(function() {
     });
   });
   this.resource('quotas');
+  this.route('groups');
 });
 
 export default Router;
