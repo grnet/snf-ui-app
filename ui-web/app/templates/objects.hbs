@@ -40,10 +40,9 @@
 </div>
 
 <div class="panel">
-{{input type="text" placeholder="Create new directory" value=newDir}}
-<a {{action 'createDir'}}>{{fa-icon "fa-save"}}</a>
+    {{view 'input-with-validation' placeholder="Create new directory"}}
+    <a {{action 'validateCreation' 'createDir'}}>{{fa-icon "fa-save"}}</a>
 </div>
-
 
 <div>
 {{#if hasUpPath}}
@@ -94,8 +93,8 @@
             <a {{action 'copyObject'}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
         </td>
         <td>
-            {{input value=new_name placeholder=stripped_name}}
-            <a {{action 'renameObject'}} title="rename Folder">{{fa-icon "fa-pencil"}}</a>
+            {{view 'input-with-validation' placeholder=stripped_name}}
+            <a {{action 'validateRename' 'renameObject' }}>{{fa-icon "fa-pencil"}}</a>
         </td>
         <td>
             <a {{action 'showDialog' 'versions' 'object/versions' this}}>Show object versions</a>

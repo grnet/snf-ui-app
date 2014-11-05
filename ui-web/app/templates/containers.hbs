@@ -1,10 +1,13 @@
-{{input type="text" placeholder="Container name" value=newName}}
-{{view Ember.Select content=projects
-   optionLabelPath="content.select_label"
-   optionValuePath="content.id"
-   selection=newProject}}
+{{view 'input-with-validation' placeholder='Create Container...'}}
+{{!-- the element below is temp --}}
+<span class="side-select">
+  {{view Ember.Select content=projects
+     optionLabelPath="content.select_label"
+     optionValuePath="content.id"
+     selection=newProject}}
+</span>
 
-<button {{action 'createContainer' }}>Create container</button>
+<button class="btn-create-container" {{action 'validateCreate' 'createContainer' }}>Create container</button>
 
 <table>
 <tbody>

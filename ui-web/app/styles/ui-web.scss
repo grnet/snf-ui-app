@@ -59,3 +59,30 @@ div.droppable div.file {
     position: inherit;
     color: white;
 }
+
+.input-with-valid {
+    display: inline-block;
+    .error.invisible {
+        visibility: hidden;
+    }
+    input {
+        margin-bottom: 0;
+    }
+    input.error {
+        border-color: #f0a024;
+    }
+    .error-msg {
+        margin-left: 10px;
+    }
+}
+
+// totally temp!
+.btn-create-container {
+    display: block;
+}
+.side-select {
+    select {
+        width: 65%;
+        vertical-align: top;
+    }
+}

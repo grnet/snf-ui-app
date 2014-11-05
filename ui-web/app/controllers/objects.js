@@ -32,41 +32,79 @@ export default Ember.ArrayController.extend(SnfDropletController, {
   }.property('@each'),
 
   copyFlag: false,
- 
-  actions: {
-    createDir: function(){
-      var that = this;
-      var dir_name = this.get('newDir');
-      
-      if (!dir_name) { return false; }
-      if (!dir_name.trim()) { return; }
-      
-      var name = dir_name;
+
+ /*
+ * Pithos API allows the name of objects to have at most 1024 chars
+ * When a new object is created the length of the name is checked
+ */
+  nameMaxLength: 1024,
+
+  validInput: undefined,
+  validationOnProgress: undefined,
+
+  newName: undefined,
+  actionToExec: undefined, // needs to be set when input is used (for the view)
+  isUnique: undefined,
+  newID: undefined,
+
+  checkUnique: function() {
+    if(this.get('newName')) {
+      var type = this.get('model').get('type');
 
       var temp = [];
+      var name = this.get('newName')
       temp.push(this.get('container_id'));
 
       if (this.get('hasUpPath')) {
         temp.push(this.get('current_path'));
       }
       temp.push(name);
-      var id = temp.join('/');
+      var newID = temp.join('/');
       
-      var object = this.store.createRecord('object', {
-        id: id, 
-        name: name,
-        content_type: 'application/directory',
-      });
+      /*
+      * hasRecordForId: Returns true if a record for a given type and ID
+      * is already loaded.
+      * In our case the id of a container it's its name.
+      */
+      var isUnique = !this.get('store').hasRecordForId(type, newID);
+      this.set('newID', newID);
+      this.set('isUnique', isUnique);
+    }
+  }.observes('newName'),
 
-      var onsuccess = function(object) {
-        that.send('refreshRoute');
-      };
-      
-      var onfail = function(reason){
-        console.log(reason);
-      };
+  createDir: function(){
+  if(this.get('validInput')) {
+    var self = this;
+    var name = this.get('newName');
+    var id = this.get('newID')
 
-      object.save().then(onsuccess, onfail);
+    var object = this.store.createRecord('object', {
+      id: id,
+      name: name,
+      content_type: 'application/directory',
+    });
+
+    var onSuccess = function(object) {
+      self.send('refreshRoute');
+    };
+
+    var onFail = function(reason){
+      console.log(reason);
+    };
+
+    object.save().then(onSuccess, onFail);
+    this.set('newName', undefined);
+    this.set('validInput', undefined);
+    this.set('isUnique', undefined);
+    this.set('newID', undefined)
+  }
+  }.observes('validInput'),
+
+  actions: {
+    validateCreation: function(action) {
+      var flag = 'validationOnProgress';
+      this.set('actionToExec', action);
+      this.set(flag, true);
     },
 
     newObj: false,
@@ -80,12 +118,12 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       var old_path = '/'+object.get('id');
       var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
       var new_id = this.get('container_id')+current_path+object.get('stripped_name');
-      var that = this;
+      var self = this;
       var copy_flag = this.get('copyFlag');
     
 
       // If the object exists aready in the copy destination folder, 
-      // show a dialog that asks the user if he wants to overwrite the 
+      // show a dialog that asks the user if he wants to overwrite the
       // existing object (thus creating a new version of this object)
       // or if he wants to create a copy of the object
       if ( (object.get('id') === new_id ) && copy_flag ) {
@@ -109,6 +147,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
         self.send('showActionFail', reason);
       };
       this.store.moveObject(object, old_path, new_id, copy_flag).then(onSuccess, onFail);
+
       this.set('toPasteObject', null);
       this.set('copyFlag', false);
 
@@ -149,7 +188,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
             object_id = object_id + extension;
           }
         }
-        console.log('edw');
+
         this.send('_objNewCopyId', object, object_id);
       } else {
         this.send('_resumePaste', object, '/'+object.get('id'), object_id, true);
