@@ -1,0 +1,9 @@
+<h4>Containers<h4>
+<ul>
+{{#each}}
+    <li>
+        {{#link-to 'container' this}}{{name}}{{/link-to}}
+        <a {{action 'deleteContainer'}}>{{fa-icon "fa-trash"}}</a>
+    </li>
+{{/each}}
+</ul>

@@ -1,2 +1,12 @@
-<strong>{{#link-to 'objects' ''}}{{name}}{{/link-to}}</strong>
-{{outlet}}
+<div class="row">
+    <strong>{{#link-to 'objects' ''}}{{name}}{{/link-to}}</strong>
+</div>
+<div class="row">
+    <div class="small-3 columns">
+        {{outlet sidebarContainers}}
+        {{outlet sidebarGroups}}
+    </div>
+    <div class="small-9 columns">
+        {{outlet}}
+    </div>
+</div>
