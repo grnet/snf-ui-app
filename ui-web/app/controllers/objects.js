@@ -31,6 +31,8 @@ export default Ember.ArrayController.extend(SnfDropletController, {
     return this.get('length');
   }.property('@each'),
 
+  copyFlag: false,
+ 
   actions: {
     createDir: function(){
       var that = this;
@@ -67,7 +69,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       object.save().then(onsuccess, onfail);
     },
 
-    copyFlag: false,
+    newObj: false,
 
     pasteObject: function(){
       if (!this.get('toPasteObject')){
@@ -80,14 +82,68 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       var new_id = this.get('container_id')+current_path+object.get('stripped_name');
       var that = this;
       var copy_flag = this.get('copyFlag');
+    
 
+      // If the object exists aready in the copy destination folder, 
+      // show a dialog that asks the user if he wants to overwrite the 
+      // existing object (thus creating a new version of this object)
+      // or if he wants to create a copy of the object
+      if ( (object.get('id') === new_id ) && copy_flag ) {
+        var objects = [];
+        objects.addObject(object);
+        // 'objects' controller requires an array of models
+        this.send('showDialog', 'paste', this , objects);
+        return;
+      } 
+      this.send('_resumePaste', object, old_path, new_id, copy_flag);
+    },
+  
+    // restarts object paste
+    _resumePaste: function(object, old_path, new_id, copy_flag){
+      var that = this;
       this.store.moveObject(object, old_path, new_id, copy_flag).then(function(){
         that.send('refreshRoute');
       });
       this.set('toPasteObject', null);
       this.set('copyFlag', false);
 
+
     },
+
+    // continues pasting by calling _resumePaste method
+    pasteVersion: function(object) {
+      var old_path = '/'+object.get('id');
+      var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
+      var new_id = this.get('container_id')+current_path+object.get('stripped_name');
+ 
+      this.send('_resumePaste', object, old_path, new_id, true);
+    },
+
+    // before pasting it will call _objNewCopyId to rename the object
+    pasteCopy: function(object) {
+      this.send('_objNewCopyId', object, object.get('id'));
+    },
+     
+     // if the object_id already exists, then it is renamed to 
+     // <old-name>.<extension> to <old-name>-copy.<extension>
+    _objNewCopyId: function(object, object_id){
+      var exists = this.store.hasRecordForId('object', object_id );
+      if (exists) {
+        var temp = object_id.split('.');
+        var extension = null;
+        if (temp.length>1 ) {
+          extension = '.'+ temp.pop();
+        }
+        object_id = temp.join('.')+'-copy';
+        if (extension) {
+          object_id = object_id + extension;
+        }
+        this.send('_objNewCopyId', object, object_id);
+      } else {
+        this.send('_resumePaste', object, '/'+object.get('id'), object_id, true);
+      }
+    },
+
     refresh: function(){
       this.send('refreshRoute');
     }

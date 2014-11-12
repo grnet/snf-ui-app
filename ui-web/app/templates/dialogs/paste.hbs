@@ -1,0 +1,10 @@
+{{#each}}
+<p><strong>{{name}}</strong></p>
+<p>The object you are trying to paste already exists in its destination location</p>
+<p>Do you want to make a copy of it or create a new version?</p>
+
+	<div class="buttons">
+		<a href="" class="button small close-reveal-modal" {{action "pasteVersion" this}}>Create new version</a>
+		<a href="" class="button small close-reveal-modal" {{action "pasteCopy" this}}>Create copy</a>
+	</div>
+{{/each}}
