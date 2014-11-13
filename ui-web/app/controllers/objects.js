@@ -89,10 +89,8 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       // existing object (thus creating a new version of this object)
       // or if he wants to create a copy of the object
       if ( (object.get('id') === new_id ) && copy_flag ) {
-        var objects = [];
-        objects.addObject(object);
         // 'objects' controller requires an array of models
-        this.send('showDialog', 'paste', this , objects);
+        this.send('showDialog', 'paste', 'object/paste' , object);
         return;
       } 
       this.send('_resumePaste', object, old_path, new_id, copy_flag);
@@ -124,25 +122,33 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       this.send('_objNewCopyId', object, object.get('id'));
     },
      
-     // if the object_id already exists, then it is renamed to 
-     // <old-name>.<extension> to <old-name>-copy.<extension>
+     // if the object_id already exists, then it is renamed.
+     // <old-name>.<extension> is renamed to <old-name>-copy.<extension>
+     // <old-name> with no extension is renamed to <old-name>-copy
+     // Directory objects with <old-name> are renamed to <old-name>-copy
     _objNewCopyId: function(object, object_id){
       var exists = this.store.hasRecordForId('object', object_id );
       if (exists) {
-        var temp = object_id.split('.');
-        var extension = null;
-        if (temp.length>1 ) {
-          extension = '.'+ temp.pop();
+        if (object.get('is_dir') ) {
+          object_id = object_id + '-copy';
+        } else {
+          var temp = object_id.split('.');
+          var extension = null;
+          if (temp.length>1 ) {
+            extension = '.'+ temp.pop();
+          }
+          object_id = temp.join('.')+'-copy';
+          if (extension) {
+            object_id = object_id + extension;
+          }
         }
-        object_id = temp.join('.')+'-copy';
-        if (extension) {
-          object_id = object_id + extension;
-        }
+        console.log('edw');
         this.send('_objNewCopyId', object, object_id);
       } else {
         this.send('_resumePaste', object, '/'+object.get('id'), object_id, true);
       }
     },
+
 
     refresh: function(){
       this.send('refreshRoute');
