@@ -33,13 +33,15 @@ export default DS.RESTAdapter.extend({
 
     var groups = [];
 
-    group_headers_arr.forEach(function(h){
-      var obj = {};
-      obj.id = h.replace('X-Account-Group-', '');
-      obj.name = h.replace('X-Account-Group-', '');
-      obj.users = jqXHR.getResponseHeader(h).split(',');
-      groups.push(obj);
-    });
+    if (group_headers_arr) {
+      group_headers_arr.forEach(function(h){
+        var obj = {};
+        obj.id = h.replace('X-Account-Group-', '');
+        obj.name = h.replace('X-Account-Group-', '');
+        obj.users = jqXHR.getResponseHeader(h).split(',');
+        groups.push(obj);
+      });
+    }
 
     jsonPayload.groups = groups;
     return jsonPayload;
