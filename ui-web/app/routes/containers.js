@@ -13,6 +13,5 @@ export default Ember.Route.extend({
     this.store.find('quota').then(function(q) {
       controller.set('quotas', q);
     });
-  },
-
+  }
 });

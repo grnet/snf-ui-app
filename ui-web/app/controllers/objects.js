@@ -98,10 +98,17 @@ export default Ember.ArrayController.extend(SnfDropletController, {
   
     // restarts object paste
     _resumePaste: function(object, old_path, new_id, copy_flag){
-      var that = this;
-      this.store.moveObject(object, old_path, new_id, copy_flag).then(function(){
-        that.send('refreshRoute');
-      });
+      var self = this;
+       var onSuccess = function(container) {
+        console.log('resume paste: onSuccess');
+        self.send('refreshRoute');
+      };
+
+      var onFail = function(reason){
+        console.log('_resumePaste',reason);
+        self.send('showActionFail', reason);
+      };
+      this.store.moveObject(object, old_path, new_id, copy_flag).then(onSuccess, onFail);
       this.set('toPasteObject', null);
       this.set('copyFlag', false);
 

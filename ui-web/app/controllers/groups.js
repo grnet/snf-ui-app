@@ -21,11 +21,12 @@ export default Ember.ArrayController.extend({
       this.set('mails', '');
       
       var onSuccess = function(group) {
-        console.log('onSuccess');
+        console.log('create group onSuccess');
       };
       
       var onFail = function(reason){
-        console.log(reason);
+        console.log('createGroup',reason);
+        self.send('showActionFail', reason);
       };
 
       group.save().then(onSuccess, onFail);

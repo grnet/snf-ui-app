@@ -19,6 +19,7 @@ export default Ember.ObjectController.extend({
     },
 
     renameObject: function(){
+      var self = this;
       var object = this.get('model');
       var old_id = object.get('id');
       var stripped_name = this.get('new_name');
@@ -28,13 +29,20 @@ export default Ember.ObjectController.extend({
       var temp = old_id.split('/');
       temp.pop();
       temp.push(stripped_name);
-      var that = this;
 
       // new_id will be used when formating the ajax url
       var new_id = temp.join('/');
-      this.store.moveObject(object, old_path, new_id).then(function(){
-        that.send('refreshRoute');
-      });
+      var onSuccess = function(container) {
+        console.log('rename object: onSuccess');
+        self.send('refreshRoute');
+      };
+
+      var onFail = function(reason){
+        console.log('renameObject',reason);
+        self.send('showActionFail', reason);
+      };
+
+      this.store.moveObject(object, old_path, new_id).then(onSuccess, onFail);
     },
 
     moveToTrash: function(){
@@ -43,11 +51,18 @@ export default Ember.ObjectController.extend({
       var old_path = '/'+ old_id;
 
       var new_id = 'trash/'+object.get('name');
-      var that = this;
+      var self = this;
 
-      this.store.moveObject(object, old_path, new_id).then(function(){
-        that.send('refreshRoute');
-      });
+      var onSuccess = function(container) {
+        console.log('move to trash: onSuccess');
+        self.send('refreshRoute');
+      };
+
+      var onFail = function(reason){
+        console.log('moveToTrash',reason);
+        self.send('showActionFail', reason);
+      };
+      this.store.moveObject(object, old_path, new_id).then(onSuccess, onFail);
 
     },
     

@@ -13,7 +13,7 @@ export default Ember.ArrayController.extend({
 
   actions: {
     createContainer: function(){
-
+      var self = this;
       var name = this.get('newName');
       var project = this.get('newProject');
       
@@ -30,11 +30,12 @@ export default Ember.ArrayController.extend({
       this.set('newProject', this.get('systemProject'));
       
       var onSuccess = function(container) {
-        console.log('onSuccess');
+        console.log('create container: onSuccess');
       };
       
       var onFail = function(reason){
-        console.log(reason);
+        console.log('createContainer',reason);
+        self.send('showActionFail', reason);
       };
 
       container.save().then(onSuccess, onFail);
