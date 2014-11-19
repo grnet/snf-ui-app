@@ -1,0 +1,6 @@
+<a class="error-page" href="/">
+	<h1>Error 404</h1>
+{{#if model.responseJSON.itemNotFound}}
+	<h2>{{model.responseJSON.itemNotFound.message}}</h2>
+{{/if}}
+</a>
