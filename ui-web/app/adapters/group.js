@@ -12,6 +12,10 @@ export default DS.RESTAdapter.extend({
     return this.get('settings').get('storage_host');
   }.property(),
 
+  user_catalogs_url: function(){
+    return this.get('settings').get('account_url')+ '/user_catalogs/';
+  }.property(),
+
   buildURL: function(type, id, record){
     var url = [],
         host = this.get('host');
@@ -50,6 +54,7 @@ export default DS.RESTAdapter.extend({
   createRecord: function(store, type, record) {
 
     var url = this.buildURL(type.typeKey)+'?update=';
+    var user_catalogs_url = this.get('user_catalogs_url');
     var headers = this.get('headers');
 
     var header = 'X-Account-Group-'+record.get('name');
@@ -73,7 +78,7 @@ export default DS.RESTAdapter.extend({
       // First we get the uuids given the users emails.
       jQuery.ajax({
         type: 'POST',
-        url: 'https://pithos.synnefo.live/pithos/_astakos/account/user_catalogs/',
+        url: user_catalogs_url,
         headers: headers,
         data: data
       }).then(function(data) {
