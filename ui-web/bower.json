@@ -22,6 +22,7 @@
     "foundation": "zurb/bower-foundation#~5.4.6"
   },
   "resolutions": {
-    "jquery": ">= 2.1.0"
+    "jquery": ">= 2.1.0",
+    "ember": "1.7.0"
   }
 }
