@@ -48,29 +48,75 @@ export default DS.RESTAdapter.extend({
   },
 
   createRecord: function(store, type, record) {
+
     var url = this.buildURL(type.typeKey)+'?update=';
     var headers = this.get('headers');
 
     var header = 'X-Account-Group-'+record.get('name');
-    headers[header] = record.get('users');
+    var displaynames = [];
+    
+
+    // Users is a string containing comma separated user emails.
+    // These emails are pushed into displaynames array
+    record.get('users').split(',').forEach(function(u){
+      displaynames.push(u.trim());
+    });
+      
+
+    // Then the displaynames array is used to produce the data that will
+    // be sent to the user_catalogs entry point
+    var data = JSON.stringify({"uuids":[], "displaynames": displaynames});
+
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
 
+      // First we get the uuids given the users emails.
       jQuery.ajax({
         type: 'POST',
-        url: url,
-        // http://stackoverflow.com/questions/5061310/
-        dataType: 'text',
+        url: 'https://pithos.synnefo.live/pithos/_astakos/account/user_catalogs/',
         headers: headers,
+        data: data
       }).then(function(data) {
-        Ember.run(null, resolve, data);
+    
+        // Sample returned data is:
+        // "displayname_catalog": {
+        //    "user1@users.org": <uuid>, 
+        //    "user2@users.org": <uuid>, 
+        //  },
+        //  "uuid_catalog": {}
+        //  }
+        var users = data.displayname_catalog;
+        var uuids = [];
+
+        for (var key in users) {
+            if (users.hasOwnProperty(key)) {
+                uuids.push(users[key]);
+            }
+        }
+    
+        // uuids is an array of users uuids
+        headers[header] = uuids;
+        
+        jQuery.ajax({
+          type: 'POST',
+          url: url,
+          dataType: 'text',
+          headers: headers,
+        }).then(function(data) {
+          Ember.run(null, resolve, data);
+        }, function(jqXHR) {
+          var response = Ember.$.parseJSON(jqXHR.responseText);
+          jqXHR.then = null; // tame jQuery's ill mannered promises
+          Ember.run(null, reject, jqXHR);
+        });
+
       }, function(jqXHR) {
         var response = Ember.$.parseJSON(jqXHR.responseText);
         jqXHR.then = null; // tame jQuery's ill mannered promises
         Ember.run(null, reject, jqXHR);
       });
-
     });
+
   },
 
   deleteRecord: function(store, type, record){
