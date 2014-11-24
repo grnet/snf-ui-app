@@ -6,7 +6,7 @@ export default Ember.ArrayController.extend({
     createGroup: function(){
 
       var name = this.get('newGroup');
-      var mails = this.get('mails');
+      var emails = this.get('emails');
       
       if (!name) { return false; }
       if (!name.trim()) { return; }
@@ -14,11 +14,11 @@ export default Ember.ArrayController.extend({
       var group = this.store.createRecord('group', {
         name: name,
         id: name,   
-        users: mails,
+        emails: emails,
       });
 
       this.set('newGroup', '');
-      this.set('mails', '');
+      this.set('emails', '');
       
       var onSuccess = function(group) {
         console.log('create group onSuccess');

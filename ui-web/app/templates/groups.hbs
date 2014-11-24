@@ -1,8 +1,12 @@
 <h3>Groups</h3>
 {{#each}}
     Group: <strong>{{name}}</strong><br>
-    Info: {{users}} 
-    <br>
+    Members: 
+    <ul>
+    {{#each m in members}}
+        <li>{{m.uuid}}----{{m.email}}</li>
+    {{/each}} 
+    </ul>
     <a {{action "deleteGroup"}}>Delete group {{fa-icon "fa-remove"}}</a>
     
     
@@ -10,7 +14,7 @@
 {{/each}}
 
 {{input type="text" placeholder="Group Name" value=newGroup}}
-{{input type="text" placeholder="Comma separeted emails" value=mails}}
+{{input type="text" placeholder="Comma separeted emails" value=emails}}
 
 <button {{action 'createGroup' }}>Create group</button>
 

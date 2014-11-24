@@ -42,7 +42,7 @@ export default DS.RESTAdapter.extend({
         var obj = {};
         obj.id = h.replace('X-Account-Group-', '');
         obj.name = h.replace('X-Account-Group-', '');
-        obj.users = jqXHR.getResponseHeader(h).split(',');
+        obj.uuids = jqXHR.getResponseHeader(h);
         groups.push(obj);
       });
     }
@@ -61,9 +61,10 @@ export default DS.RESTAdapter.extend({
     var displaynames = [];
     
 
+
     // Users is a string containing comma separated user emails.
     // These emails are pushed into displaynames array
-    record.get('users').split(',').forEach(function(u){
+    record.get('emails').split(',').forEach(function(u){
       displaynames.push(u.trim());
     });
       
