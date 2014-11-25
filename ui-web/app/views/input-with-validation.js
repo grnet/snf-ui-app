@@ -4,7 +4,7 @@ import Ember from 'ember';
 *  - create container
 *  - create direcory
 *  - rename object
-* The above actions set or modift the ID of the record.
+* The above actions set or modify the ID of the record.
 * The view runs some validations for the input value but the controller
 * of the corresponding action checks if there is already another object
 * with the new ID.
@@ -43,8 +43,8 @@ export default Ember.View.extend({
 	}.property('inputValue'),
 
 	/*
-  * Each controller must have these properties:
-  * - validationOnProgress
+	* Each controller must have these properties:
+	* - validationOnProgress
 	* - isUnique
 	* - actionToExec
 	* - newID

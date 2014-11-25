@@ -2,10 +2,13 @@
 <div class="body-wrapper">
     <div class="row">
         {{outlet}}
+        <a class="fl-right" {{action 'showDialog' 'feedback' 'feedback'}}>Send us Feedback</a>
     </div>
 </div>
-
 {{!-- dialogs at first is completely empty --}}
 {{!-- when a dialog must be appeared, it is rendered in the dialogs place --}}
+
+{{!-- The names of the outlets are used and in the file routes/application.js, too --}}
 {{outlet "dialogs"}}
 {{outlet "errorDialogs"}}
+{{outlet "feedback"}}
