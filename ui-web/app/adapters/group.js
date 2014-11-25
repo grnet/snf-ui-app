@@ -58,51 +58,17 @@ export default DS.RESTAdapter.extend({
     var headers = this.get('headers');
 
     var header = 'X-Account-Group-'+record.get('name');
-    var displaynames = [];
-    
 
+    this.user_catalogs(null, record.get('emails')).then(function(data){
+      var uuids_arr = [];
+      data.forEach(function(u){
+        uuids_arr.push(u.uuid);
+      });
+      var uuids = uuids_arr.join(',');
 
-    // Users is a string containing comma separated user emails.
-    // These emails are pushed into displaynames array
-    record.get('emails').split(',').forEach(function(u){
-      displaynames.push(u.trim());
-    });
-      
+      headers[header] = uuids;
 
-    // Then the displaynames array is used to produce the data that will
-    // be sent to the user_catalogs entry point
-    var data = JSON.stringify({"uuids":[], "displaynames": displaynames});
-
-
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-
-      // First we get the uuids given the users emails.
-      jQuery.ajax({
-        type: 'POST',
-        url: user_catalogs_url,
-        headers: headers,
-        data: data
-      }).then(function(data) {
-    
-        // Sample returned data is:
-        // "displayname_catalog": {
-        //    "user1@users.org": <uuid>, 
-        //    "user2@users.org": <uuid>, 
-        //  },
-        //  "uuid_catalog": {}
-        //  }
-        var users = data.displayname_catalog;
-        var uuids = [];
-
-        for (var key in users) {
-            if (users.hasOwnProperty(key)) {
-                uuids.push(users[key]);
-            }
-        }
-    
-        // uuids is an array of users uuids
-        headers[header] = uuids;
-        
+      return new Ember.RSVP.Promise(function(resolve, reject) {
         jQuery.ajax({
           type: 'POST',
           url: url,
@@ -115,14 +81,10 @@ export default DS.RESTAdapter.extend({
           jqXHR.then = null; // tame jQuery's ill mannered promises
           Ember.run(null, reject, jqXHR);
         });
-
-      }, function(jqXHR) {
-        var response = Ember.$.parseJSON(jqXHR.responseText);
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
+    
       });
     });
-
+    return false;
   },
 
   deleteRecord: function(store, type, record){
@@ -147,6 +109,67 @@ export default DS.RESTAdapter.extend({
       });
     });
 
+  },
+
+  user_catalogs: function(uuids, emails) {
+
+    var user_catalogs_url = this.get('user_catalogs_url');
+    var headers = this.get('headers');
+
+    var uuids_arr = [];
+    var displaynames_arr = [];
+
+    if (uuids)  {
+      uuids.split(',').forEach(function(u){
+        uuids_arr.push(u.trim());
+      });
+    }
+
+    if (emails) {
+      emails.split(',').forEach(function(u){
+        displaynames_arr.push(u.trim());
+      });
+    }
+
+    var data = JSON.stringify({"uuids": uuids_arr, "displaynames": displaynames_arr});
+
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+
+      jQuery.ajax({
+        type: 'POST',
+        url: user_catalogs_url,
+        headers: headers,
+        data: data
+      }).then(function(data) {
+
+        var res = [];
+        
+        if (Object.keys(data.uuid_catalog).length>0){
+          var users = data.uuid_catalog;
+          for (var key in users) {
+            if (users.hasOwnProperty(key)) {
+              res.push({email: users[key], uuid: key});
+            }
+          }
+        }
+
+        if (Object.keys(data.displayname_catalog).length>0){
+          var users = data.displayname_catalog;
+          for (var key in users) {
+            if (users.hasOwnProperty(key)) {
+              res.push({uuid: users[key], email: key});
+            }
+          }
+        }
+
+        Ember.run(null, resolve, res);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
+ 
   },
 
 });

@@ -1,17 +1,20 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  members: function(){
-    var uuids_arr = [];
+  _members: function(){
     var uuids = this.get('model').get('uuids');
-    console.log(uuids, '!');
-    uuids.split(',').forEach(function(u){
-      var m = {uuid: u, email: 'test@synnefo.org'};
-      uuids_arr.push(m);
+    var that = this;
+
+    this.store.user_catalogs(uuids).then(function(res){
+      that.set('members', res);
     });
-    console.log(uuids_arr, '!!');
-    return uuids_arr;
-  }.property(),
+    return;
+  }.property('model'),
+
+  members: function(){
+    this.get('_members');
+    return []; 
+  }.observes('_members').property(),
 
   actions: {
     deleteGroup: function(){
