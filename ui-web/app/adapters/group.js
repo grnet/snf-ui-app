@@ -87,12 +87,12 @@ export default DS.RESTAdapter.extend({
     return false;
   },
 
-  deleteRecord: function(store, type, record){
+  updateRecord: function(store, type, record){
     var url = this.buildURL(type.typeKey)+'?update=';
     var headers = this.get('headers');
 
     var header = 'X-Account-Group-'+record.get('name');
-    headers[header] = '~';
+    headers[header] = record.get('uuids');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
 
@@ -104,12 +104,14 @@ export default DS.RESTAdapter.extend({
       }).then(function(data) {
         Ember.run(null, resolve, data);
       }, function(jqXHR) {
+        var response = Ember.$.parseJSON(jqXHR.responseText);
         jqXHR.then = null; // tame jQuery's ill mannered promises
         Ember.run(null, reject, jqXHR);
       });
     });
 
   },
+
 
   user_catalogs: function(uuids, emails) {
 

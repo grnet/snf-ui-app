@@ -7,6 +7,8 @@ export default Ember.ArrayController.extend({
 
       var name = this.get('newGroup');
       var emails = this.get('emails');
+
+      var self = this;
       
       if (!name) { return false; }
       if (!name.trim()) { return; }
@@ -21,6 +23,8 @@ export default Ember.ArrayController.extend({
       this.set('emails', '');
       
       var onSuccess = function(group) {
+        console.log(group);
+        group.reload();
         console.log('create group onSuccess');
       };
       

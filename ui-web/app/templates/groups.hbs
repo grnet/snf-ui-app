@@ -4,7 +4,10 @@
     Members: 
     <ul>
     {{#each m in members}}
-        <li>{{m.uuid}}----{{m.email}}</li>
+        <li>
+            {{m.email}} 
+            <a {{action "removeUserFromGroup" m.uuid}} title="Remove user from group">{{fa-icon "fa-remove"}}</a>
+        </li>
     {{/each}} 
     </ul>
     <a {{action "deleteGroup"}}>Delete group {{fa-icon "fa-remove"}}</a>

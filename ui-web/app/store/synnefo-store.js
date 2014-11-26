@@ -33,7 +33,6 @@ var SynnefoStore = DS.Store.extend({
 
   user_catalogs: function(uuids, emails) {
     var adapter = this.container.lookup('adapter:group');
-    console.log(adapter);
     return adapter.user_catalogs(uuids, emails);
   }
 

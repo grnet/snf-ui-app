@@ -17,19 +17,50 @@ export default Ember.ObjectController.extend({
   }.observes('_members').property(),
 
   actions: {
+
     deleteGroup: function(){
-	    var self = this;
+      var self = this;
       var group = this.get('model');
-      var onSuccess = function(container) {
-        console.log('delete group: onSuccess');
+      group.set('uuids', '~');
+      group.save().then(onSuccess, onFail);
+
+      var onSuccess = function(group) {
       };
 
       var onFail = function(reason){
-        console.log('deleteGroup',reason);
-        self.send('showActionFail', reason);
+        self.send('showActionFail', reason)
       };
-      group.deleteRecord();
-      group.save().then(onSuccess, onFail);
+
     },
+
+    removeUserFromGroup: function(uuid){
+      var self = this;
+      var group = this.get('model');
+
+      var uuids_arr = group.get('uuids').split(',');
+      var index = uuids_arr.indexOf(uuid);
+      if (index>-1) {
+        uuids_arr.splice(index,1);
+      }
+      var uuids = '~';
+      if (uuids_arr.length >0 ){
+        uuids = uuids_arr.join(',');
+      }
+      group.set('uuids', uuids);
+      group.save().then(onSuccess, onFail);
+
+ 
+      var onSuccess = function(data) {
+        console.log(data, 'data');
+        console.log(group, 'group');
+        group.refresh();
+      };
+
+      var onFail = function(reason){
+        self.send('showActionFail', reason)
+      };
+
+     
+    }
   },
 });
