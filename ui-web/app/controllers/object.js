@@ -60,12 +60,10 @@ export default Ember.ObjectController.extend({
         var object = this.get('model');
         var self = this;
         var onSuccess = function() {
-          console.log('rename object: onSuccess');
           self.send('refreshRoute');
         };
 
         var onFail = function(reason){
-          console.log('renameObject',reason);
           self.send('showActionFail', reason);
         };
 
@@ -89,7 +87,6 @@ export default Ember.ObjectController.extend({
       };
 
       var onFail = function(reason){
-        console.log('deleteObject',reason);
         self.send('showActionFail', reason);
       };
       object.deleteRecord();
@@ -110,12 +107,10 @@ export default Ember.ObjectController.extend({
       var newID = 'trash/'+object.get('name');
       var self = this;
       var onSuccess = function() {
-          console.log('move to trash: onSuccess');
           self.send('refreshRoute');
         };
 
       var onFail = function(reason){
-        console.log('moveToTrash',reason);
         self.send('showActionFail', reason);
       };
       this.store.moveObject(object, oldPath, newID).then(onSuccess, onFail);

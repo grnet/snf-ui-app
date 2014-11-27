@@ -100,7 +100,7 @@ export default DS.RESTAdapter.extend({
         type: 'POST',
         url: url,
         dataType: 'text',
-        headers: headers,
+        headers: headers
       }).then(function(data) {
         Ember.run(null, resolve, data);
       }, function(jqXHR) {
@@ -154,9 +154,7 @@ export default DS.RESTAdapter.extend({
               res.push({email: users[key], uuid: key});
             }
           }
-        }
-
-        if (Object.keys(data.displayname_catalog).length>0){
+        } else if (Object.keys(data.displayname_catalog).length>0){
           var users = data.displayname_catalog;
           for (var key in users) {
             if (users.hasOwnProperty(key)) {
@@ -171,7 +169,6 @@ export default DS.RESTAdapter.extend({
         Ember.run(null, reject, jqXHR);
       });
     });
- 
   },
 
 });

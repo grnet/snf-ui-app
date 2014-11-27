@@ -20,7 +20,6 @@ export default DS.RESTSerializer.extend({
     }
 
     payload = { quotas: proj_array};
-    console.log('[serializer quotas]', payload);
     return this._super(store, type, payload);
   }
 });

@@ -23,13 +23,10 @@ export default Ember.ArrayController.extend({
       this.set('emails', '');
       
       var onSuccess = function(group) {
-        console.log(group);
-        group.reload();
         console.log('create group onSuccess');
       };
       
       var onFail = function(reason){
-        console.log('createGroup',reason);
         self.send('showActionFail', reason);
       };
 

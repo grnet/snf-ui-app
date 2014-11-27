@@ -2,14 +2,16 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
   _members: function(){
-    var uuids = this.get('model').get('uuids');
+  
     var that = this;
+    var emails = this.get('model').get('emails');
+    var uuids = this.get('model').get('uuids');
 
-    this.store.user_catalogs(uuids).then(function(res){
+    this.store.user_catalogs(uuids, emails).then(function(res){
       that.set('members', res);
     });
     return;
-  }.property('model'),
+  }.property('model.uuids'),
 
   members: function(){
     this.get('_members');
@@ -21,44 +23,49 @@ export default Ember.ObjectController.extend({
     deleteGroup: function(){
       var self = this;
       var group = this.get('model');
-      group.set('uuids', '~');
-      group.save().then(onSuccess, onFail);
 
-      var onSuccess = function(group) {
+      var onSuccess = function(data) {
+        data.deleteRecord();
       };
 
       var onFail = function(reason){
-        self.send('showActionFail', reason)
+        self.send('showActionFail', reason);
       };
+
+      group.set('uuids', '~');
+      group.save().then(onSuccess, onFail);
+      group.deleteRecord();
 
     },
 
     removeUserFromGroup: function(uuid){
       var self = this;
       var group = this.get('model');
+      console.log('uuids BEFORE user removal:', group.get('uuids'));
+ 
+      var onSuccess = function(data) {
+        console.log('uuids AFTER user removal:', data.get('uuids'));
+      };
+
+      var onFail = function(reason){
+        self.send('showActionFail', reason)
+      };
+
 
       var uuids_arr = group.get('uuids').split(',');
       var index = uuids_arr.indexOf(uuid);
       if (index>-1) {
         uuids_arr.splice(index,1);
       }
-      var uuids = '~';
-      if (uuids_arr.length >0 ){
-        uuids = uuids_arr.join(',');
+      // If there are no users, delete the group
+      if (uuids_arr.length === 0 ){
+        this.send('deleteGroup');
+        return;
       }
+
+      var uuids = uuids_arr.join(',');
       group.set('uuids', uuids);
       group.save().then(onSuccess, onFail);
-
- 
-      var onSuccess = function(data) {
-        console.log(data, 'data');
-        console.log(group, 'group');
-        group.refresh();
-      };
-
-      var onFail = function(reason){
-        self.send('showActionFail', reason)
-      };
 
      
     }
