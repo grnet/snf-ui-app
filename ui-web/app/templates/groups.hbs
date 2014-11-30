@@ -1,4 +1,11 @@
 <h3>Groups</h3>
+<div>
+{{input type="text" placeholder="Group Name" value=newName}}
+{{input type="text" placeholder="Comma separeted emails" value=newEmails}}
+
+<button {{action 'createGroup' }}>Create group</button>
+</div>
+
 {{#each}}
     Group: <strong>{{name}}</strong><br>
     Members: 
@@ -10,16 +17,13 @@
         </li>
     {{/each}} 
     </ul>
-    <a {{action "deleteGroup"}}>Delete group {{fa-icon "fa-remove"}}</a>
+    <a {{action "deleteGroup"}}>Delete group {{fa-icon "fa-remove"}}</a><br>
+    {{input type="text" placeholder="Comma separated emails" value=newEmails}}
+    <a {{action "addUsers"}}>Add users {{fa-icon "fa-users"}}</a>
     
     
     <hr>
 {{/each}}
-
-{{input type="text" placeholder="Group Name" value=newGroup}}
-{{input type="text" placeholder="Comma separeted emails" value=emails}}
-
-<button {{action 'createGroup' }}>Create group</button>
 
 
 {{outlet}}

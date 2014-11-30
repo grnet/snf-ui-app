@@ -8,7 +8,7 @@ export default Ember.ObjectController.extend({
     var uuids = this.get('model').get('uuids');
 
     this.store.user_catalogs(uuids, emails).then(function(res){
-      that.set('members', res);
+      that.set('members', res.members);
     });
     return;
   }.property('model.uuids'),
@@ -25,7 +25,7 @@ export default Ember.ObjectController.extend({
       var group = this.get('model');
 
       var onSuccess = function(data) {
-        data.deleteRecord();
+        group.deleteRecord();
       };
 
       var onFail = function(reason){
@@ -34,17 +34,15 @@ export default Ember.ObjectController.extend({
 
       group.set('uuids', '~');
       group.save().then(onSuccess, onFail);
-      group.deleteRecord();
 
     },
 
     removeUserFromGroup: function(uuid){
       var self = this;
       var group = this.get('model');
-      console.log('uuids BEFORE user removal:', group.get('uuids'));
  
       var onSuccess = function(data) {
-        console.log('uuids AFTER user removal:', data.get('uuids'));
+        console.log(self.get('members'));
       };
 
       var onFail = function(reason){
@@ -66,8 +64,42 @@ export default Ember.ObjectController.extend({
       var uuids = uuids_arr.join(',');
       group.set('uuids', uuids);
       group.save().then(onSuccess, onFail);
+    },
 
-     
+    addUsers: function(){
+      
+      var self = this;
+      var group = this.get('model');
+
+      var newEmails = this.get('newEmails');
+      
+      if (!newEmails.trim()) { return; }
+
+      var oldEmails = [];
+      this.get('members').forEach(function(m){
+            oldEmails.push(m.email);
+      });
+
+      var emails = oldEmails.join(',')+','+newEmails;
+
+      var onSuccess = function(res) {
+        console.log(self.get('members'));
+      };
+      
+      var onFail = function(reason){
+        self.send('showActionFail', reason);
+      };
+
+      this.set('newEmails', '');
+
+      this.store.user_catalogs(null, emails).then(function(res){
+
+        if (!res.uuids) { return };
+        group.set('uuids', res.uuids);
+        group.save().then(onSuccess, onFail);
+      });
+
     }
+
   },
 });

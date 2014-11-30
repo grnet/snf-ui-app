@@ -59,32 +59,24 @@ export default DS.RESTAdapter.extend({
 
     var header = 'X-Account-Group-'+record.get('name');
 
-    this.user_catalogs(null, record.get('emails')).then(function(data){
-      var uuids_arr = [];
-      data.forEach(function(u){
-        uuids_arr.push(u.uuid);
-      });
-      var uuids = uuids_arr.join(',');
 
-      headers[header] = uuids;
+    headers[header] = record.get('uuids');
 
-      return new Ember.RSVP.Promise(function(resolve, reject) {
-        jQuery.ajax({
-          type: 'POST',
-          url: url,
-          dataType: 'text',
-          headers: headers,
-        }).then(function(data) {
-          Ember.run(null, resolve, data);
-        }, function(jqXHR) {
-          var response = Ember.$.parseJSON(jqXHR.responseText);
-          jqXHR.then = null; // tame jQuery's ill mannered promises
-          Ember.run(null, reject, jqXHR);
-        });
-    
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+      }).then(function(data) {
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        var response = Ember.$.parseJSON(jqXHR.responseText);
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
       });
+  
     });
-    return false;
   },
 
   updateRecord: function(store, type, record){
@@ -145,23 +137,39 @@ export default DS.RESTAdapter.extend({
         data: data
       }).then(function(data) {
 
-        var res = [];
+        var res = {};
+        res.members = [];
+        res.uuids = '';
+        res.emails = '';
         
         if (Object.keys(data.uuid_catalog).length>0){
           var users = data.uuid_catalog;
           for (var key in users) {
             if (users.hasOwnProperty(key)) {
-              res.push({email: users[key], uuid: key});
+              res.members.push({email: users[key], uuid: key});
             }
           }
         } else if (Object.keys(data.displayname_catalog).length>0){
           var users = data.displayname_catalog;
           for (var key in users) {
             if (users.hasOwnProperty(key)) {
-              res.push({uuid: users[key], email: key});
+              res.members.push({uuid: users[key], email: key});
             }
           }
         }
+
+        var temp_emails = [];
+        var temp_uuids = [];
+
+        res.members.forEach(function(m){
+          temp_emails.push(m.email);
+          temp_uuids.push(m.uuid);
+        });
+        
+        res.uuids = temp_uuids.join(',');
+        res.emails = temp_emails.join(',');
+
+
 
         Ember.run(null, resolve, res);
       }, function(jqXHR) {
