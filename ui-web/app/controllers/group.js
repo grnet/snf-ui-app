@@ -1,25 +1,18 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
+  members: undefined,
   _members: function(){
-  
-    var that = this;
-    var emails = this.get('model').get('emails');
+    var self = this;
     var uuids = this.get('model').get('uuids');
 
-    this.store.user_catalogs(uuids, emails).then(function(res){
-      that.set('members', res.members);
+    this.store.user_catalogs(uuids).then(function(res){
+      self.set('members', res.members);
     });
     return;
-  }.property('model.uuids'),
-
-  members: function(){
-    this.get('_members');
-    return []; 
-  }.observes('_members').property(),
+  }.observes('model.uuids').on('init'),
 
   actions: {
-
     deleteGroup: function(){
       var self = this;
       var group = this.get('model');
@@ -34,15 +27,16 @@ export default Ember.ObjectController.extend({
 
       group.set('uuids', '~');
       group.save().then(onSuccess, onFail);
-
     },
 
     removeUserFromGroup: function(uuid){
       var self = this;
       var group = this.get('model');
- 
+      var uuids_arr = group.get('uuids').split(',');
+      var index = uuids_arr.indexOf(uuid);
+
       var onSuccess = function(data) {
-        console.log(self.get('members'));
+        console.log('success');
       };
 
       var onFail = function(reason){
@@ -50,8 +44,7 @@ export default Ember.ObjectController.extend({
       };
 
 
-      var uuids_arr = group.get('uuids').split(',');
-      var index = uuids_arr.indexOf(uuid);
+      // Remove the user for the uuids list
       if (index>-1) {
         uuids_arr.splice(index,1);
       }
@@ -61,8 +54,7 @@ export default Ember.ObjectController.extend({
         return;
       }
 
-      var uuids = uuids_arr.join(',');
-      group.set('uuids', uuids);
+      group.set('uuids', uuids_arr.join(','));
       group.save().then(onSuccess, onFail);
     },
 
@@ -70,12 +62,11 @@ export default Ember.ObjectController.extend({
       
       var self = this;
       var group = this.get('model');
-
       var newEmails = this.get('newEmails');
-      
+      var oldEmails = [];
+
       if (!newEmails.trim()) { return; }
 
-      var oldEmails = [];
       this.get('members').forEach(function(m){
             oldEmails.push(m.email);
       });
@@ -83,7 +74,7 @@ export default Ember.ObjectController.extend({
       var emails = oldEmails.join(',')+','+newEmails;
 
       var onSuccess = function(res) {
-        console.log(self.get('members'));
+        console.log('success');
       };
       
       var onFail = function(reason){
@@ -93,7 +84,6 @@ export default Ember.ObjectController.extend({
       this.set('newEmails', '');
 
       this.store.user_catalogs(null, emails).then(function(res){
-
         if (!res.uuids) { return };
         group.set('uuids', res.uuids);
         group.save().then(onSuccess, onFail);
