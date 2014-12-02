@@ -7,10 +7,10 @@ export default Ember.ObjectController.extend({
   projects: Ember.computed.alias("controllers.containers.projects"),
 
   availableProjects: function(){
-    var that = this;
+    var self = this;
     // show only projects whose free space is enough for the container
     return this.get('projects').filter(function(p){
-      return that.get('model').get('bytes')< p.get('diskspace');
+      return self.get('model').get('bytes')< p.get('diskspace');
     });
   }.property('projects.@each', 'model.project'),
 

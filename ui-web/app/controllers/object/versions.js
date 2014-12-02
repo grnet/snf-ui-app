@@ -14,9 +14,9 @@ export default ObjectController.extend({
   actions: {
     restoreObject: function(version){
       var object = this.get('model');
-      var that = this;
+      var self = this;
       this.store.restoreObject(object, version).then(function(){
-        that.send('refreshRoute');
+        self.send('refreshRoute');
       });
     },
 
