@@ -64,6 +64,9 @@
 {{#each}}
     <tr>
         <td>
+            {{#if public_link}}
+                {{fa-icon "fa-globe"}}
+            {{/if}}
             {{#if is_dir}}
                 {{#link-to 'objects' name }}
                     {{fa-icon "fa-folder-open"}}
@@ -76,6 +79,9 @@
                 {{/if}}
                 {{stripped_name}}
             {{/if}}
+        </td>
+        <td>
+            <a {{action 'showDialog' 'sharing' 'object/sharing' this }}{{fa-icon "fa-share-alt"}}</a>
         </td>
         <td>
             <a {{bind-attr href=view_src}} title="download Item" download>{{fa-icon "fa-download"}}</a>

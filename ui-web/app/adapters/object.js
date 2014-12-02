@@ -140,4 +140,79 @@ export default DS.RESTAdapter.extend({
       });
   },
 
+  /**
+   * 
+   * setPublic method sets/unsets an object as publicly shared
+   *
+   * @method setPublic
+   * @param record {Object}
+   * @param flag {bool} If true, the object is rendered public, if false, the
+   * object is rendered private.
+   * @return {string} object's public url
+   */
+
+
+  setPublic: function(record, flag) {
+    var url = this.buildURL('object', record.get('id'))+'?update=';
+    var headers = this.get('headers');
+    var self = this;
+
+    headers['X-Object-Public'] = flag;
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+      }).then(function(data) {
+          self.getRecordInfo(record).then(function(res){
+            Ember.run(null, resolve, res.x_object_public);
+          }, function(jqXHR) {
+            var response = Ember.$.parseJSON(jqXHR.responseText);
+            jqXHR.then = null; // tame jQuery's ill mannered promises
+            Ember.run(null, reject, jqXHR);
+          });
+       }, function(jqXHR) {
+        var response = Ember.$.parseJSON(jqXHR.responseText);
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+
+    });
+  },
+
+  /**
+   * 
+   * getRecordInfo extracts info for an object
+   *
+   * @method getRecordInfo
+   * @param record {Object}
+   * @return {object} with key/value pairs of Response Headers
+   */
+
+
+  getRecordInfo: function(record) {
+    var url = this.buildURL('object', record.get('id'));
+    var headers = this.get('headers');
+    var res = {};
+ 
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'HEAD',
+        url: url,
+        headers: headers,
+        }).then(function(jqXHR, jsonPayload, request) {
+          res.x_object_public = request.getResponseHeader('X-Object-Public');
+          Ember.run(null, resolve, res);
+        }, function(jqXHR) {
+          var response = Ember.$.parseJSON(jqXHR.responseText);
+          jqXHR.then = null; // tame jQuery's ill mannered promises
+          Ember.run(null, reject, jqXHR);
+        });
+      });
+
+  }
+
+
 });
