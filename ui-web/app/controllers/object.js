@@ -25,6 +25,84 @@ export default Ember.ObjectController.extend({
   oldPath: undefined,
   newID: undefined,
 
+  type: function () {
+    /*
+    * If an object is directory (folder) or file is estimated by
+    * mimeType. This info is the is_Dir property of the model.
+    *
+    * The type of the file, for now, will be estimated by the
+    * extension of each file.
+    *
+    * Possible types:
+    * - dir
+    * - text
+    * - compressed
+    * - image
+    * - audio
+    * - video
+    * - pdf
+    * - word
+    * - excel
+    * - powerpoint
+    * - unknown
+    */
+    var isDir = this.get('is_dir');
+    var type;
+
+    if(isDir) {
+      type = 'dir';
+    }
+    else {
+      var objName = this.get('name');
+      var extensionIndex = objName.lastIndexOf('.') + 1;
+      var objExtension = objName.substr(extensionIndex).toLowerCase();
+      // extensions
+      var extTxt = ['txt', 'rtf', 'odt'];
+      var extCompress = ['zip', 'tar', 'taz', '7z', 'rar', 'gzip'];
+      var extImg = ['bmp', 'gif', 'jpg', 'png', 'jpeg', 'tif', 'svg'];
+      var extAudio = ['mp3', 'wma','wav', 'aac', 'm4a'];
+      var extVideo = ['mp4', 'mkv', 'flv', 'avi', 'mov', 'qt', 'wmv', 'm4p'];
+      var extPDF = ['pdf'];
+      var extMSWord = ['doc', 'docx', 'docm'];
+      var extMSExcel = ['xls', 'xlsx', 'xla'];
+      var extMSPPT = ['ppt', 'pptx'];
+
+      switch(true) {
+        case(extTxt.indexOf(objExtension) > -1):
+          type = 'text';
+          break;
+        case(extCompress.indexOf(objExtension) > -1):
+          type = 'compressed';
+          break;
+        case(extImg.indexOf(objExtension) > -1):
+          type = 'image';
+          break;
+        case(extAudio.indexOf(objExtension) > -1):
+          type = 'audio';
+          break;
+        case(extVideo.indexOf(objExtension) > -1):
+          type = 'video';
+          break;
+        case(extPDF.indexOf(objExtension) > -1):
+          type = 'pdf';
+          break;
+        case(extMSWord.indexOf(objExtension) > -1):
+          type = 'word';
+          break;
+        case(extMSExcel.indexOf(objExtension) > -1):
+          type = 'excel';
+          break;
+        case(extMSPPT.indexOf(objExtension) > -1):
+          type = 'powerpoint';
+          break;
+        default:
+          type = 'unknown';
+      }
+    }
+
+    return type;
+  }.property('name'),
+
   checkUnique: function() {
     if(this.get('newName')) {
       var type = this.get('parentController').get('model').get('type');

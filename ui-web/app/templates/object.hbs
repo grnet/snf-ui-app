@@ -1,18 +1,36 @@
-{{outlet}}
-<h4>Container:{{id}}</h4>
-<ul>
-{{#each}}
-    <li>
-    {{#if o.is_dir}}
-        {{#link-to 'container' name o.name }}
-            {{fa-icon "fa-folder-open"}}
-            {{o.stripped_name}}
-        {{/link-to}}
-    {{else}}
-        {{fa-icon "fa-file-o"}}
-        {{o.stripped_name}}
+<td>
+    {{#if public_link}}
+        {{fa-icon "fa-globe"}}
     {{/if}}
-    </li>
-{{/each}}
-</ul>
-      
+    {{#if is_img}}
+        {{light-box href=view_src data-lightbox="g-1" data-title=stripped_name}}
+    {{else}}
+        {{fa-icon view.iconCls}}
+    {{/if}}
+    {{stripped_name}}
+</td>
+<td>
+    <a {{action 'showDialog' 'sharing' 'object/sharing' this }}{{fa-icon "fa-share-alt"}}</a>
+</td>
+<td>
+    <a {{bind-attr href=view_src}} title="download Item" download>{{fa-icon "fa-download"}}</a>
+</td>
+<td>
+    <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
+</td>
+<td>
+    <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
+</td>
+<td>
+    <a {{action 'cutObject'}} title="cut Item">{{fa-icon "fa-cut"}}</a>
+</td>
+<td>
+    <a {{action 'copyObject'}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
+</td>
+<td>
+    {{view 'input-with-validation' placeholder=stripped_name}}
+    <a {{action 'validateRename' 'renameObject' }}>{{fa-icon "fa-pencil"}}</a>
+</td>
+<td>
+    <a {{action 'showDialog' 'versions' 'object/versions' this}}>Show object versions</a>
+</td>
