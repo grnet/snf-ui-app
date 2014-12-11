@@ -1,7 +1,46 @@
+<a class="close-reveal-modal">{{fa-icon "fa-close"}}</a>
+<h4>Share file</h4>
 <label>
-    {{input type="checkbox" checked=isPublic}} 
-    <strong>Public on the Internet</strong> Anyone who has the public link can access. No sign-in required. 
+    {{input type="checkbox" checked=isShared}}
+    <strong>Private sharing</strong> Only people explicitly granted permission can access. Sign-in required.
 </label>
-{{#if isPublic}}
-<strong>Public link:</strong> <input disabled="disabled" class="large-input" {{bind-attr value=public_link}}>
+{{#if isShared}}
+    {{#if shared_users}}
+        <table>
+            <tr>
+                <td>Users/Groups</td>
+                <td>Read Only</td>
+                <td>Read/Write</td>
+                <td>&nbsp;</td>
+            </tr>
+            {{#each u in shared_users}}
+                <tr>
+                    <td>{{u.display_name}}</td>
+                    <td>{{radio-button name=u.id bindValue=u.type value="read" action="changePermissions"}}</td>
+                    <td>{{radio-button name=u.id bindValue=u.type value="write" action="changePermissions"}}</td>
+                    <td><a href="">Remove</a></td>
+                </tr>
+            {{/each}}
+        </table>
+    {{/if}}
+    <div>
+        <a {{action 'shareUsers'}} class="small button">Add Users</a>
+        <a {{action 'shareGroup'}} class="small button">Add Group</a>
+        <a {{action 'shareAll'}} class="small button">Add Everybody</a>
+    </div>
+    {{#if sharing}}
+        <strong>Private link:</strong>
+        <input disabled="disabled" class="large-input" {{bind-attr value=view_src}}>
+    {{/if}}
 {{/if}}
+<hr>
+
+{{#unless is_dir}}
+    <label>
+        {{input type="checkbox" checked=isPublic}} 
+        <strong>Public on the Internet</strong> Anyone who has the public link can access. No sign-in required. 
+    </label>
+    {{#if isPublic}}
+    <strong>Public link:</strong> <input disabled="disabled" class="large-input" {{bind-attr value=public_link}}>
+    {{/if}}
+{{/unless}}

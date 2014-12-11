@@ -67,6 +67,10 @@
             {{#if public_link}}
                 {{fa-icon "fa-globe"}}
             {{/if}}
+            {{#if sharing}}
+                {{fa-icon "fa-user"}}
+            {{/if}}
+ 
             {{#if is_dir}}
                 {{#link-to 'objects' name }}
                     {{fa-icon "fa-folder-open"}}

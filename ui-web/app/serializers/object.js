@@ -6,7 +6,9 @@ export default DS.RESTSerializer.extend({
     var container_id = store.get('container_id');
     payload_list.forEach(function(el){
       el.public_link = el.x_object_public;
+      el.sharing = el.x_object_sharing;
       delete el.x_object_public;
+      delete el.x_object_sharing;
       el.id = container_id+'/'+el.name;
     });
     payload = { objects: payload_list};
@@ -16,7 +18,8 @@ export default DS.RESTSerializer.extend({
  
   extractSingle: function(store, type, payload, id) {
     payload.public_link = payload.x_object_public;
-    delete payload.x_object_public;
+    payload.sharing = payload.x_object_sharing;
+    delete payload.x_object_sharing;
 
     return this._super(store, type, payload, id);
   }
