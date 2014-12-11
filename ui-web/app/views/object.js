@@ -36,4 +36,52 @@ export default Ember.View.extend({
 		return iconCls[type];
 	}.property('controller.type'),
 
+	previewSupported: function() {
+		var type = this.get('controller').get('type');
+		var name = this.get('controller').get('name');
+		var extensionIndex = name.lastIndexOf('.') + 1;
+		var extension = name.substr(extensionIndex).toLowerCase();
+		var supportedFormats;
+		if(type === 'image') {
+			// should check the supported format of every preview plugin
+			supportedFormats = ['png', 'gif', 'jpeg', 'jpg'];
+			if(supportedFormats.indexOf(extension) > -1)	{
+				return true;
+			}
+		}
+		return false;
+	}.property('controller.name'),
+
+	didInsertElement: function() {
+		var self = this;
+		this.$('.js-show-edit').on('click', function() {
+			self.send('toggleEdit')
+		});
+		this._super();
+	},
+
+	actions: {
+		reset: function(actions) {
+			/*
+			* actions is the action with params that should be triggered split by comma
+			* action -> actions[0]
+			* params -> actions[1]
+			*/
+			if(actions) {
+				var actions = actions.split(',');
+				this.get('controller').send(actions[0], actions[1])
+			}
+			else {
+				this.$('input').val('');
+				this.send('toggleEdit');
+			}
+		},
+		toggleEdit: function() {
+			this.$('.js-show-edit').toggleClass('hidden');
+			this.$('.input-with-valid').toggleClass('hidden');
+			this.$('.js-hide-edit').toggleClass('hidden');
+			this.$('.js-name').toggleClass('hidden');
+			this.get('controller').set('resetInput', true);
+		}
+	}
 });

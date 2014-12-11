@@ -13,6 +13,8 @@ import Ember from 'ember';
 */
 export default Ember.View.extend({
 	classNames: ['input-with-valid'],
+	classNameBindings: ['cls'], // cls is provited by parent the template
+
 	templateName: 'input-with-validation',
 
 	inputValue: function() {
@@ -97,6 +99,15 @@ export default Ember.View.extend({
 		}
 	}.observes('controller.isUnique'),
 
+	reset: function() {
+		if(this.get('controller').get('resetInput')) {
+			this.set('errorVisible', false);
+			this.$('input').val();
+			this.set('errorMsg', '');
+			this.get('controller').set('resetInput', false);
+		}
+	}.observes('controller.resetInput'),
+
 	actions: {
 		showError: function(notUnique) {
 			var action = this.get('controller').get('actionToExec');
@@ -123,6 +134,6 @@ export default Ember.View.extend({
 			}
 			this.set('errorVisible', true);
 			this.get('controller').set('validationOnProgress', false);
-		}
+		},
 	},
 });

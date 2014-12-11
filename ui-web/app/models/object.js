@@ -16,11 +16,6 @@ export default DS.Model.extend({
   stripped_name: function(){
     return this.get('name').split('/').pop();
   }.property('name'),
-  
-  is_img: function(){
-    var imgs = ['image/jpeg', 'image/png'];
-    return (imgs.indexOf(this.get('content_type'))>-1);
-  }.property('content_type'),
 
   shared_users: function(){
     var u_arr = [];

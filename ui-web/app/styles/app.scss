@@ -74,6 +74,11 @@ div.droppable div.file {
     .error-msg {
         margin-left: 10px;
     }
+    span.error {
+        position: absolute;
+        width: 200px;
+        z-index: 1;
+    }
 }
 
 // totally temp!
@@ -101,4 +106,23 @@ div.droppable div.file {
 
 textarea {
     margin-bottom: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.css-objects {
+    width: 100%;
+    td:first-child {
+        width: 320px;
+    }
+    td:not(:first-child) {
+        opacity: 0;
+    }
+    tr:hover {
+        td {
+            opacity: 1;
+        }
+    }
 }

@@ -18,12 +18,16 @@ export default Ember.ObjectController.extend({
 
   validInput: undefined,
   validationOnProgress: undefined,
+  resetInput: undefined,
 
   newName: undefined,
   actionToExec: undefined,
   isUnique: undefined,
   oldPath: undefined,
   newID: undefined,
+  isImg: function() {
+    return this.get('type') === 'image';
+  }.property('type'),
 
   type: function () {
     /*

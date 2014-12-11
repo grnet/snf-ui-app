@@ -2,12 +2,28 @@
     {{#if public_link}}
         {{fa-icon "fa-globe"}}
     {{/if}}
-    {{#if is_img}}
-        {{light-box href=view_src data-lightbox="g-1" data-title=stripped_name}}
-    {{else}}
-        {{fa-icon view.iconCls}}
+    {{#if sharing}}
+        {{fa-icon "fa-user"}}
     {{/if}}
-    {{stripped_name}}
+    {{#if is_dir}}
+        {{#link-to 'objects' name}}
+            {{fa-icon view.iconCls}}
+            <span class="js-name">{{stripped_name}}</span>
+        {{/link-to}}
+    {{else}}
+        {{#if view.previewSupported}}
+            {{#if isImg}}
+                {{light-box href=view_src data-lightbox="g-1" data-title=stripped_name}}
+            {{/if}}
+        {{else}}
+            {{fa-icon view.iconCls}}
+        {{/if}}
+        <span class="js-name">{{stripped_name}}</span>
+    {{/if}}
+    {{view 'input-with-validation' placeholder=stripped_name cls='hidden'}}
+    <a title="Rename" class="js-show-edit">{{fa-icon "fa-pencil"}}</a>
+    <a title="OK" class="hidden js-hide-edit" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check-circle"}}</a>
+    <a class="js-cancel js-hide-edit hidden" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times-circle"}}</a>
 </td>
 <td>
     <a {{action 'showDialog' 'sharing' 'object/sharing' this }}{{fa-icon "fa-share-alt"}}</a>
@@ -26,10 +42,6 @@
 </td>
 <td>
     <a {{action 'copyObject'}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
-</td>
-<td>
-    {{view 'input-with-validation' placeholder=stripped_name}}
-    <a {{action 'validateRename' 'renameObject' }}>{{fa-icon "fa-pencil"}}</a>
 </td>
 <td>
     <a {{action 'showDialog' 'versions' 'object/versions' this}}>Show object versions</a>
