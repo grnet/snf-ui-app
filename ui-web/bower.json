@@ -19,7 +19,8 @@
   },
   "devDependencies": {
     "ember-droplet": "~0.8.0",
-    "foundation": "zurb/bower-foundation#~5.4.6"
+    "foundation": "zurb/bower-foundation#~5.4.6",
+    "underscore": "~1.7.0"
   },
   "resolutions": {
     "jquery": ">= 2.1.0",
