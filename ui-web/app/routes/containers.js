@@ -9,9 +9,5 @@ export default Ember.Route.extend({
     this.store.find('project', controller.settings.get('uuid')).then(function(p) {
       controller.set('systemProject', p);
     });
-    // possible future use
-    this.store.find('quota').then(function(q) {
-      controller.set('quotas', q);
-    });
   }
 });
