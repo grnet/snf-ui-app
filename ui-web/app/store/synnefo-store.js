@@ -36,6 +36,11 @@ var SynnefoStore = DS.Store.extend({
     return adapter.setPublic(record, flag);
   },
 
+  setSharing: function(record, sharing){
+    var adapter = this.adapterFor(record.constructor);
+    return adapter.setSharing(record, sharing);
+  },
+
   user_catalogs: function(uuids, emails) {
     var adapter = this.container.lookup('adapter:group');
     return adapter.user_catalogs(uuids, emails);

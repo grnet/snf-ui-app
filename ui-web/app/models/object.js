@@ -42,7 +42,7 @@ export default DS.Model.extend({
           // `*` means all users
           user.display_name = 'All Pithos Users';
         } else if (u.split(':').length>1) {
-          // If u contains `:` that means tha it is a group and we will keep
+          // If u contains `:` that means that it is a group and we will keep
           // only the group's name for the display name
           user.display_name = u.split(':')[1];
         } else {

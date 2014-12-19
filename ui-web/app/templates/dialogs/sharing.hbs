@@ -1,9 +1,24 @@
 <a class="close-reveal-modal">{{fa-icon "fa-close"}}</a>
 <h4>Share file</h4>
-<label>
-    {{input type="checkbox" checked=isShared}}
+{{#unless is_dir}}
+    <label>
+        {{input type="checkbox" checked=isPublic}} 
+        <strong>Public on the Internet</strong> Anyone who has the public link can access. No sign-in required. 
+    </label>
+    {{#if isPublic}}
+    <strong>Public link:</strong> <input disabled="disabled" class="large-input" {{bind-attr value=public_link}}>
+    {{/if}}
+{{/unless}}
+<hr>
+<p>
     <strong>Private sharing</strong> Only people explicitly granted permission can access. Sign-in required.
-</label>
+</p>
+<div>
+    <a {{action 'shareUsers'}} class="small button">Add Users</a>
+    <a {{action 'shareGroup'}} class="small button">Add Group</a>
+    <a {{action 'shareAll'}} class="small button">Add Everybody</a>
+</div>
+
 {{#if isShared}}
     {{#if shared_users}}
         <table>
@@ -23,24 +38,10 @@
             {{/each}}
         </table>
     {{/if}}
-    <div>
-        <a {{action 'shareUsers'}} class="small button">Add Users</a>
-        <a {{action 'shareGroup'}} class="small button">Add Group</a>
-        <a {{action 'shareAll'}} class="small button">Add Everybody</a>
-    </div>
-    {{#if sharing}}
+   {{#if sharing}}
         <strong>Private link:</strong>
         <input disabled="disabled" class="large-input" {{bind-attr value=view_src}}>
     {{/if}}
 {{/if}}
-<hr>
 
-{{#unless is_dir}}
-    <label>
-        {{input type="checkbox" checked=isPublic}} 
-        <strong>Public on the Internet</strong> Anyone who has the public link can access. No sign-in required. 
-    </label>
-    {{#if isPublic}}
-    <strong>Public link:</strong> <input disabled="disabled" class="large-input" {{bind-attr value=public_link}}>
-    {{/if}}
-{{/unless}}
+

@@ -184,6 +184,42 @@ export default DS.RESTAdapter.extend({
 
   /**
    * 
+   * setSharing method sets/unsets an object as privately shared
+   *
+   * @method setPublic
+   * @param record {Object}
+   * @param sharing {string} A properly formated string with users/groups and 
+   * their permissions(read/write)
+   */
+
+
+  setSharing: function(record, sharing) {
+    var url = this.buildURL('object', record.get('id'))+'?update=';
+    var headers = this.get('headers');
+    var self = this;
+
+    headers['X-Object-Sharing'] = sharing;
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'text',
+        headers: headers,
+      }).then(function(data) {
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+
+    });
+  },
+
+
+
+  /**
+   * 
    * getRecordInfo extracts info for an object
    *
    * @method getRecordInfo

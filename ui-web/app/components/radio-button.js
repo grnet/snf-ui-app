@@ -11,7 +11,7 @@ export default Ember.Component.extend({
 
   click : function() {
     this.set("bindValue", this.$().val());
-    this.sendAction();
+    this.sendAction(undefined, this);
   },
 
 });
