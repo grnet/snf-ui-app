@@ -65,6 +65,28 @@ export default ObjectController.extend({
       });
       var sharing = this.shared_users_to_sharing(u_arr);
       this.store.setSharing(object, sharing);
+    },
+    removeUser: function(id){
+      var object = this.get('model');
+      var u_arr = object.get('shared_users');
+
+      var u_arr_new = _.reject(u_arr, function(el) {
+        return el.id === id;
+      });
+
+      var onSuccess = function() {
+        object.set('shared_users', u_arr_new);
+      };
+
+      var onFail = function(reason){
+        self.send('showActionFail', reason);
+      };
+
+
+      var sharing = this.shared_users_to_sharing(u_arr_new);
+      this.store.setSharing(object, sharing).then(onSuccess, onFail);
+
+
     }
   }
 });

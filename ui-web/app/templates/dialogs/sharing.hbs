@@ -33,12 +33,12 @@
                     <td>{{u.display_name}}</td>
                     <td>{{radio-button name=u.id bindValue=u.type value="read" action="changePermissions"}}</td>
                     <td>{{radio-button name=u.id bindValue=u.type value="write" action="changePermissions"}}</td>
-                    <td><a href="">Remove</a></td>
+                    <td><a {{action 'removeUser' u.id}}>Remove</a></td>
                 </tr>
             {{/each}}
         </table>
     {{/if}}
-   {{#if sharing}}
+   {{#if shared_users}}
         <strong>Private link:</strong>
         <input disabled="disabled" class="large-input" {{bind-attr value=view_src}}>
     {{/if}}
