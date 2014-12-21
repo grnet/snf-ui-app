@@ -85,8 +85,18 @@ export default ObjectController.extend({
 
       var sharing = this.shared_users_to_sharing(u_arr_new);
       this.store.setSharing(object, sharing).then(onSuccess, onFail);
+    },
+    removePrivateSharing: function(){
+      var object = this.get('model');
+      var onSuccess = function() {
+        object.set('shared_users', []);
+        object.set('sharing', null);
+      };
 
-
+      var onFail = function(reason){
+        self.send('showActionFail', reason);
+      };
+      this.store.setSharing(object, '').then(onSuccess, onFail);
     }
   }
 });
