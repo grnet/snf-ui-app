@@ -11,6 +11,11 @@ export default ObjectController.extend({
     return this.get('model').get('sharing')? true: false;
   }.property('model.sharing'),
 
+  // returns True if the object is privately shared with everyone
+  isSharedAll: function(){
+    return this.get('isShared') && this.get('model').get('sharing').indexOf('*') > 0;
+  }.property('model.sharing'),
+
   /**
    * Ugly function that converts a 
    * `shared_users` list to a `sharing` string
@@ -75,7 +80,7 @@ export default ObjectController.extend({
       });
 
       var onSuccess = function() {
-        object.set('shared_users', u_arr_new);
+        object.set('sharing', sharing);
       };
 
       var onFail = function(reason){
@@ -97,6 +102,29 @@ export default ObjectController.extend({
         self.send('showActionFail', reason);
       };
       this.store.setSharing(object, '').then(onSuccess, onFail);
+    },
+
+    shareAll: function(){
+      var object = this.get('model');
+      var u_arr = object.get('shared_users');
+      u_arr.push({
+        'id': '*',
+        'display_name': 'All Pithos Users',
+        'type': 'read'
+      });
+
+      var onSuccess = function() {
+        object.set('sharing', sharing);
+      };
+
+      var onFail = function(reason){
+        self.send('showActionFail', reason);
+      };
+
+      var sharing = this.shared_users_to_sharing(u_arr);
+      this.store.setSharing(object, sharing).then(onSuccess, onFail); 
+    
     }
+
   }
 });

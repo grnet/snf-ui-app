@@ -19,12 +19,15 @@ export default DS.Model.extend({
 
   shared_users: function(){
     var u_arr = [];
+
+    if (_.isUndefined(this.get('sharing')) || this.get('sharing') === '' || _.isNull(this.get('sharing'))) {
+      return u_arr;
+    }
     // model's `sharing` property contains `;` separated pairs of 
     // <permission>=<user-list> where <user-list> is a `,` separated list of 
     // <users> that have sharing permissions with the object
     // <users> = <uuid> | <uuid>:<group_name> | '*' 
     // <permission> = 'read' | 'write'
-
     // get model's `sharing` property and separate read/write permissions by ;
     this.get('sharing').split(';').forEach(function(p){
       // for each permission, separate permission type and users by =

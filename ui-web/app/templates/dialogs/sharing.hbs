@@ -16,7 +16,9 @@
 <div>
     <a {{action 'shareUsers'}} class="small button">Add Users</a>
     <a {{action 'shareGroup'}} class="small button">Add Group</a>
-    <a {{action 'shareAll'}} class="small button">Add Everybody</a>
+</div>
+<div>
+    <button {{action 'shareAll'}} class="small button alert" {{bind-attr disabled=isSharedAll}}>Privately share with everybody</button>
 </div>
 
 {{#if isShared}}
