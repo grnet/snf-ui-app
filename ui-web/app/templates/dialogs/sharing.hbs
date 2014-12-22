@@ -14,12 +14,21 @@
     <strong>Private sharing</strong> Only people explicitly granted permission can access. Sign-in required.
 </p>
 <div>
-    <a {{action 'shareUsers'}} class="small button">Add Users</a>
-    <a {{action 'shareGroup'}} class="small button">Add Group</a>
+    {{input type="text" placeholder="Comma separated emails" value=emails}}
+    <button {{action 'shareUsers'}} class="small button">Add Users</button>
 </div>
 <div>
-    <button {{action 'shareAll'}} class="small button alert" {{bind-attr disabled=isSharedAll}}>Privately share with everybody</button>
+    {{view Ember.Select content=groups
+           optionLabelPath="content.name"
+           optionValuePath="content.id"
+           prompt="Select group"
+           selection=selectedGroup}}
 </div>
+{{#unless isSharedAll}}
+<div>
+    <button {{action 'shareAll'}} class="small button alert">Privately share with everybody</button>
+</div>
+{{/unless}}
 
 {{#if isShared}}
     {{#if shared_users}}

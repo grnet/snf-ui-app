@@ -13,6 +13,8 @@ export default Ember.Route.extend({
     var container_id = this.modelFor('container').get('name');
     controller.set('container_id', container_id);
     controller.set('current_path', this.get('current_path'));
+    var groups =  this.store.find('group');
+    controller.set('groups', groups);
   },
   actions: {
     refreshRoute: function(){

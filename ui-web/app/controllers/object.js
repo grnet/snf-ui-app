@@ -4,6 +4,7 @@ export default Ember.ObjectController.extend({
   needs: ['objects'],
 
   container_id: Ember.computed.alias('controllers.objects.container_id'),
+  groups: Ember.computed.alias('controllers.objects.groups'),
 
   view_src: function(){
     var base_url = this.get('settings').get('storage_view_url');
