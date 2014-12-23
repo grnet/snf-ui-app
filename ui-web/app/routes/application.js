@@ -7,7 +7,7 @@ export default Ember.Route.extend({
 		 * we override the action: error
 		 */
 		error: function(error, transition) {
-			console.log('error', error)
+			console.log('error', error.stack || error);
 			switch(error.status) {
 				case 404:
 					this.render('errors/404', {
