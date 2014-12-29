@@ -8,9 +8,14 @@ import SnfRestAdapter from 'ui-web/snf/adapters/base';
  */
 export default SnfRestAdapter.extend({
   apiKey: 'storage',
-  typePathMap: {
-    'account': ''
-  },
+  typePathMap: function() {
+    return {
+      'account': '',
+      'container': this.get('settings.uuid'),
+      'object': this.get('settings.uuid'),
+      'version': this.get('settings.uuid')
+    }
+  }.property('settings.uuid'),
 
   typeHeadersMap: {
     'account': {

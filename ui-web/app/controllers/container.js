@@ -45,18 +45,18 @@ export default Ember.ObjectController.extend({
       container.destroyRecord().then(onSuccess, onFail)
     },
 
-    emptyContainer: function(){
+    emptyContainer: function(defer){
       var container = this.get('model');
       var self = this;
-      var onSuccess = function(container) {
+
+      var onSuccess = function(res) {
         container.set('count',0);
         container.set('bytes',0);
       };
-
       var onFail = function(reason){
         self.send('showActionFail', reason)
       };
-      this.store.emptyContainer(container).then(onSuccess, onFail);
+      this.store.emptyContainer('container', container).then(onSuccess, onFail);
     },
 
     reassignContainer: function(project_id){
@@ -68,7 +68,7 @@ export default Ember.ObjectController.extend({
       var onFail = function(reason){
         self.send('showActionFail', reason)
       };
-      this.store.reassignContainer(container, project_id).then(onSuccess, onFail);
+      this.store.reassignContainer('container', container, project_id).then(onSuccess, onFail);
     }
   }
 

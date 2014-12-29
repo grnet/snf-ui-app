@@ -7,7 +7,7 @@ export default ObjectController.extend({
 
   versions: function(){
     var timestamp = new Date().getTime();
-    this.store.set('object_name', this.get('model').get('name'));
+    this.store.set('object_id', this.get('model').get('id'));
     return this.store.find('version', {format:'json', version:'list', t: timestamp});
   }.property('model'),
 

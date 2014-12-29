@@ -2,15 +2,14 @@ import DS from 'ember-data';
 
 var SynnefoStore = DS.Store.extend({
 
-  reassignContainer: function(record, project_id){
+  reassignContainer: function(type, record, project_id){
     var adapter = this.adapterFor(record.constructor);
-    return adapter.reassignContainer(record, project_id);
+    return adapter.reassignContainer(type, record, project_id);
   },
 
-  emptyContainer: function(record, project_id){
+  emptyContainer: function(type, record){
     var adapter = this.adapterFor(record.constructor);
-    var container_id = record.id;
-    return adapter.emptyContainer(record, container_id);
+    return adapter.emptyContainer(type, record);
   },
 
 

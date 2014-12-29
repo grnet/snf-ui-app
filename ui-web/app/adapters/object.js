@@ -1,31 +1,7 @@
-import DS from 'ember-data';
 import Ember from 'ember';
+import StorageAdapter from 'ui-web/snf/adapters/storage';
 
-export default DS.RESTAdapter.extend({
-  headers: function(){
-    return {'X-Auth-Token': this.get('settings').get('token'),
-              'X-Requested-With': 'XMLHttpRequest',
-              'Content-Type': 'application/json'};
-  }.property(),
-
-  host: function(){
-    return this.get('settings').get('storage_host');
-  }.property(),
-
-  buildURL: function(type, id, record){
-    var url = [],
-        host = this.get('host');
-    url.push(host);
-
-    if (id) {
-      url.push(id);
-    } else {
-      url.push(this.get('container_id'));
-    }
-
-    url = url.join('/');
-    return url;
-  },
+export default StorageAdapter.extend({
 
   deleteRecord: function(store, type, record) {
     var url = this.buildURL(type.typeKey, record.get('id'), record);
@@ -40,15 +16,8 @@ export default DS.RESTAdapter.extend({
   findQuery: function(store, type, query) {
     var container_id = store.get('container_id');
     this.set('container_id', container_id);
-    return this.ajax(this.buildURL(type.typeKey), 'GET', { data: query });
+    return this.ajax(this.buildURL(type.typeKey, container_id), 'GET', { data: query });
   },
-
-  /*
-   * moveObject method can be used for rename object, for
-   * cut & paste, for copy & paste and for move to trash
-   *
-  */
-
 
   /**
    * Can be used for object rename, cut&paste, copy&paste, move to trash
@@ -76,19 +45,8 @@ export default DS.RESTAdapter.extend({
       delete headers['X-Move-From'];
     }
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      jQuery.ajax({
-        type: 'PUT',
-        url: url,
-        dataType: 'text',
-        headers: headers,
-      }).then(function(data) {
-        Ember.run(null, resolve, data);
-      }, function(jqXHR) {
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
-      });
-    });
+    headers['Accept'] =  'text/plain';
+    return this.ajax(url, 'PUT');
   },
 
   restoreObject: function(record, version) {
@@ -99,45 +57,17 @@ export default DS.RESTAdapter.extend({
     headers['X-Source-Object'] = path;
     headers['X-Source-Version'] = version;
     headers['X-Content-Range'] = 'bytes 0-/*';
+    headers['Accept'] =  'text/plain';
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      jQuery.ajax({
-        type: 'POST',
-        url: url,
-        dataType: 'text',
-        headers: headers,
-      }).then(function(data) {
-        Ember.run(null, resolve, data);
-      }, function(jqXHR) {
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
-      });
-    });
+    return this.ajax(url, 'POST');
   },
 
   createRecord: function(store, type, record) {
-    var data = this.serialize(record, { includeId: true });
-    var url = this.buildURL(type.typeKey, record.get('id'));
     var headers = this.get('headers');
-
     headers['Content-Type'] = record.get('content_type');
+    headers['Accept'] =  'text/plain';
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-        jQuery.ajax({
-          type: 'PUT',
-          url: url,
-          // http://stackoverflow.com/questions/5061310/
-          dataType: 'text',
-          headers: headers,
-        }).then(function(data) {
-          Ember.run(null, resolve, data);
-        }, function(jqXHR) {
-          var response = Ember.$.parseJSON(jqXHR.responseText);
-          jqXHR.then = null; // tame jQuery's ill mannered promises
-          Ember.run(null, reject, jqXHR);
-        });
-
-      });
+    return this.ajax(this.buildURL('object', record.get('id')), "PUT");
   },
 
   /**
@@ -191,32 +121,13 @@ export default DS.RESTAdapter.extend({
    * @param sharing {string} A properly formated string with users/groups and 
    * their permissions(read/write)
    */
-
-
   setSharing: function(record, sharing) {
-    var url = this.buildURL('object', record.get('id'))+'?update=';
     var headers = this.get('headers');
-    var self = this;
-
     headers['X-Object-Sharing'] = sharing;
-
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      jQuery.ajax({
-        type: 'POST',
-        url: url,
-        dataType: 'text',
-        headers: headers,
-      }).then(function(data) {
-        Ember.run(null, resolve, data);
-      }, function(jqXHR) {
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
-      });
-
-    });
-  },
-
-
+    headers['Accept'] =  'text/plain';
+    
+    return this.ajax(this.buildURL('object', record.get('id'))+'?update=', 'POST');
+   },
 
   /**
    * 
@@ -226,8 +137,6 @@ export default DS.RESTAdapter.extend({
    * @param record {Object}
    * @return {object} with key/value pairs of Response Headers
    */
-
-
   getRecordInfo: function(record) {
     var url = this.buildURL('object', record.get('id'));
     var headers = this.get('headers');
@@ -238,17 +147,15 @@ export default DS.RESTAdapter.extend({
         type: 'HEAD',
         url: url,
         headers: headers,
-        }).then(function(jqXHR, jsonPayload, request) {
-          res.x_object_public = request.getResponseHeader('X-Object-Public');
-          Ember.run(null, resolve, res);
-        }, function(jqXHR) {
-          var response = Ember.$.parseJSON(jqXHR.responseText);
-          jqXHR.then = null; // tame jQuery's ill mannered promises
-          Ember.run(null, reject, jqXHR);
-        });
+      }).then(function(jqXHR, jsonPayload, request) {
+        res.x_object_public = request.getResponseHeader('X-Object-Public');
+        Ember.run(null, resolve, res);
+      }, function(jqXHR) {
+        var response = Ember.$.parseJSON(jqXHR.responseText);
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
       });
-
+    });
   }
-
 
 });
