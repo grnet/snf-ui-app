@@ -13,6 +13,7 @@ export default SnfRestAdapter.extend({
       'account': '',
       'container': this.get('settings.uuid'),
       'object': this.get('settings.uuid'),
+      'group': this.get('settings.uuid'),
       'version': this.get('settings.uuid')
     }
   }.property('settings.uuid'),
@@ -20,6 +21,6 @@ export default SnfRestAdapter.extend({
   typeHeadersMap: {
     'account': {
       'Accept': 'text/plain'
-    }
+    },
   }
 });

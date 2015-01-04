@@ -1,16 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  members: undefined,
-  _members: function(){
-    var self = this;
-    var uuids = this.get('model').get('uuids');
-
-    this.store.user_catalogs(uuids).then(function(res){
-      self.set('members', res.members);
-    });
-    return;
-  }.observes('model.uuids').on('init'),
 
   actions: {
     deleteGroup: function(){

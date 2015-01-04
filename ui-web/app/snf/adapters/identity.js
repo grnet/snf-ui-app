@@ -14,16 +14,30 @@ export default SnfRestAdapter.extend({
   
   optionsForType: function(type, options) {
     if (type == 'user') {
-      // at the moment we allow only single user id resolving
+      // at the moment we allow only single user id/email resolving
       var urlParts = options.url.split("/");
-      var userId = urlParts[urlParts.length - 1];
-      return {
-        'url': options.url.replace(userId, ''),
-        'type': 'POST',
-        'data': JSON.stringify({
-          'uuids': [userId]
-        })
+      
+      var userPart = urlParts[urlParts.length - 1];
+      if (userPart.indexOf('email=') > -1) {
+        var userEmail = userPart.replace('email=', '');
+        return {
+          'url': options.url.replace(userPart, ''),
+          'type': 'POST',
+          'data': JSON.stringify({
+            'displaynames': [userEmail]
+          })
+        }
+     } else {
+        var userId = userPart;
+        return {
+          'url': options.url.replace(userPart, ''),
+          'type': 'POST',
+          'data': JSON.stringify({
+            'uuids': [userId]
+          })
+        }
       }
+
     }
   }
 });

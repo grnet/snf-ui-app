@@ -10,10 +10,10 @@
     Group: <strong>{{name}}</strong><br>
     Members: 
     <ul>
-    {{#each m in members}}
+    {{#each u in users}}
         <li>
-            {{m.email}} 
-            <a {{action "removeUserFromGroup" m.uuid}} title="Remove user from group">{{fa-icon "fa-remove"}}</a>
+            {{u.email}} 
+            <a {{action "removeUserFromGroup" u.uuid}} title="Remove user from group">{{fa-icon "fa-remove"}}</a>
         </li>
     {{/each}} 
     </ul>
