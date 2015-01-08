@@ -13,7 +13,7 @@
     {{#each u in users}}
         <li>
             {{u.email}} 
-            <a {{action "removeUserFromGroup" u.uuid}} title="Remove user from group">{{fa-icon "fa-remove"}}</a>
+            <a {{action "removeUserFromGroup" u}} title="Remove user from group">{{fa-icon "fa-remove"}}</a>
         </li>
     {{/each}} 
     </ul>

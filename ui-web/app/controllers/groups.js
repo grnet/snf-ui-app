@@ -5,51 +5,37 @@ export default Ember.ArrayController.extend({
 
   actions: {
     createGroup: function(){
-
+      var self = this;
       var name = this.get('newName');
       var emails = this.get('newEmails').split(',');
-
-      var self = this;
       
       if (!name.trim()) { return; }
       if (emails.length <1 ) { return; }
 
-      var onSuccess = function(group) {
-          console.log('create group onSuccess');
-        };
+      var onSuccess = function() {
+        self.set('newName', undefined);
+        self.set('newEmails', undefined);
+      };
       
       var onFail = function(reason){
         self.send('showActionFail', reason);
       };
 
-      this.set('newName', '');
-      this.set('newEmails', '');
-      
-      var users = [];
+      var users = emails.map(function(email) {
+        var userEmail = 'email='+email.trim();
+        return self.store.find('user', userEmail);
+      });
 
-      var findUsers = function(i) {
-        var userEmail = 'email='+emails[i].trim();
-        self.store.find('user', userEmail).then(function(user){
-          users.push(user.get('uuid'));
-          if (i=== emails.length-1) {
-            makeGroup(users);
-          } else {
-            findUsers(i+1);
-          }
-        });
-      }
-      findUsers(0);
-      
-      var makeGroup = function(u){
-
+      return Ember.RSVP.all(users).then(function(res){
         var group = self.store.createRecord('group', {
           name: name,
           id: name,   
-          uuids: u.join(',')
         });
-        group.save();
-      }
-     
+        group.get('users').then(function(users){
+          users.pushObjects(res);
+          group.save().then(onSuccess, onFail);
+        });
+      });
 
     }
   }

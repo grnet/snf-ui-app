@@ -2,81 +2,63 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
 
+  onFail: function(reason){
+    this.sendAction('showActionFail', reason);
+  }, 
+
   actions: {
     deleteGroup: function(){
-      var self = this;
       var group = this.get('model');
-
       var onSuccess = function(data) {
-        group.deleteRecord();
+        console.log('success');
       };
 
-      var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
-
-      group.set('uuids', '~');
-      group.save().then(onSuccess, onFail);
+      group.deleteRecord();
+      group.save().then(onSuccess, this.onFail);
     },
 
-    removeUserFromGroup: function(uuid){
+    removeUserFromGroup: function(user){
       var self = this;
       var group = this.get('model');
-      var uuids_arr = group.get('uuids').split(',');
-      var index = uuids_arr.indexOf(uuid);
 
       var onSuccess = function(data) {
         console.log('success');
       };
 
-      var onFail = function(reason){
-        self.send('showActionFail', reason)
-      };
-
-
-      // Remove the user for the uuids list
-      if (index>-1) {
-        uuids_arr.splice(index,1);
-      }
-      // If there are no users, delete the group
-      if (uuids_arr.length === 0 ){
-        this.send('deleteGroup');
-        return;
-      }
-
-      group.set('uuids', uuids_arr.join(','));
-      group.save().then(onSuccess, onFail);
-    },
+      group.get("users").then(function(users){
+        users.removeObject(user);
+        if (users.content.length === 0) {
+          self.send('deleteGroup');
+        } else {
+          group.save().then(onSuccess, self.onFail);
+        }
+      });
+   },
 
     addUsers: function(){
-      
       var self = this;
       var group = this.get('model');
-      var newEmails = this.get('newEmails');
+      var newEmails = this.get('newEmails').split(',');
       var oldEmails = [];
 
-      if (!newEmails.trim()) { return; }
+      var onSuccess = function(data) {
+        self.set('newEmails', undefined);
+      };
 
-      this.get('members').forEach(function(m){
-            oldEmails.push(m.email);
+      if (newEmails.length <1 ) { return; }
+ 
+      var newUsers = newEmails.map(function(email) {
+        var userEmail = 'email='+email.trim();
+        console.log(userEmail, 'userEmail');
+        return self.store.find('user', userEmail);
       });
 
-      var emails = oldEmails.join(',')+','+newEmails;
-
-      var onSuccess = function(res) {
-        console.log('success');
-      };
-      
-      var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
-
-      this.set('newEmails', '');
-
-      this.store.user_catalogs(null, emails).then(function(res){
-        if (!res.uuids) { return };
-        group.set('uuids', res.uuids);
-        group.save().then(onSuccess, onFail);
+      return Ember.RSVP.all(newUsers).then(function(res){ 
+        group.get('users').then(function(users){
+          users.pushObjects(res);
+          users.content = _.uniq(users.content);
+          group.save().then(onSuccess, self.onFail);
+        });
       });
 
     }
