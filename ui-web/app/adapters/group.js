@@ -15,8 +15,8 @@ export default StorageAdapter.extend({
     if (group_headers_arr) {
       group_headers_arr.forEach(function(h){
         var obj = {};
-        obj.id = h.replace('X-Account-Group-', '');
-        obj.name = h.replace('X-Account-Group-', '');
+        obj.id = h.replace('X-Account-Group-', '').toLowerCase();
+        obj.name = obj.id;
         obj.uuids = jqXHR.getResponseHeader(h);
         if (obj.uuids === '~') {return;}
         if (obj.uuids) {
