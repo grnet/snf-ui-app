@@ -49,16 +49,13 @@ export default Ember.ObjectController.extend({
  
       var newUsers = newEmails.map(function(email) {
         var userEmail = 'email='+email.trim();
-        console.log(userEmail, 'userEmail');
         return self.store.find('user', userEmail);
       });
 
       return Ember.RSVP.all(newUsers).then(function(res){ 
-        group.get('users').then(function(users){
-          users.pushObjects(res);
-          users.content = _.uniq(users.content);
+        group.get('users').pushObjects(res).then(function() {
           group.save().then(onSuccess, self.onFail);
-        });
+        });;
       });
 
     }
