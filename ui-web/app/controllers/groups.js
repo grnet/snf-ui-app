@@ -20,8 +20,8 @@ export default Ember.ArrayController.extend({
       if (emails.length <1 ) { return; }
 
       var onSuccess = function() {
-        self.set('newName', undefined);
-        self.set('newEmails', undefined);
+        self.set('newName', '');
+        self.set('newEmails', '');
       };
       
       var onFail = function(reason){

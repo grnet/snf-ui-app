@@ -44,10 +44,8 @@ export default Ember.ObjectController.extend({
       newEmails = newEmails.split(',');
       if (newEmails.length <1 ) { return; }
 
-      var oldEmails = [];
-
       var onSuccess = function(data) {
-        self.set('newEmails', undefined);
+        self.set('newEmails', '');
       };
  
       var newUsers = newEmails.map(function(email) {
@@ -58,7 +56,7 @@ export default Ember.ObjectController.extend({
       return Ember.RSVP.all(newUsers).then(function(res){ 
         group.get('users').pushObjects(res).then(function() {
           group.save().then(onSuccess, self.onFail);
-        });;
+        });
       });
 
     }
