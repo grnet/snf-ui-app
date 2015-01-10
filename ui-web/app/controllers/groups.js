@@ -11,9 +11,12 @@ export default Ember.ArrayController.extend({
     createGroup: function(){
       var self = this;
       var name = this.get('newName');
-      var emails = this.get('newEmails').split(',');
+      var emails = this.get('newEmails');
       
       if (!name.trim()) { return; }
+      if (!emails.trim()) { return; }
+
+      emails = emails.split(',');
       if (emails.length <1 ) { return; }
 
       var onSuccess = function() {

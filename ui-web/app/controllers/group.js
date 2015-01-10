@@ -38,14 +38,17 @@ export default Ember.ObjectController.extend({
     addUsers: function(){
       var self = this;
       var group = this.get('model');
-      var newEmails = this.get('newEmails').split(',');
+      var newEmails = this.get('newEmails') || '';
+      if (!newEmails.trim()) { return; }
+
+      newEmails = newEmails.split(',');
+      if (newEmails.length <1 ) { return; }
+
       var oldEmails = [];
 
       var onSuccess = function(data) {
         self.set('newEmails', undefined);
       };
-
-      if (newEmails.length <1 ) { return; }
  
       var newUsers = newEmails.map(function(email) {
         var userEmail = 'email='+email.trim();
