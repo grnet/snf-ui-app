@@ -2,19 +2,22 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
 
-  onFail: function(reason){
-    this.sendAction('showActionFail', reason);
-  }, 
-
   actions: {
     deleteGroup: function(){
       var group = this.get('model');
+
       var onSuccess = function(data) {
         console.log('success');
       };
 
+      var onFail = function(reason){
+        console.log('reason:', reason);
+        self.send('showActionFail', reason);
+      };
+
       group.deleteRecord();
-      group.save().then(onSuccess, this.onFail);
+
+      group.save().then(onSuccess, onFail);
     },
 
     removeUserFromGroup: function(user){
@@ -25,14 +28,19 @@ export default Ember.ObjectController.extend({
         console.log('success');
       };
 
+      var onFail = function(reason){
+        console.log('reason:', reason);
+        self.send('showActionFail', reason);
+      };
+
       group.get("users").then(function(users){
         users.removeObject(user);
         if (users.content.length === 0) {
           self.send('deleteGroup');
         } else {
-          group.save().then(onSuccess, self.onFail);
+          group.save().then(onSuccess, onFail);
         }
-      });
+      }, onFail);
    },
 
     addUsers: function(){
@@ -48,6 +56,11 @@ export default Ember.ObjectController.extend({
         self.set('newEmails', '');
       };
  
+      var onFail = function(reason){
+        console.log('reason:', reason);
+        self.send('showActionFail', reason);
+      };
+
       var newUsers = newEmails.map(function(email) {
         var userEmail = 'email='+email.trim();
         return self.store.find('user', userEmail);
@@ -55,9 +68,9 @@ export default Ember.ObjectController.extend({
 
       return Ember.RSVP.all(newUsers).then(function(res){ 
         group.get('users').pushObjects(res).then(function() {
-          group.save().then(onSuccess, self.onFail);
+          group.save().then(onSuccess, onFail);
         });
-      });
+      }, onFail);
 
     }
 
