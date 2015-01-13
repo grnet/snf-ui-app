@@ -19,6 +19,7 @@ export default DS.RESTAdapter.extend({
    
   typePathMap: {},
   typeHeadersMap: {},
+  methodHeadersMap: {},
   extraHeaders: {},
 
   pathForType: function(type) {
@@ -91,6 +92,8 @@ export default DS.RESTAdapter.extend({
     var adapterType = this.constructor.toString().split(":")[1];
     var typeHeaders = this.headersForType(adapterType);
     if (typeHeaders) { _.extend(headers, typeHeaders); }
+    var methodHeaders = this.headersForMethod(type); // type is GET, POST etc.
+    if (methodHeaders) { _.extend(headers, methodHeaders); }
 
     var typeOptions = this.optionsForType && this.optionsForType(adapterType, 
                                                                  hash);
@@ -118,6 +121,50 @@ export default DS.RESTAdapter.extend({
       return headersMap[type];
     }
     return {};
-  }
+  },
+
+  headersForMethod: function(method) {
+    var headersMap = this.get('methodHeadersMap');
+    if (headersMap && headersMap[method]) {
+      return headersMap[method];
+    }
+    return {};
+  },
+
+  /*
+   * Helper method to facilitate fast resolve of record urls with queryset 
+   * support.
+   *
+   * The method requires `modelName` property to exist to the adapter class in 
+   * order to avoid injecting model type per method invocation.
+   * 
+   * Usage:
+   *
+   * this.ajax(this.urlFor(null, {'param': 1}), 'POST')
+   * POST to /api/modelName?param=1
+   *
+   * this.ajax(this.urlFor(12, {'verbose': 1, 'filter': 2}, 'GET')
+   * GET to /api/modelName/12?verbose=1&filter=2
+   *
+   */
+
+  urlFor: function(id, params) {
+    if (id === null || id === undefined) { id = null; }
+    params = params || null;
+    var append = "";
+    if (params && params.path) { 
+      append = params.path;
+      delete params.path;
+    }
+    if (params !== null) {
+      params = "?" + Ember.$.param(params);
+    } else {
+      params = "";
+    }
+    var modelName = this.get('modelName');
+    var msg = 'urlFor requires `modelName` parameter to be set to the adapter class.';
+    Ember.assert(msg, modelName);
+    return this.buildURL(modelName, id) + params;
+  },
 
 });
