@@ -63,11 +63,13 @@ export default StorageAdapter.extend({
   },
 
   createRecord: function(store, type, record) {
-    var headers = this.get('headers');
-    headers['Content-Type'] = record.get('content_type');
+    var headers = {};
     headers['Accept'] =  'text/plain';
+    headers['Content-Type'] =  record.get('content_type');
 
-    return this.ajax(this.buildURL('object', record.get('id')), "PUT");
+    return this.ajax(this.buildURL('object', record.get('id')), "PUT", {
+      headers: headers,
+    });
   },
 
   /**

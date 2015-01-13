@@ -5,14 +5,16 @@ export default StorageAdapter.extend({
 
   createRecord: function(store, type, record) {
     var self = this;
-    var headers = this.get('headers');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       record.get('project').then(function(project){
+        var headers = {};
         headers['X-Container-Policy-Project'] =  project.get('id');
         headers['Accept'] =  'text/plain';
 
-        return self.ajax(self.buildURL(type.typeKey, record.get('id'), record), "PUT");
+        return self.ajax(self.buildURL(type.typeKey, record.get('id'), record), "PUT", {
+          headers: headers
+        });
       }, function() {
         Ember.run(null, reject, "Invalid project");
       });
@@ -20,29 +22,23 @@ export default StorageAdapter.extend({
   },
 
   deleteRecord: function(store, type, record) {
-    var id = record.get('id');
     var timestamp = (new Date().getTime())/1000;
-    var headers = this.get('headers');
-    headers['Accept'] =  'text/plain';
 
-    return this.ajax(this.buildURL(type.typeKey, id, record)+'?until='+timestamp, "DELETE");
+    return this.ajax(this.buildURL(type.typeKey, record.get('id'))+'?until='+timestamp, "DELETE");
   },
 
   reassignContainer: function(type, record, project_id){
-    var id = record.get('id');
-    var headers = this.get('headers');
+    var headers = {};
     headers['X-Container-Policy-Project'] =  project_id;
     headers['Accept'] =  'text/plain';
 
-    return this.ajax(this.buildURL(type, id, record), "POST");
+    return this.ajax(this.buildURL(type, record.get('id')), "POST", {
+      headers: headers
+    });
   },
 
   emptyContainer: function(type, record) {
-    var id = record.get('id');
-    var headers = this.get('headers');
-    headers['Accept'] =  'text/plain';
-
-    return this.ajax(this.buildURL(type, id, record)+'?delimiter=/', "DELETE");
+    return this.ajax(this.buildURL(type, record.get('id'))+'?delimiter=/', "DELETE");
   },
 
 });
