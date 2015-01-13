@@ -49,7 +49,6 @@ export default Ember.ArrayController.extend(SnfDropletController, {
 
   checkUnique: function() {
     if(this.get('newName')) {
-      var type = this.get('model').get('type');
 
       var temp = [];
       var name = this.get('newName')
@@ -66,38 +65,43 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       * is already loaded.
       * In our case the id of a container it's its name.
       */
-      var isUnique = !this.get('store').hasRecordForId(type, newID);
+      var isUnique = !this.get('store').hasRecordForId('object', newID);
       this.set('newID', newID);
       this.set('isUnique', isUnique);
     }
   }.observes('newName'),
 
   createDir: function(){
-  if(this.get('validInput')) {
-    var self = this;
-    var name = this.get('newName');
-    var id = this.get('newID')
+    if(this.get('validInput')) {
+      var self = this;
+      var name = this.get('newName');
+      if (this.get('hasUpPath')) {
+        name = this.get('current_path') + '/' + name;
+      }
+      var id = this.get('newID')
 
-    var object = this.store.createRecord('object', {
-      id: id,
-      name: name,
-      content_type: 'application/directory',
-    });
+      var object = this.store.createRecord('object', {
+        id: id,
+        name: name,
+        content_type: 'application/directory',
+      });
 
-    var onSuccess = function(object) {
-      self.send('refreshRoute');
-    };
+      var onSuccess = function(object) {
+        console.log('onSuccess');
+        self.send('refreshRoute');
+      };
 
-    var onFail = function(reason){
-      console.log(reason);
-    };
+      var onFail = function(reason){
+        console.log('onFail');
+        console.log(reason);
+      };
 
-    object.save().then(onSuccess, onFail);
-    this.set('newName', undefined);
-    this.set('validInput', undefined);
-    this.set('isUnique', undefined);
-    this.set('newID', undefined)
-  }
+      object.save().then(onSuccess, onFail);
+      this.set('newName', undefined);
+      this.set('validInput', undefined);
+      this.set('isUnique', undefined);
+      this.set('newID', undefined)
+    }
   }.observes('validInput'),
 
   actions: {
