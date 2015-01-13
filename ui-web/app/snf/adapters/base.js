@@ -83,8 +83,9 @@ export default DS.RESTAdapter.extend({
       hash.data = JSON.stringify(hash.data);
     }
 
-    var headers = this.get('headers');
-    _.extend(headers, (options && options.headers) || {});
+    var commonHeaders = this.get('headers');
+    var customHeaders = (options && options.headers) || {};
+    var headers = _.extend({}, commonHeaders, customHeaders);
 
     // hacky way to resolve model type from this context
     var adapterType = this.constructor.toString().split(":")[1];
