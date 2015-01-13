@@ -43,15 +43,24 @@ export default Ember.ObjectController.extend({
         self.send('showActionFail', reason)
       };
       container.destroyRecord().then(onSuccess, onFail)
+
     },
 
-    emptyContainer: function(defer){
+    emptyAndDelete: function() {
+      this.send('emptyContainer', true);
+    },
+
+    emptyContainer: function(delete_flag){
       var container = this.get('model');
       var self = this;
 
-      var onSuccess = function(res) {
-        container.set('count',0);
-        container.set('bytes',0);
+      var onSuccess = function() {
+        if (delete_flag) {
+          self.send('deleteContainer');
+        } else {
+          container.set('count',0);
+          container.set('bytes',0);
+        }
       };
       var onFail = function(reason){
         self.send('showActionFail', reason)
