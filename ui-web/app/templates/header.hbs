@@ -1,4 +1,7 @@
-<header class="header">
+<header class="header panel">
+    <div class="logo">
+        {{#link-to "containers"}}<img {{bind-attr src=settings.logo_url alt=title }}>{{/link-to}}
+    </div>
     <nav>
         <ul>
             <li>{{link-to "projects" "projects"}}</li>
@@ -6,18 +9,4 @@
             <li>{{link-to "groups" "groups"}}</li>
         </ul>
     </nav>
-    <div class="login">
-        <div class="wrap">
-            <a href="">{{settings.username}}</a>
-            <ul>
-                <li><a href="">dashboard</a></li>
-                <li><a href="">sign out</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="logo">
-        {{#link-to "containers"}}<img {{bind-attr src=settings.logo_url alt=title }}>{{/link-to}}
-    </div>
 </header>
-
-

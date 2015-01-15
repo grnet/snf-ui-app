@@ -1,3 +1,4 @@
-.body-wrapper {
-    margin-top: $header-height + 20px;
+.main {
+    margin-top: $header-height + $topbar-height;
+    padding: rem-calc(20px);
 }

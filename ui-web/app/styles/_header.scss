@@ -5,68 +5,22 @@
     top:0;
     left:0;
     right:0;
-    width:100%;
-    height:$header-height;
-    line-height:$header-height;
-    padding:0 $header-padding-horizontal;
-    background: scale-color($white, $lightness: -5%);
-    border-bottom: 1px solid #ccc;
     z-index:100;
+    height: $header-height;
     nav {
         ul {
-            position: absolute;
-            left: $header-padding-horizontal;
-            top: $header-padding-vertical;
+            margin: 0;
             li {
                 float: left;
                 list-style: none outside none;
-                padding-right: 20px;
-                .active {
-                    color: $secondary-color;
-                }
+                padding-left: 20px;
             }
         }
     }
     .logo {
-        text-align: center;
-        a {
-            position: relative;
-            // top:-5px;
-        }
+        float: left;
         img {
-            height: 40px;
-        }
-        h2 {
-            display: none;
-            margin:0;
-            font-size: 1em;
-            color:$primary-color;
-            font-weight: normal;
-        }
-    }
-    .login {
-        position:absolute;
-        top:25px;
-        right:$header-padding-horizontal;
-
-        .wrap {
-            $wr-padd-top:12px;
-            border:1px solid #ccc;
-            background: white;
-            font-size:emCalc(12px);
-            padding:$wr-padd-top 30px;
-            line-height:100%;
-            ul {
-                padding:0;
-                margin:0;
-                list-style: none outside none;
-                display: none;
-                li {
-                    list-style: none outside none;
-                    padding:0;
-                    padding-top:$wr-padd-top;
-                }
-            }
+            max-height: 40px;
         }
     }
     

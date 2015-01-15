@@ -1,9 +1,7 @@
 {{partial "header"}}
-<div class="body-wrapper">
-    <div class="row">
-        {{outlet}}
-        <a class="fl-right" {{action 'showDialog' 'feedback' 'feedback'}}>Send us Feedback</a>
-    </div>
+<div class="main">
+    {{outlet}}
+    <a class="fl-right" {{action 'showDialog' 'feedback' 'feedback'}}>Send us Feedback</a>
 </div>
 {{!-- dialogs at first is completely empty --}}
 {{!-- when a dialog must be appeared, it is rendered in the dialogs place --}}

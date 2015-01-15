@@ -98,7 +98,17 @@ export default Ember.Route.extend({
     refreshRoute: function(){
       this.refresh();
     }
+  },
+  renderTemplate: function(){
+    this.render('objects');
+    this.render('containers/sidebar', {
+      into: 'objects',
+      outlet: 'sidebarContainers',
+      controller: 'containers',
+      model: this.store.find('container')
+    });
   }
+
 
 });
 
