@@ -5,9 +5,22 @@ export default DS.Model.extend({
   bytes: DS.attr('number', {defaultValue: 0}),
   content_type: DS.attr('string'),
   hash: DS.attr('string'),
+  last_modified: DS.attr('string'),
+  modified_by: DS.belongsTo('user', {async:true}),
   public_link: DS.attr('string'),
   sharing: DS.attr('string'),
 
+  extension: function(){
+    var arr = this.get('name').split('.');
+    return arr.length>1 ? arr.pop().toLowerCase(): '--';
+  }.property('name'),
+
+  // if the object is a directory {{size}} returns null. If it is a file, 
+  // it returns the actual size in bytes
+  size: function(){
+    return this.get('is_dir') ? null: this.get('bytes');
+  }.property('bytes'),
+  
   is_dir: function(){
     var dirs = ['application/directory', 'application/folder'];
     return (dirs.indexOf(this.get('content_type'))>-1);

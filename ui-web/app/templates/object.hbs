@@ -1,10 +1,4 @@
 <td>
-    {{#if public_link}}
-        {{fa-icon "fa-globe"}}
-    {{/if}}
-    {{#if sharing}}
-        {{fa-icon "fa-user"}}
-    {{/if}}
     {{#if is_dir}}
         {{#link-to 'objects' name}}
             {{fa-icon view.iconCls}}
@@ -13,7 +7,9 @@
     {{else}}
         {{#if view.previewSupported}}
             {{#if isImg}}
-                {{light-box href=view_src data-lightbox="g-1" data-title=stripped_name}}
+                {{#light-box href=view_src data-lightbox="g-1" data-title=stripped_name inlineImage=false}}
+                {{fa-icon "fa-image"}}
+                {{/light-box}}
             {{/if}}
         {{else}}
             {{fa-icon view.iconCls}}
@@ -22,27 +18,33 @@
     {{/if}}
     {{view 'input-with-validation' placeholder=stripped_name cls='hidden'}}
     <a title="Rename" class="js-show-edit">{{fa-icon "fa-pencil"}}</a>
+    <span class="share">
+        {{#if public_link}}
+            {{fa-icon "fa-globe"}}
+        {{/if}}
+        {{#if sharing}}
+            {{fa-icon "fa-user"}}
+        {{/if}}
+    </span>
+
     <a title="OK" class="hidden js-hide-edit" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check-circle"}}</a>
     <a class="js-cancel js-hide-edit hidden" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times-circle"}}</a>
 </td>
 <td>
+    {{timestamp-to-human-short last_modified }} <span class="subtle">{{modified-by current_user.email modified_by.email}}</span>
+</td>
+<td>
+    {{extension}}
+</td>
+<td class="size">
+    {{convert-bytes size}}
+</td>
+<td>
     <a {{action 'showDialog' 'sharing' 'object/sharing' this }}{{fa-icon "fa-share-alt"}}</a>
-</td>
-<td>
     <a {{bind-attr href=view_src}} title="download Item" download>{{fa-icon "fa-download"}}</a>
-</td>
-<td>
     <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
-</td>
-<td>
     <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
-</td>
-<td>
     <a {{action 'cutObject'}} title="cut Item">{{fa-icon "fa-cut"}}</a>
-</td>
-<td>
     <a {{action 'copyObject'}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
-</td>
-<td>
     <a {{action 'showDialog' 'versions' 'object/versions' this}}>Show object versions</a>
 </td>

@@ -1,16 +1,17 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  needs: ['objects'],
+  needs: ['objects', 'application'],
 
   container_id: Ember.computed.alias('controllers.objects.container_id'),
   groups: Ember.computed.alias('controllers.objects.groups'),
+  current_user: Ember.computed.alias('controllers.application.currentUser'),
 
   view_src: function(){
     var base_url = this.get('settings').get('storage_view_url');
     return base_url+this.get('model').get('id');
   }.property('model.id'),
-
+  
   /*
   * Pithos API allows the name of objects to have at most 1024 chars.
   * When an object is renamed the length of the new name is checked

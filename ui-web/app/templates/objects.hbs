@@ -65,16 +65,20 @@
             <a {{action 'refresh'}} title="Refresh Folder">{{fa-icon "fa-refresh"}}</a>
         </div>
 
-        <table>
-        <tbody>
-
         <table class="css-objects">
+            <thead>
+                <th>Name</th>
+                <th>Last modified by</th>
+                <th>Extension</th>
+                <th class="size">Size</th>
+                <th>Actions</th>
+            </thead>
             <tbody>
-        {{#each}}
-            {{view 'object'}}
-        {{else}}
-            <tr><td>No objects in this directory</td></tr>
-        {{/each}}
+            {{#each}}
+                {{view 'object'}}
+            {{else}}
+                <tr><td rowspan="5">No objects in this directory</td></tr>
+            {{/each}}
             </tbody>
         </table>
     </div>

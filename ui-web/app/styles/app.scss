@@ -6,6 +6,15 @@
 
 @import "global";
 
+body {
+    letter-spacing: 0.5px;
+}
+
+span.subtle {
+    color: $aluminum;
+    font-size: rem-calc(12px);
+}
+
 #loader {
     text-align: center;
     padding: 3em;
@@ -111,17 +120,12 @@ textarea {
     display: none;
 }
 
-.css-objects {
+table {
     width: 100%;
-    td:first-child {
-        width: 320px;
+    .size {
+        text-align: right;
     }
-    td:not(:first-child) {
-        opacity: 0;
-    }
-    tr:hover {
-        td {
-            opacity: 1;
-        }
+    .share {
+        float: right;
     }
 }
