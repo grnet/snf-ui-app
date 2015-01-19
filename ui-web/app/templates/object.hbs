@@ -20,11 +20,12 @@
     <a title="Rename" class="js-show-edit">{{fa-icon "fa-pencil"}}</a>
     <span class="share">
         {{#if public_link}}
-            {{fa-icon "fa-globe"}}
+            {{fa-icon "fa-globe" title="Publicly shared"}}
         {{/if}}
         {{#if sharing}}
-            {{fa-icon "fa-user"}}
+            {{fa-icon "fa-user" title="Privately shared"}}
         {{/if}}
+        <a {{action 'showDialog' 'sharing' 'object/sharing' this }} class="icon-btn">Share {{fa-icon "fa-share-alt"}}</a>
     </span>
 
     <a title="OK" class="hidden js-hide-edit" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check-circle"}}</a>
@@ -40,7 +41,6 @@
     {{convert-bytes size}}
 </td>
 <td>
-    <a {{action 'showDialog' 'sharing' 'object/sharing' this }}{{fa-icon "fa-share-alt"}}</a>
     <a {{bind-attr href=view_src}} title="download Item" download>{{fa-icon "fa-download"}}</a>
     <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
     <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>

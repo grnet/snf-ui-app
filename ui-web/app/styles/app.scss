@@ -120,6 +120,21 @@ textarea {
     display: none;
 }
 
+.icon-btn {
+    display: inline-block;
+    padding: rem-calc(4px 8px);
+    color: #fff;
+    margin: 0 5px;
+    &:hover {
+        color: #fff;
+        background: darken($primary-color, 10%);
+    }
+    i {
+        font-size: rem-calc(20px);
+        padding-left: rem-calc(8px);
+    }
+}
+
 table {
     width: 100%;
     .size {
@@ -128,4 +143,19 @@ table {
     .share {
         float: right;
     }
+    tr .icon-btn {
+        background: $gainsboro;
+    }
+    tr:hover {
+        background: darken($table-even-row-bg, 10%); 
+        .icon-btn {
+            background: $primary-color; 
+        }
+    }
+}
+
+.footnote {
+    color: $aluminum;
+    font-size: rem-calc(14px);
+    font-style: italic;
 }
