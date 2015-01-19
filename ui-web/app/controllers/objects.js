@@ -31,6 +31,10 @@ export default Ember.ArrayController.extend(SnfDropletController, {
     return this.get('length');
   }.property('@each'),
 
+  groups: function(){
+    return this.store.find('group');
+  }.property(),
+
   copyFlag: false,
 
  /*
