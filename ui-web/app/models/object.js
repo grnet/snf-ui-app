@@ -26,6 +26,10 @@ export default DS.Model.extend({
     return (dirs.indexOf(this.get('content_type'))>-1);
   }.property('content_type'),
 
+  is_file: function(){
+    return !this.get('is_dir');
+  }.property('is_dir'),
+
   stripped_name: function(){
     return this.get('name').split('/').pop();
   }.property('name'),

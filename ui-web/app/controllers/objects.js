@@ -3,6 +3,7 @@ import SnfDropletController from '../lib/droplet';
 
 export default Ember.ArrayController.extend(SnfDropletController, {
   itemController: 'object',
+  sortProperties: ['is_file', 'stripped_name'],
 
   hasUpPath: function(){
     return this.get('current_path') !== '/';
