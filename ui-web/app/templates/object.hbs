@@ -20,10 +20,14 @@
     <a title="Rename" class="js-show-edit">{{fa-icon "fa-pencil"}}</a>
     <span class="share">
         {{#if public_link}}
-            {{fa-icon "fa-globe" title="Publicly shared"}}
+            <span class="hint--bottom" data-hint="Publicly shared">
+                {{fa-icon "fa-globe"}}
+            </span>
         {{/if}}
         {{#if sharing}}
-            {{fa-icon "fa-user" title="Privately shared"}}
+            <span class="hint--bottom" data-hint="Privately shared">
+                {{fa-icon "fa-user"}}
+            </span>
         {{/if}}
         <a {{action 'showDialog' 'sharing' 'object/sharing' this }} class="icon-btn">Share {{fa-icon "fa-share-alt"}}</a>
     </span>
