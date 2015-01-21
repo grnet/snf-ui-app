@@ -16,8 +16,8 @@
         {{/if}}
         <span class="js-name hint--bottom" {{bind-attr data-hint=stripped_name}}><span>{{stripped_name_no_ext}}</span></span>
     {{/if}}
-    {{view 'input-with-validation' placeholder=stripped_name cls='hidden'}}
-    <a title="Rename" class="js-show-edit rename">{{fa-icon "fa-pencil"}}</a>
+    {{view 'input-single' placeholder=stripped_name cls='hidden'}}
+    <a title="Rename" class="js-show-edit">{{fa-icon "fa-pencil"}}</a>
     <span class="share">
         {{#if public_link}}
             <span class="hint--bottom" data-hint="Publicly shared">

@@ -12,10 +12,10 @@ import Ember from 'ember';
 * Note: each of the above actions are handled by a different controller.
 */
 export default Ember.View.extend({
-	classNames: ['input-with-valid'],
+	classNames: ['input-with-valid', 'input-single'],
 	classNameBindings: ['cls'], // cls is provited by parent the template
 
-	templateName: 'input-with-validation',
+	templateName: 'input-single',
 
 	inputValue: function() {
 		var value = this.$('input').val();
