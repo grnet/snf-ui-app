@@ -3,9 +3,13 @@ import Ember from 'ember';
 import ObjectController from '../object';
 
 export default ObjectController.extend({
-  isPublic: function(){
-    return this.get('model').get('public_link')? true : false;
-  }.property('model.public_link'),
+
+  isPublic: false,
+
+  setPublic: function(){
+    var isPublic = this.get('model').get('public_link')? true: false;
+    this.set('isPublic', isPublic);
+  }.observes('public_link'),
 
   isShared: function(){
     return this.get('model').get('sharing')? true: false;
@@ -34,21 +38,23 @@ export default ObjectController.extend({
    */
 
   shared_users_to_sharing: function(u_arr){
-    var read_users = _.filter(u_arr, function (el ) { return el.type === 'read'}); 
-    var write_users = _.filter(u_arr, function (el ) { return el.type === 'write'}); 
+    var read_users = _.filter(u_arr, function (el ) { return el.type === 'read';}); 
+    var write_users = _.filter(u_arr, function (el ) { return el.type === 'write';}); 
+    var read = null;
+    var write = null;
     if (read_users.length >0 ) {
       var reads_arr = [];
       read_users.forEach(function(el){
         reads_arr.push(el.id);
       });
-      var read = 'read='+ reads_arr.join(',');
+      read = 'read='+ reads_arr.join(',');
     }
     if (write_users.length >0 ) {
       var write_arr = [];
       write_users.forEach(function(el){
         write_arr.push(el.id);
       });
-      var write = 'write='+ write_arr.join(',');
+      write = 'write='+ write_arr.join(',');
     }
     var res = [];
     if (read) { res.push(read); }
@@ -80,6 +86,7 @@ export default ObjectController.extend({
       this.store.setSharing(object, sharing);
     },
     removeUser: function(id){
+      var self = this;
       var object = this.get('model');
       var u_arr = object.get('shared_users');
 
@@ -101,6 +108,7 @@ export default ObjectController.extend({
     },
 
     removePrivateSharing: function(){
+      var self = this;
       var object = this.get('model');
       var onSuccess = function() {
         object.set('shared_users', []);
