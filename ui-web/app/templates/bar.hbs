@@ -1,11 +1,14 @@
-<nav class="top-bar" data-topbar="" role="navigation">
-    <section class="top-bar-section">
-    {{pithos-breadcrumbs container_id=container_id current_path=current_path}}
-    <!-- Right Nav Section -->
-        <ul class="right">
-            <li class="divider"></li>
-            <li><a {{action 'showDialog' 'groups' groups}} class="hint--bottom-left hint--no-animate" data-hint="Manage groups">{{fa-icon "user"}}</a></li>
-            <li><a href="#" class="hint--bottom-left hint--no-animate" data-hint="Reload page">{{fa-icon "refresh"}}</a></li>
-        </ul>
-    </section>
-</nav>
+<div class="top-bar-wrapper">
+    <nav class="top-bar" data-topbar="" role="navigation">
+        <section class="top-bar-section">
+        {{pithos-breadcrumbs container_id=container_id current_path=current_path}}
+        <!-- Right Nav Section -->
+            <ul class="right">
+                <li class="divider"></li>
+                <li><a {{action 'showDialog' 'groups' groups}} class="hint--bottom-left hint--no-animate" data-hint="Manage groups">{{fa-icon "user"}}</a></li>
+                <li class="divider"></li>
+                <li><a href="#" class="hint--bottom-left hint--no-animate" data-hint="Reload page">{{fa-icon "refresh"}}</a></li>
+            </ul>
+        </section>
+    </nav>
+</div>

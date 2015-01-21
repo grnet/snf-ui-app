@@ -95,31 +95,31 @@ $include-html-global-classes: $include-html-classes;
 // $font-weight-normal: normal !default;
 // $font-weight-bold: bold !default;
 
-// $white       : #FFFFFF;
-// $ghost       : #FAFAFA;
-// $snow        : #F9F9F9;
-// $vapor       : #F6F6F6;
-// $white-smoke : #F5F5F5;
-// $silver      : #EFEFEF;
-// $smoke       : #EEEEEE;
+$white       : #FFFFFF;
+$ghost       : #FAFAFA;
+$snow        : #F9F9F9;
+$vapor       : #F6F6F6;
+$white-smoke : #F5F5F5;
+$silver      : #EFEFEF;
+$smoke       : #EEEEEE;
 $gainsboro   : #DDDDDD;
-// $iron        : #CCCCCC;
-// $base        : #AAAAAA;
+$iron        : #CCCCCC;
+$base        : #AAAAAA;
 $aluminum    : #999999;
-// $jumbo       : #888888;
-// $monsoon     : #777777;
-// $steel       : #666666;
-// $charcoal    : #555555;
-// $tuatara     : #444444;
-// $oil         : #333333;
+$jumbo       : #888888;
+$monsoon     : #777777;
+$steel       : #666666;
+$charcoal    : #555555;
+$tuatara     : #444444;
+$oil         : #333333;
 $jet         : #222222;
 // $black       : #000000;
 
 // We use these as default colors throughout
- $primary-color: #3C96D7;
- $secondary-color: #97B314;
- $alert-color: #ED2F7E;
- $success-color: #ed9121;
+$primary-color: #3C96D7;
+$secondary-color: #97B314;
+$alert-color: #ED2F7E;
+$success-color: #ed9121;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
 
@@ -390,7 +390,7 @@ $jet         : #222222;
 // $include-html-nav-classes: $include-html-classes;
 
 // We use this to set the background color for the breadcrumb container.
-$crumb-bg: transparent;
+$crumb-bg: scale-color($white, $lightness: -5%);
 
 // We use these to set the padding around the breadcrumbs.
 // $crumb-padding: rem-calc(9 14 9);
@@ -400,13 +400,13 @@ $crumb-bg: transparent;
 // $crumb-function-factor: -10%;
 $crumb-border-size: 0;
 // $crumb-border-style: solid;
-$crumb-border-color: transparent;
+// $crumb-border-color: transparent;
 // $crumb-radius: $global-radius;
 
 // We use these to set various text styles for breadcrumbs.
 // $crumb-font-size: rem-calc(11);
 // $crumb-font-color: $primary-color;
-$crumb-font-color-current: $aluminum;
+// $crumb-font-color-current: $aluminum;
 // $crumb-font-color-unavailable: $aluminum;
 // $crumb-font-transform: uppercase;
 // $crumb-link-decor: underline;
@@ -1361,8 +1361,8 @@ $crumb-slash: ">";
 // $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-// $topbar-bg-color: $oil;
-// $topbar-bg: $topbar-bg-color;
+ $topbar-bg-color: scale-color($white, $lightness: -5%);
+ $topbar-bg: $topbar-bg-color;
 
 // Height and margin
 // $topbar-height: 45px;
@@ -1382,16 +1382,16 @@ $crumb-slash: ">";
 // $topbar-dropdown-toggle-alpha: 0.4;
 
 // Set the link colors and styles for top-level nav
-// $topbar-link-color: $white;
-// $topbar-link-color-hover: $white;
-// $topbar-link-color-active: $white;
-// $topbar-link-color-active-hover: $white;
+$topbar-link-color: $oil;
+$topbar-link-color-hover: $white;
+$topbar-link-color-active: $white;
+$topbar-link-color-active-hover: $white;
 // $topbar-link-weight: $font-weight-normal;
 // $topbar-link-font-size: rem-calc(13);
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
 // $topbar-link-bg: $topbar-bg;
 // $topbar-link-bg-color-hover: $charcoal;
-// $topbar-link-bg-hover: #272727;
+ $topbar-link-bg-hover: $primary-color;
 // $topbar-link-bg-active: $primary-color;
 // $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
 // $topbar-link-font-family: $body-font-family;

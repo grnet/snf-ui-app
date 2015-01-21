@@ -1,10 +1,13 @@
-<header class="header panel">
-    <div class="logo">
-        {{#link-to "containers"}}<img {{bind-attr src=settings.logo_url alt=title }}>{{/link-to}}
+<header class="header clearfix">
+    <div class="lt">
+        <div class="logo">
+            {{#link-to "containers"}}<img {{bind-attr src=settings.logo_url alt=title }}>{{/link-to}}
+        </div>
+        <nav>
+            <ul>
+                <li>{{link-to "projects" "projects"}}</li>
+            </ul>
+        </nav>
     </div>
-    <nav>
-        <ul>
-            <li>{{link-to "projects" "projects"}}</li>
-        </ul>
-    </nav>
+    <div class="rt"></div>
 </header>

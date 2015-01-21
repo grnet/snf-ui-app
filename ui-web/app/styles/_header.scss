@@ -7,7 +7,10 @@
     right:0;
     z-index:100;
     height: $header-height;
+    padding: $default-padding;
+    background: $white;
     nav {
+        float: left;
         ul {
             margin: 0;
             li {
@@ -18,7 +21,7 @@
         }
     }
     .logo {
-        float: left;
+        float:left;
         img {
             max-height: 40px;
         }

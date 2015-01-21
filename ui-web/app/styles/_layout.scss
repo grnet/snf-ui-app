@@ -1,4 +1,20 @@
+.clearfix {
+    &>.lt {
+        float: left;
+    }
+    &>.rt {
+        float: right;
+    }
+}
+
 .main {
     margin-top: $header-height + $topbar-height;
-    padding: rem-calc(20px);
+    padding: $default-padding;
+}
+
+.sidebar {
+    position: fixed;
+    top: $header-height+ $topbar-height+ $default-padding;
+    bottom: 0;
+    overflow-y: scroll;
 }
