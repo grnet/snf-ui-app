@@ -8,7 +8,7 @@
         <strong>Public on the Internet</strong> Anyone who has the public link can access. No sign-in required. 
     </label>
     {{#if isPublic}}
-    <strong>Public link:</strong> <input disabled="disabled" class="large-input" {{bind-attr value=public_link}}>
+    <strong>Public link</strong><br> <span class="label secondary">{{public_link}}</span>
     {{/if}}
 {{/if}}
 <hr>
@@ -26,12 +26,6 @@
            prompt="Select group"
            selection=selectedGroup}}
 </div>
-{{#unless isSharedAll}}
-<div>
-    <button {{action 'shareAll'}} class="small button alert">Privately share with everybody</button>
-</div>
-{{/unless}}
-
 {{#if isShared}}
     {{#if shared_users}}
         <table>
@@ -52,10 +46,17 @@
         </table>
         <p><a {{action 'removePrivateSharing'}}>Remove everybody</a></p>
     {{/if}}
-   {{#if shared_users}}
-        <strong>Private link:</strong>
-        <input disabled="disabled" class="large-input" {{bind-attr value=view_src}}>
+    {{#if shared_users}}
+        <p>
+            <strong>Private link</strong><br><span class="label">{{view_src}}</span>
+        </p>
     {{/if}}
 {{/if}}
+
+{{#unless isSharedAll}}
+<div>
+    <button {{action 'shareAll'}} class="small button alert">Privately share with everybody</button>
+</div>
+{{/unless}}
 
 
