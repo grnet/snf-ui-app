@@ -1,10 +1,11 @@
 <a class="close-reveal-modal">{{fa-icon "fa-close"}}</a>
 <h3>Groups</h3>
 <div>
-{{input type="text" placeholder="Group Name" value=newName}}
-{{input type="text" placeholder="Comma separeted emails" value=newEmails}}
 
-<button {{action 'createGroup' }}>Create group</button>
+    {{view 'input-partial' placeholder="Name" focusout="notEmpty" input="toLowerCase encode checkSize"}}
+    {{input type="text" placeholder="Comma separeted emails" value=newEmails}}
+
+    <button {{action 'createGroup' }}>Create group</button>
 </div>
 
 {{#each}}

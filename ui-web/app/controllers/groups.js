@@ -3,9 +3,7 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
   itemController: 'group',
   
-  newNameToLower: function() {
-    this.set('newName', this.get('newName').toLowerCase());
-  }.observes('newName'),
+  blockCreate: true,
 
   actions: {
     createGroup: function(){

@@ -70,22 +70,36 @@ div.droppable div.file {
 
 .input-with-valid {
     display: inline-block;
-    .error.invisible {
+    .info.invisible {
         visibility: hidden;
     }
     input {
         margin-bottom: 0;
     }
     input.error {
+        border-color: #f04124;
+    }
+    input.warning {
         border-color: #f0a024;
     }
-    .error-msg {
+    span.warning {
+        background-color: #f0a024;
+    }
+    .info-msg {
         margin-left: 10px;
     }
-    span.error {
+    span.info {
         position: absolute;
         width: 200px;
         z-index: 1;
+        display: block;
+        padding: 0.375rem 0.5625rem 0.5625rem;
+        margin-top: -1px;
+        margin-bottom: 1rem;
+        font-size: 0.75rem;
+        font-weight: normal;
+        font-style: italic;
+        color: #FFFFFF;
     }
 }
 
