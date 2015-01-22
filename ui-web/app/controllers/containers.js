@@ -46,9 +46,6 @@ export default Ember.ArrayController.extend({
         project: project,
       });
 
-      this.set('newProject', this.get('systemProject'));
-      container.save().then(onSuccess, onFail);
-
       var onSuccess = function(container) {
         console.log('create container: onSuccess');
       };
@@ -57,12 +54,15 @@ export default Ember.ArrayController.extend({
         console.log('createContainer',reason);
         self.send('showActionFail', reason);
       };
+      this.set('newProject', this.get('systemProject'));
+      container.save().then(onSuccess, onFail);
+
       // reset
       this.set('newName', undefined);
       this.set('validInput', undefined);
       this.set('isUnique', undefined);
     }
-    }.observes('validInput'),
+  }.observes('validInput'),
 
   actions: {
     validateCreate: function(action) {

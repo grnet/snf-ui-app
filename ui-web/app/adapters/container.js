@@ -14,6 +14,11 @@ export default StorageAdapter.extend({
 
         return self.ajax(self.buildURL(type.typeKey, record.get('id'), record), "PUT", {
           headers: headers
+        }).then(function(data){
+          Ember.run(null, resolve, data);
+        }, function(jqXHR) {
+          jqXHR.then = null;
+          Ember.run(null, reject, jqXHR);
         });
       }, function() {
         Ember.run(null, reject, "Invalid project");
