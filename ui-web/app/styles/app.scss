@@ -125,6 +125,7 @@ textarea {
     padding: rem-calc(4px 8px);
     color: #fff;
     margin: 0 5px;
+    border-radius: 2px;
     &:hover {
         color: #fff;
         background: darken($primary-color, 10%);
@@ -147,7 +148,7 @@ table {
         background: $gainsboro;
     }
     tr:hover {
-        background: darken($table-even-row-bg, 10%); 
+        background: darken($table-even-row-bg, 5%); 
         .icon-btn {
             background: $primary-color; 
         }

@@ -1,5 +1,3 @@
-import Ember from 'ember';
-
 import ObjectController from '../object';
 
 export default ObjectController.extend({
@@ -23,23 +21,44 @@ export default ObjectController.extend({
   watchGroup: function(){
     var selectedGroup = this.get('selectedGroup');
     if (selectedGroup) {
-      this.send('shareGroup', selectedGroup);
+      this.send('shareWithGroup', selectedGroup);
     }
-    
   }.observes('selectedGroup'),
 
+
+  // If the object is shared with individual users, it includes the user
+  // to the shared_with list.
+  // If the object is shared with group, it sets as display_name the group's 
+  // name and if it is shared with all, it sets the display_name to a more 
+  // verbose version of 'all' 
+  shared_with_list: function(){
+    var self = this;
+    var shared_with = this.get('model').get('shared_users');
+    _.each(shared_with, function(s){
+      if (s.type === 'user') {
+        s.user = self.store.find('user', s.id);
+      } else if (s.type === 'all'){
+        s.display_name = 'All Pithos users';
+      } else if (s.type === 'group') {
+        s.display_name = s.id.split(':')[1];
+      }
+    });
+      
+    return shared_with;
+  }.property('shared_users.@each'),
+
   /**
-   * Ugly function that converts a 
+   * Ugly function that converts model's  
    * `shared_users` list to a `sharing` string
    *
    * @method shared_users_to_sharing
-   * @param u_arr {Array}
+   * @param shared_users {Array}
    * @return sharing {string} 
    */
 
-  shared_users_to_sharing: function(u_arr){
-    var read_users = _.filter(u_arr, function (el ) { return el.type === 'read';}); 
-    var write_users = _.filter(u_arr, function (el ) { return el.type === 'write';}); 
+  shared_users_to_sharing: function(shared_users){
+    var read_users = _.filter(shared_users, function (el ) { return el.permission === 'read';}); 
+    var write_users = _.filter(shared_users, function (el ) { return el.permission === 'write';}); 
     var read = null;
     var write = null;
     if (read_users.length >0 ) {
@@ -59,7 +78,6 @@ export default ObjectController.extend({
     var res = [];
     if (read) { res.push(read); }
     if (write) { res.push(write); }
-
     return res.join(';');
   },
 
@@ -74,17 +92,19 @@ export default ObjectController.extend({
         object.set('public_link', data);
       });
     },
-    changePermissions: function(param){
+
+    togglePermission: function(param){
       var object = this.get('model');
       var u_arr = object.get('shared_users');
       _.map(u_arr, function(el){
         if (el.id === param.name) {
-          el.type = param.value;
+          el.permission = param.value;
         }
       });
       var sharing = this.shared_users_to_sharing(u_arr);
       this.store.setSharing(object, sharing);
     },
+
     removeUser: function(id){
       var self = this;
       var object = this.get('model');
@@ -121,13 +141,17 @@ export default ObjectController.extend({
       this.store.setSharing(object, '').then(onSuccess, onFail);
     },
 
-    shareAll: function(){
+    shareWithAll: function(){
+      var self = this;
       var object = this.get('model');
-      var u_arr = object.get('shared_users');
-      u_arr.push({
+        
+      var shared_users = _.reject(object.get('shared_users'), function(el){
+        return el.permission === 'read';
+      });
+      shared_users.push({
         'id': '*',
-        'display_name': 'All Pithos Users',
-        'type': 'read'
+        'type': 'all',
+        'permission': 'read'
       });
 
       var onSuccess = function() {
@@ -138,21 +162,22 @@ export default ObjectController.extend({
         self.send('showActionFail', reason);
       };
 
-      var sharing = this.shared_users_to_sharing(u_arr);
+      var sharing = this.shared_users_to_sharing(shared_users);
       this.store.setSharing(object, sharing).then(onSuccess, onFail); 
     },
 
-    shareUsers: function(){
+    shareWithUsers: function(){
       var self = this;
       var object = this.get('model');
-      var emails = this.get('emails');
+      var emails = this.get('emails') || '';
       var u_arr = object.get('shared_users');
-      var sharing = object.get('sharing');
-
-      var uuid_arr = _.pluck(u_arr, 'id');
-
+      var shared_with_list = this.get('shared_with_list');
+      var sharing;
 
       if (!emails.trim()) { return; }
+
+      emails = emails.split(',');
+      if (emails.length <1 ) { return; }
 
       var onSuccess = function(res) {
         self.set('emails', '');
@@ -163,31 +188,36 @@ export default ObjectController.extend({
         self.send('showActionFail', reason);
       };
 
-      this.store.user_catalogs(null, emails).then(function(res){
-        if (!res.uuids) { return };
-        res.members.forEach(function(el){
-          var tmp = {};
-          tmp.id = el.uuid;
-          tmp.display_name = el.email;
-          tmp.type = 'read';
 
-          if (!(_.contains(uuid_arr, el.uuid))) {
-            u_arr.push(tmp);
-          } 
+      var newUsers = emails.map(function(email) {
+        var userEmail = 'email='+email.trim();
+        return self.store.find('user', userEmail);
+      });
+
+      var ids_arr = _.pluck(shared_with_list, 'id');
+      return Ember.RSVP.all(newUsers).then(function(res){ 
+        res.forEach(function(user){
+          if (_.contains(ids_arr, user.get('id'))) {
+            return; 
+          }
+          u_arr.pushObject ({
+            'id': user.get('id'), 
+            'permission': 'read',
+            'type': 'user'
+          });
         });
 
         sharing = self.shared_users_to_sharing(u_arr);
         self.store.setSharing(object, sharing).then(onSuccess, onFail); 
- 
-      });
 
+      }, onFail);
     },
 
-    shareGroup: function(group){
+    shareWithGroup: function(group){
       var self = this;
       var object = this.get('model');
       var u_arr = object.get('shared_users');
-      var sharing = object.get('sharing');
+      var shared_with_list = this.get('shared_with_list');
 
       var onSuccess = function(res) {
         self.set('selectedGroup', null);
@@ -199,18 +229,18 @@ export default ObjectController.extend({
       };
     
       // if the object is already shared with this group return
-      var group_arr = _.pluck(u_arr, 'display_name');
+      var group_arr = _.pluck(shared_with_list, 'display_name');
       if (_.contains(group_arr, group.get('name'))) {
         return;
       }
 
-      u_arr.push ({
+      u_arr.pushObject ({
         'id': this.get('settings').get('uuid')+':'+group.get('id'), 
-        'display_name': group.get('name'),
-        'type': 'read'
+        'permission': 'read',
+        'type': 'group'
       });
 
-      sharing = this.shared_users_to_sharing(u_arr);
+      var sharing = this.shared_users_to_sharing(u_arr);
       this.store.setSharing(object, sharing).then(onSuccess, onFail); 
     }
 

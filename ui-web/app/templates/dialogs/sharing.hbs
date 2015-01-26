@@ -1,5 +1,6 @@
 <a class="close-reveal-modal">{{fa-icon "fa-close"}}</a>
-<h4>Share file</h4>
+<h4>Share {{fa-icon "fa-share-alt"}} {{stripped_name}}</h4>
+
 {{#if is_dir}}
 <p><span class="footnote">Public sharing is currently disabled for folders</span></p>
 {{else}}
@@ -17,7 +18,7 @@
 </p>
 <div>
     {{input type="text" placeholder="Comma separated emails" value=emails}}
-    <button {{action 'shareUsers'}} class="small button">Add Users</button>
+    <button {{action 'shareWithUsers'}} class="small button">Add Users</button>
 </div>
 <div>
     {{view Ember.Select content=groups
@@ -35,27 +36,23 @@
                 <td>Read/Write</td>
                 <td>&nbsp;</td>
             </tr>
-            {{#each u in shared_users}}
+            {{#each s in shared_with_list}}
                 <tr>
-                    <td>{{u.display_name}}</td>
-                    <td>{{radio-button name=u.id bindValue=u.type value="read" action="changePermissions"}}</td>
-                    <td>{{radio-button name=u.id bindValue=u.type value="write" action="changePermissions"}}</td>
-                    <td><a {{action 'removeUser' u.id}}>Remove</a></td>
+                    <td>{{#if s.user}}{{s.user.email}}{{else}}{{s.display_name}}{{/if}}</td>
+                    <td>{{radio-button name=s.id bindValue=s.permission value="read" action="togglePermission"}}</td>
+                    <td>{{radio-button name=s.id bindValue=s.permission value="write" action="togglePermission"}}</td>
+                    <td><a {{action 'removeUser' s.id}}>Remove</a></td>
                 </tr>
             {{/each}}
         </table>
         <p><a {{action 'removePrivateSharing'}}>Remove everybody</a></p>
     {{/if}}
-    {{#if shared_users}}
-        <p>
-            <strong>Private link</strong><br><span class="label">{{view_src}}</span>
-        </p>
-    {{/if}}
 {{/if}}
+
 
 {{#unless isSharedAll}}
 <div>
-    <button {{action 'shareAll'}} class="small button alert">Privately share with everybody</button>
+    <button {{action 'shareWithAll'}} class="small button alert">Privately share with everybody</button>
 </div>
 {{/unless}}
 

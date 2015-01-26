@@ -8,6 +8,11 @@ export default DS.Model.extend({
   last_modified: DS.attr('string'),
   modified_by: DS.belongsTo('user', {async:true}),
   public_link: DS.attr('string'),
+  // model's `sharing` property contains `;` separated pairs of 
+  // <permission>=<user-list> where <user-list> is a `,` separated list of 
+  // <users> that have sharing permissions with the object
+  // <users> = <uuid> | <uuid>:<group_name> | '*' 
+  // <permission> = 'read' | 'write'
   sharing: DS.attr('string'),
 
   extension: function(){
@@ -34,47 +39,41 @@ export default DS.Model.extend({
     return this.get('name').split('/').pop();
   }.property('name'),
 
+  // returns a list of items that have permissions to read/write the object
   shared_users: function(){
-    var u_arr = [];
+    var self = this;
+    var shared_users = [];
 
     if (_.isUndefined(this.get('sharing')) || this.get('sharing') === '' || _.isNull(this.get('sharing'))) {
-      return u_arr;
+      return shared_users;
     }
-    // model's `sharing` property contains `;` separated pairs of 
-    // <permission>=<user-list> where <user-list> is a `,` separated list of 
-    // <users> that have sharing permissions with the object
-    // <users> = <uuid> | <uuid>:<group_name> | '*' 
-    // <permission> = 'read' | 'write'
+
     // get model's `sharing` property and separate read/write permissions by ;
-    this.get('sharing').split(';').forEach(function(p){
+    this.get('sharing').split(';').forEach(function(s){
       // for each permission, separate permission type and users by =
-      var perm = p.split('=');
+      var parts = s.split('=');
       // store read/write permission in a variable
-      var type = perm[0].trim();
-      // split users for each permission
-      perm[1].split(',').forEach(function(u){
-        var user = {};
-        user.type = type;
-        user.id = u;
-        user.display_name = 'skata';
+      var permission = parts[0].trim();
+      // split  shared users for each permission type
+      parts[1].split(',').forEach(function(u){
+        var shared = {};
+        shared.permission = permission;
+        shared.id = u;
+        shared.type = 'user';
         // Show display name according to user type (user, group,all)
         if (u === '*') {
           // `*` means all users
-          user.display_name = 'All Pithos Users';
+          shared.type = 'all';
         } else if (u.split(':').length>1) {
           // If u contains `:` that means that it is a group and we will keep
           // only the group's name for the display name
-          user.display_name = u.split(':')[1];
-        } else {
-          // TODO 
-          // Handle case when uuid should be translated to user email
-          user.display_name = u;
+          shared.type = 'group';
         }
-        u_arr.push(user);
+        shared_users.push(shared);
       });
-    
     });
-    return u_arr;
+    return shared_users;
   }.property('sharing'),
 
 });
+
