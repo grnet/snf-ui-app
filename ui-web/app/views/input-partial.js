@@ -13,8 +13,9 @@ export default Ember.View.extend({
 
 	templateName: 'input-partial',
 	errorVisible: false,
+	errorMsg: undefined,
 	warningVisible: false,
-	infoMsg: undefined,
+	warningMsg: undefined,
 
 	encodedInput: undefined,
 
@@ -42,7 +43,7 @@ export default Ember.View.extend({
 		var value = this.$('input').val();
 		var valueLower = value.toLowerCase();
 		if(value !== valueLower) {
-			this.set('infoMsg', 'Capital letters are not allowed')
+			this.set('warningMsg', 'Capital letters are not allowed')
 			setTimeout(function() {
 				self.$('input').val(valueLower);
 				self.set('warningVisible', true);

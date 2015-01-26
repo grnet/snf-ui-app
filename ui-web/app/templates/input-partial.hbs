@@ -1,6 +1,14 @@
 {{!-- placeholder is passed as a param from the template where you put the current view --}}
-<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'}} {{bind-attr placeholder=view.placeholder}} type='text' focusout="isEmpty" input="toLowerCase tooLarge">
-<span  {{bind-attr class=':info view.errorVisible:error:invisible view.warningVisible:warning:invisible'}}>
-	<span class='fa fa-warning'></span>
-	<span class='info-msg'>{{view.infoMsg}}</span>
+
+<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder maxlength=nameMaxLength}} type='text' focusout="isEmpty" input="toLowerCase tooLarge">
+
+<span  class='info'>
+	<span {{bind-attr class='view.warningVisible:warning:invisible'}}>
+		<span class='fa fa-warning'></span>
+		<span class='info-msg'>{{view.warningMsg}}</span>
+	</span>
+	<span {{bind-attr class='view.errorVisible:error:invisible'}}>
+		<span class='fa fa-warning'></span>
+		<span class='info-msg'>{{view.errorMsg}}</span>
+	</span>
 </span>
