@@ -1,6 +1,6 @@
 {{!-- placeholder is passed as a param from the template where you put the current view --}}
 
-<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder maxlength=nameMaxLength}} type='text' focusout="isEmpty" input="toLowerCase tooLarge">
+<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder}} type='text' {{bind-attr value='view.value'}}>
 
 <span  class='info'>
 	<span {{bind-attr class='view.warningVisible:warning:invisible'}}>

@@ -2,7 +2,7 @@
 <h3>Groups</h3>
 <div>
 
-    {{view 'input-partial' placeholder="Name" focusout="notEmpty" input="toLowerCase encode checkSize"}}
+    {{view 'input-partial' placeholder="Name"}}
     {{input type="text" placeholder="Comma separeted emails" value=newEmails}}
 
     <button {{action 'createGroup' }}>Create group</button>
