@@ -18,7 +18,9 @@ export default Ember.View.extend({
 	warningMsg: undefined,
 
 	value: undefined,
-	encodedInput: undefined,
+	valueEncoded: function() {
+		return encodeURIComponent(this.get('value'));
+	}.property('value'),
 
 	notEmpty: function() {
 		var value = this.get('value');
@@ -38,15 +40,58 @@ export default Ember.View.extend({
 		}
 	}.property('value'),
 
+	permitLower: false,
+	checkSize: false,
+
+	adjustSize: function() {
+		this.set('permitLower', false);
+		if(this.get('checkSize')) {
+			var maxSize = this.get('controller').get('nameMaxLength');
+			var valueEncoded = this.get('valueEncoded');
+			if(valueEncoded.length >= maxSize) {
+				var tempenc;
+				var temp = this.get('value');
+				var encodedLength;
+				for(var i=0; i<maxSize; i++) {
+					temp = temp.slice(0, -1);
+					encodedLength = encodeURIComponent(temp).length;
+					if(encodedLength <= maxSize) {
+						this.send('showInfo','The name of the group must be at the most '+maxSize+' (encoded) characters', true);
+						this.set('value', temp)
+						break;
+					}
+				}
+			}
+			this.set('checkSize', false);
+			this.set('permitLower', true)
+		}
+	}.observes('checkSize'),
+
+	toLowerCase: function() {
+		if(this.get('permitLower')) {
+			var self = this;
+			var value = this.get('value');
+			var valueLower = value.toLowerCase();
+			if(value !== valueLower) {
+				setTimeout(function() {
+					self.set('value', valueLower);
+					self.send('showInfo','Capital letters are not allowed');
+				}, 300);
+			}
+			this.set('permitLower', false)
+		}
+	}.observes('permitLower'),
+
+
 	eventManager: Ember.Object.create({
 		input: function(event, view) {
 			var event = event['type'];
 			var actions = view.get(event);
 			var actions = actions.split(' ');
+			var value = view.$('input').val();
 
-			actions.forEach(function(action) {
-				view.send(action)
-			});
+			view.set('value', value);
+			view.set('checkSize', true);
 		},
 
 		focusOut: function(event, view) {
@@ -54,8 +99,15 @@ export default Ember.View.extend({
 			var actions = view.get(event);
 			var actions = actions.split(' ');
 			view.set('warningVisible', false);
-			if(this.get('notEmpty')) {
+			if(view.get('notEmpty')) {
 				console.log('NOT EMPTY')
+				if(view.get('controller').get('isUnique')) {
+					console.log('PAME STO EPOMENO contoller.nameValid = true')
+				}
+				else {
+					view.send('showInfo', 'Already exists', true)
+				}
+
 			}
 			else {
 				view.send('showInfo', 'Empty input', true)
@@ -73,21 +125,7 @@ export default Ember.View.extend({
 				this.set('warningMsg', msg);
 				this.set('warningVisible', true);
 			}
-		},
-
-		toLowerCase: function() {
-			var self = this;
-			var value = this.$('input').val();
-			var valueLower = value.toLowerCase();
-			if(value !== valueLower) {
-				setTimeout(function() {
-					self.$('input').val(valueLower);
-					self.send('showInfo','Capital letters are not allowed')
-				}, 300);
-			}
-		},
-
-
+		}
 	}
 
 });
