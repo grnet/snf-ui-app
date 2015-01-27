@@ -12,12 +12,14 @@ export default Ember.View.extend({
 	classNameBindings: ['cls'], // cls is provited by parent the template
 
 	templateName: 'input-partial',
+
 	errorVisible: false,
 	errorMsg: undefined,
 	warningVisible: false,
 	warningMsg: undefined,
 
 	value: undefined,
+
 	valueEncoded: function() {
 		return encodeURIComponent(this.get('value'));
 	}.property('value'),
@@ -42,6 +44,8 @@ export default Ember.View.extend({
 
 	permitLower: false,
 	checkSize: false,
+	typingValidOnProgress: false,
+	focusOutValidOnProgress: false,
 
 	adjustSize: function() {
 		this.set('permitLower', false);
@@ -78,42 +82,46 @@ export default Ember.View.extend({
 					self.send('showInfo','Capital letters are not allowed');
 				}, 300);
 			}
-			this.set('permitLower', false)
+			this.set('permitLower', false);
 		}
+		this.set('typingValidOnProgress', false);
 	}.observes('permitLower'),
 
 
 	eventManager: Ember.Object.create({
 		input: function(event, view) {
-			var event = event['type'];
-			var actions = view.get(event);
-			var actions = actions.split(' ');
 			var value = view.$('input').val();
 
+			view.set('typingValidOnProgress', true);
 			view.set('value', value);
 			view.set('checkSize', true);
 		},
 
 		focusOut: function(event, view) {
-			var event = event['type'];
-			var actions = view.get(event);
-			var actions = actions.split(' ');
 			view.set('warningVisible', false);
-			if(view.get('notEmpty')) {
-				console.log('NOT EMPTY')
-				if(view.get('controller').get('isUnique')) {
-					console.log('PAME STO EPOMENO contoller.nameValid = true')
-				}
-				else {
-					view.send('showInfo', 'Already exists', true)
-				}
-
-			}
-			else {
-				view.send('showInfo', 'Empty input', true)
-			}
+			view.set('focusOutValidOnProgress', true);
 		}
 	}),
+
+	finalValidations: function() {
+		var typingValidOnProgress = this.get('typingValidOnProgress');
+		var focusOutValidOnProgress = this.get('focusOutValidOnProgress');
+		if(!typingValidOnProgress && focusOutValidOnProgress) {
+			if(this.get('notEmpty')) {
+				this.get('controller').set('newName', this.get('valueEncoded'))
+				if(this.get('controller').get('isUnique')) {
+					console.log('IS UNIQUE')
+				}
+				else {
+					this.send('showInfo', 'Already exists', true)
+				}
+			}
+			else {
+				this.send('showInfo', 'Empty input', true)
+			}
+		}
+		this.set('focusOutValidOnProgress', false);
+	}.observes('typingValidOnProgress', 'focusOutValidOnProgress'),
 
 	actions: {
 		showInfo: function(msg, isError) {
