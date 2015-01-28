@@ -202,6 +202,10 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       }
     },
 
+    sortBy: function(property){
+      this.set("sortProperties", [property]);
+      this.toggleProperty("sortAscending");
+    },
 
     refresh: function(){
       this.send('refreshRoute');
