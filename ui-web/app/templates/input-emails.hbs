@@ -1,6 +1,13 @@
 {{!-- placeholder is passed as a param from the template where you put the current view --}}
-
-<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder}} type='text' {{bind-attr value='view.value'}}>
+<div class='container-emails'>
+	<span class='tiles'>
+		<span href=""class='tile loading'>
+			<a class='email'>user@synnefo.org</a>
+			<a class='remove fa fa-remove sign'></a>
+		</span>
+	</span>
+	<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder}} type='text' {{bind-attr value='view.value'}}>
+</div>
 
 <div  class='info'>
 	<span {{bind-attr class='view.warningVisible:warning:invisible'}}>

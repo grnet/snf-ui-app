@@ -3,7 +3,7 @@
 <div>
 
     {{view 'input-partial' placeholder="Name"}}
-    {{input type="text" placeholder="Comma separeted emails" value=newEmails}}
+    {{view 'input-emails' placeholder="Comma separeted emails..."}}
 
     <button {{action 'createGroup' }}>Create group</button>
 </div>
