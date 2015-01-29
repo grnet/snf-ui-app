@@ -154,6 +154,9 @@ table {
         .icon-btn {
             background: $primary-color; 
         }
+        .rename i {
+            visibility: visible;
+        }
     }
     th a {
         color: $body-font-color;
@@ -164,4 +167,10 @@ table {
     color: $aluminum;
     font-size: rem-calc(14px);
     font-style: italic;
+}
+
+.rename {
+    i {
+        visibility: hidden;
+    }
 }
