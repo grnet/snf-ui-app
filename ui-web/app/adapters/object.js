@@ -35,8 +35,7 @@ export default StorageAdapter.extend({
     if (record.get('is_dir')){
       url = url+'?delimiter=/';
     }
-    var headers = this.get('headers');
-  
+    var headers = {};
     headers['Content-Type'] = record.get('content_type');
     headers['X-Move-From'] = old_path;
     
@@ -46,7 +45,9 @@ export default StorageAdapter.extend({
     }
 
     headers['Accept'] =  'text/plain';
-    return this.ajax(url, 'PUT');
+    return this.ajax(url, 'PUT', {
+      headers: headers,
+    });
   },
 
   restoreObject: function(record, version) {
