@@ -10,9 +10,11 @@ export default Ember.View.extend({
 	warningMsg: undefined,
 
 	value: undefined,
+	usersToBeAdded: [{email: 'user@synnefo.org', curState: 'loading', uuid: 'should be placed here?'}],
 
 	notEmpty: function() {
 		var value = this.get('value');
+		console.log('>>', value)
 		if(value) {
 			value = value.trim();
 		}
@@ -29,11 +31,19 @@ export default Ember.View.extend({
 		}
 	}.property('value'),
 
-	isEmail: function() {
-		var value = this.get('value');
-		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		return re.test(value);
-	}.property('value'),
+	// move it
+	isEmail: function(email) {
+		console.log('***',email)
+		// var value = this.get('value');
+		// to be checked!!! I added greek chars but I should either to permit all
+		// unicode chars or not to check at all if the value is an email
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Zα-ωΑ-Ω\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test(email);
+	}.property(),
+
+	tileHTML: function(email) {
+		return 
+	},
 
 	didInsertElement: function() {},
 
@@ -41,23 +51,39 @@ export default Ember.View.extend({
 		input: function(event, view) {
 			var value = view.$('input').val();
 			view.set('value', value);
+
 			if(view.get('notEmpty')) {
 				value = view.get('value');
+
 				if(value.indexOf(',') !== -1) {
-					view.set('value', value.substring(0, value.indexOf(',')))
-					var isEmail = view.get('isEmail');
-					if(isEmail) {
-						console.log('yes it is email!!!')
-					}
-					else {
-						console.log('not valid email!!!')
-					}
+					var emails = value.split(',');
+					emails.forEach(function(email, index) {
+						email = email.trim();
+						if(email.length === 0) {
+							emails.splice(index, 1);
+						}
+					});
+
+					// var isEmail = view.get('isEmail');
+
+					// if(isEmail) {
+					// 	console.log('yes it is email!!!')
+					// }
+					// else {
+					// 	console.log('not valid email!!!')
+					// }
+					view.send('makeTile')
 				}
 			}
 			else {
-
+				// empty
 			}
 
 		}
 	}),
+	actions: {
+		makeTile: function() {
+
+		}
+	}
 });

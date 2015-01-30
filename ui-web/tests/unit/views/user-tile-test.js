@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleFor('view:input-single', 'InputSingleView');
+moduleFor('view:user-tile', 'UserTileView');
 
 // Replace this with your real tests.
 test('it exists', function() {

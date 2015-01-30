@@ -18,4 +18,11 @@
 		<span class='fa fa-warning'></span>
 		<span class='info-msg'>{{view.errorMsg}}</span>
 	</span>
+	<div>
+		!!!
+		{{#each user in view.usersToBeAdded}}
+			{{view 'user-tile' user=user}}
+		{{/each}}
+		!!!
+	</div>
 </div>
