@@ -158,8 +158,39 @@ table {
             visibility: visible;
         }
     }
+    th {
+        text-transform: capitalize;
+        span {
+            margin-left: 0.5em;
+        }
+    }
     th a {
         color: $body-font-color;
+    }
+    th.th-sort {
+        .fa-sort-desc, .fa-sort-asc {
+            display: none;
+        }
+        .fa-sort {
+            display: inline-block;
+        }
+    }
+    th.th-desc {
+        .fa-sort-asc, .fa-sort {
+            display: none;
+        }
+        .fa-sort-desc {
+            display: inline-block;
+        }
+    }   
+    
+    th.th-asc {
+        .fa-sort-desc, .fa-sort {
+            display: none;
+        }
+        .fa-sort-asc {
+            display: inline-block;
+        }
     }
 }
 

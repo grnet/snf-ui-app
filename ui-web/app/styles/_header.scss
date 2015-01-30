@@ -21,6 +21,10 @@
         }
     }
     .logo {
+        &:hover {
+            transform: scale(1.05);
+            transition: 0.2s;
+        }
         float:left;
         img {
             max-height: 40px;

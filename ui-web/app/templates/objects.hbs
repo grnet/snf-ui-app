@@ -67,11 +67,11 @@
 
         <table class="css-objects">
             <thead>
-                <th><a {{action "sortBy" "stripped_name"}} title="sort by name">Name</a></th>
-                <th><a {{action "sortBy" "last_modified"}}>Last modified</a></th>
-                <th><a {{action "sortBy" "extension"}}>Extension</a></th>
-                <th><a {{action "sortBy" "size"}} class="size">Size</a></th>
-                <th>Actions</th>
+                {{view "th-sortable" field="stripped_name" title="name"}}
+                {{view "th-sortable" field="last_modified"}}
+                {{view "th-sortable" field="extension"}}
+                {{view "th-sortable" field="size"}}
+                <th>&nbsp;</th>
             </thead>
             <tbody>
             {{#each}}
