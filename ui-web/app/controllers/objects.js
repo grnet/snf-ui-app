@@ -212,6 +212,8 @@ export default Ember.ArrayController.extend(SnfDropletController, {
     },
 
     refresh: function(){
+      this.set('sortProperties', ['is_file', 'stripped_name']);
+      this.set('sortAscending', true);
       this.send('refreshRoute');
     }
   }
