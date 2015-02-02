@@ -50,18 +50,6 @@
             <a {{action 'validateCreation' 'createDir'}}>{{fa-icon "fa-save"}}</a>
         </div>
 
-        <div>
-        {{#if hasUpPath}}
-            {{#link-to 'objects' upPath }} {{fa-icon "fa-level-up"}} {{/link-to}}
-        {{/if}}
-        </div>
-
-        <div>
-            {{#if toPasteObject}}
-            <a {{action 'pasteObject'}} title="paste Item" class="obvious">{{fa-icon "fa-paste"}}</a>&nbsp;
-            {{/if}}
-        </div>
-
         {{view "objects-table"}}
 
     </div>

@@ -4,6 +4,14 @@
         {{pithos-breadcrumbs container_id=container_id current_path=current_path objects_count=objectsCount}}
         <!-- Right Nav Section -->
             <ul class="right">
+                {{#if toPasteObject}}
+                    <li class="divider"></li>
+                    <li><a {{action 'pasteObject'}} class="hint--bottom-left hint--no-animate" data-hint="Paste">{{fa-icon "fa-paste"}}</a></li>
+                {{/if}}
+                {{#if hasUpPath}}
+                    <li class="divider"></li>
+                    <li class="hint--bottom-left hint--no-animate" data-hint="Previous directory">{{#link-to 'objects' upPath}} {{fa-icon "fa-level-up"}} {{/link-to}}</li>
+                {{/if}}
                 <li class="divider"></li>
                 <li><a {{action 'showDialog' 'groups' groups}} class="hint--bottom-left hint--no-animate" data-hint="Manage groups">{{fa-icon "user"}}</a></li>
                 <li class="divider"></li>
