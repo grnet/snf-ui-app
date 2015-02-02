@@ -13,6 +13,8 @@
                     <li class="hint--bottom-left hint--no-animate" data-hint="Previous directory">{{#link-to 'objects' upPath}} {{fa-icon "fa-level-up"}} {{/link-to}}</li>
                 {{/if}}
                 <li class="divider"></li>
+                <li><a {{action 'showDialog' 'create-dir' 'objects' tiny=true}} class="hint--bottom-left hint--no-animate" data-hint="Create Directory">{{fa-icon "fa-folder"}}</a></li>
+                <li class="divider"></li>
                 <li><a {{action 'showDialog' 'groups' groups}} class="hint--bottom-left hint--no-animate" data-hint="Manage groups">{{fa-icon "user"}}</a></li>
                 <li class="divider"></li>
                 <li><a {{action "refresh"}} class="hint--bottom-left hint--no-animate" data-hint="Reload page">{{fa-icon "refresh"}}</a></li>

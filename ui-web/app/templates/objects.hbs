@@ -43,14 +43,9 @@
         </div>
         {{outlet sidebarContainers}}
     </div>
+
     <div class="columns small-10">
-        
-        <div class="panel">
-            {{view 'input-with-validation' placeholder="Create new directory"}}
-            <a {{action 'validateCreation' 'createDir'}}>{{fa-icon "fa-save"}}</a>
-        </div>
-
         {{view "objects-table"}}
-
     </div>
+
 </div>

@@ -15,13 +15,18 @@ export default Ember.ArrayController.extend(SnfDropletController, {
     return arr.join('/');
   }.property('current_path'),
 
-  dropletUrl: function(){
-    var url =  this.get('settings').get('storage_host')+'/'+this.get('container_id')+'/';
+  path: function(){
+    var url =  this.get('container_id')+'/';
     if (this.get('current_path') !== '/') {
       url = url + this.get('current_path')+ '/';
     }
     return url;
   }.property('current_path'),
+
+
+  dropletUrl: function(){
+    var url =  this.get('settings').get('storage_host')+'/'+this.get('path');
+  }.property('fullPath'),
 
   dropletHeaders: function(){
     return {'X-Auth-Token': this.get('settings').get('token'),
