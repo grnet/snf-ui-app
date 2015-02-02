@@ -55,6 +55,7 @@
             {{#link-to 'objects' upPath }} {{fa-icon "fa-level-up"}} {{/link-to}}
         {{/if}}
         </div>
+
         <div>
             Current path: <strong>{{current_path}}</strong>
 
@@ -65,21 +66,7 @@
             <a {{action 'refresh'}} title="Refresh Folder">{{fa-icon "fa-refresh"}}</a>
         </div>
 
-        <table class="css-objects">
-            <thead>
-                {{view "th-sortable" field="stripped_name" title="name"}}
-                {{view "th-sortable" field="last_modified"}}
-                {{view "th-sortable" field="extension"}}
-                {{view "th-sortable" field="size"}}
-                <th>&nbsp;</th>
-            </thead>
-            <tbody>
-            {{#each}}
-                {{view 'object'}}
-            {{else}}
-                <tr><td rowspan="5">No objects in this directory</td></tr>
-            {{/each}}
-            </tbody>
-        </table>
+        {{view "objects-table"}}
+
     </div>
 </div>

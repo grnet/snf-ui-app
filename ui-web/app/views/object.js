@@ -3,6 +3,12 @@ import Ember from 'ember';
 export default Ember.View.extend({
 	templateName: 'object',
 	tagName: 'tr',
+  classNameBindings: ['isSelected'],
+  isSelected: false,
+  click: function(event) {
+    this.toggleProperty('isSelected');
+    this.get('controller').send('selectObjects');
+  },
 	/*
 	* type -> iconCls:
 	* - dir -> fa-folder

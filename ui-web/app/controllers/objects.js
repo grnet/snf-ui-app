@@ -207,6 +207,10 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       this.toggleProperty("sortAscending");
     },
 
+    selectObjects: function(){
+      console.log('item selected');
+    },
+
     refresh: function(){
       this.send('refreshRoute');
     }

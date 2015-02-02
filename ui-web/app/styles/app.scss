@@ -158,6 +158,11 @@ table {
             visibility: visible;
         }
     }
+    tr.is-selected {
+        td {
+            background-color: lighten($secondary-color, 10%);
+        }
+    }
     th {
         text-transform: capitalize;
         span {
