@@ -6,6 +6,11 @@ export default Ember.Component.extend({
   hasDirs: function(){
     return this.get('dirs').length
   }.property('dirs'),
+
+  cnt: function(){
+    var num = this.get('objects_count');
+    return '('+num+' object'+((num===1)?'':'s')+')';
+  }.property('objects_count'),
   
   dirs: function(){
     var dirs = [];

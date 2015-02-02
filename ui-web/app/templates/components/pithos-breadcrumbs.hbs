@@ -1,5 +1,11 @@
 <li>{{link-to "Containers" "containers"}}</li>
-<li {{bind-attr class="hasDirs::current"}}>{{#link-to "container" container_id}}{{container_id}}{{/link-to}}</li>
+<li {{bind-attr class="hasDirs::current"}}>
+    {{#link-to "container" container_id}}{{container_id}}{{/link-to}}
+    {{#unless hasDirs}}{{cnt}}{{/unless}}
+</li>
 {{# each dir in dirs}}
-    <li {{bind-attr class="dir.current"}}>{{#link-to "objects" dir.path}}{{dir.name}}{{/link-to}}</li>
+    <li {{bind-attr class="dir.current"}}>
+        {{#link-to "objects" dir.path}}{{dir.name}}{{/link-to}} 
+        {{#if dir.current}}{{cnt}}{{/if}}
+    </li>
 {{/each}}
