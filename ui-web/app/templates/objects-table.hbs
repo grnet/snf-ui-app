@@ -1,9 +1,11 @@
 <thead>
-    {{view "th-sortable" field="stripped_name" title="name"}}
-    {{view "th-sortable" field="last_modified"}}
-    {{view "th-sortable" field="extension"}}
-    {{view "th-sortable" field="size"}}
-    <th>&nbsp;</th>
+    <tr>
+        {{view "th-sortable" field="stripped_name" title="name"}}
+        {{view "th-sortable" field="last_modified"}}
+        {{view "th-sortable" field="extension"}}
+        {{view "th-sortable" field="size"}}
+        <th>&nbsp;</th>
+    </tr>
 </thead>
 <tbody>
 {{#each}}
