@@ -29,11 +29,11 @@
                 {{fa-icon "fa-user"}}
             </span>
         {{/if}}
-        <a {{action 'showDialog' 'sharing' 'object/sharing' this  bubbles=false}} class="icon-btn">Share {{fa-icon "fa-share-alt"}}</a>
+        <a {{action 'showDialog' 'sharing' 'object/sharing' this}} class="icon-btn">Share {{fa-icon "fa-share-alt"}}</a>
     </span>
 
-    <a title="OK" class="hidden js-hide-edit" {{action 'reset' 'validateRename,renameObject' target=view bubbles=false}}>{{fa-icon "fa-check-circle"}}</a>
-    <a class="js-cancel js-hide-edit hidden" title="Cancel" {{action 'reset' target=view bubbles=false}}>{{fa-icon "fa-times-circle"}}</a>
+    <a title="OK" class="hidden js-hide-edit" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check-circle"}}</a>
+    <a class="js-cancel js-hide-edit hidden" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times-circle"}}</a>
 </td>
 <td class="last-modified">
     {{timestamp-to-human-short last_modified }} <span class="subtle">{{modified-by current_user.email modified_by.email}}</span>
@@ -46,9 +46,9 @@
 </td>
 <td>
     <a {{bind-attr href=view_src}} title="download Item" download>{{fa-icon "fa-download"}}</a>
-    <a {{action 'deleteObject' bubbles=false}} title="delete Item">{{fa-icon "fa-remove"}}</a>
-    <a {{action 'moveToTrash' bubbles=false}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
-    <a {{action 'cutObject' bubbles=false}} title="cut Item">{{fa-icon "fa-cut"}}</a>
-    <a {{action 'copyObject'bubbles=false}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
-    <a {{action 'showDialog' 'versions' 'object/versions' this bubbles=false}}>Show object versions</a>
+    <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
+    <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
+    <a {{action 'cutObject'}} title="cut Item">{{fa-icon "fa-cut"}}</a>
+    <a {{action 'copyObject'}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
+    <a {{action 'showDialog' 'versions' 'object/versions' this}}>Show object versions</a>
 </td>

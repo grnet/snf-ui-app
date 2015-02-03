@@ -10,6 +10,7 @@ export default Ember.View.extend({
   }.property('controller.model.isSelected'),
 
   click: function(e) {
+    if (e.target.tagName != 'TD') { return; }
     this.get('controller').get('model').toggleProperty('isSelected');
   },
 	/*
