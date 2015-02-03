@@ -23,9 +23,8 @@ export default Ember.ArrayController.extend(SnfDropletController, {
     return url;
   }.property('current_path'),
 
-
   dropletUrl: function(){
-    var url =  this.get('settings').get('storage_host')+'/'+this.get('path');
+    return this.get('settings').get('storage_host')+'/'+this.get('path');
   }.property('fullPath'),
 
   dropletHeaders: function(){
@@ -40,6 +39,11 @@ export default Ember.ArrayController.extend(SnfDropletController, {
   groups: function(){
     return this.store.find('group');
   }.property(),
+
+  selected: function(){
+    console.log(this.get('model').filterBy('isSelected').length, ' objects selected');
+    return this.get('model').filterBy('isSelected');
+  }.property('model.@each.isSelected'),
 
   copyFlag: false,
 
@@ -61,7 +65,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
     if(this.get('newName')) {
 
       var temp = [];
-      var name = this.get('newName')
+      var name = this.get('newName');
       temp.push(this.get('container_id'));
 
       if (this.get('hasUpPath')) {
@@ -88,7 +92,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       if (this.get('hasUpPath')) {
         name = this.get('current_path') + '/' + name;
       }
-      var id = this.get('newID')
+      var id = this.get('newID');
 
       var object = this.store.createRecord('object', {
         id: id,
@@ -110,7 +114,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       this.set('newName', undefined);
       this.set('validInput', undefined);
       this.set('isUnique', undefined);
-      this.set('newID', undefined)
+      this.set('newID', undefined);
     }
   }.observes('validInput'),
 
@@ -132,7 +136,6 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       var old_path = '/'+object.get('id');
       var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
       var new_id = this.get('container_id')+current_path+object.get('stripped_name');
-      var self = this;
       var copy_flag = this.get('copyFlag');
     
 
@@ -212,13 +215,12 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       this.toggleProperty("sortAscending");
     },
 
-    selectObjects: function(){
-      console.log('item selected');
-    },
-
     refresh: function(){
       this.set('sortProperties', ['is_file', 'stripped_name']);
       this.set('sortAscending', true);
+      this.get('model').map(function(el){
+        return el.set('isSelected', false);
+      });
       this.send('refreshRoute');
     }
   }

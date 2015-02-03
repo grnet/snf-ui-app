@@ -4,10 +4,13 @@ export default Ember.View.extend({
 	templateName: 'object',
 	tagName: 'tr',
   classNameBindings: ['isSelected'],
-  isSelected: false,
-  click: function(event) {
-    this.toggleProperty('isSelected');
-    this.get('controller').send('selectObjects');
+
+  isSelected: function(){
+    return this.get('controller').get('model').get('isSelected');
+  }.property('controller.model.isSelected'),
+
+  click: function(e) {
+    this.get('controller').get('model').toggleProperty('isSelected');
   },
 	/*
 	* type -> iconCls:

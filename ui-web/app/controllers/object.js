@@ -7,6 +7,8 @@ export default Ember.ObjectController.extend({
   groups: Ember.computed.alias('controllers.objects.groups'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
 
+  isSelected: false,
+
   view_src: function(){
     var base_url = this.get('settings').get('storage_view_url');
     return base_url+this.get('model').get('id');

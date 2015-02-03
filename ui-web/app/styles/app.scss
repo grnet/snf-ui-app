@@ -137,6 +137,9 @@ textarea {
 }
 
 table {
+    &:focus {
+        outline: 0 none;
+    }
     width: 100%;
     .size {
         text-align: right;
@@ -160,7 +163,11 @@ table {
     }
     tr.is-selected {
         td {
-            background-color: lighten($secondary-color, 10%);
+            background-color: $alert-color;
+            color: #fff;
+            a {
+                color: #fff;
+            }
         }
     }
     th {
