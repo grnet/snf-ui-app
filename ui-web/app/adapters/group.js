@@ -17,10 +17,10 @@ export default StorageAdapter.extend({
         var obj = {};
         obj.id = h.replace('X-Account-Group-', '').toLowerCase();
         obj.name = obj.id;
-        obj.uuids = jqXHR.getResponseHeader(h);
-        if (obj.uuids === '~') {return;}
-        if (obj.uuids) {
-          obj.users = obj.uuids.split(',');
+        var uuids = jqXHR.getResponseHeader(h);
+        if (uuids === '~') {return;}
+        if (uuids) {
+          obj.users = uuids.split(',');
         } else {
           obj.users = [];
         }
