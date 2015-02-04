@@ -3,15 +3,25 @@ import Ember from 'ember';
 export default Ember.View.extend({
 	templateName: 'object',
 	tagName: 'tr',
-  classNameBindings: ['isSelected'],
+  classNameBindings: ['isSelected', 'toPaste'],
 
   isSelected: function(){
-    return this.get('controller').get('model').get('isSelected');
-  }.property('controller.model.isSelected'),
+    return this.get('controller').get('isSelected');
+  }.property('controller.isSelected'),
+
+  toPaste: function(){
+    var pasted = this.get('controller.controllers.objects.toPasteObject');
+    var el = this.get('controller').get('model');
+    if (pasted) {
+      return (Ember.compare(pasted.get('id'),el.get('id')) === 0);
+    } else {
+      return false;
+    }
+  }.property('controller.controllers.objects.toPasteObject'),
 
   click: function(e) {
     if (e.target.tagName != 'TD') { return; }
-    this.get('controller').get('model').toggleProperty('isSelected');
+    this.get('controller').toggleProperty('isSelected');
   },
 	/*
 	* type -> iconCls:

@@ -161,6 +161,16 @@ table {
             visibility: visible;
         }
     }
+    tr.to-paste {
+        td {
+            background-color: $warning-color;
+            color: #fff;
+            a {
+                color: #fff;
+            }
+        }
+    }
+ 
     tr.is-selected {
         td {
             background-color: $alert-color;
@@ -170,7 +180,7 @@ table {
             }
         }
     }
-    th {
+   th {
         text-transform: capitalize;
         span {
             margin-left: 0.5em;
