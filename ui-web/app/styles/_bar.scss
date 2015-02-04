@@ -26,16 +26,23 @@
                         color: inherit;
                     }
                 }
- 
-                &.current {
-                    a {
-                        color: inherit;
+            }
+        }
+        .right {
+            li {
+                border-left: 1px solid #d8d8d8;
+                text-align: center;
+                a {
+                    line-height: inherit;
+                    height: $topbar-height;
+                    padding-top:15px;
+                }
+                &:hover {
+                    label {
+                        color: $topbar-link-color-hover;
                     }
                 }
             }
-        }
-        li.divider {
-            border-right-color: #d8d8d8;
         }
         li.disabled {
             opacity: 0.5;
@@ -44,9 +51,16 @@
                 background: inherit;
                 color: inherit;
             }
+            &:hover label {
+                color: $body-font-color;
+            }
         }
-    }
-    .fa {
-        font-size: rem-calc(16);
+        label {
+            display: block;
+            font-size: rem-calc(12);
+        }
+        .fa {
+            font-size: rem-calc(18);
+        }
     }
 }

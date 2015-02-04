@@ -3,17 +3,37 @@
         <section class="top-bar-section">
         {{pithos-breadcrumbs container_id=container_id current_path=current_path objects_count=objectsCount}}
         <!-- Right Nav Section -->
-            <ul class="right">
-                <li class="divider"></li>
-                <li  {{bind-attr class="toPasteObject::disabled"}}><a {{action 'pasteObject'}} class="hint--bottom-left hint--no-animate" data-hint="Paste">{{fa-icon "fa-paste"}}</a></li>
-                <li class="divider"></li>
-                <li {{bind-attr class=":hint--bottom-left :hint--no-animate hasUpPath::disabled"}} data-hint="Previous directory">{{#link-to 'objects' upPath}} {{fa-icon "fa-level-up"}} {{/link-to}}</li>
-                <li class="divider"></li>
-                <li><a {{action 'showDialog' 'create-dir' 'objects'}} class="hint--bottom-left hint--no-animate" data-hint="Create Directory">{{fa-icon "fa-folder"}}</a></li>
-                <li class="divider"></li>
-                <li><a {{action 'showDialog' 'groups' groups}} class="hint--bottom-left hint--no-animate" data-hint="Manage groups">{{fa-icon "user"}}</a></li>
-                <li class="divider"></li>
-                <li><a {{action "refresh"}} class="hint--bottom-left hint--no-animate" data-hint="Reload page">{{fa-icon "refresh"}}</a></li>
+            <ul class="right top-icons">
+                <li  {{bind-attr class="toPasteObject::disabled"}}>
+                    <a {{action 'pasteObject'}}>
+                        {{fa-icon "fa-paste"}}
+                        <label>Paste</label>
+                    </a>
+                </li>
+                <li {{bind-attr class="hasUpPath::disabled"}}>
+                    {{#link-to 'objects' upPath}}
+                        {{fa-icon "fa-level-up"}}
+                        <label>Up</label>
+                    {{/link-to}}
+                </li>
+                <li>
+                    <a {{action 'showDialog' 'create-dir' 'objects'}}>
+                        {{fa-icon "fa-folder"}}
+                        <label>New folder</label>
+                    </a>
+                </li>
+                <li>
+                    <a {{action 'showDialog' 'groups' groups}}>
+                        {{fa-icon "users"}}
+                        <label>Groups</label>
+                    </a>
+                </li>
+                <li>
+                    <a {{action "refresh"}}>
+                        {{fa-icon "refresh"}}
+                        <label>Reload</label>
+                    </a>
+                </li>
             </ul>
         </section>
     </nav>
