@@ -10,11 +10,10 @@ export default Ember.View.extend({
 	warningMsg: undefined,
 
 	value: undefined,
-	usersToBeAdded: [{email: 'user@synnefo.org', curState: 'loading', uuid: 'should be placed here?'}],
+	usersToBeAdded: [],
 
 	notEmpty: function() {
 		var value = this.get('value');
-		console.log('>>', value)
 		if(value) {
 			value = value.trim();
 		}
@@ -33,7 +32,6 @@ export default Ember.View.extend({
 
 	// move it
 	isEmail: function(email) {
-		console.log('***',email)
 		// var value = this.get('value');
 		// to be checked!!! I added greek chars but I should either to permit all
 		// unicode chars or not to check at all if the value is an email
@@ -41,11 +39,19 @@ export default Ember.View.extend({
 		return re.test(email);
 	}.property(),
 
-	tileHTML: function(email) {
-		return 
-	},
 
 	didInsertElement: function() {},
+
+	updateUser: function() {
+		var updatedUser = this.get('controller').get('userData');
+		var email = updatedUser.get('email');
+		this.get('usersToBeAdded').forEach(function(item) {
+
+		if (email === item.email) {
+			item.set('status', updatedUser.get('status'));
+		}
+		});
+	}.observes('controller.userData'),
 
 	eventManager: Ember.Object.create({
 		input: function(event, view) {
@@ -57,33 +63,36 @@ export default Ember.View.extend({
 
 				if(value.indexOf(',') !== -1) {
 					var emails = value.split(',');
+					view.set('value', '')
 					emails.forEach(function(email, index) {
 						email = email.trim();
-						if(email.length === 0) {
-							emails.splice(index, 1);
+						if(email.length !== 0) {
+							var isEmail = true;
+							view.send('addUser', email, 'loading', undefined)
+							if(isEmail) {
+								view.get('controller').send('findUser', email)
+							}
+							else {
+							// not valid email...
+							}
 						}
 					});
-
-					// var isEmail = view.get('isEmail');
-
-					// if(isEmail) {
-					// 	console.log('yes it is email!!!')
-					// }
-					// else {
-					// 	console.log('not valid email!!!')
-					// }
-					view.send('makeTile')
 				}
 			}
-			else {
-				// empty
-			}
-
 		}
 	}),
 	actions: {
-		makeTile: function() {
+		addUser: function(email, status, uuid) {
+			var user = this.get('usersToBeAdded').filterBy('email', email);
 
+			if(user.length === 0) {
+				this.get('usersToBeAdded').pushObject(Ember.Object.create({email: email, status: 'loading'}));
+			}
+			else {
+				// already there....
+				// I won't show it at all....
+				console.log('[addUser] already in the input')
+			}
 		}
 	}
 });

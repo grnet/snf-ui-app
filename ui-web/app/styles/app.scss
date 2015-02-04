@@ -115,13 +115,14 @@ div.droppable div.file {
         margin-right: 10px;
         padding: 4px;
         font-size: 14px;
+        display: initial;
         &.loading {
             background-color: antiquewhite;
         }
         &.error {
             background-color: #FFBABA;   
         }
-        &.valid {
+        &.success {
             background-color: #BAFFCB;
         }
         .sign {
