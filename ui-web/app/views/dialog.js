@@ -10,7 +10,7 @@ export default Ember.View.extend({
 	}.on('didInsertElement'),
 
 	closeDialog: function() {
-		var closeDialog = this.get('controller').get('closeDialog')
+		var closeDialog = this.get('controller').get('closeDialog');
 		if(closeDialog) {
 			this.$().foundation('reveal', 'close');
 			this.get('controller').set('closeDialog', false)

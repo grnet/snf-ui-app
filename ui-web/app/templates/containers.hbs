@@ -1,7 +1,7 @@
 {{view 'input-with-validation' placeholder='Create Container...'}}
 {{!-- the element below is temp --}}
 <span class="side-select">
-  {{view Ember.Select content=projects
+  {{view "select" content=projects
      optionLabelPath="content.select_label"
      optionValuePath="content.id"
      selection=newProject}}
@@ -20,7 +20,7 @@
             <strong>Total items:</strong> {{count}}<br>
         </td>
         <td>
-            {{view Ember.Select content=availableProjects
+            {{view "select" content=availableProjects
                    optionLabelPath="content.select_label"
                    optionValuePath="content.id"
                    prompt="Reassign project:"
