@@ -45,6 +45,8 @@ export default Ember.ArrayController.extend(SnfDropletController, {
     return this.get('model').filterBy('isSelected');
   }.property('model.@each.isSelected'),
 
+  toPasteObject: null,
+
   copyFlag: false,
 
  /*
@@ -221,6 +223,7 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       this.get('model').map(function(el){
         return el.set('isSelected', false);
       });
+      this.set('toPasteObject', null);
       this.send('refreshRoute');
     }
   }
