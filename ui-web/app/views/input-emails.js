@@ -42,6 +42,13 @@ export default Ember.View.extend({
 		this.send('applyUpdateUser', email, uuid, status, errorMsg);
 	}.observes('controller.userData'),
 
+	allUsersValid: function() {
+		var allUsersValid = this.get('usersToBeAdded').every(function(user, index) {
+			return user.get('status') === 'success';
+		});
+		this.get('controller').set('allUsersValid', allUsersValid);
+	}.observes('usersToBeAdded.@each.status'),
+
 	eventManager: Ember.Object.create({
 		input: function(event, view) {
 			var value = view.$('input').val();

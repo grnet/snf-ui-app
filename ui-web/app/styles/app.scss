@@ -67,9 +67,15 @@ div.droppable div.file {
     position: inherit;
     color: white;
 }
+.btn-block {
+    display: block;
+}
 
 .input-with-valid {
     display: inline-block;
+    &.input-partial {
+        vertical-align: top;
+    }
 
     .info {
         position: absolute;
@@ -111,11 +117,11 @@ div.droppable div.file {
         // margin-right: -10px;
     }
     .tile {
-        height: 2.3125rem;
-        margin-right: 10px;
-        padding: 4px;
+        display: inline-block;
+        height: 1.3rem;
+        margin: 2px 4px;
+        padding: 0 0 0 4px;
         font-size: 14px;
-        display: initial;
         &.loading {
             background-color: antiquewhite;
         }
@@ -126,12 +132,15 @@ div.droppable div.file {
             background-color: #BAFFCB;
         }
         .sign {
-            margin-left: 14px;
+            margin-left: 6px;
             padding: 2px;
             // border-radius: 4px;
             background: pink;
             color: white;
-            font-size: 14px;
+            font-size: 17px;
+            height: 100%;
+            vertical-align: top;
+
         }
     }
     input, input:focus {
@@ -147,6 +156,7 @@ div.droppable div.file {
         margin-bottom: 1rem;
         // height: 2.3125rem;
         padding: 0.3rem;
+        max-width: 510px;
     }
 }
 
