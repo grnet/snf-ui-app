@@ -30,27 +30,16 @@ export default Ember.View.extend({
 		}
 	}.property('value'),
 
-	// move it
-	isEmail: function(email) {
-		// var value = this.get('value');
-		// to be checked!!! I added greek chars but I should either to permit all
-		// unicode chars or not to check at all if the value is an email
-		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Zα-ωΑ-Ω\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		return re.test(email);
-	}.property(),
-
 
 	didInsertElement: function() {},
 
 	updateUser: function() {
 		var updatedUser = this.get('controller').get('userData');
 		var email = updatedUser.get('email');
-		this.get('usersToBeAdded').forEach(function(item) {
-
-		if (email === item.email) {
-			item.set('status', updatedUser.get('status'));
-		}
-		});
+		var uuid = updatedUser.get('uuid');
+		var status = updatedUser.get('status');
+		var errorMsg = updatedUser.get('errorMsg');
+		this.send('applyUpdateUser', email, uuid, status, errorMsg);
 	}.observes('controller.userData'),
 
 	eventManager: Ember.Object.create({
@@ -67,13 +56,13 @@ export default Ember.View.extend({
 					emails.forEach(function(email, index) {
 						email = email.trim();
 						if(email.length !== 0) {
-							var isEmail = true;
+							var isEmail = is.email(email)
 							view.send('addUser', email, 'loading', undefined)
 							if(isEmail) {
 								view.get('controller').send('findUser', email)
 							}
 							else {
-							// not valid email...
+								view.send('applyUpdateUser', email, undefined, 'error', 'Not valid e-mail')
 							}
 						}
 					});
@@ -82,6 +71,22 @@ export default Ember.View.extend({
 		}
 	}),
 	actions: {
+		applyUpdateUser: function(email, uuid, status, errorMsg) {
+			this.get('usersToBeAdded').forEach(function(user) {
+				if (email === user.email) {
+					if(uuid) {
+						user.set('uuid', uuid);
+					}
+					if(status) {
+						user.set('status', status);
+					}
+					if(errorMsg) {
+						user.set('errorMsg', errorMsg);
+					}
+				}
+			});
+		},
+
 		addUser: function(email, status, uuid) {
 			var user = this.get('usersToBeAdded').filterBy('email', email);
 
@@ -91,7 +96,6 @@ export default Ember.View.extend({
 			else {
 				// already there....
 				// I won't show it at all....
-				console.log('[addUser] already in the input')
 			}
 		}
 	}
