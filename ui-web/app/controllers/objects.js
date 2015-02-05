@@ -40,10 +40,19 @@ export default Ember.ArrayController.extend(SnfDropletController, {
     return this.store.find('group');
   }.property(),
 
+  selectedC: Ember.computed.filterBy("@this", "isSelected", true),
+
   selected: function(){
-    console.log(this.get('model').filterBy('isSelected').length, ' objects selected');
-    return this.get('model').filterBy('isSelected');
-  }.property('model.@each.isSelected'),
+    var objects = [];
+    this.get('selectedC').forEach(function(s){
+      objects.pushObject(s.get('model'));
+    });
+    return objects;
+  }.property('selectedC.@each'),
+
+  hasSelected: function(){
+    return this.get('selectedC').length > 0;
+  }.property('selectedC.@each'),
 
   toPasteObject: null,
 
@@ -225,7 +234,48 @@ export default Ember.ArrayController.extend(SnfDropletController, {
       });
       this.set('toPasteObject', null);
       this.send('refreshRoute');
-    }
+    },
+
+    deleteObjects: function(object_list){
+      var self = this;
+      var selected = this.get('selected');
+      var objects = object_list || selected;
+      if (objects.length === 0) { return; }
+      var onSuccess = function() {
+          console.log('delete object: onSuccess');
+      };
+
+      var onFail = function(reason){
+        self.send('showActionFail', reason);
+      };
+      
+      objects.forEach(function(object) {
+        object.deleteRecord();
+        object.save().then(onSuccess, onFail);
+      });
+    },
+ 
+    moveObjectsToTrash: function(object_list){
+      var self = this;
+      var selected = this.get('selected');
+      var objects = object_list || selected;
+      if (objects.length === 0) { return; }
+      var onSuccess = function() {
+          console.log('move to trash object: onSuccess');
+      };
+
+      var onFail = function(reason){
+        self.send('showActionFail', reason);
+      };
+
+      objects.forEach(function(object) {
+        var oldID = object.get('id');
+        var oldPath = '/'+ oldID;
+        var newID = 'trash/'+object.get('name');
+        self.store.moveObject(object, oldPath, newID).then(onSuccess, onFail);
+        object.deleteRecord();
+      });
+    },
   }
 
 });

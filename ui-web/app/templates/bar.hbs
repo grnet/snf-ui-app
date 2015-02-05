@@ -4,6 +4,19 @@
         {{pithos-breadcrumbs container_id=container_id current_path=current_path objects_count=objectsCount}}
         <!-- Right Nav Section -->
             <ul class="right top-icons">
+                <li {{bind-attr class="hasSelected::disabled"}}>
+                    <a {{action 'moveObjectsToTrash'}}>
+                        {{fa-icon "fa-trash"}}
+                        <label>Trash</label>
+                    </a>
+                </li>
+
+                <li {{bind-attr class="hasSelected::disabled"}}>
+                    <a {{action 'deleteObjects'}}>
+                        {{fa-icon "fa-remove"}}
+                        <label>Delete</label>
+                    </a>
+                </li>
                 <li  {{bind-attr class="toPasteObject::disabled"}}>
                     <a {{action 'pasteObject'}}>
                         {{fa-icon "fa-paste"}}

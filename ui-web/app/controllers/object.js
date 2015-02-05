@@ -165,20 +165,15 @@ export default Ember.ObjectController.extend({
   }.observes('validInput'),
 
   actions: {
-    deleteObject: function(){
-      var self = this;
-      var object = this.get('model');
-      var onSuccess = function() {
-          console.log('delete object: onSuccess');
-      };
-
-      var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
-      object.deleteRecord();
-      object.save().then(onSuccess, onFail);
+    sendMany: function(action){
+      var object_list = [];
+      object_list.pushObject(this.get('model'));
+      this.send(action, object_list);
     },
 
+    deleteObject: function(){
+      this.send('sendMany', 'deleteObjects');
+    },
 
     validateRename: function(action) {
       var flag = 'validationOnProgress';
@@ -187,19 +182,7 @@ export default Ember.ObjectController.extend({
     },
 
     moveToTrash: function(){
-      var object = this.get('model');
-      var oldID = object.get('id');
-      var oldPath = '/'+ oldID;
-      var newID = 'trash/'+object.get('name');
-      var self = this;
-      var onSuccess = function() {
-          self.send('refreshRoute');
-        };
-
-      var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
-      this.store.moveObject(object, oldPath, newID).then(onSuccess, onFail);
+      this.send('sendMany','moveObjectsToTrash');
     },
 
     cutObject: function(){
@@ -212,8 +195,6 @@ export default Ember.ObjectController.extend({
       this.set('controllers.objects.toPasteObject', object);
       this.set('controllers.objects.copyFlag', true);
     },
-
-
   }
 });
 
