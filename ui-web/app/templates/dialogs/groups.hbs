@@ -5,7 +5,7 @@
     {{view 'input-partial' placeholder="Name"}}
     {{view 'input-emails' placeholder="Comma separeted emails..."}}
 
-    <button {{action 'createGroup' }}>Create group</button>
+    <button {{action 'createGroup' }} class="btn-block" {{bind-attr disabled='freezeCreation'}}>Create group</button>
 </div>
 
 {{#each}}

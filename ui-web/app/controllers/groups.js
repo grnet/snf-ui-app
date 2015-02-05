@@ -2,8 +2,7 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
   itemController: 'group',
-  
-  blockCreate: true,
+
   /*
   * Pithos API allows the name of groups to have at most 256 chars
   * When a new group is created the length of the name is checked
@@ -12,6 +11,16 @@ export default Ember.ArrayController.extend({
 
   newName: undefined,
   isUnique: undefined,
+
+  isNameValid: false,
+  allUsersValid: false,
+
+  freezeCreation: function() {
+    var isNameValid = this.get('isNameValid')
+    var allUsersValid = this.get('allUsersValid')
+    return !(isNameValid && allUsersValid);
+  }.property('isNameValid', 'allUsersValid'),
+
 
   checkUnique: function() {
     if(this.get('newName')) {
