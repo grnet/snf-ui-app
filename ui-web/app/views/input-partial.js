@@ -18,6 +18,11 @@ export default Ember.View.extend({
 	warningVisible: false,
 	warningMsg: undefined,
 
+	/*
+	* Errors: empty, already exists
+	* Warnings: too large
+	*/
+
 	value: undefined,
 
 	valueEncoded: function() {
@@ -64,8 +69,9 @@ export default Ember.View.extend({
 					temp = temp.slice(0, -1);
 					encodedLength = encodeURIComponent(temp).length;
 					if(encodedLength <= maxSize) {
-						this.send('showInfo','The name of the group must be at the most '+maxSize+' (encoded) characters', true);
+						this.send('showInfo','The name of the group must be at the most '+maxSize+' (encoded) characters');
 						this.set('value', temp)
+						this.send('hideInfo')
 						break;
 					}
 				}
@@ -102,8 +108,10 @@ export default Ember.View.extend({
 		},
 
 		focusOut: function(event, view) {
-			view.set('warningVisible', false);
 			view.set('focusOutValidOnProgress', true);
+		},
+		focusIn: function(event, view) {
+			view.send('hideInfo', true);
 		}
 	}),
 
@@ -136,6 +144,21 @@ export default Ember.View.extend({
 			else {
 				this.set('warningMsg', msg);
 				this.set('warningVisible', true);
+			}
+		},
+		hideInfo: function(isError) {
+			var self = this;
+			if(isError) {
+				this.$('span.error').slideUp('slow', function() {
+					self.set('errorVisible', false);
+				});
+			}
+			else {
+				setTimeout(function() {
+					self.$('span.warning').slideUp('slow', function() {
+						self.set('warningVisible', false);
+					});
+				}, 5000);
 			}
 		}
 	}
