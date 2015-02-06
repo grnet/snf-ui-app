@@ -39,6 +39,14 @@ export default DS.Model.extend({
     return this.get('name').split('/').pop();
   }.property('name'),
 
+  stripped_name_no_ext:function(){
+    var arr = this.get('stripped_name').split('.');
+    if (arr.length>1) {
+      arr.pop();
+    } 
+    return arr.join('.');
+  }.property('stripped_name'),
+
   // returns a list of items that have permissions to read/write the object
   shared_users: function(){
     var self = this;

@@ -147,6 +147,19 @@ table {
     .share {
         float: right;
     }
+    .name {
+        width: 45%;
+        .js-name {
+            span {
+                max-width: 340px;
+                text-overflow: ellipsis;
+                display: inline-block;
+                overflow: hidden;
+                white-space: nowrap;
+                vertical-align: top;
+            }
+        }
+    }
     tr .icon-btn {
         background: $gainsboro;
     }

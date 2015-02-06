@@ -23,12 +23,6 @@
                         <label>Paste</label>
                     </a>
                 </li>
-                <li {{bind-attr class="hasUpPath::disabled"}}>
-                    {{#link-to 'objects' upPath}}
-                        {{fa-icon "fa-level-up"}}
-                        <label>Up</label>
-                    {{/link-to}}
-                </li>
                 <li>
                     <a {{action 'showDialog' 'create-dir' 'objects'}}>
                         {{fa-icon "fa-folder"}}

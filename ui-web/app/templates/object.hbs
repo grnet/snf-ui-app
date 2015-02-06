@@ -1,4 +1,4 @@
-<td>
+<td class="name">
     {{#if is_dir}}
         {{#link-to 'objects' name}}
             {{fa-icon view.iconCls}}
@@ -14,7 +14,7 @@
         {{else}}
             {{fa-icon view.iconCls}}
         {{/if}}
-        <span class="js-name">{{stripped_name}}</span>
+        <span class="js-name hint--bottom" {{bind-attr data-hint=stripped_name}}><span>{{stripped_name_no_ext}}</span></span>
     {{/if}}
     {{view 'input-with-validation' placeholder=stripped_name cls='hidden'}}
     <a title="Rename" class="js-show-edit rename">{{fa-icon "fa-pencil"}}</a>
@@ -50,5 +50,5 @@
     <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
     <a {{action 'cutObject'}} title="cut Item">{{fa-icon "fa-cut"}}</a>
     <a {{action 'copyObject'}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
-    <a {{action 'showDialog' 'versions' 'object/versions' this}}>Show object versions</a>
+    <a {{action 'showDialog' 'versions' 'object/versions' this}}>Manage versions</a>
 </td>
