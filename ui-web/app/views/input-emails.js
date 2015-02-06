@@ -1,5 +1,12 @@
 import Ember from 'ember';
 
+/*
+ * In order this view to work its controller must have the properties:
+ * userData
+ * allUsersValid
+ * Also, must have action: findUser
+*/
+
 export default Ember.View.extend({
 	templateName: 'input-emails',
 	classNames: ['input-emails', 'input-with-valid'],
