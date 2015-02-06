@@ -42,6 +42,11 @@ export default Ember.View.extend({
 		}
 	}.property('value'),
 
+	/*
+	* permitLower and checkSize are used to synchronise the adjustSize and
+	* toLowerCase functions. The synchronisation is necessary because both
+	* of them may modify the value of the input.
+	*/
 	permitLower: false,
 	checkSize: false,
 	typingValidOnProgress: false,
@@ -53,7 +58,6 @@ export default Ember.View.extend({
 			var maxSize = this.get('controller').get('nameMaxLength');
 			var valueEncoded = this.get('valueEncoded');
 			if(valueEncoded.length >= maxSize) {
-				var tempenc;
 				var temp = this.get('value');
 				var encodedLength;
 				for(var i=0; i<maxSize; i++) {
@@ -79,7 +83,7 @@ export default Ember.View.extend({
 			if(value !== valueLower) {
 				setTimeout(function() {
 					self.set('value', valueLower);
-					self.send('showInfo','Capital letters are not allowed');
+					// self.send('showInfo','Capital letters are not allowed');
 				}, 300);
 			}
 			this.set('permitLower', false);
