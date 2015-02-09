@@ -47,99 +47,80 @@ export default Ember.View.extend({
 		}
 	}.property('value'),
 
-	/*
-	* permitLower and checkSize are used to synchronise the adjustSize and
-	* toLowerCase functions. The synchronisation is necessary because both
-	* of them may modify the value of the input.
-	*/
-	permitLower: false,
-	checkSize: false,
-	typingValidOnProgress: false,
-	focusOutValidOnProgress: false,
-
 	adjustSize: function() {
-		this.set('permitLower', false);
-		if(this.get('checkSize')) {
-			var maxSize = this.get('controller').get('nameMaxLength');
-			var valueEncoded = this.get('valueEncoded');
+		var self = this;
+
+		return function() {
+			var maxSize = self.get('controller').get('nameMaxLength');
+			var valueEncoded = self.get('valueEncoded');
 			if(valueEncoded.length >= maxSize) {
-				var temp = this.get('value');
+				var temp = self.get('value');
 				var encodedLength;
 				for(var i=0; i<maxSize; i++) {
 					temp = temp.slice(0, -1);
 					encodedLength = encodeURIComponent(temp).length;
 					if(encodedLength <= maxSize) {
-						this.send('showInfo','The name of the group must be at the most '+maxSize+' (encoded) characters');
-						this.set('value', temp)
-						this.send('hideInfo')
+						self.send('showInfo','The name of the group must be at the most '+maxSize+' (encoded) characters');
+						self.set('value', temp)
+						self.send('hideInfo')
 						break;
 					}
 				}
 			}
-			this.set('checkSize', false);
-			this.set('permitLower', true)
-		}
-	}.observes('checkSize'),
+		};
+	}.property(),
 
 	toLowerCase: function() {
-		if(this.get('permitLower')) {
-			var self = this;
-			var value = this.get('value');
+		var self = this;
+
+		return function() {
+			var value = self.get('value');
 			var valueLower = value.toLowerCase();
 			if(value !== valueLower) {
 				setTimeout(function() {
 					self.set('value', valueLower);
-					// self.send('showInfo','Capital letters are not allowed');
 				}, 300);
 			}
-			this.set('permitLower', false);
 		}
-		this.set('typingValidOnProgress', false);
-	}.observes('permitLower'),
+	}.property(),
+
+	isUnique: function() {
+		var self = this;
+		return function() {
+			self.get('controller').set('newName', self.get('valueEncoded'))
+			if(self.get('controller').get('isUnique')) {
+				console.log('IS UNIQUE')
+			}
+			else {
+				self.send('showInfo', 'Already exists', true)
+			}
+		};
+	}.property(),
 
 
 	eventManager: Ember.Object.create({
 		input: function(event, view) {
+			view.send('hideInfo', true)
 			var value = view.$('input').val();
-
-			view.set('typingValidOnProgress', true);
 			view.set('value', value);
-			view.set('checkSize', true);
+			if(view.get('notEmpty')) {
+				view.get('toLowerCase')();
+				view.get('adjustSize')();
+				view.get('isUnique')();
+			}
 		},
-
 		focusOut: function(event, view) {
-			view.set('focusOutValidOnProgress', true);
+			if(!view.get('notEmpty')) {
+				view.send('showInfo', 'This can\'t be empty.', true);
+			}
 		},
-		focusIn: function(event, view) {
-			view.send('hideInfo', true);
-		}
 	}),
-
-	finalValidations: function() {
-		var typingValidOnProgress = this.get('typingValidOnProgress');
-		var focusOutValidOnProgress = this.get('focusOutValidOnProgress');
-		if(!typingValidOnProgress && focusOutValidOnProgress) {
-			if(this.get('notEmpty')) {
-				this.get('controller').set('newName', this.get('valueEncoded'))
-				if(this.get('controller').get('isUnique')) {
-					console.log('IS UNIQUE')
-				}
-				else {
-					this.send('showInfo', 'Already exists', true)
-				}
-			}
-			else {
-				this.send('showInfo', 'Empty input', true)
-			}
-		}
-		this.set('focusOutValidOnProgress', false);
-	}.observes('typingValidOnProgress', 'focusOutValidOnProgress'),
 
 	actions: {
 		showInfo: function(msg, isError) {
 			if(isError) {
-				this.set('errorMsg', msg);
-				this.set('errorVisible', true);
+					this.set('errorMsg', msg);
+					this.set('errorVisible', true);
 			}
 			else {
 				this.set('warningMsg', msg);
@@ -149,15 +130,11 @@ export default Ember.View.extend({
 		hideInfo: function(isError) {
 			var self = this;
 			if(isError) {
-				this.$('span.error').slideUp('slow', function() {
-					self.set('errorVisible', false);
-				});
+					this.set('errorVisible', false);
 			}
 			else {
 				setTimeout(function() {
-					self.$('span.warning').slideUp('slow', function() {
-						self.set('warningVisible', false);
-					});
+					self.set('warningVisible', false);
 				}, 5000);
 			}
 		}
