@@ -57,10 +57,9 @@ export default Ember.View.extend({
 	}.observes('usersToBeAdded.@each.status'),
 
 	eventManager: Ember.Object.create({
-		input: function(event, view) {
+		keyUp: function(event, view) {
 			var value = view.$('input').val();
 			view.set('value', value);
-
 			if(view.get('notEmpty')) {
 				value = view.get('value');
 
@@ -68,18 +67,13 @@ export default Ember.View.extend({
 					var emails = value.split(',');
 					view.set('value', '')
 					emails.forEach(function(email, index) {
-						email = email.trim();
-						if(email.length !== 0) {
-							var isEmail = is.email(email)
-							view.send('addUser', email, 'loading', undefined)
-							if(isEmail) {
-								view.get('controller').send('findUser', email)
-							}
-							else {
-								view.send('applyUpdateUser', email, undefined, 'error', 'Not valid e-mail')
-							}
-						}
+						view.send('handleNewEmail', email);
 					});
+				}
+				else if(event.keyCode === 13) {
+					var email = value;
+					view.set('value', '');
+					view.send('handleNewEmail', email);
 				}
 			}
 		}
@@ -100,7 +94,20 @@ export default Ember.View.extend({
 				}
 			});
 		},
+		handleNewEmail: function(email) {
+			if(email.length !== 0) {
+				var isEmail = is.email(email)
+				this.send('addUser', email, 'loading', undefined)
+				if(isEmail) {
+					this.get('controller').send('findUser', email)
+				}
+				else {
+					this.send('applyUpdateUser', email, undefined, 'error', 'Not valid e-mail')
+				}
+			}
+		},
 
+		// add a new user in the array usersToBeAdded
 		addUser: function(email, status, uuid) {
 			var user = this.get('usersToBeAdded').filterBy('email', email);
 
