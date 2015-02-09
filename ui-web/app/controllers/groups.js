@@ -17,8 +17,12 @@ export default Ember.ArrayController.extend({
     * name is valid if it is unique because all other checks
     * have been executedfrom the input view, before the checkUnique function
     */
+    return this.get('isUnique');
   }.property('isUnique'),
+
   allUsersValid: false,
+  users: [],
+  userData: undefined,
 
   freezeCreation: function() {
     var isNameValid = this.get('isNameValid')
@@ -43,30 +47,49 @@ export default Ember.ArrayController.extend({
     }
   }.observes('newName'),
 
-  userData: undefined,
   actions: {
     findUser: function(email) {
-      var userEmail = 'email='+email;
       var self = this;
+      var userEmail = 'email='+email;
+      var users = [];
         self.store.find('user', userEmail).then(function(user) {
-          var user = Ember.Object.create({
+          var userExtendedData = Ember.Object.create({
             uuid: user.id,
             email: email,
             status: 'success'
           });
-
-          self.set('userData', user);
+          self.get('users').pushObject(user);
+          self.set('userData', userExtendedData);
         }, function(error) {
-          var user = Ember.Object.create({
+          var userExtendedData = Ember.Object.create({
             uuid: undefined,
             email: email,
             status: 'error',
             errorMsg: error.message
           });
-          self.set('userData', user);
+          self.set('userData', userExtendedData);
         });
     },
     createGroup: function(){
+      if(!this.get('freezeCreation')) {
+        var self = this;
+        var users = this.get('users');
+        var name = this.get('newName');
+      // wait until all users are retrieved
+      return Ember.RSVP.all(users).then(function(res){
+        // create a group with no users
+        var group = self.store.createRecord('group', {
+          name: name,
+          id: name,
+        });
+        // add users to the newly created group
+        group.get('users').then(function(users){
+          users.pushObjects(res);
+          group.save()//.then(onSuccess, onFail);
+        });
+      } /*onFail*/);
+
+      }
       // var self = this;
       // var name = this.get('newName');
       // var emails = this.get('newEmails');

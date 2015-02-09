@@ -53,6 +53,7 @@ export default Ember.View.extend({
 		var allUsersValid = this.get('usersToBeAdded').every(function(user, index) {
 			return user.get('status') === 'success';
 		});
+
 		this.get('controller').set('allUsersValid', allUsersValid);
 	}.observes('usersToBeAdded.@each.status'),
 
