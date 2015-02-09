@@ -12,7 +12,12 @@ export default Ember.ArrayController.extend({
   newName: undefined,
   isUnique: undefined,
 
-  isNameValid: false,
+  isNameValid: function() {
+    /*
+    * name is valid if it is unique because all other checks
+    * have been executedfrom the input view, before the checkUnique function
+    */
+  }.property('isUnique'),
   allUsersValid: false,
 
   freezeCreation: function() {
