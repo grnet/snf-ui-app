@@ -118,6 +118,11 @@ export default Ember.View.extend({
 				// already there....
 				// I won't show it at all....
 			}
+		},
+		getInputValue: function() {
+			var event = $.Event('keyup');
+			event.keyCode = 13;
+			this.$('input').trigger(event);
 		}
 	}
 });

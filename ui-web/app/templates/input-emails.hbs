@@ -9,6 +9,7 @@
 		{{/if}}
 	</span>
 	<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder}} type='text' {{bind-attr value='view.value'}}>
+	 <button {{action 'getInputValue' target='view'}} class="tiny">Load user</button>
 </div>
 
 <div  class='info'>
