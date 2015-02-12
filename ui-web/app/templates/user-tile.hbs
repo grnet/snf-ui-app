@@ -1,2 +1,2 @@
 <a class='email'>{{user.email}}</a>
-<a class='remove fa fa-remove sign'></a>
+<a class='remove fa fa-remove sign' {{action 'removeUser' user.email target='view.parentView'}}></a>

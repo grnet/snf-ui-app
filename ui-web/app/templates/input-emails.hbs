@@ -1,7 +1,7 @@
 {{!-- placeholder is passed as a param from the template where you put the current view --}}
 <div class='container-emails'>
 	<span class='tiles'>
-		{{#each user in view.usersToBeAdded}}
+		{{#each user in usersExtended}}
 			{{view 'user-tile' user=user}}
 		{{/each}}
 		{{#if view.usersToBeAdded.length}}

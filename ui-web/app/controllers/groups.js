@@ -1,141 +1,150 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-  itemController: 'group',
+	itemController: 'group',
 
-  /*
-  * Pithos API allows the name of groups to have at most 256 chars
-  * When a new group is created the length of the name is checked
-  */
-  nameMaxLength: 256,
+	/*
+	* Pithos API allows the name of groups to have at most 256 chars
+	* When a new group is created the length of the name is checked
+	*/
+	nameMaxLength: 256,
 
-  newName: undefined,
-  isUnique: undefined,
+	newName: undefined,
+	isUnique: undefined,
 
-  isNameValid: function() {
-    /*
-    * name is valid if it is unique because all other checks
-    * have been executed from the input view, before the checkUnique function
-    */
-    return this.get('isUnique');
-  }.property('isUnique'),
+	isNameValid: function() {
+		/*
+		* name is valid if it is unique because all other checks
+		* have been executed from the input view, before the checkUnique function
+		*/
+		return this.get('isUnique');
+	}.property('isUnique'),
 
-  allUsersValid: false,
-  usersID: [],
-  userData: undefined,
+	areUsersValid: function() {
+		var allUsersValid = this.get('usersExtended').every(function(user, index) {
+			return user.get('status') === 'success';
+		});
+		if(this.get('usersExtended').get('length')) {
+			this.set('allUsersValid', allUsersValid)
+		}
+		else {
+			this.set('allUsersValid', false)
+		}
 
-  freezeCreation: function() {
-    var isNameValid = this.get('isNameValid')
-    var allUsersValid = this.get('allUsersValid')
-    return !(isNameValid && allUsersValid);
-  }.property('isNameValid', 'allUsersValid'),
+	}.observes('usersExtended.@each'),
 
+	usersExtended: [],
+	allUsersValid: false,
 
-  checkUnique: function() {
-    if(this.get('newName')) {
+	freezeCreation: function() {
 
-      var temp = [];
-      var name = this.get('newName')
+		var isNameValid = this.get('isNameValid')
+		var allUsersValid = this.get('allUsersValid')
 
-      /*
-      * hasRecordForId: Returns true if a record for a given type and ID
-      * is already loaded.
-      * In our case the id of a container it's its name.
-      */
-
-      var isUnique = !this.get('store').hasRecordForId('group', name);
-      this.set('isUnique', isUnique);
-    }
-  }.observes('newName'),
-
-  actions: {
-    findUser: function(email) {
-      var self = this;
-      var userEmail = 'email='+email;
-      var usersID = [];
-        self.store.find('user', userEmail).then(function(user) {
-          var userExtendedData = Ember.Object.create({
-            uuid: user.id,
-            email: email,
-            status: 'success'
-          });
-          self.get('usersID').pushObject(user.id);
-          self.set('userData', userExtendedData);
-        }, function(error) {
-          var userExtendedData = Ember.Object.create({
-            uuid: undefined,
-            email: email,
-            status: 'error',
-            errorMsg: error.message
-          });
-          self.set('userData', userExtendedData);
-        });
-    },
-
-    createGroup: function(){
-      if(!this.get('freezeCreation')) {
-        var self = this;
-        var users = this.get('usersID');
-        var name = this.get('newName');
-
-        var group = self.store.createRecord('group', {
-          name: name,
-          id: name,
-        });
-
-      // add users to the newly created group
-        users.forEach(function(uuid) {
-          self.store.find('user', uuid).then(function(user) {
-            group.get('users').then(function(users){
-              users.pushObject(user);
-              group.save()//.then(onSuccess, onFail);
-            });
-          })
-        });
-      }
+		return !(isNameValid && allUsersValid);
+	}.property('isNameValid', 'allUsersValid'),
 
 
-      // var self = this;
-      // var name = this.get('newName');
-      // var emails = this.get('newEmails');
-      
-      // if (!name.trim()) { return; }
-      // if (!emails.trim()) { return; }
+	checkUnique: function() {
+		if(this.get('newName')) {
 
-      // emails = emails.split(',');
-      // if (emails.length <1 ) { return; }
+			var temp = [];
+			var name = this.get('newName');
 
-      // var onSuccess = function() {
-      //   self.set('newName', '');
-      //   self.set('newEmails', '');
-      // };
-      
-      // var onFail = function(reason){
-      //   console.log('reason:', reason);
-      //   self.send('showActionFail', reason);
-      // };
+			/*
+			* hasRecordForId: Returns true if a record for a given type and ID
+			* is already loaded.
+			* In our case the id of a container it's its name.
+			*/
 
-      // // get users by email
-      // var users = emails.map(function(email) {
-      //   var userEmail = 'email='+email.trim();
-      //   return self.store.find('user', userEmail);
-      // });
+			var isUnique = !this.get('store').hasRecordForId('group', name);
+			this.set('isUnique', isUnique);
+		}
+	}.observes('newName'),
 
-      // // wait until all users are retrieved
-      // return Ember.RSVP.all(users).then(function(res){
-      //   // create a group with no users
-      //   var group = self.store.createRecord('group', {
-      //     name: name,
-      //     id: name,   
-      //   });
-      //   // add users to the newly created group
-      //   group.get('users').then(function(users){
-      //     users.pushObjects(res);
-      //     group.save().then(onSuccess, onFail);
-      //   });
-      // }, onFail);
+	actions: {
+		addUser: function(user) {
 
-    }
-  }
+			var usersExtended = this.get('usersExtended');
 
+			if(usersExtended.filterBy('email', user.email).get('length') === 0) {
+
+				var userExtended = Ember.Object.create({
+					email: user.email,
+					status: user.status,
+					errorMsg: user.errorMsg,
+				});
+
+				this.get('usersExtended').pushObject(userExtended);
+
+				if(user.status !== 'error') {
+					this.send('findUser', user.email);
+				}
+			}
+		},
+
+		updateUser: function(email, data) {
+
+			for(var prop in data) {
+				this.get('usersExtended').findBy('email', email).set(prop, data[prop]);
+			}
+
+		},
+
+		removeUser: function(email) {
+
+			var user = this.get('usersExtended').findBy('email', email);
+
+			this.get('usersExtended').removeObject(user);
+
+		},
+
+		findUser: function(email) {
+
+			var self = this;
+			var userEmail = 'email='+email;
+
+			this.store.find('user', userEmail).then(function(user) {
+
+				var userExtended = self.get('usersExtended').findBy('email', email);
+
+					if(userExtended) {
+						self.send('updateUser', email, {uuid: user.get('uuid'), status: 'success'});
+					}
+		},function(error) {
+
+				var userExtended = self.get('usersExtended').findBy('email', email);
+
+					if(userExtended) {
+						self.send('updateUser', email, {uuid: undefined, status: 'error', 'errorMsg': 'Not found'});
+					}
+			});
+		},
+
+		createGroup: function(){
+
+			if(!this.get('freezeCreation')) {
+
+				var self = this;
+				var uuids = this.get('usersExtended').mapBy('uuid');
+				var name = this.get('newName');
+				var groupUsers = self.store.filter('user', function(user) {
+					var id = user.get('id');
+					if(uuids.indexOf(id) !== -1) {
+						return user;
+					}
+				});
+
+				var group = self.store.createRecord('group', {
+					name: name,
+					id: name
+				});
+
+				group.get('users').then(function(users){
+					users.pushObjects(groupUsers);
+					group.save();
+				});
+			}
+		}
+	}
 });

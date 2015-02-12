@@ -21,6 +21,7 @@ export default DS.RESTSerializer.extend({
       }
     }
     else {
+      console.log('%cError: User not found!', 'color:red');
       throw new Error('Not found');
     }
   }
