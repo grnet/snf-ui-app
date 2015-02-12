@@ -77,9 +77,7 @@ export default Ember.View.extend({
 			var value = self.get('value');
 			var valueLower = value.toLowerCase();
 			if(value !== valueLower) {
-				setTimeout(function() {
-					self.set('value', valueLower);
-				}, 300);
+				self.set('value', valueLower);
 			}
 		}
 	}.property(),
@@ -99,14 +97,17 @@ export default Ember.View.extend({
 
 
 	eventManager: Ember.Object.create({
-		input: function(event, view) {
+		keyUp: function(event, view) {
 			view.send('hideInfo', true)
 			var value = view.$('input').val();
 			view.set('value', value);
 			if(view.get('notEmpty')) {
-				view.get('toLowerCase')();
-				view.get('adjustSize')();
-				view.get('isUnique')();
+				Ember.run.debounce(view, function() {
+					console.log(view.get('value'))
+					view.get('toLowerCase')();
+					view.get('adjustSize')();
+					view.get('isUnique')();
+				}, 300);
 			}
 		},
 		focusOut: function(event, view) {

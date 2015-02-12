@@ -42,6 +42,7 @@ export default Ember.ArrayController.extend({
       * is already loaded.
       * In our case the id of a container it's its name.
       */
+
       var isUnique = !this.get('store').hasRecordForId('group', name);
       this.set('isUnique', isUnique);
     }
