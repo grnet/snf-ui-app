@@ -15,13 +15,13 @@ export default Ember.ArrayController.extend({
   isNameValid: function() {
     /*
     * name is valid if it is unique because all other checks
-    * have been executedfrom the input view, before the checkUnique function
+    * have been executed from the input view, before the checkUnique function
     */
     return this.get('isUnique');
   }.property('isUnique'),
 
   allUsersValid: false,
-  users: [],
+  usersID: [],
   userData: undefined,
 
   freezeCreation: function() {
@@ -51,14 +51,14 @@ export default Ember.ArrayController.extend({
     findUser: function(email) {
       var self = this;
       var userEmail = 'email='+email;
-      var users = [];
+      var usersID = [];
         self.store.find('user', userEmail).then(function(user) {
           var userExtendedData = Ember.Object.create({
             uuid: user.id,
             email: email,
             status: 'success'
           });
-          self.get('users').pushObject(user);
+          self.get('usersID').pushObject(user.id);
           self.set('userData', userExtendedData);
         }, function(error) {
           var userExtendedData = Ember.Object.create({
@@ -70,26 +70,30 @@ export default Ember.ArrayController.extend({
           self.set('userData', userExtendedData);
         });
     },
+
     createGroup: function(){
       if(!this.get('freezeCreation')) {
         var self = this;
-        var users = this.get('users');
+        var users = this.get('usersID');
         var name = this.get('newName');
-      // wait until all users are retrieved
-      return Ember.RSVP.all(users).then(function(res){
-        // create a group with no users
+
         var group = self.store.createRecord('group', {
           name: name,
           id: name,
         });
-        // add users to the newly created group
-        group.get('users').then(function(users){
-          users.pushObjects(res);
-          group.save()//.then(onSuccess, onFail);
-        });
-      } /*onFail*/);
 
+      // add users to the newly created group
+        users.forEach(function(uuid) {
+          self.store.find('user', uuid).then(function(user) {
+            group.get('users').then(function(users){
+              users.pushObject(user);
+              group.save()//.then(onSuccess, onFail);
+            });
+          })
+        });
       }
+
+
       // var self = this;
       // var name = this.get('newName');
       // var emails = this.get('newEmails');
