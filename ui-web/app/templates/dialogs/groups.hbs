@@ -1,13 +1,17 @@
 <a class="close-reveal-modal">{{fa-icon "fa-close"}}</a>
 <h3>Groups</h3>
-<div>
+<a href="" class="slide-btn"><span></span>+New Group</a>
+<div class="create-group slide-me">
 
-    {{view 'input-partial' placeholder="Name"}}
-    {{view 'input-emails' placeholder="Comma separeted emails..."}}
-
-    <button {{action 'createGroup' }} class="btn-block" {{bind-attr disabled='freezeCreation'}}>Create group</button>
+    {{view 'input-partial' placeholder="Name..."}}
+    {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
+    <div class="buttons">
+        <button>Cancel</button>
+        <button {{action 'createGroup' }} {{bind-attr disabled='freezeCreation'}}>Create</button>
+    </div>
 </div>
 
+    <hr>
 {{#each}}
     Group: <strong>{{name}}</strong><br>
     Members: 

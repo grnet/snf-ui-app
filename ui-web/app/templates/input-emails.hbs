@@ -1,4 +1,5 @@
 {{!-- placeholder is passed as a param from the template where you put the current view --}}
+	<label>Members</label>
 <div class='container-emails'>
 	<span class='tiles'>
 		{{#each user in usersExtended}}
@@ -9,8 +10,9 @@
 		{{/if}}
 	</span>
 	<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder}} type='text' {{bind-attr value='view.value'}}>
-	 <button {{action 'getInputValue' target='view'}} class="tiny">Load user</button>
+	 <button {{action 'getInputValue' target='view'}} class="tiny" title="You can also save an e-mail by pressing enter, space or comma">Save</button>
 </div>
+<a href="" class="guide" title="You can enter multiple e-mails by seperating them with comma, space, tab or enter. Do not forget to save them!">?</a>
 
 <div  class='info'>
 	<span {{bind-attr class='view.warningVisible:warning:invisible'}}>

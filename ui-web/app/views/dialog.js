@@ -33,6 +33,11 @@ export default Ember.View.extend({
 			self.get('controller').send('removeDialog', type);
 		});
 		this._super();
+
+		$('.slide-btn').click(function(e) {
+			e.preventDefault();
+			self.$('.slide-me').slideToggle('slow')
+		})
 	},
 	/*
 	 * Every event handler that has bound with the current view should be removed
