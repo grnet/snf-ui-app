@@ -11,6 +11,7 @@ export default Ember.ArrayController.extend({
 
 	newName: undefined,
 	isUnique: undefined,
+	cleanUserInput: true,
 
 	isNameValid: function() {
 		/*
@@ -25,10 +26,10 @@ export default Ember.ArrayController.extend({
 			return user.get('status') === 'success';
 		});
 		if(this.get('usersExtended').get('length')) {
-			this.set('allUsersValid', allUsersValid)
+			this.set('allUsersValid', allUsersValid);
 		}
 		else {
-			this.set('allUsersValid', false)
+			this.set('allUsersValid', false);
 		}
 
 	}.observes('usersExtended.@each'),
@@ -38,11 +39,12 @@ export default Ember.ArrayController.extend({
 
 	freezeCreation: function() {
 
-		var isNameValid = this.get('isNameValid')
-		var allUsersValid = this.get('allUsersValid')
+		var isNameValid = this.get('isNameValid');
+		var allUsersValid = this.get('allUsersValid');
+		var cleanUserInput = this.get('cleanUserInput');
 
-		return !(isNameValid && allUsersValid);
-	}.property('isNameValid', 'allUsersValid'),
+		return !(isNameValid && allUsersValid && cleanUserInput);
+	}.property('isNameValid', 'allUsersValid', 'cleanUserInput'),
 
 
 	checkUnique: function() {

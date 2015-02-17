@@ -26,6 +26,7 @@ export default Ember.View.extend({
 		else {
 			value = '';
 		}
+
 		if(value === '') {
 			this.set('value', undefined);
 			return false;
@@ -52,6 +53,18 @@ export default Ember.View.extend({
 		this.get('controller').set('allUsersValid', allUsersValid);
 	}.observes('controller.usersExtended.@each.status'),
 
+	cleanInput: function() {
+		var value = this.get('value');
+		if(value) {
+			if(value.length >0) {
+				this.get('controller').set('cleanUserInput', false);
+			}
+		}
+		else {
+			this.get('controller').set('cleanUserInput', true);
+		}
+	}.observes('value'),
+
 	eventManager: Ember.Object.create({
 		keyUp: function(event, view) {
 
@@ -68,11 +81,13 @@ export default Ember.View.extend({
 						var emails = value.split(',');
 						view.set('value', '');
 						emails.forEach(function(email, index) {
+							email = email.trim();
 							view.send('handleNewEmail', email);
 						});
 					}
 
-					/* paste multiple emails seperated by spaces
+					/*
+					 * paste multiple emails seperated by spaces
 					 * if the emails are seperated by enter, the input understands
 					 * it as space
 					*/
@@ -80,18 +95,21 @@ export default Ember.View.extend({
 						var emails = value.split(' ');
 						view.set('value', '');
 						emails.forEach(function(email, index) {
+							email = email.trim();
 							view.send('handleNewEmail', email);
 						});
 					}
 
-					/* paste multiple emails seperated by tabs
-					*  (copy from spreadsheet)
+					/*
+					 * paste multiple emails seperated by tabs
+					 * (copy from spreadsheet)
 					*/
 					else if(value.indexOf('\t') !== -1) {
 						var emails = value.split('\t');
 						view.set('value', '');
 						emails.forEach(function(email, index) {
 							view.send('handleNewEmail', email);
+							email = email.trim();
 						});
 					}
 
@@ -102,12 +120,14 @@ export default Ember.View.extend({
 						view.send('handleNewEmail', email);
 					}
 				}
-				else {
-					// backspace
-					if(event.keyCode === 8) {
-						var email = view.$('.email:last').text();
-						view.get('controller').send('removeUser', email);
-					}
+			}
+		},
+		keyDown: function(event, view) {
+			if(view.$('input').is(':focus')){
+				if(event.keyCode === 8 && view.$('input').val().length === 0) {
+					// backspace and empty input
+					var email = view.$('.email:last').text();
+					view.get('controller').send('removeUser', email);
 				}
 			}
 		}
@@ -123,7 +143,6 @@ export default Ember.View.extend({
 				}
 				else {
 					this.get('controller').send('addUser', {email: email, status: 'error', errorMsg: 'Not valid e-mail'});
-
 				}
 			}
 		},
