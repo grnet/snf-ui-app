@@ -1,0 +1,23 @@
+.dropfiles {
+  z-index: 100;
+  border-top: 1px solid #ccc;
+  background-color: #efefef;
+  right: 0;
+  left: 0;
+  position: fixed;
+  max-height: 140px;
+  overflow: auto;
+  bottom: 0;
+
+  .file {
+    font-size: 0.8em;
+  }
+  .batch-actions {
+    .right {
+      text-align: right;
+      label {
+        display: inline;
+      }
+    }
+  }
+}

@@ -3,6 +3,13 @@
     {{outlet}}
     <a class="fl-right" {{action 'showDialog' 'feedback' 'feedback'}}>Send us Feedback</a>
 </div>
+
+{{ snf-dropfile files=dropFiles 
+                uploader=dropFileUploader 
+                autoRemoveOnSuccess=false
+                autoStartUpload=false
+                uploadLocation=uploadLocation
+                classNames="small-12" }} 
 {{!-- dialogs at first is completely empty --}}
 {{!-- when a dialog must be appeared, it is rendered in the dialogs place --}}
 
@@ -10,3 +17,5 @@
 {{outlet "dialogs"}}
 {{outlet "errorDialogs"}}
 {{outlet "feedback"}}
+
+

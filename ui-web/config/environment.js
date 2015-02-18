@@ -26,7 +26,9 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.APP.emberDevTools = {global: true};
   }
+
 
   if (environment === 'test') {
     // Testem prefers this...

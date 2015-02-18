@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+
 	actions: {
 		/*
 		 * when the server returns error and we want to handle it

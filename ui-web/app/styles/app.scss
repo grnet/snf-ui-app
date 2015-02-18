@@ -350,3 +350,9 @@ table {
         list-style: none outside none;
     }
 }
+
+.drag-active {
+  border: 4px solid #F00 !important;
+}
+
+@import "dropfile";

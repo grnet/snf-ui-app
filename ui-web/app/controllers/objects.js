@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
+  needs: ['application'],
   itemController: 'object',
   sortProperties: ['is_file', 'stripped_name'],
 
@@ -120,6 +121,7 @@ export default Ember.ArrayController.extend({
   }.observes('validInput'),
 
   actions: {
+
     validateCreation: function(action) {
       var flag = 'validationOnProgress';
       this.set('actionToExec', action);
