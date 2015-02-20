@@ -11,10 +11,6 @@ export default Ember.View.extend({
 	templateName: 'input-emails',
 	classNames: ['input-emails', 'input-with-valid'],
 
-	errorVisible: false,
-	errorMsg: undefined,
-	warningVisible: false,
-	warningMsg: undefined,
 
 	value: undefined,
 
@@ -44,14 +40,13 @@ export default Ember.View.extend({
 			self.get('controller').send('removeUser', email);
 		});
 	},
-
-	allUsersValid: function() {
-		var allUsersValid = this.get('controller').get('usersExtended').every(function(user, index) {
-			return user.get('status') === 'success';
-		});
-
-		this.get('controller').set('allUsersValid', allUsersValid);
-	}.observes('controller.usersExtended.@each.status'),
+	reset: function() {
+		if(this.get('controller').get('resetInputs')) {
+			this.set('value', undefined);
+			this.get('controller').set('resetInputs', false);
+			this.get('controller').set('resetedInputs', (this.get('controller').get('resetedInputs') + 1));
+		}
+	}.observes('controller.resetInputs'),
 
 	cleanInput: function() {
 		var value = this.get('value');

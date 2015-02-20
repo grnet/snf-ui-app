@@ -30,7 +30,11 @@ export default Ember.View.extend({
 		var type = templateName.replace('dialogs.', '');
 
 		$(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
+			// this bubbles up to application route
 			self.get('controller').send('removeDialog', type);
+			if(self.get('controller').get('name') === 'groups') {
+				self.get('controller').set('usersExtended', []);
+			}
 		});
 		this._super();
 
@@ -58,6 +62,18 @@ export default Ember.View.extend({
 		var action = this.get('controller').get('actionToPerform');
 		return (this.get(action).action_verb);
 	}.property(),
+
+	/*
+	* slideInnerArea is used to hide an area inside the dialog.
+	* For now it is used for the create group area. This should be
+	* moved from here. Maybe it should be placed in groups view or
+	* create_group view.
+	*/
+	slideInnerArea: function(){
+		if(this.get('controller').get('completeReset')) {
+			this.$('.slide-me').slideUp('slow');
+		}
+	}.observes('controller.completeReset'),
 
 	// Actions metadata
 	deleteContainer: {

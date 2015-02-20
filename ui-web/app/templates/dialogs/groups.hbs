@@ -6,7 +6,7 @@
     {{view 'input-partial' placeholder="Name..."}}
     {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
     <div class="buttons">
-        <button>Cancel</button>
+        <button {{action 'resetCreation'}}>Cancel</button>
         <button {{action 'createGroup' }} {{bind-attr disabled='freezeCreation'}}>Create</button>
     </div>
 </div>

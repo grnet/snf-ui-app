@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
 	itemController: 'group',
+	name: 'groups',
 
 	/*
 	* Pithos API allows the name of groups to have at most 256 chars
@@ -32,10 +33,25 @@ export default Ember.ArrayController.extend({
 			this.set('allUsersValid', false);
 		}
 
-	}.observes('usersExtended.@each'),
+	}.observes('usersExtended.@each', 'usersExtended.@each.status'),
 
 	usersExtended: [],
 	allUsersValid: false,
+	resetInputs: false,
+	resetedInputs: 0,
+	completeReset: false,
+	checkReset: function() {
+		var inputsNum = 2;
+		var resetedInputsNum = this.get('resetedInputs');
+		if(inputsNum === resetedInputsNum) {
+			this.set('resetedInputs', 0);
+			this.set('completeReset', true);
+		}
+		else {
+			this.set('completeReset', false);
+		}
+
+	}.observes('resetedInputs'),
 
 	freezeCreation: function() {
 
@@ -65,6 +81,10 @@ export default Ember.ArrayController.extend({
 	}.observes('newName'),
 
 	actions: {
+		resetCreation: function() {
+			this.set('resetInputs', true);
+			this.set('usersExtended', []);
+		},
 		addUser: function(user) {
 
 			var usersExtended = this.get('usersExtended');
@@ -144,7 +164,12 @@ export default Ember.ArrayController.extend({
 
 				group.get('users').then(function(users){
 					users.pushObjects(groupUsers);
-					group.save();
+					group.save().then(function(){
+						self.send('resetCreation');
+					}, function(error) {
+						self.send('showActionFail', error)
+						console.log('ERROR!')
+					});
 				});
 			}
 		}

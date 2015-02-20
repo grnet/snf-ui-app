@@ -116,7 +116,15 @@ export default Ember.View.extend({
 			}
 		},
 	}),
-
+	reset: function() {
+		if(this.get('controller').get('resetInputs')) {
+			this.set('value', undefined);
+			this.set('warningVisible', false);
+			this.set('errorVisible', false);
+			var resetedInputsNum =  this.get('controller').get('resetedInputs');
+			this.get('controller').set('resetedInputs', (this.get('controller').get('resetedInputs') + 1));
+		}
+	}.observes('controller.resetInputs'),
 	actions: {
 		showInfo: function(msg, isError) {
 			if(isError) {
