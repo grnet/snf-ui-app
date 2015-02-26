@@ -1,6 +1,9 @@
 {{outlet "bar"}}
 <div class="clearfix">
     <div class="columns small-2 sidebar">
+        <ul class="dir-tree">
+        {{dir-tree root="/" resolver=resolveSubDirs}}
+        </ul>
         {{#view view.DragDrop}}
             {{#each controller.validFiles}}
 

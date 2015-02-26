@@ -1,0 +1,16 @@
+<a {{action "toggle"}}>
+    {{#if expanded}}
+        {{fa-icon "fa-folder-open"}}
+    {{else}}
+        {{fa-icon "fa-folder"}}
+    {{/if}}
+</a>
+<span class="name">{{name}}</span>
+{{#if expanded}}
+    <ul>
+    {{#each dir in subdirs}}
+        {{dir-tree root=dir.id resolver=resolver}}
+    {{/each}}
+    </ul>
+{{/if}}
+
