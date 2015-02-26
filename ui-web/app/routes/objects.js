@@ -8,7 +8,10 @@ export default Ember.Route.extend({
     this.set('current_path', currentPath);
     var self = this;
 
-    return this.store.find('object', {path: currentPath}).then(function(objects) {
+    return this.store.find('object', {
+        path: currentPath,
+        container_id: containerID
+      }).then(function(objects) {
 
         // When the server returns an emtpy array should check if the url is valid.
         if(objects.get('length') === 0) {

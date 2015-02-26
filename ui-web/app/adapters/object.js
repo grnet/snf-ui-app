@@ -14,8 +14,8 @@ export default StorageAdapter.extend({
   },
 
   findQuery: function(store, type, query) {
-    var container_id = store.get('container_id');
-    this.set('container_id', container_id);
+    var container_id = query.container_id;
+    delete query.container_id;
     return this.ajax(this.buildURL(type.typeKey, container_id), 'GET', { data: query });
   },
 
