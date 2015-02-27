@@ -75,7 +75,10 @@ export default Ember.View.extend({
 
 		return function() {
 			var value = self.get('value');
-			var valueLower = value.toLowerCase();
+			var valueLower;
+			if(value) {
+				valueLower = value.toLowerCase();
+			}
 			if(value !== valueLower) {
 				self.set('value', valueLower);
 			}

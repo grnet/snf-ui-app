@@ -40,7 +40,7 @@ export default Ember.View.extend({
 
 		$('.slide-btn').click(function(e) {
 			e.preventDefault();
-			self.$('.slide-me').slideToggle('slow')
+			self.$('.slide-me').slideToggle('slow');
 		})
 	},
 	/*

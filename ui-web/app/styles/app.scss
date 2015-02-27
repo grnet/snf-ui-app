@@ -73,6 +73,7 @@ div.droppable div.file {
 
 .input-with-valid {
     display: inline-block;
+    position: relative;
     &.input-partial {
         display: block;
         margin-bottom: 50px;
@@ -125,7 +126,6 @@ div.droppable div.file {
     display: none;
     label {
         margin-bottom: 6px;
-        // margin-left: 7px;
     }
     .buttons {
         button:first-child {
@@ -138,29 +138,29 @@ div.droppable div.file {
     }
 }
 .input-emails {
-    .tiles {
-        // margin-right: -10px;
-    }
     .tile {
         display: inline-block;
         height: 1.3rem;
         margin: 2px 4px;
         padding: 0 0 0 4px;
         font-size: 14px;
+        .email {
+            color: white;
+            font-style: normal;
+        }
         &.loading {
             background-color: antiquewhite;
         }
         &.error {
-            background-color: #FFBABA;   
+            background-color: #C73737;
         }
         &.success {
-            background-color: #BAFFCB;
+            background-color: #44BD4F;
         }
         .sign {
             margin-left: 6px;
             padding: 2px;
-            // border-radius: 4px;
-            background: pink;
+            background: #A9A1B6;
             color: white;
             font-size: 17px;
             height: 100%;
