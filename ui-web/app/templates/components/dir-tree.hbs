@@ -5,7 +5,20 @@
         {{fa-icon "fa-folder"}}
     {{/if}}
 </a>
-<span class="name">{{name}}</span>
+{{#if is_root}}
+    <span>{{name}}</span>
+{{/if}}
+{{#if is_container}}
+    {{#link-to 'container' container_id}}
+        <span>{{name}}</span>
+    {{/link-to}}
+{{/if}}
+{{#if is_folder}}
+    {{#link-to 'objects' container_id current_path}}
+    <span>{{name}}</span>
+    {{/link-to}}
+{{/if}}
+
 {{#if expanded}}
     <ul>
     {{#each dir in subdirs}}
