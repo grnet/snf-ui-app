@@ -16,7 +16,27 @@ export default StorageAdapter.extend({
   findQuery: function(store, type, query) {
     var container_id = query.container_id;
     delete query.container_id;
-    return this.ajax(this.buildURL(type.typeKey, container_id), 'GET', { data: query });
+    var url = this.buildURL(type.typeKey, container_id);
+    var headers = this.get('headers'); 
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      jQuery.ajax({
+        type: 'GET',
+        url: url,
+        data: query,
+        dataType: 'json', 
+        headers: headers,
+      }).then(function(data) {
+        data.container_id = container_id;
+        Ember.run(null, resolve, data);
+      }, function(jqXHR) {
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+
+    });
+
+
   },
 
   /**

@@ -11,8 +11,9 @@ export default DS.RESTSerializer.extend({
 
 
   extractArray: function(store, type, payload) {
+    var container_id = payload.container_id;
+    delete payload.container_id;
     var payload_list = payload;
-    var container_id = store.get('container_id');
     payload_list.forEach(function(el){
       el.modified_by = el.x_object_modified_by;
       delete el.x_object_modified_by;
