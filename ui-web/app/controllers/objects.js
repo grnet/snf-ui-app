@@ -1,7 +1,6 @@
 import Ember from 'ember';
-import SnfDropletController from '../lib/droplet';
 
-export default Ember.ArrayController.extend(SnfDropletController, {
+export default Ember.ArrayController.extend({
   itemController: 'object',
   sortProperties: ['is_file', 'stripped_name'],
 
@@ -22,15 +21,6 @@ export default Ember.ArrayController.extend(SnfDropletController, {
     }
     return url;
   }.property('current_path'),
-
-  dropletUrl: function(){
-    return this.get('settings').get('storage_host')+'/'+this.get('path');
-  }.property('fullPath'),
-
-  dropletHeaders: function(){
-    return {'X-Auth-Token': this.get('settings').get('token'),
-              'X-Requested-With': 'XMLHttpRequest'};
-  }.property(),
 
   objectsCount: function(){
     return this.get('length');

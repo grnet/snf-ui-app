@@ -13,19 +13,16 @@
     "ember-qunit": "0.1.8",
     "ember-qunit-notifications": "0.0.5",
     "qunit": "~1.17.1",
-
     "lightbox": "2.7.1",
     "moment": "~2.8.3",
     "foundation": "~5.4.7"
   },
   "devDependencies": {
-    "ember-droplet": "~0.8.0",
     "foundation": "zurb/bower-foundation#~5.4.6",
     "underscore": "~1.7.0",
     "is_js": "~0.3.0"
   },
   "resolutions": {
-    "jquery": ">= 2.1.0",
     "ember": "1.7.0"
   }
 }
