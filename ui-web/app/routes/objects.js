@@ -26,7 +26,10 @@ export default Ember.Route.extend({
 
                 // remove the last part of the url
                 parentPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
-                return self.store.find('object', {path: parentPath}).then(function(objList) {
+                return self.store.find('object', {
+                    path: parentPath, 
+                    container_id:containerID
+                  }).then(function(objList) {
                     var ObjListLength = objList.get('length');
                     var exists = false;
                     if(ObjListLength) {
