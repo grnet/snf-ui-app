@@ -259,9 +259,8 @@ export default Ember.ArrayController.extend({
       };
 
       objects.forEach(function(object) {
-        var oldID = object.get('id');
-        var oldPath = '/'+ oldID;
-        var newID = 'trash/'+object.get('name');
+        var oldPath = '/'+ object.get('id');
+        var newID = 'trash/'+object.get('stripped_name');
         self.store.moveObject(object, oldPath, newID).then(onSuccess, onFail);
         object.deleteRecord();
       });
