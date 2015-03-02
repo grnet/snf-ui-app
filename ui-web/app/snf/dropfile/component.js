@@ -10,14 +10,14 @@ export default Ember.Component.extend({
   // uploader instance or class
   uploader: null,
   // automatically start uploading when file is added
-  autoStartUpload: false,
+  autoStartUpload: true,
   // automatically remove file when uploaded successfuly
   autoRemoveOnSuccess: false,
   // transport supports batch files upload requests
   allowMultiUpload: false,
   // the param gets passed down to transport to notify that 
   // no chunk upload method should be used
-  noChunked: true,
+  noChunked: false,
 
   addResolver: null,
   

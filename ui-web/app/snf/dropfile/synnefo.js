@@ -34,6 +34,11 @@ var queue = function(generator, parallel, resolveCb=Ember.K, rejectCb=Ember.K) {
 }
 
 var SnfUploaderTransport = ChunkedTransport.extend({
+
+  hasherUrl: function() {
+    return "/static/ui/assets/workers/worker_hasher.js"
+  }.property(),
+
   fileParam: 'X-Object-Data',
 
   ajaxOptions: { dataType: 'text' },
@@ -49,14 +54,25 @@ var SnfUploaderTransport = ChunkedTransport.extend({
   getHashParams: function(container) {
     return {'bs': 4194304, 'hash': 'sha256'}
   },
-
-  getHasher: function(type) {
-    return asmCrypto[type.toUpperCase()]
+  
+  computeHash: function(buffer, params) {
+    var hasher = new window.Worker(this.get("hasherUrl"));
+    return new Promise(function(resolve, reject) {
+      hasher.onmessage = function(e) {
+        var hash = e.data[0];
+        hasher.terminate();
+        resolve(hash);
+      };
+      hasher.onerror = function(err) { 
+        hasher.terminate();
+        reject(err); 
+      }
+      hasher.postMessage([buffer, params.hash, ""]);
+    });
   },
 
   chunkHash: function(file, position, params) {
-    var bs = params.bs, blob, hasher, to;
-    hasher = this.getHasher(params.hash);
+    var bs = params.bs, blob, to;
     to = position + bs;
     if (to > file.size) { to = file.size; }
     blob = file.slice(position, to);
@@ -66,8 +82,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       if (file._aborted) { reject("abort"); }
       reader = new FileReader();
       reader.onload = function(e) {
-        window.setTimeout(function() {
-          var hash = hasher.hex(e.target.result);
+        this.computeHash(e.target.result, params).then(function(hash) {
           resolve({
             'buffer': e.target.result, 
             'position': position, 
@@ -75,7 +90,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
             'size': to - position,
             'hash': hash
           });
-        }, 5);
+        }.bind(this)).catch(reject);
       }.bind(this);
       reader.readAsArrayBuffer(blob);
     }.bind(this));
