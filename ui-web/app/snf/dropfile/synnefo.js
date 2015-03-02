@@ -107,7 +107,8 @@ var SnfUploaderTransport = ChunkedTransport.extend({
     index = 0;
     return queue(function() {
       if (cursor < file.size) {
-        cursor += bs;
+        cursor += bs + 1;
+        if (cursor >= file.size) { return false; }
         return this.chunkHash(file, cursor, params);
       }
       return false;
