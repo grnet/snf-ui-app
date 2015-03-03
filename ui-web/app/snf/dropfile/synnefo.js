@@ -96,7 +96,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
     }.bind(this));
   },
 
-  fileHashmap: function(file, params, hashChunks) {
+  fileHashmap: function(file, params, hashChunks, progress) {
     var cursor = 0, hashes = Ember.A([]), bs = params.bs, index;
     if (hashChunks) { 
       return new Promise(function(resolve) {
@@ -192,7 +192,9 @@ var SnfUploaderTransport = ChunkedTransport.extend({
   doUpload: function(url, files, paths, progress, options) {
     var promise, _super, chunkedPromise;
     _super = this.__nextSuper.bind(this);
-    if (options.noChunked) { return _super(url, files, paths, progress, options); }
+    if (options.noChunked) { 
+      return _super(url, files, paths, progress, options); 
+    }
 
     chunkedPromise = this.doUploadChunked(url, files, paths, progress)
     promise = new Promise(function(resolve, reject) {
@@ -201,8 +203,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           reject({jqXHR:{status:0}});
           return;
         }
-        console.error("Chunked upload failed retrying using XHR transport", err);
-        return _super(url, files, paths, progress).then(resolve, reject);
+        reject("chunked-failed");
       }.bind(this)).then(resolve);
     }.bind(this));
     promise.xhr = chunkedPromise.xhr;
@@ -247,7 +248,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
         });
       }
 
-      this.fileHashmap(file, params, hashChunks).then(function(hashChunks) {
+      this.fileHashmap(file, params, hashChunks, progress).then(function(hashChunks) {
         var args = [hashChunks, file.size, file.type, params, fileURL, contURL];
         this.resolveHashes.apply(this, args).then(function(hashes) {
           var chunksProgress, chunkProgress;
@@ -284,7 +285,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           this.uploadMissing(contURL, file, hashes.missing, chunkProgress).then(function(){
             if (retry >= 1) { reject("Max chunked retries reached (5)"); return; }
             retry = retry + 1;
-            this.doUploadChunked(url, files, paths, progress, retry, hashChunks).then(resolve, reject);
+            reject("chunked-failed");
           }.bind(this), reject);
         }.bind(this), reject);
       }.bind(this), reject);

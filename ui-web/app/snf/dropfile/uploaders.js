@@ -66,27 +66,31 @@ var Uploader = Ember.Object.extend({
     locations = files.getEach("location");
     args = [url, fileObjs, locations, progress, options]
     uploadPromise = transport.upload.apply(transport, args);
-    xhr = uploadPromise.xhr;
-    
-    // inject xhr transport object in order to be able to call abort() from the
-    // file context.
-    if (xhr) { files.setEach("xhr", xhr); }
+    files.setEach("xhr", uploadPromise.xhr || null);
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       uploadPromise.then(function() {
         files.setEach("status", "uploaded");
         resolve(files);
       }).catch(function(error) { 
+        if (error == "chunked-failed") {
+          console.error("Chunked upload failed. Retrying with XHR.");
+          var newOptions = Ember.merge({}, {noChunked: true}, options || {});
+          files.setEach("progress.message", null);
+          var promise = this.uploadFiles(url, files, newOptions).then(resolve, reject);
+          return true;
+        }
         var status = "error";
         if (error.jqXHR && error.jqXHR.status === 0) { status = "aborted"; }
         files.setEach("status", status);
         reject(files, error);
-      }).finally(function() {
-        // reset xhr and progress
-        files.setEach("xhr", null);
-        files.setEach("progress", Ember.Object.create({}));
+      }.bind(this)).finally(function() {
       });
-    });
+    }.bind(this)).finally(function() {
+      // reset xhr and progress
+      files.setEach("xhr", null);
+      files.setEach("progress", Ember.Object.create({}));
+    });;
   },
 
 });
