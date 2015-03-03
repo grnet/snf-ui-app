@@ -4,6 +4,7 @@ import {ChunkedTransport} from './transports';
 import {Uploader} from './uploaders';
 import {raw as ajax} from 'ic-ajax';
 
+var fmt = Ember.String.fmt;
 var Promise = Ember.RSVP.Promise;
 var all = Ember.RSVP.all;
 var hash = Ember.RSVP.all;
@@ -73,7 +74,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
 
   chunkHash: function(file, position, params) {
     var bs = params.bs, blob, to;
-    to = position + bs;
+    to = position + bs - 1;
     if (to > file.size) { to = file.size; }
     blob = file.slice(position, to);
 
@@ -87,7 +88,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
             'buffer': e.target.result, 
             'position': position, 
             'to': to, 
-            'size': to - position,
+            'size': to - position - 1,
             'hash': hash
           });
         }.bind(this)).catch(reject);
@@ -97,21 +98,30 @@ var SnfUploaderTransport = ChunkedTransport.extend({
   },
 
   fileHashmap: function(file, params, hashChunks, progress) {
-    var cursor = 0, hashes = Ember.A([]), bs = params.bs, index;
+    var cursor = 0, hashes = Ember.A([]), bs = params.bs, index, total, 
+      computed = 0;
+    total = Math.ceil(file.size / bs);
+
     if (hashChunks) { 
+      computed = hashChunks.length;
       return new Promise(function(resolve) {
+        var msg = fmt('Computing hashes (%@/%@)', computed, total);
+        progress({'message': msg});
         resolve(hashChunks);
       }); 
     }
 
     index = 0;
     return queue(function() {
-      if (cursor < file.size) {
-        cursor += bs + 1;
-        if (cursor >= file.size) { return false; }
-        return this.chunkHash(file, cursor, params);
-      }
-      return false;
+      var msg, promise;
+      msg = fmt('Computing hashes (%@/%@)', computed, total);
+      progress({'message': msg});
+      
+      if (computed == total) { return false; }
+
+      promise = this.chunkHash(file, cursor, params);
+      computed += 1;
+      return promise;
     }.bind(this));
   },
 
