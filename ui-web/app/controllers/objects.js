@@ -120,6 +120,16 @@ export default Ember.ArrayController.extend({
     }
   }.observes('validInput'),
 
+
+  _fileExists:function(id){
+    return function(id){
+      var object = this.store.find('object', id);
+      return DS.PromiseArray.create({promise: object});
+    }.bind(this);
+  }.property(),
+
+
+
   actions: {
 
     validateCreation: function(action) {
@@ -134,9 +144,9 @@ export default Ember.ArrayController.extend({
         return false;
       }
       var object = this.get('toPasteObject');
-      var old_path = '/'+object.get('id');
+      var oldPath = '/'+object.get('id');
       var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
-      var new_id = this.get('container_id')+current_path+object.get('stripped_name');
+      var newID = this.get('container_id')+current_path+object.get('stripped_name');
       var copy_flag = this.get('copyFlag');
     
 
@@ -144,16 +154,28 @@ export default Ember.ArrayController.extend({
       // show a dialog that asks the user if he wants to overwrite the
       // existing object (thus creating a new version of this object)
       // or if he wants to create a copy of the object
-      if ( (object.get('id') === new_id ) && copy_flag ) {
+      if ( (object.get('id') === newID ) && copy_flag ) {
         // 'objects' controller requires an array of models
         this.send('showDialog', 'paste', 'object/paste' , object);
         return;
       } 
-      this.send('_resumePaste', object, old_path, new_id, copy_flag);
+      this.send('_resumePaste', object, oldPath, newID, copy_flag);
     },
+
   
-    // restarts object paste
-    _resumePaste: function(object, old_path, new_id, copy_flag){
+
+    moveObject: function(object, oldPath, newID, copy_flag){
+      var self = this;
+      this.store.find('object', newID).then(function(data){
+        self.send('showDialog', 'paste', 'object/paste' , object);
+      }, function(){
+        self.send('_moveObject', object, oldPath, newID, copy_flag);
+      });
+    },
+
+
+    // moves object from oldPath to newID
+    _moveObject: function(object, oldPath, newID, copy_flag){
       var self = this;
        var onSuccess = function(container) {
         self.send('refreshRoute');
@@ -162,21 +184,25 @@ export default Ember.ArrayController.extend({
       var onFail = function(reason){
         self.send('showActionFail', reason);
       };
-      this.store.moveObject(object, old_path, new_id, copy_flag).then(onSuccess, onFail);
+      console.log('object', object);
+      console.log('oldPath', oldPath);
+      console.log('newID', newID);
+      console.log('copy_flag', copy_flag);
+
+      this.store.moveObject(object, oldPath, newID, copy_flag).then(onSuccess, onFail);
 
       this.set('toPasteObject', null);
       this.set('copyFlag', false);
-
 
     },
 
     // continues pasting by calling _resumePaste method
     pasteVersion: function(object) {
-      var old_path = '/'+object.get('id');
+      var oldPath = '/'+object.get('id');
       var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
-      var new_id = this.get('container_id')+current_path+object.get('stripped_name');
+      var newID = this.get('container_id')+current_path+object.get('stripped_name');
  
-      this.send('_resumePaste', object, old_path, new_id, true);
+      this.send('_moveObject', object, oldPath, newID, true);
     },
 
     // before pasting it will call _objNewCopyId to rename the object
@@ -207,7 +233,7 @@ export default Ember.ArrayController.extend({
 
         this.send('_objNewCopyId', object, object_id);
       } else {
-        this.send('_resumePaste', object, '/'+object.get('id'), object_id, true);
+        this.send('_moveObject', object, '/'+object.get('id'), object_id, true);
       }
     },
 
@@ -261,7 +287,7 @@ export default Ember.ArrayController.extend({
       objects.forEach(function(object) {
         var oldPath = '/'+ object.get('id');
         var newID = 'trash/'+object.get('stripped_name');
-        self.store.moveObject(object, oldPath, newID).then(onSuccess, onFail);
+        self.send('moveObject', object, oldPath, newID);
         object.deleteRecord();
       });
     },
@@ -283,10 +309,12 @@ export default Ember.ArrayController.extend({
       objects.forEach(function(object) {
         var newID = selectedDir + '/' + object.get('stripped_name');
         var oldPath = '/'+ object.get('id');
-        self.store.moveObject(object, oldPath, newID).then(onSuccess, onFail);
+        self.send('moveObject', object, oldPath, newID);
         object.deleteRecord();
       });
     },
+
+  
 
 
 
