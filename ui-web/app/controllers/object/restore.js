@@ -11,13 +11,9 @@ export default ObjectController.extend(ResolveSubDirsMixin, {
       this.set('selectedDir', param);
     },
     restoreObject: function(){
-      var object = this.get('model');
-      var oldPath = '/' + object.get('id');
-      var newID = this.get('selectedDir') + '/' + object.get('stripped_name');
-      this.store.moveObject(object, oldPath, newID);
+      this.send('restoreObjectFromTrash', this.get('selectedDir'));
       this.set('selected', false);
       this.set('selectedDir', null);
-      object.deleteRecord();
     }
   }
 

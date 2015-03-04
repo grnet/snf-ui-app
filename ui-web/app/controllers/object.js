@@ -169,10 +169,10 @@ export default Ember.ObjectController.extend({
   }.observes('validInput'),
 
   actions: {
-    sendMany: function(action){
+    sendMany: function(action, params){
       var object_list = [];
       object_list.pushObject(this.get('model'));
-      this.send(action, object_list);
+      this.get('controllers.objects').send(action, object_list, params);
     },
 
     deleteObject: function(){
@@ -187,6 +187,10 @@ export default Ember.ObjectController.extend({
 
     moveToTrash: function(){
       this.send('sendMany','moveObjectsToTrash');
+    },
+
+    restoreObjectFromTrash: function(selectedDir){
+      this.send('sendMany', 'restoreObjectsFromTrash', {'selectedDir': selectedDir});
     },
 
     cutObject: function(){

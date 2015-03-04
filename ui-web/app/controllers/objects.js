@@ -128,8 +128,6 @@ export default Ember.ArrayController.extend({
       this.set(flag, true);
     },
 
-    newObj: false,
-
     pasteObject: function(){
       if (!this.get('toPasteObject')){
         console.log('Nothing has been cut or copied');
@@ -267,6 +265,31 @@ export default Ember.ArrayController.extend({
         object.deleteRecord();
       });
     },
+
+    restoreObjectsFromTrash: function(object_list, params){
+      var self = this;
+      var selected = this.get('selected');
+      var objects = object_list || selected;
+      var selectedDir = params.selectedDir;
+      if (objects.length === 0) { return; }
+      var onSuccess = function() {
+          console.log('restore from trash object: onSuccess');
+      };
+
+      var onFail = function(reason){
+        self.send('showActionFail', reason);
+      };
+
+      objects.forEach(function(object) {
+        var newID = selectedDir + '/' + object.get('stripped_name');
+        var oldPath = '/'+ object.get('id');
+        self.store.moveObject(object, oldPath, newID).then(onSuccess, onFail);
+        object.deleteRecord();
+      });
+    },
+
+
+
   }
 
 });
