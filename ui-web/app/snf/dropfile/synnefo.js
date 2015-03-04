@@ -105,7 +105,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
     if (hashChunks) { 
       computed = hashChunks.length;
       return new Promise(function(resolve) {
-        var msg = fmt('Computing hashes (%@/%@)', computed, total);
+        var msg = '';
         progress({'message': msg});
         resolve(hashChunks);
       }); 
@@ -293,9 +293,9 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           }
 
           this.uploadMissing(contURL, file, hashes.missing, chunkProgress).then(function(){
-            if (retry >= 1) { reject("Max chunked retries reached (5)"); return; }
+            if (retry >= 2) { reject("chunked-failed"); return; }
             retry = retry + 1;
-            reject("chunked-failed");
+            this.doUploadChunked(url, files, paths, progress, retry, hashChunks).then(resolve, reject);
           }.bind(this), reject);
         }.bind(this), reject);
       }.bind(this), reject);
