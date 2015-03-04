@@ -1,9 +1,7 @@
 {{outlet "bar"}}
 <div class="clearfix">
     <div class="columns small-2 sidebar">
-        <ul class="dir-tree">
-        {{dir-tree root="/" resolver=resolveSubDirs}}
-        </ul>
+        {{dir-tree-wrapper role="nav" resolver=resolveSubDirs}}
     </div>
 
     <div class="columns small-10">

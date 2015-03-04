@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'li',
   expanded: false,
-  loading: false,
 
   name: function(){
     var root = this.get('root');
@@ -26,6 +25,14 @@ export default Ember.Component.extend({
     return !this.get('is_container') && !this.get('is_root');
   }.property('is_root', 'is_container'),
 
+  textTemplateName: function(){
+    var role = this.get('role');
+    if (role) {
+      return "dir-tree-name-"+role;
+    }
+    return "dir-tree-name";
+  }.property('role'),
+
   container_id: function(){
     return this.get('root').split('/').shift();
   }.property('root'),
@@ -36,19 +43,21 @@ export default Ember.Component.extend({
     return arr.join('/');
   }.property('root'),
 
-  actions: {
-    toggle: function(){
-      this.toggleProperty('expanded');
-    }
-  },
-
   subdirs: function(){
     if (!this.get('expanded')){
       return [];
     }
-
     return this.get('resolver')(this.get('root'));
   }.property('root', 'expanded'),
-
+ 
+  actions: {
+    toggle: function(){
+      this.toggleProperty('expanded');
+    },
+    select: function(root){
+      var param = root || this.get('root');
+      this.sendAction('action', param);
+    }
+  },
 
 });

@@ -29,7 +29,12 @@
                 {{fa-icon "fa-user"}}
             </span>
         {{/if}}
-        <a {{action 'showDialog' 'sharing' 'object/sharing' this}} class="icon-btn">Share {{fa-icon "fa-share-alt"}}</a>
+        {{#unless trash}}
+            <a {{action 'showDialog' 'sharing' 'object/sharing' this}} class="icon-btn">Share {{fa-icon "fa-share-alt"}}</a>
+        {{/unless}}
+        {{#if trash}}
+            <a {{action 'showDialog' 'restore' 'object/restore' this}} class="icon-btn">Restore</a>
+        {{/if}}
     </span>
 
     <a title="OK" class="hidden js-hide-edit" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check-circle"}}</a>
@@ -47,7 +52,9 @@
 <td>
     <a {{bind-attr href=view_src}} title="download Item" download>{{fa-icon "fa-download"}}</a>
     <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
-    <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
+    {{#unless trash}}
+        <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
+    {{/unless}}
     <a {{action 'cutObject'}} title="cut Item">{{fa-icon "fa-cut"}}</a>
     <a {{action 'copyObject'}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
     <a {{action 'showDialog' 'versions' 'object/versions' this}}>Manage versions</a>

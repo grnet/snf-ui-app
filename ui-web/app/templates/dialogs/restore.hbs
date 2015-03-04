@@ -1,0 +1,6 @@
+<h4>Restore <em>{{name}}</em></h4>
+<p>Choose a folder to restore to:</p>
+{{#if selected}}
+    <p>Selected path: {{selectedDir}} <button {{action "restoreObject"}}>OK</button></p>
+{{/if}}
+{{dir-tree-wrapper role="select" action="selectDir" resolver=resolveSubDirs}}

@@ -1,3 +1,4 @@
+
 <a {{action "toggle"}}>
     {{#if expanded}}
         {{fa-icon "fa-folder-open"}}
@@ -5,24 +6,12 @@
         {{fa-icon "fa-folder"}}
     {{/if}}
 </a>
-{{#if is_root}}
-    <span>{{name}}</span>
-{{/if}}
-{{#if is_container}}
-    {{#link-to 'container' container_id}}
-        <span>{{name}}</span>
-    {{/link-to}}
-{{/if}}
-{{#if is_folder}}
-    {{#link-to 'objects' container_id current_path}}
-    <span>{{name}}</span>
-    {{/link-to}}
-{{/if}}
+{{partial textTemplateName}}
 
 {{#if expanded}}
     <ul>
     {{#each dir in subdirs}}
-        {{dir-tree root=dir.id resolver=resolver}}
+        {{dir-tree root=dir.id resolver=resolver role=role action="select"}}
     {{/each}}
     </ul>
 {{/if}}

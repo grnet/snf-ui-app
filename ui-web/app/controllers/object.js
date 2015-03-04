@@ -9,6 +9,10 @@ export default Ember.ObjectController.extend({
 
   isSelected: false,
 
+  trash: function(){
+    return this.get('container_id') == 'trash';
+  }.property('container_id'),
+
   view_src: function(){
     var base_url = this.get('settings').get('storage_view_url');
     return base_url+this.get('model').get('id');

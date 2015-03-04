@@ -21,7 +21,7 @@
     <button {{action 'shareWithUsers'}} class="small button">Add Users</button>
 </div>
 <div>
-    {{view Ember.Select content=groups
+    {{view "select" content=groups
            optionLabelPath="content.name"
            optionValuePath="content.id"
            prompt="Select group"
