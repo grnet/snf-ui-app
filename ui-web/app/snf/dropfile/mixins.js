@@ -58,13 +58,15 @@ var DropFileViewMixin = Ember.Mixin.create({
   },
 
   drop: function(e) {
-    var location = this.dropFileLocation(e);
-    var dt = e.dataTransfer;
+    var location, dt, types, files;
+    location = this.dropFileLocation(e);
+    dt = e.dataTransfer;
 
     this.set("dragActive", false);
     this._stopPropagation(e);
-    if (dt && dt.types.indexOf("Files") > -1) {
-      var files = dt.files;
+    types = dt && dt.types && Array.prototype.slice.call(dt.types);
+    if (types && types.indexOf("Files") > -1) {
+      files = dt.files;
       for (var i=0; i<files.length; i++) {
         var file = files[i];
         var target = this.get("dropFileTarget") || this;
