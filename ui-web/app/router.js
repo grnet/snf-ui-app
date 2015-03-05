@@ -6,6 +6,7 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.resource('index', {path: '/'});
   this.resource('containers');
   this.resource('shared');
   this.resource('container', { path: '/containers/:container_id'}, function(){
