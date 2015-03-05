@@ -26,6 +26,7 @@
     <span class="progress columns small-3">
     <span class="ratio">{{ file.uploadProgress }}%</span>
     {{# if file.progress.message }}<span>({{ file.progress.message }}...)</span>{{/if}}
+    <span class="size">{{file.uploadedSize}}/{{file.size}}</span>
     </span>
     {{/if}}
 </div>

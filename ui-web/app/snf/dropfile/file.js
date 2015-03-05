@@ -11,6 +11,8 @@ var DropFile = Ember.Object.extend({
     }));
   },
   
+  uploadedSize: Ember.computed.alias("progress.uploaded"),
+
   uploadProgress: function() {
     var progress = this.get("progress");
     var size = this.get("size");

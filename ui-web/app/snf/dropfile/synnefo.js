@@ -8,29 +8,55 @@ var fmt = Ember.String.fmt;
 var Promise = Ember.RSVP.Promise;
 var all = Ember.RSVP.all;
 var hash = Ember.RSVP.all;
-var queue = function(generator, parallel, resolveCb=Ember.K, rejectCb=Ember.K) {
-  parallel = parallel || 0;
-  var resolveInc, fulfilled = Ember.A([]), rejected = Ember.A([]);
+var queue = function(generator, params, resolveCb=Ember.K, rejectCb=Ember.K) {
+  params = params || {};
+  var resolveInc, fulfilled = Ember.A([]), rejected = Ember.A([]),
+      parallel, slots, serialize, spawned;
+  
+  parallel = params.parallel || 1;
+  serialize = params.serialize || true;
+  slots = parallel;
+  spawned = 0;
 
   return new Promise(function(resolve, reject) {
     var next;
-    next = function(promise) {
-      if (!promise || rejected.length) {
+    next = function(promise, index) {
+      if (promise) { slots--; }
+      if ((slots == parallel) && (!promise || rejected.length)) {
         if (rejected.length) { reject(rejected, fulfilled); return; }
         resolve(fulfilled);
         return;
       }
+
+      if (!promise) { return; }
+
       promise.then(function(res) {
-        fulfilled.pushObject(res);
-        resolveCb(promise, res);
+        if (serialize) {
+          fulfilled[index] = res;
+        } else {
+          fulfilled.pushObject(res);
+        }
+        resolveCb(promise, res, index);
+        slots++;
       }, function(res) {
-        rejected.pushObject(res);
-        rejectCb(promise, res);
+        if (serialize) {
+          rejected[index] = res;
+        } else {
+          rejected.pushObject(res);
+        }
+        rejectCb(promise, res, index);
+        slots++;
       }).finally(function() {
-        next(generator());
+        var n;
+        while (slots && (n = generator())) {
+          spawned++;
+          next(n, spawned);
+        }
+        if (!n) { next(false); }
       });
     }.bind(this);
-    next(generator());
+
+    next(generator(), spawned);
   });
 }
 
@@ -74,7 +100,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
 
   chunkHash: function(file, position, params) {
     var bs = params.bs, blob, to;
-    to = position + bs - 1;
+    to = position + bs;
     if (to > file.size) { to = file.size; }
     blob = file.slice(position, to);
 
@@ -88,7 +114,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
             'buffer': e.target.result, 
             'position': position, 
             'to': to, 
-            'size': to - position - 1,
+            'size': to - position,
             'hash': hash
           });
         }.bind(this)).catch(reject);
@@ -99,7 +125,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
 
   fileHashmap: function(file, params, hashChunks, progress) {
     var cursor = 0, hashes = Ember.A([]), bs = params.bs, index, total, 
-      computed = 0;
+      computed = 0, finished = 0;
     total = Math.ceil(file.size / bs);
 
     if (hashChunks) { 
@@ -114,15 +140,24 @@ var SnfUploaderTransport = ChunkedTransport.extend({
     index = 0;
     return queue(function() {
       var msg, promise;
-      msg = fmt('Computing hashes (%@/%@)', computed, total);
-      progress({'message': msg});
-      
       if (computed == total) { return false; }
-
-      promise = this.chunkHash(file, cursor, params);
+      promise = new Promise(function(resolve, reject) {
+        if (file._aborted) { reject("abort"); }
+        return this.chunkHash(file, cursor, params).then(resolve, reject).then(function(res) {
+          var msg;
+          finished++;
+          msg = fmt('Computing hashes (%@/%@)', finished, total);
+          progress({'message': msg});
+          return res;
+        });
+      }.bind(this));
       computed += 1;
+      cursor += bs;
       return promise;
-    }.bind(this));
+    }.bind(this), {parallel: 3, serialize: true}).catch(function(err) {
+      if (file._aborted) { throw "abort"; }
+      throw (err);
+    });
   },
 
   resolveHashes: function(hashChunks, size, type, params, fileURL, containerURL) {
@@ -139,7 +174,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       data: JSON.stringify(hashmap),
       headers: {'Content-Type': type}
     });
-
+    
     return ajax(options).then(function(resp) {
       return {'missing': Ember.A(), 'existing': hashChunks};
     }).catch(function(err) {
@@ -208,11 +243,14 @@ var SnfUploaderTransport = ChunkedTransport.extend({
 
     chunkedPromise = this.doUploadChunked(url, files, paths, progress)
     promise = new Promise(function(resolve, reject) {
-      chunkedPromise.catch(function(err) {
-        if (err === "abort" || (err && err[0] === "abort")) {
+      chunkedPromise.catch(function(error) {
+        // distinguish between user requested abort and other server errors
+        if (error[0] && error[0].jqXHR && error[0].jqXHR.status === 0) { error= "abort"; }
+        if (error === "abort" || (error && error[0] === "abort")) {
           reject({jqXHR:{status:0}});
           return;
         }
+        // TODO: make this configurable
         reject("chunked-failed");
       }.bind(this)).then(resolve);
     }.bind(this));
@@ -244,7 +282,11 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       onabort = function() {
         file._aborted = true;
         for (var k in chunksTransports) {
+          if (chunksTransports[k]._aborted) {
+            continue;
+          }
           chunksTransports[k].abort();
+          chunksTransports[k]._aborted = true;
           reject("abort");
           return;
         }
@@ -253,7 +295,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       if (!hashChunks) {
         progress({
           'total': file.size,
-          'uploaded': Math.abs(file.size * 0.01), // fake 1%;
+          'uploaded': 0,
           'message': 'Computing hashes'
         });
       }
@@ -264,7 +306,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           var chunksProgress, chunkProgress;
           var bytesUploaded = hashes.existing.reduce(function(cur, item) {
             return cur + item.size;
-          }, 0) || Math.abs(file.size * 0.01); // fake 1%;
+          }, 0) || 0;
 
           progress({
             'total': file.size,
