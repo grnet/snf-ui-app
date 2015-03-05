@@ -16,8 +16,8 @@ var DropFile = Ember.Object.extend({
   uploadProgress: function() {
     var progress = this.get("progress");
     var size = this.get("size");
-    if (this.get("status") === "uploaded") { return 100; }
-    var ratio = Math.round((progress.uploaded/ size) * 99);
+    if (this.get("status") === "uploaded" || size == 0) { return 100; }
+    var ratio = Math.round((progress.uploaded / size) * 99);
     return ratio > 99 ? 99 : ratio;
   }.property('progress.uploaded', 'file', 'size', 'status'),
 
@@ -50,6 +50,12 @@ DropFile.initFromFile = function(file, location) {
       attrs[k] = file[k];
     }
   }
+
+  // required properties 
+  attrs.name = file.name;
+  attrs.size = file.size;
+  attrs.type = file.type;
+  attrs.lastModified = file.lastModified;
   attrs.file = file;
   attrs.location = location;
   return DropFile.create(attrs);

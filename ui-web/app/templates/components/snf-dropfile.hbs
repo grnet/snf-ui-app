@@ -19,7 +19,8 @@
 {{# each file in files}}
 <div class="file">
 <div class="head columns small-9">
-    <span class="name columns small-6">{{ file.name }}</span>
+    <span class="name columns small-4">{{ file.name }}</span>
+    <span class="status columns small-2">{{ file.type }}</span>
     <span class="status columns small-1">{{ file.status }}</span>
     <span class="location columns small-2">{{ file.location }}</span>
     {{# if file.isUploading }}

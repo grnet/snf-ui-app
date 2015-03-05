@@ -130,7 +130,6 @@ export default Ember.Component.extend({
     },
     
     // batch actions
-
     'abortAll': function() {
       this.batchAction('filesUploading', 'abort');
     },
@@ -145,7 +144,6 @@ export default Ember.Component.extend({
       } else {
         this.uploadFiles(this.get("filesToUpload"));
       }
-    },
-
+    }
   }
 });

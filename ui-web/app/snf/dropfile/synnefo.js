@@ -301,7 +301,9 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       }
 
       this.fileHashmap(file, params, hashChunks, progress).then(function(hashChunks) {
-        var args = [hashChunks, file.size, file.type, params, fileURL, contURL];
+        var ftype = file.type, args;
+        if (!ftype && file.dirType) { ftype = file.dirType; }
+        args = [hashChunks, file.size, ftype, params, fileURL, contURL];
         this.resolveHashes.apply(this, args).then(function(hashes) {
           var chunksProgress, chunkProgress;
           var bytesUploaded = hashes.existing.reduce(function(cur, item) {

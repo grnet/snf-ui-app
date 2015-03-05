@@ -56,9 +56,50 @@ var DropFileViewMixin = Ember.Mixin.create({
     this._stopPropagation(e);
     e.preventDefault();
   },
+  
+  _readDir: function(entry, path, cb) {
+    var dirReader, files = [], entry, file;
+    dirReader = entry.createReader();
+    dirReader.readEntries(function(entries) {
+      for (var i=0; i<entries.length; i++) {
+        entry = entries[i];
+        if (entry.name == ".DS_Store") { debugger; }
+        if (entry.isDirectory) {
+          file = new File([], entry.name);
+          file.dirType = "application/directory";
+          file.isDir = true;
+          file._location = path;
+          cb(file)
+          this._readDir(entry, path + "/" + entry.name, cb);
+        } else {
+          entry.file(function(file) {
+            file._location = path;
+            cb(file);
+          });
+        }
+      }
+    }.bind(this));
+    return files;
+  },
+
+  _resolveFile: function(item, cb) {
+    var collected = [], entry, isDir, location, file;
+    entry = item.webkitGetAsEntry ? item.webkitGetAsEntry() : item.getAsEntry();
+    if (!entry.isDirectory) { entry.file(function(f){ cb(f); }); return; }
+
+    file = new File([], entry.name);
+    file._location = '';
+    file.dirType = "application/directory";
+    file.isDir = true;
+    cb(file);
+
+    if (entry.isDirectory) {
+      this._readDir(entry, "/" + entry.name, cb);
+    }
+  },
 
   drop: function(e) {
-    var location, dt, types, files;
+    var location, dt, types, files, file, target, item, _files;
     location = this.dropFileLocation(e);
     dt = e.dataTransfer;
 
@@ -68,9 +109,20 @@ var DropFileViewMixin = Ember.Mixin.create({
     if (types && types.indexOf("Files") > -1) {
       files = dt.files;
       for (var i=0; i<files.length; i++) {
-        var file = files[i];
-        var target = this.get("dropFileTarget") || this;
-        target.send("dropFileAdd", file, location);
+        file = files[i];
+        item = dt.items && dt.items[i];
+        target = this.get("dropFileTarget") || this;
+        if (item) {
+          _files = this._resolveFile(item, function(f) {
+            // TODO: optionally filter out hidden . files ?? 
+            var loc = location + (f._location || '');
+            target.send("dropFileAdd", f, loc, e);
+          });
+        } else {
+          // TODO: propagate empty dir/file handling higher ??
+          if (file.type == "" && file.size == 0) { continue; }
+          target.send("dropFileAdd", file, location, e);
+        }
       }
     }
     return false;
