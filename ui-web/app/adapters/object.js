@@ -44,23 +44,23 @@ export default StorageAdapter.extend({
    * 
    * @method moveObject
    * @param record {Object}
-   * @param old_path {string} Orign path ex. '/pithos/folder1/example.txt'
    * @param new_id {string} Desination path ex. '/trash/folder1/examplet.txt'
    * @param copy_flag {bool} If true, the object is copied instead of moved
 
    */
 
-  moveObject: function(record, old_path, new_id, copy_flag) {
+  moveObject: function(record, new_id, copy_flag) {
+    var oldPath = '/'+record.get('id');
     var url = this.buildURL('object', new_id, null);
     if (record.get('is_dir')){
       url = url+'?delimiter=/';
     }
     var headers = {};
     headers['Content-Type'] = record.get('content_type');
-    headers['X-Move-From'] = old_path;
+    headers['X-Move-From'] = oldPath;
     
     if (copy_flag === true) {
-      headers['X-Copy-From'] = old_path;
+      headers['X-Copy-From'] = oldPath;
       delete headers['X-Move-From'];
     }
 

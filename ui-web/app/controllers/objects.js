@@ -121,13 +121,31 @@ export default Ember.ArrayController.extend({
   }.observes('validInput'),
 
 
-  _fileExists:function(id){
+  _verifyID: function(id){
+    var self = this;
     return function(id){
-      var object = this.store.find('object', id);
-      return DS.PromiseArray.create({promise: object});
-    }.bind(this);
+      var obj = self.store.getById('object',id );
+      if (obj) {
+        if (obj.get('is_dir') ) {
+          var object_id = id + '-copy';
+        } else {
+          var temp = id.split('.');
+          var extension = null;
+          if (temp.length>1 ) {
+            extension = '.'+ temp.pop();
+          }
+          object_id = temp.join('.')+'-copy';
+          if (extension) {
+            object_id = object_id + extension;
+          }
+        }
+        // if you omit return _verifyID returns undefined
+        return self.get('_verifyID')(object_id);
+      } else {
+        return id;
+      }
+    }
   }.property(),
-
 
 
   actions: {
@@ -144,97 +162,52 @@ export default Ember.ArrayController.extend({
         return false;
       }
       var object = this.get('toPasteObject');
-      var oldPath = '/'+object.get('id');
       var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
       var newID = this.get('container_id')+current_path+object.get('stripped_name');
-      var copy_flag = this.get('copyFlag');
-    
+      var copyFlag = this.get('copyFlag');
 
-      // If the object exists aready in the copy destination folder, 
-      // show a dialog that asks the user if he wants to overwrite the
-      // existing object (thus creating a new version of this object)
-      // or if he wants to create a copy of the object
-      if ( (object.get('id') === newID ) && copy_flag ) {
-        // 'objects' controller requires an array of models
-        this.send('showDialog', 'paste', 'object/paste' , object);
-        return;
-      } 
-      this.send('_resumePaste', object, oldPath, newID, copy_flag);
+      this.send('_move', object, newID, copyFlag);
+    
     },
 
-  
-
-    moveObject: function(object, oldPath, newID, copy_flag){
+    _move: function(object, newID, copyFlag){
       var self = this;
-      this.store.find('object', newID).then(function(data){
-        self.send('showDialog', 'paste', 'object/paste' , object);
-      }, function(){
-        self.send('_moveObject', object, oldPath, newID, copy_flag);
+      var arr = newID.split('/');
+      var container_id = arr.shift();
+      arr.pop();
+      var path = arr.join('/')+'/';
+      this.store.find('object', {
+        container_id: container_id,
+        path: path
+      }).then(function(){
+        var newVerifiedID = self.get('_verifyID')(newID);
+        if (newVerifiedID != newID){
+          object._newID = newID;
+          object._newVerifiedID = newVerifiedID;
+          self.send('showDialog', 'move', 'object/move' , object);
+          return;
+        }
+        self.send('moveObject', object,newID, copyFlag);
       });
     },
 
-
-    // moves object from oldPath to newID
-    _moveObject: function(object, oldPath, newID, copy_flag){
+    // moves object from to newID
+    moveObject: function(object, newID, copyFlag){
       var self = this;
-       var onSuccess = function(container) {
+
+      var onSuccess = function(container) {
         self.send('refreshRoute');
       };
 
       var onFail = function(reason){
         self.send('showActionFail', reason);
       };
-      console.log('object', object);
-      console.log('oldPath', oldPath);
-      console.log('newID', newID);
-      console.log('copy_flag', copy_flag);
 
-      this.store.moveObject(object, oldPath, newID, copy_flag).then(onSuccess, onFail);
+      this.store.moveObject(object, newID, copyFlag).then(onSuccess, onFail);
 
       this.set('toPasteObject', null);
       this.set('copyFlag', false);
 
-    },
-
-    // continues pasting by calling _resumePaste method
-    pasteVersion: function(object) {
-      var oldPath = '/'+object.get('id');
-      var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
-      var newID = this.get('container_id')+current_path+object.get('stripped_name');
- 
-      this.send('_moveObject', object, oldPath, newID, true);
-    },
-
-    // before pasting it will call _objNewCopyId to rename the object
-    pasteCopy: function(object) {
-      this.send('_objNewCopyId', object, object.get('id'));
-    },
-     
-     // if the object_id already exists, then it is renamed.
-     // <old-name>.<extension> is renamed to <old-name>-copy.<extension>
-     // <old-name> with no extension is renamed to <old-name>-copy
-     // Directory objects with <old-name> are renamed to <old-name>-copy
-    _objNewCopyId: function(object, object_id){
-      var exists = this.store.hasRecordForId('object', object_id );
-      if (exists) {
-        if (object.get('is_dir') ) {
-          object_id = object_id + '-copy';
-        } else {
-          var temp = object_id.split('.');
-          var extension = null;
-          if (temp.length>1 ) {
-            extension = '.'+ temp.pop();
-          }
-          object_id = temp.join('.')+'-copy';
-          if (extension) {
-            object_id = object_id + extension;
-          }
-        }
-
-        this.send('_objNewCopyId', object, object_id);
-      } else {
-        this.send('_moveObject', object, '/'+object.get('id'), object_id, true);
-      }
     },
 
     sortBy: function(property){
@@ -285,10 +258,8 @@ export default Ember.ArrayController.extend({
       };
 
       objects.forEach(function(object) {
-        var oldPath = '/'+ object.get('id');
         var newID = 'trash/'+object.get('stripped_name');
-        self.send('moveObject', object, oldPath, newID);
-        object.deleteRecord();
+        self.send('_move', object, newID);
       });
     },
 
@@ -308,9 +279,7 @@ export default Ember.ArrayController.extend({
 
       objects.forEach(function(object) {
         var newID = selectedDir + '/' + object.get('stripped_name');
-        var oldPath = '/'+ object.get('id');
-        self.send('moveObject', object, oldPath, newID);
-        object.deleteRecord();
+        self.send('_move', object, newID);
       });
     },
 

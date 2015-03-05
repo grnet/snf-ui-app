@@ -157,7 +157,7 @@ export default Ember.ObjectController.extend({
           self.send('showActionFail', reason);
         };
 
-      this.store.moveObject(object, oldPath, newID).then(onSuccess, onFail);
+      this.store.moveObject(object, newID).then(onSuccess, onFail);
 
       // reset
       this.set('newName', undefined);
