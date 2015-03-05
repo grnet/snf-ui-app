@@ -1,3 +1,15 @@
+$dragBgCol: #8A75A5;
+$dragFgCol: #FFFFFF;
+
+.drag-active * {
+  &:hover {
+    color: $dragFgCol;
+    background-color: $dragBgCol;
+  }
+  color: $dragFgCol;
+  background-color: $dragBgCol;
+}
+
 .dropfiles {
   z-index: 100;
   border-top: 1px solid #ccc;

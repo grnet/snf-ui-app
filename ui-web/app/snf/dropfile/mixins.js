@@ -19,6 +19,7 @@ var DropFileActionsMixin = Ember.Mixin.create({
 /*
  * Mixin which handles drop files event and triggers dropFileAdd actions.
  */
+
 var DropFileViewMixin = Ember.Mixin.create({
   attributeBindings: 'draggable',
   dragActive: false,
@@ -27,7 +28,6 @@ var DropFileViewMixin = Ember.Mixin.create({
   // Declare the target on which the `dropFileAdd` action will be called.
   // Usually this should be an object which is mixed using DropFileActionsMixin.
   dropFileTarget: null,
-
   _pendingLeaves: 0,
   
   _stopPropagation: function(e) {
@@ -46,6 +46,7 @@ var DropFileViewMixin = Ember.Mixin.create({
   },
 
   dragLeave: function(e) {
+    this._stopPropagation(e);
     this._pendingLeaves -= 1;
     if (this._pendingLeaves === 0) {
       this.set("dragActive", false);

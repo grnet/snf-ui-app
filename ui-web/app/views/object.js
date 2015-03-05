@@ -1,13 +1,36 @@
 import Ember from 'ember';
+import {DropFileViewMixin} from '../snf/dropfile/mixins';
 
-export default Ember.View.extend({
+export default Ember.View.extend(DropFileViewMixin, {
 	templateName: 'object',
 	tagName: 'tr',
   classNameBindings: ['isSelected', 'toPaste'],
 
+  dropFileTarget: Ember.computed.alias('controller.controllers.application'),
+
+  dropFileLocation: function(event) {
+    return this.get("controller.controllers.objects.path").replace(/\/$/, "") + 
+           "/" + 
+           this.get("controller.stripped_name");
+  },
+
   isSelected: function(){
     return this.get('controller').get('isSelected');
   }.property('controller.isSelected'),
+  
+  // delegate events to parent controller for non dir entries
+  drop: function(e) {
+    if (!this.get("controller.is_dir")) { return true }
+    return this._super(e);
+  },
+  dragEnter: function(e) { 
+    if (!this.get("controller.is_dir")) { return true }
+    return this._super(e);
+  },
+  dragLeave: function(e) { 
+    if (!this.get("controller.is_dir")) { return true }
+    return this._super(e);
+  },
 
   toPaste: function(){
     var pasted = this.get('controller.controllers.objects.toPasteObject');
@@ -42,6 +65,7 @@ export default Ember.View.extend({
 		var iconCls = {};
 
 		iconCls['dir'] = 'fa-folder';
+		iconCls['dir-open'] = 'fa-folder-open';
 		iconCls['text'] = 'fa-file-text-o';
 		iconCls['compressed'] = 'fa-file-zip-o';
 		iconCls['image'] = 'fa-file-image-o';
@@ -52,9 +76,13 @@ export default Ember.View.extend({
 		iconCls['excel'] = 'fa-file-excel-o';
 		iconCls['powerpoint'] = 'fa-file-powerpoint-o';
 		iconCls['unknown'] = 'fa-file-o';
+    
+    if (type == "dir") {
+      type = this.get("dragActive") ? "dir-open" : "dir";
+    }
 
 		return iconCls[type];
-	}.property('controller.type'),
+	}.property('controller.type', 'dragActive'),
 
 	previewSupported: function() {
 		var type = this.get('controller').get('type');
