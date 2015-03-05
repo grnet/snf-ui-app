@@ -1,6 +1,7 @@
 {{partial "header"}}
 <div class="main">
     {{outlet}}
+	{{outlet "total-quotas"}}
     <a class="fl-right" {{action 'showDialog' 'feedback' 'feedback'}}>Send us Feedback</a>
 </div>
 

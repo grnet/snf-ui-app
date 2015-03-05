@@ -1,0 +1,9 @@
+<a class="usg-btn">File Storage Usage</a>
+<div class="arrow hidden"></div>
+<div class="dialog hidden">
+	<ul class="proj-list">
+		{{#each project in projects}}
+			{{view 'quotas-per-project' project=project}}
+		{{/each}}
+	</ul>
+</div>

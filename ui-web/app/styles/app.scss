@@ -352,3 +352,90 @@ table {
 }
 
 @import "dropfile";
+// dialog
+.progress {
+    position: relative;
+}
+
+.quotas-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+    .arrow {
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right:10px solid #8D97DD;
+        position: absolute;
+        top: 3px;
+        right: -14px;
+        display: none;
+    }
+}
+
+.quotas-data {
+    // border: 1px solid gray;
+    margin-bottom: 1.3rem;
+}
+
+.rest {
+    display: inline-block;
+    height: 100%;
+    background-color: transparent;
+}
+
+.meter {
+    float: left;
+}
+
+.proj-list {
+    list-style-type: none;
+    margin: 1rem;
+}
+
+.usg-btn {
+    display: inline-block;
+}
+
+.dialog {
+    border-radius: 7px;
+    background-color: #8D97DD;
+    position: absolute;
+    bottom: -25px;
+    right: -422px;
+    display: none;
+}
+
+.proj-name {
+    color: black;
+    font-size: 1rem;
+}
+
+.usage-text {
+    color: white;
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+    margin-top: 0.4rem;
+}
+
+.zero-quotas {
+    font-size: 0.8rem;
+    color: white;
+}
+
+.size {
+    position: absolute;
+    bottom: 1px;
+    margin: 0 6px;
+    font-size: 0.8rem;
+    opacity: 0;
+
+   transition: opacity 0.3s;
+   -moz-transition: opacity 0.3s;
+   -webkit-transition: opacity 0.3s;
+}
+
+.size.appear {
+    opacity: 1;
+}

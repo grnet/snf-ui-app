@@ -14,19 +14,24 @@ export default Ember.Controller.extend(DropFileActionsMixin, {
       storage_host: this.get("settings").get("storage_host")
     });
   }.property(),
-
-  'title': function() {
-      return this.get('settings').get('service_name');
-  }.property(),
-
-  'currentUser': function(){
-    var uuid = this.get('settings').get('uuid');
-    return this.store.find('user', uuid);
-  }.property(),
-  
+ 
   'actions': {
     'dropFileSuccess': function() { console.log("upload success APP"); },
     'dropFileFailed': function() { console.log("upload failed APP", arguments); },
     'dropFileStarted': function() { console.log("upload started APP", arguments); },
-  }
+  },
+
+	title: function(){
+			return this.get('settings').get('service_name');
+	}.property(),
+
+	currentUser: function(){
+		var uuid = this.get('settings').get('uuid');
+		return this.store.find('user', uuid);
+	}.property(),
+
+	projects: function() {
+		return this.get('store').find('project', {mode: 'member'});
+	}.property(),
+
 });

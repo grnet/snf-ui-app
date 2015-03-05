@@ -2,6 +2,19 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 
+	renderTemplate: function() {
+		/*
+		* if you define an inner outlet you don't
+		* define and the main template, it will crash
+		*/
+
+		this.render("application");
+		this.render('total-quotas', {
+			into: 'application',
+			outlet: 'total-quotas',
+		});
+	},
+
 	actions: {
 		/*
 		 * when the server returns error and we want to handle it
