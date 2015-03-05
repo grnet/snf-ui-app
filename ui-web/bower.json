@@ -18,5 +18,8 @@
     "foundation": "~5.4.7",
     "is_js": "~0.3.0",
     "underscore": "~1.7.0"
+  },
+  "devDependencies": {
+    "asmcrypto": "~0.0.6"
   }
 }
