@@ -76,7 +76,7 @@ export default Ember.View.extend({
 	}.observes('controller.completeReset'),
 
 	// Actions metadata
-	deleteContainer: {
+	emptyAndDelete: {
 		title: 'Delete Container',
 		action_verb: 'Delete'
 	},
