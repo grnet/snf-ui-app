@@ -43,6 +43,7 @@
     "glob": "^4.0.5"
   },
   "dependencies": {
-    "broccoli-static-compiler": "^0.2.1"
+    "broccoli-static-compiler": "^0.2.1",
+    "rimraf": "2.2.8"
   }
 }
