@@ -5,31 +5,37 @@ export default StorageAdapter.extend({
   ajaxSuccess: function(jqXHR, jsonPayload) {
 
     // get all headers as a string
-    var headers = jqXHR.getAllResponseHeaders();
+    var headers = jqXHR.getAllResponseHeaders().split('\n');
 
-    // put all headers that start with X-Account-Group in an array
-    var group_headers_arr = headers.match(/\bX-Account-Group-\w[^\b]*?\b/g);
+		// removes the colon and the uuids of the members of each group
+		var re = (/X-Account-Group-\S*(?=:)/g);
+		var groupHeader, groupName, groups=[];
 
-    var groups = [];
+		headers.forEach(function(h) {
+			groupHeader = h.match(re)
+			if(groupHeader) {
+				let group = {};
+				group.id = groupHeader[0].replace('X-Account-Group-', '').toLowerCase();
+				group.name = group.id;
 
-    if (group_headers_arr) {
-      group_headers_arr.forEach(function(h){
-        var obj = {};
-        obj.id = h.replace('X-Account-Group-', '').toLowerCase();
-        obj.name = obj.id;
-        var uuids = jqXHR.getResponseHeader(h);
-        if (uuids === '~') {return;}
-        if (uuids) {
-          obj.users = uuids.split(',');
-        } else {
-          obj.users = [];
-        }
+				let uuids = jqXHR.getResponseHeader(groupHeader[0]);
 
-        groups.push(obj);
-      });
-      jsonPayload.groups = groups;
-    }
+				if(uuids === '~'){
+					return ;
+				}
 
+				if(uuids) {
+					group.users = uuids.split(',');
+				}
+				else {
+					group.users = [];
+				}
+
+				groups.push(group)
+			}
+		});
+
+		jsonPayload.groups = groups;
     return jsonPayload;
   },
 
@@ -39,7 +45,6 @@ export default StorageAdapter.extend({
     var header = 'X-Account-Group-'+record.get('name');
     headers['Accept'] = 'text/plain';
     return record.get('users').then(function(users){
-      //console.log('users', users);
       headers[header] = users.map(function(user){
         console.log('user.id', user.id);
         return user.id;
@@ -59,7 +64,7 @@ export default StorageAdapter.extend({
     headers['Accept'] = 'text/plain';
     headers[header] = '~';
     return this.ajax(this.buildURL(type.typeKey)+'?update=', 'POST');
- 
+
   }
 
 });
