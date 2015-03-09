@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.View.extend({
 	classNames: ['reveal-modal'],
 	attributeBindings: ['data-reveal'],
-	'data-reveal': true,
+	'data-reveal': 'true',
 
 	revealDialog: function() {
 		this.$().foundation('reveal', 'open');
@@ -25,7 +25,6 @@ export default Ember.View.extend({
 		 * - dialogs.feedback etc
 		 */
 		var templateName = this.get('renderedName');
-
 		// type is used to disconnect the dialog from the correct outlet
 		var type = templateName.replace('dialogs.', '');
 
