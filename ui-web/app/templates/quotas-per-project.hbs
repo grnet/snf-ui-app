@@ -1,4 +1,4 @@
-<div class="proj-name">{{project.name}}</div>
+<div class="proj-name">{{project.human_name}}</div>
 {{#if project.diskspace_effective_limit}}
 	<div class="usage-text">{{convert-bytes project.diskspace_user_usage}} out of {{convert-bytes project.diskspace_effective_limit}} used ({{convert-bytes project.diskspace_free_space}} left)</div>
 	<div class="progress usage-bar large-12 secondary radius">

@@ -24,9 +24,10 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
   actionToPerform: undefined,
 
   watchProject: function(){
-    //console.log('isClean', isClean);
-    this.send('reassignContainer', this.get('selectedProject').get('id'));
-    this.set('project', this.get('selectedProject'));
+    if (this.get('selectedProject')){
+      this.send('reassignContainer', this.get('selectedProject').get('id'));
+      this.set('project', this.get('selectedProject'));
+    }
   }.observes('selectedProject'),
 
 

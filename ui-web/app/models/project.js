@@ -1,12 +1,23 @@
 import DS from 'ember-data';
+import {bytesToHuman} from '../snf/common';
 
 export default DS.Model.extend({
 	name: DS.attr('string'),
 	homepage: DS.attr('string'),
 	system_project: DS.attr('boolean', {defaultValue: false}),
+
+  human_name: function(){
+    if (this.get('system_project')){
+      return 'System project';
+    }
+    return this.get('name');
+  }.property('name', 'system_project'),
+
+
 	select_label: function(){
-		return this.get('name')+'  ' + this.get('diskspace_free_space') + ' bytes';
-	}.property('name', 'diskspace_free_space'),
+		return this.get('human_name')+'  (' + bytesToHuman(this.get('diskspace_free_space'))+ ' available)';
+	}.property('human_name', 'diskspace_free_space'),
+
 	// quotas info
 	diskspace_user_usage: DS.attr('number'),
 	diskspace_user_limit: DS.attr('number'),
