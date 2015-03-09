@@ -14,24 +14,21 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
     return this.get('projects').filter(function(p){
       return self.get('model').get('bytes')< p.get('diskspace_free_space');
     });
-  }.property('projects.@each', 'model.project'),
+  }.property('projects.@each'),
+
+  selectedProject: function(){
+    var project_id = this.get('model').get('project').get('id');
+    return this.get('availableProjects').findBy('id', project_id) ;
+  }.property('availableProjects', 'model.project'),
 
   actionToPerform: undefined,
 
   watchProject: function(){
-    var isClean = !this.get('model').get('isDirty');
-    var hasSelected = this.get('selectedProject');
-    
-    if ( isClean && hasSelected)  {
-      this.send('reassignContainer', hasSelected.get('id'));
-      this.get('model').set('project', hasSelected);
-    }
-    
+    //console.log('isClean', isClean);
+    this.send('reassignContainer', this.get('selectedProject').get('id'));
+    this.set('project', this.get('selectedProject'));
   }.observes('selectedProject'),
 
-  selectedProject: function(){
-    return this.get('project');
-  }.property('model.project'),
 
   actions: {
     deleteContainer: function(){
