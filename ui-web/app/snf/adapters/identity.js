@@ -16,12 +16,14 @@ export default SnfRestAdapter.extend({
     if (type == 'user') {
       // at the moment we allow only single user id/email resolving
       var urlParts = options.url.split("/");
-      
-      var userPart = urlParts[urlParts.length - 1];
-      if (userPart.indexOf('email=') > -1) {
+
+      var lastPart = urlParts[urlParts.length - 1];
+      var userPart = unescape(lastPart);
+  
+      if (userPart.indexOf('email=') > -1 || userPart.indexOf("@") > 0) {
         var userEmail = userPart.replace('email=', '');
         return {
-          'url': options.url.replace(userPart, ''),
+          'url': options.url.replace(lastPart, ''),
           'type': 'POST',
           'data': JSON.stringify({
             'displaynames': [userEmail]
