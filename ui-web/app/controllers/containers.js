@@ -72,7 +72,5 @@ export default Ember.ArrayController.extend({
       this.set('actionToExec', action);
       this.set(flag, true);
     }
-
-
   }
 });

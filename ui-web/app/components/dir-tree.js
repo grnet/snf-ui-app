@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'li',
   expanded: false,
-
+  
   name: function(){
     var root = this.get('root');
     if (root == '/'){
@@ -51,12 +51,18 @@ export default Ember.Component.extend({
   }.property('root', 'expanded'),
  
   actions: {
+
     toggle: function(){
       this.toggleProperty('expanded');
     },
+
     select: function(root){
       var param = root || this.get('root');
       this.sendAction('action', param);
+    },
+
+    click: function(root) {
+      this.sendAction('click', root, this);
     }
   },
 

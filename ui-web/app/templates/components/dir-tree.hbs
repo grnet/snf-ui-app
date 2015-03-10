@@ -11,7 +11,7 @@
 {{#if expanded}}
     <ul>
     {{#each dir in subdirs}}
-        {{dir-tree root=dir.id resolver=resolver role=role action="select"}}
+        {{dir-tree root=dir.id resolver=resolver role=role action="select" click="click"}}
     {{/each}}
     </ul>
 {{/if}}

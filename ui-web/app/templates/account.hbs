@@ -1,12 +1,12 @@
-<div class="row">
-<div class="accounts-list columns medium-3">
-<ul>
-{{#each}}
-<li>
-{{#link-to 'account.container' user.email }}{{# if user.email }}{{ user.email }}{{ else }}{{ user.id }}{{/if}}{{/link-to}}
-</li>
-{{/each}}
-</ul>
+{{outlet "bar"}}
+<div class="clearfix">
+    <div class="columns small-2 sidebar">
+        {{dir-tree-wrapper role="nav" resolver=resolveSubDirs root='My friends' click='handleDirClick'}}
+    </div>
+
+    <div class="columns small-10">
+        {{outlet}}
+    </div>
+
 </div>
-{{ outlet }}
-</div>
+

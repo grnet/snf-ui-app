@@ -34,6 +34,18 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
 
 
   actions: {
+    handleDirClick: function(root, comp) {
+      var container, path;
+      root = root.split("/");
+      container = root[0];
+      path = root.splice(1).join("/");
+      if (!path) {
+        this.transitionToRoute("container", container);
+      } else {
+        this.transitionToRoute("objects", container, path);
+      }
+    },
+
     deleteContainer: function(){
       var container = this.get('model');
       var self = this;

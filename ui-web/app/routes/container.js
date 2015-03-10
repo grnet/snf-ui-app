@@ -9,4 +9,5 @@ export default Ember.Route.extend({
       controller: 'objects',
     });
   }
+
 });
