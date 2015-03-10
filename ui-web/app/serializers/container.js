@@ -7,6 +7,7 @@ export default DS.RESTSerializer.extend({
     return this._super(store, type, payload);
   },
   extractSingle: function(store, type, payload, id) {
+    var account, parts;
     var object_ids = [];
     var object_list = payload;
 
@@ -15,9 +16,15 @@ export default DS.RESTSerializer.extend({
       object_ids.push(obj_id);
       el.id = obj_id;
     });
+    if (id.match(/\//)) {
+      parts = id.split("/", 2);
+      id = parts[1];
+      account = parts[0];
+    }
     var container = { 
       id: id,
       name: id,
+      account_id: account,
       objects: object_ids,
     };
     payload = { 
@@ -29,7 +36,7 @@ export default DS.RESTSerializer.extend({
   normalizeHash: {
     containers: function(hash) {
       hash.id = hash.name;
-      hash.project = hash.x_container_policy.project;
+      hash.project = hash.x_container_policy && hash.x_container_policy.project;
       return hash;
     }
   },

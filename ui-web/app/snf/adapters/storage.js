@@ -7,12 +7,14 @@ import SnfRestAdapter from 'ui-web/snf/adapters/base';
  *
  */
 export default SnfRestAdapter.extend({
+  account: Ember.computed.alias('settings.uuid'),
+
   apiKey: 'storage',
   typePathMap: function() {
     return {
       'account': '',
-      'container': this.get('settings.uuid'),
-      'object': this.get('settings.uuid'),
+      'container': null,
+      'object': null,
       'group': this.get('settings.uuid'),
       'version': this.get('settings.uuid')
     }

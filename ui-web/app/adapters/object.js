@@ -3,40 +3,55 @@ import StorageAdapter from 'ui-web/snf/adapters/storage';
 
 export default StorageAdapter.extend({
 
+  buildURL: function(type, account, id, record) {
+    var url = this._super(type, account, record);
+    if (id) { url = url + "/" + id; }
+    url = url.replace(/([^:])\/\//g, "$1/");
+    return url;
+  },
+
   deleteRecord: function(store, type, record) {
-    var url = this.buildURL(type.typeKey, record.get('id'), record);
+    var account = this.get('account');
+    var url = this.buildURL(type.typeKey, account, record.get('id'), record);
     var timestamp =(new Date().getTime())/1000;
     url = url+'?until='+timestamp;
     if (record.get('is_dir')){
-      url = url+'&delimiter=/';
+      url = url + '&delimiter=/';
     } 
     return this.ajax(url, "DELETE");
   },
-
+  
   findQuery: function(store, type, query) {
-    var container_id = query.container_id;
-    delete query.container_id;
-    var url = this.buildURL(type.typeKey, container_id);
-    var headers = this.get('headers'); 
-
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      jQuery.ajax({
-        type: 'GET',
-        url: url,
-        data: query,
-        dataType: 'json', 
-        headers: headers,
-      }).then(function(data) {
-        data.container_id = container_id;
-        Ember.run(null, resolve, data);
-      }, function(jqXHR) {
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
+    var filterPath, pathQuery, container, url, headers, payload, account;
+    filterPath = null;
+    pathQuery = query.pathQuery === false || true;
+    container = query.container || store.get('container_id') || '';
+    account = query.account || this.get('account');
+    url = this.buildURL(type.typeKey, account, container);
+    headers = this.get('headers'); 
+    
+    delete query.account;
+    delete query.pathQuery;
+    delete query.container;
+  
+    if (!query.path) { query.path = '/'; }
+    if (!pathQuery && query.path !== '/') {
+      filterPath = query.path;
+    }
+    payload = this.ajax(url, 'GET', { data: query, headers: headers });
+    if (filterPath) {
+      return payload.then(function(payload) {
+        payload = payload.filter(function(obj) {
+          return obj.name.match(new RegExp("^" + filterPath));
+        });
+        payload.container_id = container;
       });
+    }
 
+    return payload.then(function(payload) {
+      payload.container_id = container;
+      return payload;
     });
-
-
   },
 
   /**
@@ -51,7 +66,8 @@ export default StorageAdapter.extend({
 
   moveObject: function(record, new_id, copy_flag) {
     var oldPath = '/'+record.get('id');
-    var url = this.buildURL('object', new_id, null);
+    var account = this.get('account');
+    var url = this.buildURL('object', account, new_id, null);
     if (record.get('is_dir')){
       url = url+'?delimiter=/';
     }
@@ -72,7 +88,8 @@ export default StorageAdapter.extend({
 
   restoreObject: function(record, version) {
     var path = '/'+record.get('id');
-    var url = this.buildURL('object', record.get('id'))+'?update=';
+    var account = this.get('account');
+    var url = this.buildURL('object', account, record.get('id'))+'?update=';
     var headers = this.get('headers');
 
     headers['X-Source-Object'] = path;
@@ -88,7 +105,8 @@ export default StorageAdapter.extend({
     headers['Accept'] =  'text/plain';
     headers['Content-Type'] =  record.get('content_type');
 
-    return this.ajax(this.buildURL('object', record.get('id')), "PUT", {
+    var account = this.get('account');
+    return this.ajax(this.buildURL('object', account, record.get('id')), "PUT", {
       headers: headers,
     });
   },
@@ -106,7 +124,8 @@ export default StorageAdapter.extend({
 
 
   setPublic: function(record, flag) {
-    var url = this.buildURL('object', record.get('id'))+'?update=';
+    var account = this.get('account');
+    var url = this.buildURL('object', account, record.get('id'))+'?update=';
     var headers = this.get('headers');
     var self = this;
 
@@ -146,10 +165,11 @@ export default StorageAdapter.extend({
    */
   setSharing: function(record, sharing) {
     var headers = this.get('headers');
+    var account = this.get('account');
     headers['X-Object-Sharing'] = sharing;
     headers['Accept'] =  'text/plain';
     
-    return this.ajax(this.buildURL('object', record.get('id'))+'?update=', 'POST');
+    return this.ajax(this.buildURL('object', account, record.get('id'))+'?update=', 'POST');
    },
 
   /**
@@ -161,7 +181,8 @@ export default StorageAdapter.extend({
    * @return {object} with key/value pairs of Response Headers
    */
   getRecordInfo: function(record) {
-    var url = this.buildURL('object', record.get('id'));
+    var account = this.get('account');
+    var url = this.buildURL('object', account, record.get('id'));
     var headers = this.get('headers');
     var res = {};
  
