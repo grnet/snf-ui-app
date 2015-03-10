@@ -1,0 +1,36 @@
+import Ember from 'ember';
+import DS from 'ember-data';
+
+var Promise = Ember.RSVP.Promise;
+
+export default Ember.Route.extend({
+  
+  pathQuery: false,
+
+  paramFor: function(param, name) {
+    var route = this.container.lookup('route:' + name);
+    return route && route.get(param);
+  },
+
+  model: function(params) {
+    var account, container, query, contId;
+    account = this.paramFor('account', 'account/container');
+    query = {
+      'account': account.get('id'), 
+      'container': params.container_name,
+      'path': params.path,
+      'pathQuery': this.get('pathQuery')
+    };
+    contId = account.get('id') + "/" + params.container_name;
+    this.set('cont', this.store.findById('container', contId));
+    this.set('containerName', params.container_name);
+    this.set('path', params.path);
+    return this.store.findQuery('object', query);
+  },
+
+  setupController: function(controller, model) {
+    this._super(controller, model);
+    controller.set('cont', this.get('cont'));
+    controller.set('path', this.get('path'));
+  }
+});

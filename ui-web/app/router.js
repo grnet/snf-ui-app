@@ -8,7 +8,15 @@ var Router = Ember.Router.extend({
 Router.map(function() {
   this.resource('index', {path: '/'});
   this.resource('containers');
-  this.resource('shared');
+
+  this.resource('account', {path: '/shared/accounts'}, function() {
+    this.route('container', {path: '/:account'}, function() {
+      this.route('objects', {path: '/:container_name/*path'});
+      // *path wont match an initial url with no path set 
+      this.route('objects_redirect', {path: '/:container_name'});
+    });
+  });
+
   this.resource('container', { path: '/containers/:container_id'}, function(){
     this.resource('objects', { path: '/*current_path'}, function(){
       this.resource('object', function(){

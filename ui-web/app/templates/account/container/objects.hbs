@@ -1,0 +1,8 @@
+<div class="objects-list medium-9 columns">
+{{#if canBack }}
+<button {{action "back" path}}>back</button>
+{{/if}}
+{{#each entry in model}}
+{{ shared-file-list-entry action="enter" entry=entry }}
+{{/each}}
+</div>
