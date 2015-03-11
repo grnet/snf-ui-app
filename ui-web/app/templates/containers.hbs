@@ -12,9 +12,12 @@
 <table>
 <tbody>
 {{#each}}
-    <tr>
+    <tr {{bind-attr class="new updated"}}>
         <td>
+            {{#if new}}<span class="label">new</span>{{/if}}
+            {{#if updated}}<span class="label success">updated</span>{{/if}}
             <h4>{{#link-to 'container' name}}{{name}}{{/link-to}}</h4>
+
             <strong>Selected project:</strong> {{project.human_name}}<br>
             <strong>Containers bytes:</strong> {{convert-bytes bytes}}<br>
             <strong>Total items:</strong> {{count}}<br>

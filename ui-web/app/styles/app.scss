@@ -439,3 +439,16 @@ table {
 .size.appear {
     opacity: 1;
 }
+
+
+@include keyframes(background-change) {
+    0% { background-color: $purple; }
+    100% { background-color: transparent; }
+}
+
+.new, .new ~td {
+    @include animation('background-change 8s');
+    .label {
+        float: right;
+    }
+}

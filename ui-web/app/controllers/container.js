@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ResolveSubDirsMixin from '../mixins/resolve-sub-dirs';
+import {tempSetProperty} from '../snf/common';
 
 export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
   itemType: 'container',
@@ -60,6 +61,7 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
         } else {
           container.set('count',0);
           container.set('bytes',0);
+          tempSetProperty(container, 'updated');
         }
       };
       var onFail = function(reason){
@@ -70,8 +72,9 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
 
     reassignContainer: function(project_id){
       var container = this.get('model');
-      var onSuccess = function(container) {
+      var onSuccess = function() {
         console.log('reassignContainer: onSuccess');
+        tempSetProperty(container, 'updated');
       };
 
       var onFail = function(reason){

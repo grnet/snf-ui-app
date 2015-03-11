@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import {tempSetProperty} from '../snf/common';
 
 export default Ember.ArrayController.extend({
   itemController: 'container',
@@ -47,8 +48,9 @@ export default Ember.ArrayController.extend({
       });
 
       var onSuccess = function(container) {
-        console.log('create container: onSuccess');
-      };
+        tempSetProperty(container, 'new');
+     };
+
 
       var onFail = function(reason){
         console.log('createContainer',reason);

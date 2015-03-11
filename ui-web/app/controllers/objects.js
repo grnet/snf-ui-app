@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import {tempSetProperty} from '../snf/common';
 
 export default Ember.ArrayController.extend({
   needs: ['application'],
@@ -103,7 +104,7 @@ export default Ember.ArrayController.extend({
       });
 
       var onSuccess = function(object) {
-        console.log('onSuccess');
+        tempSetProperty(object, 'new');
         self.send('refreshRoute');
       };
 
@@ -195,7 +196,9 @@ export default Ember.ArrayController.extend({
     moveObject: function(object, newID, copyFlag){
       var self = this;
 
-      var onSuccess = function(container) {
+      var onSuccess = function(object) {
+        console.log(object.get('name'));
+        tempSetProperty(object, 'new');
         self.send('refreshRoute');
       };
 

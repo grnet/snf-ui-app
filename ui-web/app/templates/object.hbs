@@ -1,4 +1,6 @@
-<td class="name">
+<td {{bind-attr class=":name new"}}>
+
+    {{#if new}}<span class="label">new</span>{{/if}}
     {{#if is_dir}}
         {{#link-to 'objects' name}}
             {{fa-icon view.iconCls}}
