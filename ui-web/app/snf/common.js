@@ -1,5 +1,5 @@
 /**
-* {{convertBytes}}
+* {{bytesToHuman}}
 *
 * Converts bytes into a nice representation with unit.
 * e.g. 13661855 => 13.7 MB, 825399 => 825 KB, 1396 => 1 KB
