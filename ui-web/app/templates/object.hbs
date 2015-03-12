@@ -4,7 +4,9 @@
     {{#if is_dir}}
         {{#link-to 'objects' name}}
             {{fa-icon view.iconCls}}
-            <span class="js-name">{{stripped_name}}</span>
+            <span class="js-name">
+                {{stripped_name}}
+           </span>
         {{/link-to}}
     {{else}}
         {{#if view.previewSupported}}
@@ -16,7 +18,15 @@
         {{else}}
             {{fa-icon view.iconCls}}
         {{/if}}
-        <span class="js-name hint--bottom" {{bind-attr data-hint=stripped_name}}><span>{{stripped_name_no_ext}}</span></span>
+        <span class="js-name hint--bottom" {{bind-attr data-hint=stripped_name}}>
+            <span>
+                {{stripped_name_no_ext}}
+                {{#if has_ext}}
+                    <em>.{{extension}}</em>
+                {{/if}}
+ 
+            </span>
+        </span>
     {{/if}}
     {{view "input-single" placeholder=stripped_name cls="hidden"}}
     <a title="Rename" class="js-show-edit">{{fa-icon "fa-pencil"}}</a>

@@ -259,6 +259,11 @@ table {
                 white-space: nowrap;
                 vertical-align: top;
             }
+            em {
+                color: $aluminum;
+                font-style: normal;
+                font-size: emCalc(12);
+            }
         }
     }
     tr .icon-btn {

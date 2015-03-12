@@ -47,6 +47,10 @@ export default DS.Model.extend({
     return arr.join('.');
   }.property('stripped_name'),
 
+  has_ext: function(){
+    return this.get('extension') != '--';
+  }.property('extension'),
+
   // returns a list of items that have permissions to read/write the object
   shared_users: function(){
     var self = this;
