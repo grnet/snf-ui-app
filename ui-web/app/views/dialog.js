@@ -4,6 +4,7 @@ export default Ember.View.extend({
 	classNames: ['reveal-modal'],
 	attributeBindings: ['data-reveal'],
 	'data-reveal': 'true',
+  layoutName: 'dialog-wrapper',
 
 	revealDialog: function() {
 		this.$().foundation('reveal', 'open');
