@@ -52,7 +52,9 @@
     {{convert-bytes size}}
 </td>
 <td>
-    <a {{bind-attr href=view_src}} title="download Item" download>{{fa-icon "fa-download"}}</a>
+    {{#unless is_dir}}
+    <a {{bind-attr href=view_src}} title="download Item" target="_blank">{{fa-icon "fa-download"}}</a>
+    {{/unless}}
     <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
     {{#unless trash}}
         <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
