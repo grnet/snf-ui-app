@@ -5,6 +5,7 @@ export default Ember.ArrayController.extend({
   needs: ['application'],
   itemController: 'object',
   sortProperties: ['is_file', 'stripped_name'],
+  closeDialog: false,
 
   hasUpPath: function(){
     return this.get('current_path') !== '/';
@@ -118,6 +119,7 @@ export default Ember.ArrayController.extend({
       this.set('validInput', undefined);
       this.set('isUnique', undefined);
       this.set('newID', undefined);
+			this.set('closeDialog', true);
     }
   }.observes('validInput'),
 
@@ -197,8 +199,6 @@ export default Ember.ArrayController.extend({
       var self = this;
 
       var onSuccess = function(object) {
-        console.log(object.get('name'));
-        tempSetProperty(object, 'new');
         self.send('refreshRoute');
       };
 

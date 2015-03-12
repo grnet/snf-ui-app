@@ -41,7 +41,12 @@ export default Ember.View.extend({
 		$('.slide-btn').click(function(e) {
 			e.preventDefault();
 			self.$('.slide-me').slideToggle('slow');
-		})
+		});
+    
+    $('.close-modal').on('click', function(){
+      self.$().foundation('reveal', 'close');
+    });
+
 	},
 	/*
 	 * Every event handler that has bound with the current view should be removed

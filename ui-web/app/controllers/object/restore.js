@@ -4,6 +4,7 @@ import ResolveSubDirsMixin from '../../mixins/resolve-sub-dirs';
 export default ObjectController.extend(ResolveSubDirsMixin, {
   selected: false,
   selectedDir: null,
+  closeDialog: false,
 
   actions: {
     selectDir: function(param){
@@ -14,6 +15,7 @@ export default ObjectController.extend(ResolveSubDirsMixin, {
       this.send('restoreObjectFromTrash', this.get('selectedDir'));
       this.set('selected', false);
       this.set('selectedDir', null);
+			this.set('closeDialog', true);
     }
   }
 

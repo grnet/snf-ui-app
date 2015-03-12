@@ -1,7 +1,7 @@
 	<h2>{{view.title}}</h2>
 	<p>Do you want to {{view.actionVerb}} the {{itemType}} <b>{{name}}</b>?</p>
 
-	<div class="buttons">
-		<a class="button small close-reveal-modal">Cancel</a>
-		<a href="" class="button small close-reveal-modal" {{action actionToPerform}}> {{ view.actionVerb}}</a>
-	</div>
+	<p>
+		<a class="button small close-modal">Cancel</a>
+		<a class="button small close-modal" {{action actionToPerform}}> {{ view.actionVerb}}</a>
+	</p>
