@@ -1,8 +1,9 @@
-<p><strong>{{name}}</strong></p>
-<p>The object already exists in its destination location</p>
+<h3>Object exists</h3>
+
+<p>The object <strong>{{name}}</strong> already exists in its destination location.</p>
 <p>Do you want to make a copy of it or create a new version?</p>
 
 <p>
-    <a class="button small close-modal" {{action "version" this}}>Create new version</a>
-    <a class="button small close-modal" {{action "copy" this}}>Create copy</a>
+    <a class="button close-modal" {{action "version" this}}>Create new version</a>
+    <a class="button secondary close-modal" {{action "copy" this}}>Create copy</a>
 </p>

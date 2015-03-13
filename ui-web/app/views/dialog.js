@@ -20,7 +20,10 @@ export default Ember.View.extend({
   templateCls: function(){
     var clsMap = {
       'dialogs.create-dir': 'small',
-      'dialogs.confirm-simple': 'medium', 
+      'dialogs.confirm-simple': 'small', 
+      'dialogs.feedback': 'medium',
+      'dialogs.move': 'small',
+      'dialogs.restore': 'medium',
     }
     return clsMap[this.get('renderedName')];
   }.property('renderedName'),
