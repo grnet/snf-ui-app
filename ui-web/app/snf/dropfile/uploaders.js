@@ -10,26 +10,29 @@ var Uploader = Ember.Object.extend({
 
   // resolve transport based on window capabilities
   autoInitTransport: function(winObj) {
-    var transportCls;
+    var transportCls, Blob;
     winObj = winObj || window;
-
+    
     // xhr upload
-    this.xhrSupport = !!(window.ProgressEvent && window.FileReader) && 
-                      window.FormData;
+    this.xhrSupport = !!(winObj.ProgressEvent && winObj.FileReader) && 
+                      winObj.FormData;
 
     // chunked transfer
-    this.chunkSupport = window.Blob && (Blob.prototype.slice ||
-                                        Blob.prototype.webkitSlice || 
-                                        Blob.prototype.mozSlice);
+    
+    Blob = winObj.Blob;
+    this.chunkSupport = Blob && (Blob.prototype.slice ||
+                                 Blob.prototype.webkitSlice || 
+                                 Blob.prototype.mozSlice);
 
     // initialize transport
     transportCls = this.get("iframeTransportCls") || IFRAMETransport;
+
     if (this.xhrSupport) {
       transportCls = this.get("xhrTransportCls") || XHRTransport;
       if (this.chunkSupport) {
         transportCls = this.get("chunkedTransportCls") || ChunkedTransport;
       }
-      transportCls.FormData = window.FormData;
+      transportCls.FormData = winObj.FormData;
     }
 
     this.set('transport', transportCls.create({uploader: this}));
@@ -50,6 +53,7 @@ var Uploader = Ember.Object.extend({
   
   uploadFiles: function(url, files, options) {
     var progress, transport, fileObjs, locations, args, uploadPromise, xhr;
+
     // init uploading state
     files.setEach("status", "uploading");
     url = url || this.getFilesUrl(files);
@@ -75,17 +79,17 @@ var Uploader = Ember.Object.extend({
       }).catch(function(error) { 
         if (error == "chunked-failed") {
           console.error("Chunked upload failed. Retrying with XHR.");
-          var newOptions = Ember.merge({}, {noChunked: true}, options || {});
           files.setEach("progress.message", null);
-          var promise = this.uploadFiles(url, files, newOptions).then(resolve, reject);
+          var newOptions = Ember.merge({}, {noChunked: true}, options || {});
+          var promise = this.uploadFiles(url, files, newOptions)
+                            .then(resolve, reject);
           return true;
         }
         var status = "error";
         if (error.jqXHR && error.jqXHR.status === 0) { status = "aborted"; }
         files.setEach("status", status);
         reject(files, error);
-      }.bind(this)).finally(function() {
-      });
+      }.bind(this));
     }.bind(this)).finally(function() {
       // reset xhr and progress
       files.setEach("xhr", null);

@@ -8,6 +8,7 @@ app.import('bower_components/foundation/js/foundation/foundation.js');
 app.import('bower_components/foundation/js/foundation/foundation.reveal.js');
 app.import('bower_components/underscore/underscore.js');
 app.import('bower_components/is_js/is.js');
+app.import('bower_components/jquery.iframe-transport/jquery.iframe-transport.js');
 
 var workers = pickFiles(mergeTrees(['bower_components/asmcrypto', 'workers']), {
   srcDir: '/',

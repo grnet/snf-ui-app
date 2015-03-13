@@ -16,6 +16,7 @@ var DropFile = Ember.Object.extend({
   uploadProgress: function() {
     var progress = this.get("progress");
     var size = this.get("size");
+    if (size === null) { return null; }
     if (this.get("status") === "uploaded" || size == 0) { return 100; }
     var ratio = Math.round((progress.uploaded / size) * 99);
     return ratio > 99 ? 99 : ratio;
@@ -42,13 +43,21 @@ var DropFile = Ember.Object.extend({
   }
 });
 
+
 // factory method to initialize DropFile instance from an HTML5 File object.
 DropFile.initFromFile = function(file, location) {
-  var attrs = {};
+  var attrs = {}, input;
   for (var k in file) {
     if (file.hasOwnProperty(k)) {
       attrs[k] = file[k];
     }
+  }
+  
+  if (file.isInput) {
+    input = file.input;
+    file.name = input.value.split(/[\/\\]/).pop();
+    file.size = null;
+    file.type = file.name.split(".").pop();
   }
 
   // required properties 

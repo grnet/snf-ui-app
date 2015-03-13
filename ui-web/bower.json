@@ -16,12 +16,8 @@
     "moment": "~2.8.3",
     "foundation": "~5.4.7",
     "is_js": "~0.3.0",
-    "underscore": "~1.7.0"
-  },
-  "devDependencies": {
-    "asmcrypto": "~0.0.6"
-  },
-  "resolutions": {
-    "jquery": ">= 1.7.0 < 2.2.0"
+    "underscore": "~1.7.0",
+    "asmcrypto": "~0.0.6",
+    "jquery.iframe-transport": "~1.0.0"
   }
 }

@@ -4,6 +4,7 @@ import {DropFileActionsMixin} from '../snf/dropfile/mixins';
 import {SnfUploader} from '../snf/dropfile/synnefo';
 
 
+var defaultWorkerUrl = "/static/ui/assets/workers/worker_hasher.js";
 export default Ember.Controller.extend(DropFileActionsMixin, {
   
   // initialize uploader settings
@@ -11,7 +12,8 @@ export default Ember.Controller.extend(DropFileActionsMixin, {
     return SnfUploader.create({
       token: this.get("settings").get("token"),
       container: this.get("container"),
-      storage_host: this.get("settings").get("storage_host")
+      storage_host: this.get("settings").get("storage_host"),
+      worker_url: this.get("settings").get("hash_worker_url") || defaultWorkerUrl
     });
   }.property(),
  

@@ -18,6 +18,16 @@ var BaseTransport = Ember.Object.extend({
     return opts;
   },
 
+  processAjaxOptions: function(opts) {
+    var uploader = this.get('uploader'), args;
+    args = [opts, this].concat(Array.prototype.splice.call(arguments, 1));
+
+    if (uploader && uploader.processAjaxOptions) {
+      return uploader.processAjaxOptions.apply(uploader, args);
+    }
+    return opts;
+  },
+
   // to be overriden by custom uploaders.
   normalizePath: function(path) {
     return path;
@@ -66,6 +76,7 @@ var XHRTransport = BaseTransport.extend({
       }
       size += files[i].size;
     }
+
     headers['X-File-Size'] = size;
 
     xhr = Ember.$.ajaxSettings.xhr();
@@ -81,8 +92,8 @@ var XHRTransport = BaseTransport.extend({
       'total': size,
       'uploaded': 0
     });
-      
-    return this.mergeAjaxOptions({
+    
+    options = this.mergeAjaxOptions({
       method: 'POST',
       url: url,
       data: formData,
@@ -92,9 +103,13 @@ var XHRTransport = BaseTransport.extend({
       xhr: function() { return xhr; },
       _xhr: xhr
     });
+    
+    options = this.processAjaxOptions(options, url, files, paths, progress);
+    return options;
   },
 
   doUpload: function(url, files, paths, progress, opts) {
+    console.info("Uploading using xhr transport");
     var options, promise;
     options = this.getOptions(url, files, paths, progress);
     promise = ajax(options);
@@ -106,6 +121,33 @@ var XHRTransport = BaseTransport.extend({
 
 // not implemented
 var ChunkedTransport = XHRTransport.extend();
-var IFRAMETransport = BaseTransport.extend();
+var IFRAMETransport = BaseTransport.extend({
+    
+  doUpload: function(url, files, paths, progress, opts) {
+    console.info("Uploading using iframe transport");
+    var options, promise, uploader, _files, inputs;
+     
+    files = files.map(function(file) {
+      return Ember.$(file.input);
+    });
+    inputs = Ember.$(files).map(function() { 
+      this.show(); return this.toArray() 
+    });
+    
+    options = this.mergeAjaxOptions({
+      method: 'POST',
+      url: url,
+      files: inputs,
+      iframe: true
+    });
+    
+    options = this.processAjaxOptions(options, url, files, paths, 
+                                      progress, opts);
+
+    promise = ajax(options);
+    promise.xhr = null;
+    return promise;
+  }
+});
 
 export {XHRTransport, ChunkedTransport, IFRAMETransport};

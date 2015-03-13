@@ -7,7 +7,6 @@ export default Ember.Route.extend({
 		* if you define an inner outlet you don't
 		* define and the main template, it will crash
 		*/
-
 		this.render("application");
 		this.render('total-quotas', {
 			into: 'application',
