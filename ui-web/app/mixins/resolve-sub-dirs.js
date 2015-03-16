@@ -13,7 +13,7 @@ export default Ember.Mixin.create({
           path = arr.join('/');
         }
 
-        var query = {'path': path, 'container_id': container_id};
+        var query = {'path': path, 'container': container_id};
 
         var objects = this.store.find('object', query).then(function(data){
           return data.filter(function(d){
