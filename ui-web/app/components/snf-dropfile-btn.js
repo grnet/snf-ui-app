@@ -1,9 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  
+  inputName: 'file',
 
   _initInput: function() {
-    this.input = this.$("<input type='file' style='display: none;'/>");
+    var name = this.get("inputName");
+    this.input = this.$("<input type='file' name='" + name +"' style='display: none'/>");
     this.input.attr("multiple", this.get("multiple"));
     this.$().before(this.input);
     this.input.bind("change", this.handleInputChange.bind(this));
@@ -11,9 +14,19 @@ export default Ember.Component.extend({
   
   handleInputChange: function() {
     var files = this.input[0].files;
+   
+    // no file api support
+    if (!files) {
+      files = [{'isInput': true, 'input': this.input[0]}];
+    }
+
     for (var i=0; i<files.length; i++) {
       if (this.target) {
-        this.target.send("dropFileAdd", files[i], 
+        // just in case we are forced to use IFrame transport in a modern 
+        // browser
+        files[i].input = this.input[0];
+        this.target.send("dropFileAdd", 
+                         files[i], 
                          this.get("location").replace(/\/$/,""));
       }
     }

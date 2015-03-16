@@ -16,10 +16,10 @@ var DropFileActionsMixin = Ember.Mixin.create({
   }
 });
 
+
 /*
  * Mixin which handles drop files event and triggers dropFileAdd actions.
  */
-
 var DropFileViewMixin = Ember.Mixin.create({
   attributeBindings: 'draggable',
   dragActive: false,
@@ -125,6 +125,8 @@ var DropFileViewMixin = Ember.Mixin.create({
           target.send("dropFileAdd", file, location, e);
         }
       }
+    } else {
+      alert("Your browser doesn't seem to support file drop uploading.");
     }
     return false;
   }

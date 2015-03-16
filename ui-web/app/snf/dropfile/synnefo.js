@@ -8,6 +8,13 @@ var fmt = Ember.String.fmt;
 var Promise = Ember.RSVP.Promise;
 var all = Ember.RSVP.all;
 var hash = Ember.RSVP.all;
+
+/*
+ * Helper to serialize a group of promises. Accepts a promise generator 
+ * function, for each promise passed through generator the result gets stored
+ * internally. Once the generator yields a null/false value instead of 
+ * a promise the queue's returned promise gets either resolved or rejected.
+ */
 var queue = function(generator, params, resolveCb=Ember.K, rejectCb=Ember.K) {
   params = params || {};
   var resolveInc, fulfilled = Ember.A([]), rejected = Ember.A([]),
@@ -60,10 +67,11 @@ var queue = function(generator, params, resolveCb=Ember.K, rejectCb=Ember.K) {
   });
 }
 
+
 var SnfUploaderTransport = ChunkedTransport.extend({
 
   hasherUrl: function() {
-    return "/static/ui/assets/workers/worker_hasher.js"
+    return this.get("uploader.worker_url");
   }.property(),
 
   fileParam: 'X-Object-Data',
@@ -81,7 +89,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
   getHashParams: function(container) {
     return {'bs': 4194304, 'hash': 'sha256'}
   },
-  
+    
   computeHash: function(buffer, params) {
     var hasher = new window.Worker(this.get("hasherUrl"));
     return new Promise(function(resolve, reject) {
@@ -352,9 +360,17 @@ var SnfUploaderTransport = ChunkedTransport.extend({
 
 var SnfUploader = Uploader.extend({
   chunkedTransportCls: SnfUploaderTransport,
+
   getFileUrl: function(file) {
     return this.get("storage_host") + "/" + file.get("location") + "/" + 
       file.get("name");
+  },
+
+  processAjaxOptions: function(options) {
+    if (!options.iframe) { return options; }
+    options.url = options.url + "?X-Auth-Token=" + this.get('token');
+    options.files.attr('X-Object-Data', 'file');
+    return options;
   },
 
   objectParamsFromFile: function(file) {

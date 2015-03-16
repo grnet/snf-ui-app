@@ -62,14 +62,15 @@
     {{convert-bytes size}}
 </td>
 <td>
-    {{#unless is_dir}}
-    <a {{bind-attr href=view_src}} title="download Item" target="_blank">{{fa-icon "fa-download"}}</a>
-    {{/unless}}
-    <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
+   <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
     {{#unless trash}}
         <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
     {{/unless}}
     <a {{action 'cutObject'}} title="cut Item">{{fa-icon "fa-cut"}}</a>
     <a {{action 'copyObject'}} title="copy Item" class="obvious">{{fa-icon "fa-copy"}}</a>
-    <a {{action 'showDialog' 'versions' 'object/versions' this}}>Manage versions</a>
+    {{#unless is_dir}}
+        <a {{bind-attr href=view_src}} title="download Item" target="_blank">{{fa-icon "fa-download"}}</a>
+        <a {{action 'showDialog' 'versions' 'object/versions' this}}>Manage versions</a>
+    {{/unless}}
+ 
 </td>

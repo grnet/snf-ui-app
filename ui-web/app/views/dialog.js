@@ -2,9 +2,31 @@ import Ember from 'ember';
 
 export default Ember.View.extend({
 	classNames: ['reveal-modal'],
+  classNameBindings: ['templateCls'],
 	attributeBindings: ['data-reveal'],
 	'data-reveal': 'true',
   layoutName: 'dialog-wrapper',
+
+
+  /*  Assign a class to each dialog
+  * Available classes:
+  * tiny: Set the width to 30%.
+  * small: Set the width to 40%.
+  * medium: Set the width to 60%.
+  * large: Set the width to 70%. (default)
+  * xlarge: Set the width to 95%.
+  * full: Set the width and height to 100%.
+  */
+  templateCls: function(){
+    var clsMap = {
+      'dialogs.create-dir': 'small',
+      'dialogs.confirm-simple': 'small', 
+      'dialogs.feedback': 'medium',
+      'dialogs.move': 'small',
+      'dialogs.restore': 'medium',
+    }
+    return clsMap[this.get('renderedName')];
+  }.property('renderedName'),
 
 	revealDialog: function() {
 		this.$().foundation('reveal', 'open');

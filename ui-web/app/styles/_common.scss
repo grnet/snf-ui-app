@@ -1,0 +1,10 @@
+// button class
+.btn-minor {
+    @include button($button-med, $aluminum, inherit, false, false, false)
+}
+
+.danger {
+    font-weight: bold;
+    font-size: rem-calc(14);
+    color: red;
+}

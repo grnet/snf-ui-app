@@ -5,9 +5,4 @@
 @import "layout";
 @import "error-pages";
 @import "dialogs";
-
-
-.large-input { width: 400px;}
-a.active {
-    color: $secondary-color;
-}
+@import "common";

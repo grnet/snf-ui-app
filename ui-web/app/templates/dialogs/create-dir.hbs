@@ -1,5 +1,6 @@
-<p>Create new directory in <strong>{{path}}</strong></p>
-{{view "input-single" placeholder="Create new directory"}}
+<h3>Create directory</h3>
+<p>New directory in <strong>{{path}}</strong></p>
+{{view "input-single" placeholder="Directory name"}}
 <p>
-    <a {{action 'validateCreation' 'createDir'}} class="button small">OK</a>
+    <a {{action 'validateCreation' 'createDir'}} class="button">Create</a>
 </p>
