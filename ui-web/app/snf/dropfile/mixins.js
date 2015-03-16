@@ -64,7 +64,7 @@ var DropFileViewMixin = Ember.Mixin.create({
     dirReader.readEntries(function(entries) {
       for (var i=0; i<entries.length; i++) {
         entry = entries[i];
-        if (entry.name == ".DS_Store") { debugger; }
+        if (entry.name == ".DS_Store") { continue; }
         if (entry.isDirectory) {
           file = new File([], entry.name);
           file.dirType = "application/directory";
