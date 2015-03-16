@@ -1,10 +1,20 @@
 import Ember from 'ember';
 import config from './config/environment';
 
+var rootURL = null;
+if (window.navigator.userAgent.match(/MSIE [6789]/)) {
+  rootURL = '/' + config.baseURL + '/';
+}
+
 var Router = Ember.Router.extend({
-  location: config.locationType,
-  rootURL: '/ui/'
+  location: config.locationType
 });
+
+if (rootURL) {
+  Router.reopen({
+    rootURL: rootURL
+  });
+}
 
 Router.map(function() {
   this.resource('index', {path: '/'});
