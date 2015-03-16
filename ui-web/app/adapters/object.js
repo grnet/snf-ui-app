@@ -45,6 +45,7 @@ export default StorageAdapter.extend({
           return obj.name.match(new RegExp("^" + filterPath));
         });
         payload.container_id = container;
+        return payload;
       });
     }
 
