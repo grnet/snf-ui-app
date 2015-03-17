@@ -91,14 +91,16 @@ export default StorageAdapter.extend({
     var path = '/'+record.get('id');
     var account = this.get('account');
     var url = this.buildURL('object', account, record.get('id'))+'?update=';
-    var headers = this.get('headers');
+    var headers = {};
 
     headers['X-Source-Object'] = path;
     headers['X-Source-Version'] = version;
-    headers['X-Content-Range'] = 'bytes 0-/*';
+    headers['Content-Range'] = 'bytes 0-/*';
     headers['Accept'] =  'text/plain';
 
-    return this.ajax(url, 'POST');
+    return this.ajax(url, 'POST', {
+      headers: headers
+    });
   },
 
   createRecord: function(store, type, record) {

@@ -4,6 +4,7 @@ import ObjectController from '../object';
 
 export default ObjectController.extend({
   needs: ['objects'],
+  closeDialog: false,
 
   versions: function(){
     var timestamp = new Date().getTime();
@@ -12,10 +13,12 @@ export default ObjectController.extend({
   }.property('model'),
 
   actions: {
+
     restoreObject: function(version){
       var object = this.get('model');
       var self = this;
       this.store.restoreObject(object, version).then(function(){
+        self.set('closeDialog', true);
         self.send('refreshRoute');
       });
     },
