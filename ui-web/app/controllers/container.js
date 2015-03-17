@@ -13,7 +13,7 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
     var self = this;
     // show only projects whose free space is enough for the container
     return this.get('projects').filter(function(p){
-      return self.get('model').get('bytes')< p.get('diskspace_free_space');
+      return self.get('model').get('bytes')<= p.get('diskspace_free_space');
     });
   }.property('projects.@each'),
 
