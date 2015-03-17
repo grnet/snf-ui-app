@@ -16,7 +16,8 @@ export default DS.Model.extend({
   sharing: DS.attr('string'),
 
   extension: function(){
-    var arr = this.get('name').split('.');
+    var name = this.get('name').replace(/^./, '');
+    var arr = name.split('.');
     return arr.length>1 ? arr.pop().toLowerCase(): '--';
   }.property('name'),
 
@@ -40,10 +41,14 @@ export default DS.Model.extend({
   }.property('name'),
 
   stripped_name_no_ext:function(){
-    var arr = this.get('stripped_name').split('.');
+    var stripped_name = this.get('stripped_name').replace(/^./, '');
+    var arr = stripped_name.split('.');
     if (arr.length>1) {
       arr.pop();
     } 
+    if (this.get('stripped_name').charAt(0) == '.') {
+      return '.'+arr.join('.');
+    }
     return arr.join('.');
   }.property('stripped_name'),
 
