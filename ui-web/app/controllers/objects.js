@@ -187,6 +187,7 @@ export default Ember.ArrayController.extend({
         if (newVerifiedID != newID){
           object._newID = newID;
           object._newVerifiedID = newVerifiedID;
+          object._copyFlag = copyFlag;
           self.send('showDialog', 'move', 'object/move' , object);
           return;
         }

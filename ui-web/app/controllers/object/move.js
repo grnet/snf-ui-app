@@ -8,15 +8,19 @@ export default ObjectController.extend({
   actions: {
     version: function(object) {
       var newID = object._newID;
+      var copyFlag = object._copyFlag;
       delete object._newID;
       delete object._newVerifiedID;
-      this.get('controllers.objects').send('moveObject', object, newID); 
+      delete object._copyFlag;
+      this.get('controllers.objects').send('moveObject', object, newID, copyFlag); 
     },
     copy: function(object) {
       var newVerifiedID = object.get('_newVerifiedID');
+      var copyFlag = object._copyFlag;
       delete object._newID;
       delete object._newVerifiedID;
-      this.get('controllers.objects').send('moveObject', object, newVerifiedID); 
+      delete object._copyFlag;
+      this.get('controllers.objects').send('moveObject', object, newVerifiedID, copyFlag); 
     }
   }
 });
