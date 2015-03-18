@@ -18,6 +18,11 @@
     "is_js": "~0.3.0",
     "underscore": "~1.7.0",
     "asmcrypto": "~0.0.6",
-    "jquery.iframe-transport": "~1.0.0"
+    "jquery.iframe-transport": "~1.0.0",
+    "chartist": "~0.7.3"
+  },
+
+  "resolutions": {
+    "jquery": ">= 1.7.0 < 2.2.0"
   }
 }
