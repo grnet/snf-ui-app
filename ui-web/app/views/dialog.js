@@ -118,5 +118,11 @@ export default Ember.View.extend({
 	emptyContainer: {
 		title: "Empty Container",
 		action_verb: 'Empty'
-	}
+	},
+  deleteObject: {
+    title: 'Delete Object',
+    action_verb: 'Delete'
+  }
+
+
 });

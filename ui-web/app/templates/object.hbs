@@ -62,7 +62,7 @@
     {{convert-bytes size}}
 </td>
 <td>
-   <a {{action 'deleteObject'}} title="delete Item">{{fa-icon "fa-remove"}}</a>
+    <a {{action 'showDialog' 'confirm-simple' this.controller this 'deleteObject'}} title="Permanently delete object">{{fa-icon "fa-remove"}}</a>
     {{#unless trash}}
         <a {{action 'moveToTrash'}} title="move item to trash">{{fa-icon "fa-trash"}}</a>
     {{/unless}}
