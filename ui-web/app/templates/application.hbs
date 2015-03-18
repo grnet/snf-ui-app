@@ -1,8 +1,6 @@
 {{partial "header"}}
-<div class="main">
+<div class="main clearfix">
     {{outlet}}
-	{{outlet "total-quotas"}}
-    <a class="fl-right" {{action 'showDialog' 'feedback' 'feedback'}}>Send us Feedback</a>
 </div>
 
 {{ snf-dropfile files=dropFiles 
@@ -17,4 +15,8 @@
 {{outlet "errorDialogs"}}
 {{outlet "feedback"}}
 
+<div class="bottom">
+	{{outlet "total-quotas"}}
+    <a class="fl-right" {{action 'showDialog' 'feedback' 'feedback'}}>Send us Feedback</a>
+</div>
 

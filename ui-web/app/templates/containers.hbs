@@ -1,42 +1,58 @@
-{{view 'input-single' placeholder='Create Container...'}}
-{{!-- the element below is temp --}}
-<span class="side-select">
-  {{view "select" content=projects
-     optionLabelPath="content.select_label"
-     optionValuePath="content.id"
-     selection=newProject}}
-</span>
+{{#if this.view.allowToggleView}}
+  <a class="toggle-view">Toggle View</a>
+{{/if}}
+<ul class="containers">
+  <li class="container row new-container">
+		<a class="show-form btn-toggle">
+			<span>Create New Contairer</span>
+			<span class="arrow fa-angle-down fa arrow-down"></span>
+			<span class="arrow fa-angle-up fa arrow-up"></span>
+		</a>
+		<div class="row slide-area slide">
+		  <div class="part four columns small-4">
+				{{view 'input-single' placeholder='Create Container...'}}
+		  </div>
+		  <div class="part four columns small-4">
+				{{view "select"
+				  content=projects
+				  optionLabelPath="content.select_label"
+				  optionValuePath="content.id"
+				  selection=newProject}}
+		  </div>
+		  <div class="part two columns small-2">
+				<button class="button small" {{action 'validateCreate' 'createContainer' }}>Create container</button>
+		  </div>
+		  <div class="part two columns small-2">
+				<button class="cancel button small">Cancel</button>
+		  </div>
+		</div>
+  </li>
+  {{#each}}
+	<li {{bind-attr class=":container :row new updated"}}>
+	  <div class="part four columns small-4">
+			{{#if new}}<span class="label">new</span>{{/if}}
+		  {{#if updated}}<span class="label success">updated</span>{{/if}}
+			<h4>{{#link-to 'container' name}}{{name}}{{/link-to}}</h4>
+			<strong>Size:</strong> {{convert-bytes bytes}}<br>
+			<strong>Items:</strong> {{count}}<br>
+	  </div>
+	  <div class="part four columns small-4">
+		{{#if this.view.allowToggleView}}
+		  {{view 'piechart'}}
+		{{/if}}
+	  {{view "select" content=availableProjects
+		   optionLabelPath="content.select_label"
+		   optionValuePath="content.id"
+		   prompt="Reassign project:"
+		   selection=selectedProject}}
+	  </div>
+	  <div class="part two columns small-2">
+			<button class="button alert small" {{bind-attr disabled=this.forbidDeletion}} {{action 'showDialog' 'confirm-simple' this.controller this 'emptyAndDelete'}}>Delete Container</button>
+	  </div>
+	  <div class="part two columns small-2">
+			<button class="button secondary small" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>Empty container</button>
+	  </div>
+	</li>
+  {{/each}}
+</ul>
 
-<button class="btn-create-container" {{action 'validateCreate' 'createContainer' }}>Create container</button>
-
-<table>
-<tbody>
-{{#each}}
-    <tr {{bind-attr class="new updated"}}>
-        <td>
-            {{#if new}}<span class="label">new</span>{{/if}}
-            {{#if updated}}<span class="label success">updated</span>{{/if}}
-            <h4>{{#link-to 'container' name}}{{name}}{{/link-to}}</h4>
-
-            <strong>Selected project:</strong> {{project.human_name}}<br>
-            <strong>Containers bytes:</strong> {{convert-bytes bytes}}<br>
-            <strong>Total items:</strong> {{count}}<br>
-        </td>
-        <td>
-            {{view "select" content=availableProjects
-                   optionLabelPath="content.select_label"
-                   optionValuePath="content.id"
-                   prompt="Reassign project:"
-                   selection=selectedProject}}
-        </td>
-        <td>
-            <a class="button alert small" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyAndDelete'}}>Delete Container</a>
-        </td>
-        <td>
-            <a class="button secondary small" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>Empty container</a>
-        </td>
-
-    </tr>
-{{/each}}
-</tbody>
-</table>

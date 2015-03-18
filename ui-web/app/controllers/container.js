@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import ResolveSubDirsMixin from '../mixins/resolve-sub-dirs';
-import {tempSetProperty} from '../snf/common';
+import {tempSetProperty, bytesToHuman} from '../snf/common';
 
 export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
+
   itemType: 'container',
   title: 'object controller title',
   needs: ['containers'],
@@ -31,6 +32,45 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
       this.set('project', sel);
     }
   }.observes('selectedProject'),
+
+	forbidDeletion: function() {
+		var name = this.get('name');
+		if(name === 'trash') {
+			return true;
+		}
+		return false;
+	}.property(),
+
+	chartData: function(){
+		var data = {};
+		var size = this.get('bytes');
+		var proj = this.get('project');
+		var limit = proj.get('diskspace_effective_limit');
+		var containersSize = proj.get('diskspace_user_usage');
+		var othersSize = containersSize - size;
+		var free = limit - containersSize;
+
+    // sizes in bytes (int)
+		data['series'] = [othersSize, size, free];
+    // sizes with units
+    data['seriesWithUnits'] = [bytesToHuman(othersSize), bytesToHuman(size), bytesToHuman(free)];
+
+		var freePerCent = (free/limit*100).toFixed(2);
+		var sizePerCent = (size/limit*100).toFixed(2);
+		// Because we use toFixed function and these data will be displayed in a pie chart, the othersSizePerCent will be calculated as below.
+		var othersSizePerCent = (100 - freePerCent - sizePerCent).toFixed(2);
+
+		data['percent'] = [othersSizePerCent, sizePerCent, freePerCent]
+
+		var othersLabel = 'other containers size';
+		var currentLabel = this.get('name') + ' size';
+		var freeLabel = 'free space size';
+
+		data['labels'] = [othersLabel, currentLabel, freeLabel]
+
+		return data;
+	}.property('size', 'this.project.@each'),
+
 
 
   actions: {
@@ -96,5 +136,4 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
       this.store.reassignContainer('container', container, project_id).then(onSuccess, onFail);
     }
   }
-
 });

@@ -34,6 +34,5 @@ export default Ember.Controller.extend(DropFileActionsMixin, {
 
 	projects: function() {
 		return this.get('store').find('project', {mode: 'member'});
-	}.property(),
-
+	}.property()
 });
