@@ -41,6 +41,7 @@ export default Ember.View.extend({
 	}.observes('controller.closeDialog'),
 
 	didInsertElement: function() {
+
 		var self = this;
 		/*
 		 *  templateName could be:
@@ -58,6 +59,12 @@ export default Ember.View.extend({
 				self.get('controller').set('usersExtended', []);
 			}
 		});
+
+    $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+      var dialog = self.$();
+      dialog.find('[autofocus]').focus();
+    });
+
 		this._super();
 
 		$('.slide-btn').click(function(e) {
@@ -75,8 +82,9 @@ export default Ember.View.extend({
 	 * before the view gets destroyed
 	 */
 	willDestroy: function() {
-		$(document).find('.reveal-modal-bg').remove();
-		$(document).off('closed.fndtn.reveal', '[data-reveal]');
+    $(document).find('.reveal-modal-bg').remove();
+    $(document).off('closed.fndtn.reveal', '[data-reveal]');
+    $(document).off('opened.fndtn.reveal', '[data-reveal]');
 		this._super();
 	},
 	// Use in the confirmSimple dialog

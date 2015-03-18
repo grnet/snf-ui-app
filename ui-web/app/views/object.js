@@ -103,7 +103,7 @@ export default Ember.View.extend(DropFileViewMixin, {
 	didInsertElement: function() {
 		var self = this;
 		this.$('.js-show-edit').on('click', function() {
-			self.send('toggleEdit')
+			self.send('toggleEdit');
 		});
 		this._super();
 	},
@@ -129,6 +129,7 @@ export default Ember.View.extend(DropFileViewMixin, {
 			this.$('.input-with-valid').toggleClass('hidden');
 			this.$('.js-hide-edit').toggleClass('hidden');
 			this.$('.js-name').toggleClass('hidden');
+      this.$(".input-with-valid").find('input')[0].focus();
 			this.get('controller').set('resetInput', true);
 		}
 	}
