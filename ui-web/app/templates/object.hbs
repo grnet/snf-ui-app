@@ -28,8 +28,13 @@
             </span>
         </span>
     {{/if}}
-    {{view "input-single" placeholder=stripped_name cls="hidden"}}
-    <a title="Rename" class="js-show-edit">{{fa-icon "fa-pencil"}}</a>
+    <form {{action 'reset' 'validateRename,renameObject' target=view on="submit"}}>
+        {{view "input-single" placeholder=stripped_name cls="hidden"}}
+        <a title="Rename" class="js-show-edit">{{fa-icon "fa-pencil"}}</a>
+        <a  class="hidden js-hide-edit" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check-circle"}}</a>
+        <a class="js-cancel js-hide-edit hidden" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times-circle"}}</a>
+    </form>
+
     <span class="share">
         {{#if public_link}}
             <span class="hint--bottom" data-hint="Publicly shared">
@@ -49,8 +54,6 @@
         {{/if}}
     </span>
 
-    <a title="OK" class="hidden js-hide-edit" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check-circle"}}</a>
-    <a class="js-cancel js-hide-edit hidden" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times-circle"}}</a>
 </td>
 <td class="last-modified">
     {{timestamp-to-human-short last_modified }} <span class="subtle">{{modified-by current_user.email modified_by.email}}</span>

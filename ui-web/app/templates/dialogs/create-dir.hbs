@@ -1,6 +1,8 @@
 <h3>Create directory</h3>
 <p>New directory in <strong>{{path}}</strong></p>
-{{view "input-single" placeholder="Directory name" autofocus=true}}
-<p>
-    <a {{action 'validateCreation' 'createDir'}} class="button">Create</a>
-</p>
+<form {{action 'validateCreation' 'createDir'}}>
+    {{view "input-single" placeholder="Directory name" autofocus=true}}
+    <p>
+        <button type="submit">Create</button>
+    </p>
+</form>

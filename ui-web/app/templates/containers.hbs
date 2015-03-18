@@ -9,22 +9,25 @@
 			<span class="arrow fa-angle-up fa arrow-up"></span>
 		</a>
 		<div class="row slide-area slide">
-		  <div class="part four columns small-4">
-				{{view 'input-single' placeholder='Create Container...'}}
-		  </div>
-		  <div class="part four columns small-4">
-				{{view "select"
-				  content=projects
-				  optionLabelPath="content.select_label"
-				  optionValuePath="content.id"
-				  selection=newProject}}
-		  </div>
-		  <div class="part two columns small-2">
-				<button class="button small" {{action 'validateCreate' 'createContainer' }}>Create container</button>
-		  </div>
-		  <div class="part two columns small-2">
+            <form {{action 'validateCreate' 'createContainer' on="enter" }}>
+                <div class="part four columns small-4">
+                    {{view 'input-single' placeholder='Create Container...'}}
+                </div>
+        
+                <div class="part four columns small-4">
+                        {{view "select"
+                          content=projects
+                          optionLabelPath="content.select_label"
+                          optionValuePath="content.id"
+                          selection=newProject}}
+                </div>
+                <div class="part two columns small-2">
+                    <button class="button small" {{action 'validateCreate' 'createContainer' }}>Create container</button>
+                </div>
+            </form>
+		    <div class="part two columns small-2">
 				<button class="cancel button small">Cancel</button>
-		  </div>
+		    </div>
 		</div>
   </li>
   {{#each}}
