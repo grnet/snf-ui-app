@@ -85,9 +85,14 @@ var Uploader = Ember.Object.extend({
                             .then(resolve, reject);
           return true;
         }
+        var ajaxError = error[0];
         var status = "error";
         if (error.jqXHR && error.jqXHR.status === 0) { status = "aborted"; }
         files.setEach("status", status);
+        files.setEach("uploadError", null);
+        if (status === "error") {
+          files.setEach("uploadError", ajaxError && ajaxError.errorThrown);
+        }
         reject(files, error);
       }.bind(this));
     }.bind(this)).finally(function() {

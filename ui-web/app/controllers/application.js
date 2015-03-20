@@ -16,13 +16,7 @@ export default Ember.Controller.extend(DropFileActionsMixin, {
       worker_url: this.get("settings").get("hash_worker_url") || defaultWorkerUrl
     });
   }.property(),
- 
-  'actions': {
-    'dropFileSuccess': function() { console.log("upload success APP"); },
-    'dropFileFailed': function() { console.log("upload failed APP", arguments); },
-    'dropFileStarted': function() { console.log("upload started APP", arguments); },
-  },
-
+  
 	title: function(){
 			return this.get('settings').get('service_name');
 	}.property(),

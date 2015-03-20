@@ -20,7 +20,12 @@ export default StorageAdapter.extend({
     } 
     return this.ajax(url, "DELETE");
   },
-  
+    
+  find: function(store, type, id, record) {
+    var account = record && record.get('account') || this.get('account');
+    return this.ajax(this.buildURL(type.typeKey, account, id, record), 'HEAD');
+  },
+
   findQuery: function(store, type, query) {
     var filterPath, pathQuery, container, url, headers, payload, account;
     filterPath = null;
@@ -33,7 +38,7 @@ export default StorageAdapter.extend({
     delete query.account;
     delete query.pathQuery;
     delete query.container;
-  
+    
     if (!query.path) { query.path = '/'; }
     if (!pathQuery && query.path !== '/') {
       filterPath = query.path;

@@ -12,7 +12,7 @@ export default Ember.Component.extend({
     this.input.bind("change", this.handleInputChange.bind(this));
   }.on('didInsertElement'),
   
-  handleInputChange: function() {
+  handleInputChange: function(e) {
     var files = this.input[0].files;
    
     // no file api support
@@ -27,7 +27,8 @@ export default Ember.Component.extend({
         files[i].input = this.input[0];
         this.target.send("dropFileAdd", 
                          files[i], 
-                         this.get("location").replace(/\/$/,""));
+                         this.get("location").replace(/\/$/,""), e, 
+                         this.target);
       }
     }
   },

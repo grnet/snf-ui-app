@@ -258,6 +258,10 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           reject({jqXHR:{status:0}});
           return;
         }
+        if (error[0] && error[0].jqXHR && error[0].jqXHR.status.toString().match(/^5\d\d/)) {
+          reject(error);
+          return;
+        }
         // TODO: make this configurable
         reject("chunked-failed");
       }.bind(this)).then(resolve);

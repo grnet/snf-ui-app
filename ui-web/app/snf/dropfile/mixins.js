@@ -7,11 +7,12 @@ import DropFile from './file';
  */
 var DropFileActionsMixin = Ember.Mixin.create({
   dropFiles: [],
-
+  
   actions: {
-    'dropFileAdd': function(file, location) {
+    'dropFileAdd': function(file, location, event, source) {
       var dropFiles = this.get("dropFiles");
-      dropFiles.pushObject(DropFile.initFromFile(file, location));
+      var file = DropFile.initFromFile(file, location, event, source);
+      dropFiles.pushObject(file);
     }
   }
 });
@@ -21,6 +22,7 @@ var DropFileActionsMixin = Ember.Mixin.create({
  * Mixin which handles drop files event and triggers dropFileAdd actions.
  */
 var DropFileViewMixin = Ember.Mixin.create({
+  excludeHidden: true,
   attributeBindings: 'draggable',
   dragActive: false,
   classNameBindings: ['dragActive:drag-active'],
@@ -98,9 +100,14 @@ var DropFileViewMixin = Ember.Mixin.create({
       this._readDir(entry, "/" + entry.name, cb);
     }
   },
+  
+  triggerDropFileAdd: function(file, location, sourceEvent) {
+    var target = this.get("dropFileTarget") || this;
+    target.send("dropFileAdd", file, location, sourceEvent, this);
+  },
 
   drop: function(e) {
-    var location, dt, types, files, file, target, item, _files;
+    var location, dt, types, files, file, target, item, _files, excludeHidden;
     location = this.dropFileLocation(e);
     dt = e.dataTransfer;
 
@@ -112,17 +119,19 @@ var DropFileViewMixin = Ember.Mixin.create({
       for (var i=0; i<files.length; i++) {
         file = files[i];
         item = dt.items && dt.items[i];
-        target = this.get("dropFileTarget") || this;
+        excludeHidden = this.get('excludeHidden');
         if (item) {
           _files = this._resolveFile(item, function(f) {
-            // TODO: optionally filter out hidden . files ?? 
+            if (excludeHidden && f.name.match(/^\./)) {
+              return;
+            }
             var loc = location + (f._location || '');
-            target.send("dropFileAdd", f, loc, e);
-          });
+            this.triggerDropFileAdd(f, loc, e);
+          }.bind(this));
         } else {
           // TODO: propagate empty dir/file handling higher ??
           if (file.type == "" && file.size == 0) { continue; }
-          target.send("dropFileAdd", file, location, e);
+          this.triggerDropFileAdd(file, location, e);
         }
       }
     } else {

@@ -10,7 +10,11 @@ var DropFile = Ember.Object.extend({
       'uploaded': 0
     }));
   },
-  
+    
+  path: function() {
+    return this.get('location') + "/" + this.get('name');
+  }.property('location', 'name'),
+
   uploadedSize: Ember.computed.alias("progress.uploaded"),
 
   uploadProgress: function() {
@@ -45,7 +49,7 @@ var DropFile = Ember.Object.extend({
 
 
 // factory method to initialize DropFile instance from an HTML5 File object.
-DropFile.initFromFile = function(file, location) {
+DropFile.initFromFile = function(file, location, event, source) {
   var attrs = {}, input;
   for (var k in file) {
     if (file.hasOwnProperty(k)) {
@@ -67,6 +71,10 @@ DropFile.initFromFile = function(file, location) {
   attrs.lastModified = file.lastModified;
   attrs.file = file;
   attrs.location = location;
+
+  attrs._event = event;
+  attrs._source = source;
+
   return DropFile.create(attrs);
 }
 

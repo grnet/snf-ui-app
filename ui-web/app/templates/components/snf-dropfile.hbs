@@ -21,7 +21,7 @@
 <div class="head columns small-9">
     <span class="name columns small-4">{{ file.name }}</span>
     <span class="status columns small-2">{{ file.type }}</span>
-    <span class="status columns small-1">{{ file.status }}</span>
+    <span class="status columns small-1">{{ file.status }} {{#if file.uploadError }}({{ file.uploadError }}){{/if}}</span>
     <span class="location columns small-2">{{ file.location }}</span>
     {{# if file.isUploading }}
     <span class="progress columns small-3">

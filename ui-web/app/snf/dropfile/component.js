@@ -58,20 +58,35 @@ export default Ember.Component.extend({
     });
   }.on("init"),
   
-  _handleFileAdded: function(file) {
+  _triggerAddFile: function(file) {
     var addResolver = this.get("addResolver");
     if (addResolver) { 
       addResolver(file).catch(function(err) {
         this.send("remove", file, err);
       }.bind(this)).then(function(file) {
         if (this.get("autoStartUpload")) {
-          this.uploadFile(file);
+          this.send('upload', file);
         }
       }.bind(this));
     }
 
     if (this.get("autoStartUpload")) {
-      this.uploadFile(file);
+      this.send('upload', file);
+    }
+  },
+
+  _handleFileAdded: function(file) {
+    var handler, source = file._source;
+    
+    if (source && source.dropFileAddHandler) {
+      handler = source.dropFileAddHandler.bind(source);
+      handler(file).then(function(file) {
+        this._triggerAddFile(file);
+      }.bind(this)).catch(function(err) {
+        this.send("remove", file, err);
+      }.bind(this));
+    } else {
+      this._triggerAddFile(file);
     }
   }.on('fileAdd'),
 
@@ -107,14 +122,46 @@ export default Ember.Component.extend({
     var url = this.get("url"), options ={noChunked: this.get("noChunked")};
     return this.get("uploader").uploadFiles(url, files, options);
   },
+  
+
+  _resolveTarget: function(obj) {
+    // component
+    if (obj.get("target")) { return obj.get("target"); }
+
+    // view
+    if (obj.get("controller")) { return obj.get("controller"); }
+
+    // controller/route
+    if (obj.send) { return obj; }
+  },
+
+  _sendAction: function(action, file, ...params) {
+    var target;
+    // trigger action for both component target and file source target 
+    // in order to be able to apply specialized handlers at narrower 
+    // context objects such as views/controllers of drop areas while 
+    // keeping a way to declare generic handlers at higher application 
+    // level (e.g. application route/controller)
+    
+    if (file._source) {
+      action = this.get(action);
+      target = this._resolveTarget(file._source);
+      if (action && target) { 
+        target.send.apply(target, [action, file].concat(params));
+      }
+    }
+    
+    // FIXME: this will cause double event triggering
+    this.sendAction.apply(this, [action, file].concat(params));
+  },
 
   actions: {
     'upload': function(file) {
-      this.sendAction('uploadStarted', file);
+      this._sendAction('uploadStarted', file);
       this.uploadFile(file).then(function(file) {
-        this.sendAction("uploadSuccess", file);
+        this._sendAction("uploadSuccess", file);
       }.bind(this)).catch(function(err) { 
-        this.sendAction("uploadFailed", file, err) 
+        this._sendAction("uploadFailed", file, err) 
       }.bind(this));
     },
 
