@@ -1,4 +1,4 @@
-.top-bar-wrapper {
+.top-bar {
     border-top: 1px solid #d8d8d8;
     border-bottom: 1px solid #d8d8d8;
     position: fixed;
@@ -6,8 +6,6 @@
     width: 100%;
     z-index: 100;
     left: 0;
-}
-.top-bar {
     padding: rem-calc(0 0 0 20px); 
     box-shadow: 2px 2px 8px #888;
     .top-bar-section {
