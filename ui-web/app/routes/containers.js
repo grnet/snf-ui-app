@@ -11,5 +11,15 @@ export default Ember.Route.extend(ResetScrollMixin,{
     this.store.find('project', controller.settings.get('uuid')).then(function(p) {
       controller.set('systemProject', p);
     });
+  },
+  renderTemplate: function(){
+    this.render('containers');
+    this.render('bar-lt-containers', {
+      into: 'application',
+      outlet: 'bar-lt',
+      controller: 'containers',
+    });
   }
+
+
 });

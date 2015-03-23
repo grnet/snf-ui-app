@@ -3,6 +3,11 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'ul',
   classNames: ['breadcrumbs'],
+
+  hasContainer: function(){
+    return this.get('container_id');
+  }.property('container_id'),
+
   hasDirs: function(){
     return this.get('dirs').length
   }.property('dirs'),
