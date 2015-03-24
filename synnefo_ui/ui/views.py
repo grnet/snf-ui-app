@@ -33,7 +33,7 @@ def home(request):
 
     app_settings = {
         'service_name': branding_settings.SERVICE_NAME,
-        'logo_url': branding_settings.IMAGE_MEDIA_URL + 'dashboard_logo.png',
+        'logo_url': branding_settings.IMAGE_MEDIA_URL + 'storage_logo.png',
         'token': token,
         'storage_url': get_publicURL_by_service(token, 'object-store'),
         'weblogin_url': get_publicURL_by_service(token, 'astakos_weblogin'),
