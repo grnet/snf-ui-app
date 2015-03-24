@@ -9,6 +9,8 @@ export default Ember.Route.extend(ResetScrollMixin,{
     this.set('current_path', currentPath);
     var self = this;
 
+    window.scrollTo(0,0);
+
     return this.store.find('object', {
         path: currentPath,
         container_id: containerID
