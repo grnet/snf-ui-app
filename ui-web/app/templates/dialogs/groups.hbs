@@ -23,9 +23,8 @@
     {{/each}} 
     </ul>
     <a {{action "deleteGroup"}}>Delete group {{fa-icon "fa-remove"}}</a><br>
-    {{input type="text" placeholder="Comma separated emails" value=newEmails}}
-    <a {{action "addUsers"}}>Add users {{fa-icon "fa-users"}}</a>
-    
+    {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
+    <button {{action "addUsersToGroup"}} {{bind-attr disabled='freezeCreation'}}>{{fa-icon "fa-users"}} Add users</button>
     
     <hr>
 {{/each}}
