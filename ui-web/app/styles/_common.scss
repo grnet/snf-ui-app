@@ -8,3 +8,9 @@
     font-size: rem-calc(14);
     color: red;
 }
+
+.sidebar {
+    h4 a.active {
+        color: $body-font-color;
+    }
+}

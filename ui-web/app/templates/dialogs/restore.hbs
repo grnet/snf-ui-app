@@ -3,7 +3,12 @@
 {{#if selected}}
     <p>Selected path: <strong>{{selectedDir}}</strong></p>
 {{/if}}
-{{dir-tree-wrapper role="select" action="selectDir" resolver=resolveSubDirs}}
+<ul class="dir-tree">
+    {{#each container in containersNoTrash}}
+        {{dir-tree root=container.name resolver=resolveSubDirs role="select" action="selectDir"}}
+    {{/each}}
+</ul>
+ 
 {{#if selected}}
     <p><a class="button" {{action "restoreObject"}}>Restore</a></p>
 {{/if}}

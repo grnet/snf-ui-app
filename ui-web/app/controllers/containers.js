@@ -3,6 +3,8 @@ import {tempSetProperty} from '../snf/common';
 
 export default Ember.ArrayController.extend({
   itemController: 'container',
+  sortProperties: ['order'],
+  
   projects: function(){
     return this.store.find('project', {mode: 'member'});
   }.property(),
@@ -71,6 +73,8 @@ export default Ember.ArrayController.extend({
       var flag = 'validationOnProgress';
       this.set('actionToExec', action);
       this.set(flag, true);
-    }
+    },
+
+
   }
 });

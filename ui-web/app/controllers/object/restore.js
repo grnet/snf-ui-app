@@ -5,6 +5,11 @@ export default ObjectController.extend(ResolveSubDirsMixin, {
   selected: false,
   selectedDir: null,
   closeDialog: false,
+  needs: ['application'],
+
+  containersNoTrash: Ember.computed.filter('controllers.application.containers', function(c, index, array) {
+    return c.get('name').toLowerCase() != 'trash';
+  }),
 
   actions: {
     selectDir: function(param){
