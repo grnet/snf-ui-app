@@ -4,6 +4,7 @@ import {tempSetProperty} from '../snf/common';
 export default Ember.ArrayController.extend({
   itemController: 'container',
   sortProperties: ['order'],
+  closeDialog: false,
   
   projects: function(){
     return this.store.find('project', {mode: 'member'});
@@ -65,6 +66,7 @@ export default Ember.ArrayController.extend({
       this.set('newName', undefined);
       this.set('validInput', undefined);
       this.set('isUnique', undefined);
+      this.set('closeDialog', true);
     }
   }.observes('validInput'),
 

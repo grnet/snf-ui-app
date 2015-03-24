@@ -1,0 +1,12 @@
+<h3>Create container</h3>
+<form {{action 'validateCreate' 'createContainer' on="enter" }}>
+    {{view 'input-single' placeholder='Create Container...' autofocus=true}}
+
+    {{view "select" content=projects
+                    optionLabelPath="content.select_label"
+                    optionValuePath="content.id"
+                    selection=newProject}}
+    <p>
+        <button class="button small" {{action 'validateCreate' 'createContainer' }}>Create container</button>
+    </p>
+</form>

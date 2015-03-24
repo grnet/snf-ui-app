@@ -24,6 +24,7 @@ export default Ember.View.extend({
       'dialogs.feedback': 'medium',
       'dialogs.move': 'small',
       'dialogs.restore': 'medium',
+      'dialogs.create-container': 'small',
     }
     return clsMap[this.get('renderedName')];
   }.property('renderedName'),
