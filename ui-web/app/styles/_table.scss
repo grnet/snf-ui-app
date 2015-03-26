@@ -1,0 +1,95 @@
+table {
+    &:focus {
+        outline: 0 none;
+    }
+    width: 100%;
+    .size, .last-modified {
+        text-align: right;
+    }
+    .share {
+        float: right;
+    }
+    .name {
+        width: 45%;
+        .js-name {
+            span {
+                max-width: 340px;
+                text-overflow: ellipsis;
+                display: inline-block;
+                overflow: hidden;
+                white-space: nowrap;
+                vertical-align: top;
+            }
+            em {
+                color: $aluminum;
+                font-style: normal;
+                font-size: emCalc(12);
+            }
+        }
+    }
+    tr .icon-btn {
+        background: $gainsboro;
+    }
+    tr:hover {
+        td {
+            background: darken($table-even-row-bg, 5%); 
+        }
+        .icon-btn {
+            background: $primary-color; 
+        }
+    }
+    tr.to-paste {
+        td {
+            background-color: $warning-color;
+            color: #fff;
+            a {
+                color: #fff;
+            }
+        }
+    }
+    tr.is-selected {
+        td {
+            background-color: $alert-color;
+            color: #fff;
+            a {
+                color: #fff;
+            }
+        }
+    }
+   th {
+        text-transform: capitalize;
+        span {
+            margin-left: 0.5em;
+        }
+    }
+    th a {
+        color: $body-font-color;
+    }
+    th.th-sort {
+        .fa-sort-desc, .fa-sort-asc {
+            display: none;
+        }
+        .fa-sort {
+            display: inline-block;
+        }
+    }
+    th.th-desc {
+        .fa-sort-asc, .fa-sort {
+            display: none;
+        }
+        .fa-sort-desc {
+            display: inline-block;
+        }
+    }   
+    
+    th.th-asc {
+        .fa-sort-desc, .fa-sort {
+            display: none;
+        }
+        .fa-sort-asc {
+            display: inline-block;
+        }
+    }
+
+
+}

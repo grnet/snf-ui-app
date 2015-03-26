@@ -1,7 +1,7 @@
 <ul class="containers">
   {{#each}}
 	<li {{bind-attr class=":container :row new updated"}}>
-	  <div class="part four columns small-4">
+	  <div class="part four columns small-6">
 			{{#if new}}<span class="label">new</span>{{/if}}
 		    {{#if updated}}<span class="label success">updated</span>{{/if}}
 			<h4>{{#link-to 'container' name}}{{name}}{{/link-to}}</h4>
@@ -18,11 +18,11 @@
 		   prompt="Reassign project:"
 		   selection=selectedProject}}
 	  </div>
-	  <div class="part two columns small-2">
-			<button class="button alert small" {{bind-attr disabled=this.forbidDeletion}} {{action 'showDialog' 'confirm-simple' this.controller this 'emptyAndDelete'}}>Delete Container</button>
+	  <div class="part two columns small-1">
+			<button class="button alert tiny" {{bind-attr disabled=this.forbidDeletion}} {{action 'showDialog' 'confirm-simple' this.controller this 'emptyAndDelete'}}>Delete</button>
 	  </div>
-	  <div class="part two columns small-2">
-			<button class="button secondary small" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>Empty container</button>
+	  <div class="part two columns small-1">
+			<button class="button secondary tiny" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>Empty</button>
 	  </div>
 	</li>
   {{/each}}

@@ -3,10 +3,34 @@
     @include button($button-med, $aluminum, inherit, false, false, false)
 }
 
+.icon-btn {
+    display: inline-block;
+    padding: rem-calc(4px 8px);
+    color: #fff;
+    margin: 0 5px;
+    border-radius: 2px;
+    &:hover {
+        color: #fff;
+        background: darken($primary-color, 10%);
+    }
+    i {
+        font-size: rem-calc(20px);
+        padding-left: rem-calc(8px);
+    }
+}
+
+
+
 .danger {
     font-weight: bold;
     font-size: rem-calc(14);
     color: red;
+}
+
+span.subtle {
+    color: $aluminum;
+    font-size: rem-calc(13px);
+    font-style: italic;
 }
 
 .sidebar {
@@ -14,3 +38,32 @@
         color: $body-font-color;
     }
 }
+
+#loader {
+    text-align: center;
+    padding: 3em;
+    color: gray;
+}
+
+.fl-right {
+    float: right;
+}
+
+
+.hidden {
+    display: none;
+}
+
+@include keyframes(background-change) {
+    0% { background-color: $purple; }
+    100% { background-color: transparent; }
+}
+
+.new, .new ~td {
+    @include animation('background-change 8s');
+    .label {
+        float: right;
+    }
+}
+
+

@@ -116,10 +116,10 @@ $jet         : #222222;
 // $black       : #000000;
 
 // We use these as default colors throughout
-$primary-color: #3C96D7;
-$secondary-color: #97B314;
-$alert-color: #ED2F7E;
-$success-color: #ed9121;
+$primary-color: $theme-primary-color;
+$secondary-color: $theme-secondary-color;
+$alert-color: $theme-alert-color;
+$success-color: $theme-success-color;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
 

@@ -1,0 +1,134 @@
+.input-with-valid {
+    display: inline-block;
+    position: relative;
+    &.input-partial {
+        display: block;
+        margin-bottom: 50px;
+        input {
+            width: 500px;
+        }
+
+        .info > span {
+            width: 500px;
+        }
+    }
+
+    .info {
+        position: absolute;
+        margin-top: -1px;
+        margin-bottom: 1rem;
+        .invisible {
+            visibility: hidden;
+            display: none;
+            z-index: 1;
+        }
+        .warning {
+            background-color: #f0a024;
+        }
+        .info-msg {
+            margin-left: 10px;
+        }
+        > span {
+        width: 200px;
+        display: block;
+        padding: 0.375rem 0.5625rem 0.5625rem;
+        font-size: 0.75rem;
+        font-weight: normal;
+        font-style: italic;
+        color: #FFFFFF;
+    }
+    }
+    input {
+        margin-bottom: 0;
+    }
+    input.error {
+        border-color: #f04124;
+    }
+    input.warning {
+        border-color: #f0a024;
+    }
+}
+
+.input-emails {
+    .tile {
+        display: inline-block;
+        height: 1.3rem;
+        margin: 2px 4px;
+        padding: 0 0 0 4px;
+        font-size: 14px;
+        .email {
+            color: white;
+            font-style: normal;
+        }
+        &.loading {
+            background-color: antiquewhite;
+        }
+        &.error {
+            background-color: #C73737;
+        }
+        &.success {
+            background-color: #44BD4F;
+        }
+        .sign {
+            margin-left: 6px;
+            padding: 2px;
+            background: #A9A1B6;
+            color: white;
+            font-size: 17px;
+            height: 100%;
+            vertical-align: top;
+
+        }
+    }
+    input, input:focus {
+        border: none;
+        box-shadow: none;
+        // padding: 0;
+        // height: inherit;
+        width: 420px;
+    }
+    .container-emails {
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        // padding: 4px;
+        margin-bottom: 1rem;
+        // height: 2.3125rem;
+        padding: 0.3rem;
+        width: 500px;
+        display: inline-block;
+        button {
+            margin-bottom: 0;
+        }
+    }
+}
+
+
+
+textarea {
+    margin-bottom: 0;
+}
+
+input[type="text"]{
+    width: 200px;
+    display: inline;
+}
+
+
+
+.create-group {
+    display: none;
+    label {
+        margin-bottom: 6px;
+    }
+    .buttons {
+        button:first-child {
+            margin-left: 40px;
+        }
+        button:last-child {
+            float: right;
+            margin-right: 40px;
+        }
+    }
+}
+
+
