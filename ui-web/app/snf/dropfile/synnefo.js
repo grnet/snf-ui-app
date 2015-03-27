@@ -18,19 +18,26 @@ var hash = Ember.RSVP.all;
 var queue = function(generator, params, resolveCb=Ember.K, rejectCb=Ember.K) {
   params = params || {};
   var resolveInc, fulfilled = Ember.A([]), rejected = Ember.A([]),
-      parallel, slots, serialize, spawned;
+      parallel, slots, serialize, spawned, failfast, _rejected;
   
   parallel = params.parallel || 1;
   serialize = params.serialize || true;
+  failfast = params.failfast;
   slots = parallel;
   spawned = 0;
-
+  _rejected = false;
+  
   return new Promise(function(resolve, reject) {
     var next;
     next = function(promise, index) {
       if (promise) { slots--; }
-      if ((slots == parallel) && (!promise || rejected.length)) {
-        if (rejected.length) { reject(rejected, fulfilled); return; }
+      if ((slots == parallel) && (!promise)) {
+        if (_rejected) { return; }
+        if (rejected.length) { 
+          _rejected = true;
+          reject(rejected, fulfilled); 
+          return; 
+        }
         resolve(fulfilled);
         return;
       }
@@ -56,6 +63,10 @@ var queue = function(generator, params, resolveCb=Ember.K, rejectCb=Ember.K) {
       }).finally(function() {
         var n;
         while (slots && (n = generator())) {
+          if (failfast && rejected.length) {
+            n = null;
+            break;
+          }
           spawned++;
           next(n, spawned);
         }
@@ -150,8 +161,9 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       var msg, promise;
       if (computed == total) { return false; }
       promise = new Promise(function(resolve, reject) {
-        if (file._aborted) { reject("abort"); }
-        return this.chunkHash(file, cursor, params).then(resolve, reject).then(function(res) {
+        if (file._aborted) { reject("abort"); return; }
+        var args = [file, cursor, params]
+        return this.chunkHash.apply(this, args).then(resolve, reject).then(function(res) {
           var msg;
           finished++;
           msg = fmt('Computing hashes (%@/%@)', finished, total);
@@ -162,42 +174,52 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       computed += 1;
       cursor += bs;
       return promise;
-    }.bind(this), {parallel: 3, serialize: true}).catch(function(err) {
+    }.bind(this), {failfast: true, parallel: 3, serialize: true}).catch(function(err) {
       if (file._aborted) { throw "abort"; }
       throw (err);
     });
   },
 
-  resolveHashes: function(hashChunks, size, type, params, fileURL, containerURL) {
+  resolveHashes: function(url, hashes, size, type, params) {
     var hashmap, options;
+
     hashmap = {
-        'hashes': hashChunks.getEach("hash"),
+        'hashes': hashes.getEach("hash"),
         'bytes': size,
         'block_hash': params.hash,
         'block_size': params.bs
     }
+
     options = this.mergeAjaxOptions({
-      url: fileURL + "?format=json&update=1&hashmap=",
+      url: url + "?format=json&update=1&hashmap=",
       method: 'PUT',
       data: JSON.stringify(hashmap),
       headers: {'Content-Type': type}
     });
     
     return ajax(options).then(function(resp) {
-      return {'missing': Ember.A(), 'existing': hashChunks};
+      return {
+        'missing': Ember.A(), 
+        'existing': hashes
+      };
     }).catch(function(err) {
       var resp, missingResp, missing = Ember.A(), existing = Ember.A();
       if (err.errorThrown !== "CONFLICT") { throw err; }
+      
+      // parse missing hashes
       missingResp = Ember.A(JSON.parse(err.jqXHR.responseText));
-      hashChunks.forEach(function(h) {
+      hashes.forEach(function(h) {
         if (missingResp.contains(h.hash)) {
           missing.pushObject(h);
         } else {
           existing.pushObject(h);
         }
       });
-      resp = {'missing': missing, 'existing': existing};
-      return resp;
+
+      return {
+        'missing': missing, 
+        'existing': existing
+      };
     });
   },
 
@@ -213,6 +235,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
         'uploaded': uploaded,
       });
     };
+
     options = this.mergeAjaxOptions({
       url: contURL + "?format=json&update",
       headers: {
@@ -262,6 +285,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           reject(error);
           return;
         }
+        console.error(error);
         // TODO: make this configurable
         reject("chunked-failed");
       }.bind(this)).then(resolve);
@@ -271,8 +295,8 @@ var SnfUploaderTransport = ChunkedTransport.extend({
   },
 
   doUploadChunked: function(url, files, paths, progress, retry, hashChunks) {
-    var contURL, fileURL, cont, file, path, hashmap, params, promise, onabort;
-    retry = retry || 0;
+    var contURL, fileURL, cont, file, path, args,
+        hashmap, hashParams, promise, onabort, fileType;
 
     // assert single file
     if (Ember.isArray(files) && files.length > 1) { 
@@ -280,17 +304,23 @@ var SnfUploaderTransport = ChunkedTransport.extend({
     }
     
     file = files.get(0);
-    file._aborted = false;
-
+    file._aborted = false; // abort flag
     path = paths.get(0);
+    
+    fileType = file.type;
+    if (!fileType && file.dirType) { fileType = file.dirType; }
 
+    // resolve container/path parts
     fileURL = url;
     cont = path.split("/").splice(0, 1).join();
     contURL = url.split(path + "/" + file.name).splice(0, 1).join() + cont;
-    params = this.getHashParams();
+
+    hashParams = this.getHashParams();
       
     promise = new Promise(function(resolve, reject) {
+      var aborted = false;
       var chunksTransports = {};
+
       onabort = function() {
         file._aborted = true;
         for (var k in chunksTransports) {
@@ -303,7 +333,8 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           return;
         }
       }
-
+      
+      // initialize progress status
       if (!hashChunks) {
         progress({
           'total': file.size,
@@ -311,17 +342,22 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           'message': 'Computing hashes'
         });
       }
+        
+      args = [file, hashParams, hashChunks, progress];
+      this.fileHashmap.apply(this, args).then(function(hashChunks) {
+        args = [fileURL, hashChunks, file.size, fileType, hashParams];
+        progress({
+          'total': file.size,
+          'uploaded': 0,
+          'message': 'Resolving missing chunks'
+        });
 
-      this.fileHashmap(file, params, hashChunks, progress).then(function(hashChunks) {
-        var ftype = file.type, args;
-        if (!ftype && file.dirType) { ftype = file.dirType; }
-        args = [hashChunks, file.size, ftype, params, fileURL, contURL];
         this.resolveHashes.apply(this, args).then(function(hashes) {
           var chunksProgress, chunkProgress;
           var bytesUploaded = hashes.existing.reduce(function(cur, item) {
             return cur + item.size;
           }, 0) || 0;
-
+          
           progress({
             'total': file.size,
             'uploaded': bytesUploaded,
@@ -349,9 +385,8 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           }
 
           this.uploadMissing(contURL, file, hashes.missing, chunkProgress).then(function(){
-            if (retry >= 2) { reject("chunked-failed"); return; }
-            retry = retry + 1;
-            this.doUploadChunked(url, files, paths, progress, retry, hashChunks).then(resolve, reject);
+            if (retry) { reject("chunk-failed"); return; }
+            this.doUploadChunked(url, files, paths, progress, true, hashChunks).then(resolve, reject);
           }.bind(this), reject);
         }.bind(this), reject);
       }.bind(this), reject);
