@@ -16,8 +16,9 @@
     <strong>Private sharing</strong> Only people explicitly granted permission can access. Sign-in required.
 </p>
 <div>
-    {{input type="text" placeholder="Comma separated emails" value=emails autofocus="autofocus"}}
-    <button {{action 'shareWithUsers'}} class="small button">Add Users</button>
+    {{!-- {{input type="text" placeholder="Comma separated emails" value=emails autofocus="autofocus"}} --}}
+    {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
+    <button {{action 'shareWithUsers'}} class="small button" {{bind-attr disabled='freezeCreation'}}>Add Users</button>
 </div>
 <div>
     {{view "select" content=groups
@@ -40,7 +41,7 @@
                     <td>{{#if s.user}}{{s.user.email}}{{else}}{{s.display_name}}{{/if}}</td>
                     <td>{{radio-button name=s.id bindValue=s.permission value="read" action="togglePermission"}}</td>
                     <td>{{radio-button name=s.id bindValue=s.permission value="write" action="togglePermission"}}</td>
-                    <td><a {{action 'removeUser' s.id}}>Remove</a></td>
+                    <td><a {{action 'removeUserFromShare' s.id}}>Remove</a></td>
                 </tr>
             {{/each}}
         </table>

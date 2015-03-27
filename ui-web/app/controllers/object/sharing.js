@@ -2,6 +2,36 @@ import ObjectController from '../object';
 
 export default ObjectController.extend({
 
+  usersExtended: undefined,
+  allUsersValid: false,
+  cleanUserInput: true,
+
+  init: function() {
+    this.set('usersExtended', []);
+    this._super();
+  },
+
+  areUsersValid: function() {
+    var allUsersValid = this.get('usersExtended').every(function(user, index) {
+      return user.get('status') === 'success';
+    });
+    if(this.get('usersExtended').get('length')) {
+      this.set('allUsersValid', allUsersValid);
+    }
+    else {
+      this.set('allUsersValid', false);
+    }
+
+  }.observes('usersExtended.@each', 'usersExtended.@each.status'),
+
+  freezeCreation: function() {
+
+    var allUsersValid = this.get('allUsersValid');
+    var cleanUserInput = this.get('cleanUserInput');
+
+    return !(allUsersValid && cleanUserInput);
+  }.property('allUsersValid', 'cleanUserInput'),
+
   isPublic: false,
 
   setPublic: function(){
@@ -36,7 +66,7 @@ export default ObjectController.extend({
     var shared_with = this.get('model').get('shared_users');
     _.each(shared_with, function(s){
       if (s.type === 'user') {
-        s.user = self.store.find('user', s.id);
+        s.user = self.store.find('user', s.id)
       } else if (s.type === 'all'){
         s.display_name = 'All Pithos users';
       } else if (s.type === 'group') {
@@ -86,6 +116,74 @@ export default ObjectController.extend({
   }.observes('isPublic'),
 
   actions: {
+    addUser: function(user) {
+      var usersExtended = this.get('usersExtended');
+      var notInserted = !usersExtended.findBy('email', user.email);
+      var notShared = true;
+      var temp = [];
+      var self = this;
+
+      var usersShared = this.get('shared_with_list').filterBy('type', 'user').map(function(item) {
+        return item.user;
+      });
+
+      if(usersShared.get('length') !==0) {
+        notShared = !usersShared.findBy('email', user.email);
+      }
+
+      if(notInserted && notShared) {
+        var userExtended = Ember.Object.create({
+          email: user.email,
+          status: user.status,
+          errorMsg: user.errorMsg,
+        });
+
+        this.get('usersExtended').pushObject(userExtended)
+
+        if(user.status !== 'error') {
+          this.send('findUser', user.email);
+        }
+      }
+    },
+
+    updateUser: function(email, data) {
+
+      for(var prop in data) {
+        this.get('usersExtended').findBy('email', email).set(prop, data[prop]);
+      }
+
+    },
+
+    removeUser: function(email) {
+
+      var user = this.get('usersExtended').findBy('email', email);
+
+      this.get('usersExtended').removeObject(user);
+
+    },
+
+    findUser: function(email) {
+
+      var self = this;
+      var userEmail = 'email='+email;
+
+      this.store.find('user', userEmail).then(function(user) {
+
+        var userExtended = self.get('usersExtended').findBy('email', email);
+
+          if(userExtended) {
+            self.send('updateUser', email, {uuid: user.get('uuid'), status: 'success'});
+          }
+    },function(error) {
+
+        var userExtended = self.get('usersExtended').findBy('email', email);
+
+          if(userExtended) {
+            self.send('updateUser', email, {uuid: undefined, status: 'error', 'errorMsg': 'Not found'});
+          }
+      });
+    },
+
     togglePublic: function(){
       var object = this.get('model');
       this.store.setPublic(object, this.get('isPublic')).then(function(data){
@@ -105,7 +203,7 @@ export default ObjectController.extend({
       this.store.setSharing(object, sharing);
     },
 
-    removeUser: function(id){
+    removeUserFromShare: function(id){
       var self = this;
       var object = this.get('model');
       var u_arr = object.get('shared_users');
@@ -167,50 +265,42 @@ export default ObjectController.extend({
     },
 
     shareWithUsers: function(){
-      var self = this;
-      var object = this.get('model');
-      var emails = this.get('emails') || '';
-      var u_arr = object.get('shared_users');
-      var shared_with_list = this.get('shared_with_list');
-      var sharing;
-
-      if (!emails.trim()) { return; }
-
-      emails = emails.split(',');
-      if (emails.length <1 ) { return; }
-
-      var onSuccess = function(res) {
-        self.set('emails', '');
-        object.set('sharing', sharing);
-      };
-      
-      var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
+      if(!this.get('freezeCreation')) {
+        var self = this;
+        var object = this.get('model');
+        var uuids = this.get('usersExtended').mapBy('uuid');
+        var u_arr = object.get('shared_users');
+        var sharing;
 
 
-      var newUsers = emails.map(function(email) {
-        var userEmail = 'email='+email.trim();
-        return self.store.find('user', userEmail);
-      });
+        var onSuccess = function(res) {
+          self.set('emails', '');
+          object.set('sharing', sharing);
+        };
 
-      var ids_arr = _.pluck(shared_with_list, 'id');
-      return Ember.RSVP.all(newUsers).then(function(res){ 
-        res.forEach(function(user){
-          if (_.contains(ids_arr, user.get('id'))) {
-            return; 
+        var onFail = function(reason){
+          self.send('showActionFail', reason);
+        };
+
+        self.store.filter('user', function(user) {
+          var id = user.get('id');
+          if(uuids.indexOf(id) !== -1) {
+            return user;
           }
-          u_arr.pushObject ({
-            'id': user.get('id'), 
-            'permission': 'read',
-            'type': 'user'
+        }).then(function(newUsers) {
+          newUsers.forEach(function(user){
+
+            u_arr.pushObject({
+              'id': user.get('id'),
+              'permission': 'read',
+              'type': 'user'
+            });
           });
+
+          sharing = self.shared_users_to_sharing(u_arr);
+          self.store.setSharing(object, sharing).then(onSuccess, onFail);
         });
-
-        sharing = self.shared_users_to_sharing(u_arr);
-        self.store.setSharing(object, sharing).then(onSuccess, onFail); 
-
-      }, onFail);
+      }
     },
 
     shareWithGroup: function(group){
@@ -223,11 +313,11 @@ export default ObjectController.extend({
         self.set('selectedGroup', null);
         object.set('sharing', sharing);
       };
-      
+
       var onFail = function(reason){
         self.send('showActionFail', reason);
       };
-    
+
       // if the object is already shared with this group return
       var group_arr = _.pluck(shared_with_list, 'display_name');
       if (_.contains(group_arr, group.get('name'))) {
