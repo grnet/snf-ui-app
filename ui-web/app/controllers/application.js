@@ -57,5 +57,10 @@ export default Ember.Controller.extend(DropFileActionsMixin, ResolveSubDirsMixin
     return this.get('store').find('container');
   }.property(),
 
+  groups: function(){
+    return this.get('store').find('group');
+  }.property(),
+
+
 
 });

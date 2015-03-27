@@ -100,8 +100,6 @@ export default Ember.Route.extend(ResetScrollMixin,{
     var containerID = this.modelFor('container').get('name');
     controller.set('container_id', containerID);
     controller.set('current_path', this.get('current_path'));
-    var groups =  this.store.find('group');
-    controller.set('groups', groups);
   },
   actions: {
     refreshRoute: function(){

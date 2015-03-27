@@ -5,7 +5,7 @@ export default Ember.ObjectController.extend({
   needs: ['objects', 'application'],
 
   container_id: Ember.computed.alias('controllers.objects.container_id'),
-  groups: Ember.computed.alias('controllers.objects.groups'),
+  groups: Ember.computed.alias('controllers.application.groups'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
 
   isSelected: false,

@@ -29,10 +29,6 @@ export default Ember.ArrayController.extend({
     return this.get('length');
   }.property('@each'),
 
-  groups: function(){
-    return this.store.find('group');
-  }.property(),
-
   selectedC: Ember.computed.filterBy("@this", "isSelected", true),
 
   selected: function(){
