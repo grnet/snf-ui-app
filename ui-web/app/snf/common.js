@@ -30,3 +30,20 @@ export function tempSetProperty(object, prop){
   }), 10000);
 
 }
+
+
+export function timeHuman(value, short=false) {
+  if (short) {
+    return moment(value).format("DD-MM-YYYY");
+  } 
+  return moment(value).format("DD-MM-YYYY HH:mm");
+}
+
+export function timestampHuman(value, short=false) {
+  if (short) {
+    return moment.unix(value).format("DD-MM-YYYY");
+  } 
+  return moment.unix(value).format("DD-MM-YYYY HH:mm");
+}
+
+

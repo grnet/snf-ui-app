@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import {timestampHuman} from '../snf/common';
 
 // http://momentjs.com/docs/#/displaying/format/
 function timestampToHuman(value) {
-  return moment.unix(value).format("YYYY-MM-DD HH:mm");
+  return timestampHuman(value);
 }
 
 export {

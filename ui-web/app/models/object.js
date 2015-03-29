@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import {timeHuman} from '../snf/common';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
@@ -7,6 +8,11 @@ export default DS.Model.extend({
   hash: DS.attr('string'),
   last_modified: DS.attr('string'),
   modified_by: DS.belongsTo('user', {async:true}),
+
+  last_modified_human: function(){
+    return timeHuman(this.get('last_modified'));
+  }.property('last_modified'),
+
   public_link: DS.attr('string'),
   // model's `sharing` property contains `;` separated pairs of 
   // <permission>=<user-list> where <user-list> is a `,` separated list of 
