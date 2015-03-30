@@ -1,0 +1,91 @@
+<td {{bind-attr class=":name new"}}>
+
+    {{#if new}}<span class="label">new</span>{{/if}}
+    {{#if is_dir}}
+        {{#link-to 'objects' name}}
+            {{fa-icon view.iconCls}}
+            <span class="js-name">
+                {{stripped_name}}
+           </span>
+        {{/link-to}}
+    {{else}}
+        {{#if view.previewSupported}}
+            {{#if isImg}}
+                {{#light-box href=view_src data-lightbox="g-1" data-title=stripped_name inlineImage=false}}
+                {{fa-icon "fa-image"}}
+                {{/light-box}}
+            {{/if}}
+        {{else}}
+            {{fa-icon view.iconCls}}
+        {{/if}}
+        <span class="js-name hint--bottom" {{bind-attr data-hint=stripped_name}}>
+            <span>
+                {{stripped_name_no_ext}}
+                {{#if has_ext}}
+                    <em>.{{extension}}</em>
+                {{/if}}
+ 
+            </span>
+        </span>
+    {{/if}}
+    <form {{action 'reset' 'validateRename,renameObject' target=view on="submit"}}>
+        {{view "input-single" value=stripped_name placeholder=stripped_name cls="hidden"}}
+        <a  class="hidden js-hide-edit icon-a" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check fa-fw"}}</a>
+        <a class="js-cancel js-hide-edit hidden icon-a" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times fa-fw"}}</a>
+    </form>
+
+    <a title="Rename" class="js-show-edit icon-a">{{fa-icon "fa-pencil fa-fw"}}</a>
+</td>
+<td class="share">
+
+    <span class="share">
+        {{#if public_link}}
+            <span class="hint--bottom" data-hint="Public link">
+                <a class="icon-btn" {{bind-attr href=public_link}} target="_blank">{{fa-icon "fa-globe"}}</a>
+            </span>
+        {{/if}}
+        {{#if sharing}}
+            <span class="hint--bottom" data-hint="Privately shared">
+                {{fa-icon "fa-user"}}
+            </span>
+        {{/if}}
+        {{#unless trash}}
+            <a {{action 'showDialog' 'sharing' 'object/sharing' this}} class="icon-btn">Share {{fa-icon "fa-share-alt"}}</a>
+        {{/unless}}
+        {{#if trash}}
+            <a {{action 'showDialog' 'restore' 'object/restore' this}} class="icon-btn">Restore</a>
+        {{/if}}
+    </span>
+
+</td>
+<td class="last_modified">
+    <span class="hint--bottom" {{bind-attr data-hint=last_modified_human}}>
+        {{time-from-now last_modified }} <span class="subtle">{{modified-by current_user.email modified_by.email}}</span>
+    </span>
+</td>
+<td class="extension">
+    {{extension}}
+</td>
+<td class="size">
+    {{convert-bytes size}}
+</td>
+<td>
+    {{#if is_dir}}
+        &nbsp;
+    {{else}}
+        <a {{bind-attr href=view_src}} title="download Item" target="_blank" class="icon-btn">{{fa-icon "fa-download fa-fw"}}</a>
+    {{/if}}
+</td>
+<td>
+    <a {{action 'showDialog' 'confirm-simple' this.controller this 'deleteObject'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
+    {{#unless trash}}
+        <a {{action 'moveToTrash'}} title="move item to trash" class="icon-a">{{fa-icon "fa-trash fa-fw"}}</a>
+    {{/unless}}
+    <a {{action 'cutObject'}} title="cut Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
+    <a {{action 'copyObject'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
+    {{#unless is_dir}}
+        <a {{action 'showDialog' 'versions' 'object/versions' this}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
+    {{/unless}}
+ 
+</td>
+

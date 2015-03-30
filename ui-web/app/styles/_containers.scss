@@ -4,23 +4,10 @@
         padding: 0 10px;
         max-width: initial;
         display: block;
-        border-bottom: 1px solid rgb(194, 237, 247);
-        border-right: 1px solid rgb(194, 237, 247);
-        border-left: 1px solid rgb(194, 237, 247);
         &:hover {
             background-color: #ececec;
         }
         &:first-child {
-            border-top: 1px solid rgb(194, 237, 247);
-            min-height: 60px;
-            line-height: 60px;
-            .slide-area {
-                display: none;
-            }
-            .slide-area div:first-of-type {
-                text-align: left;
-                line-height: 100px;
-            }
         }
     }
     .part {

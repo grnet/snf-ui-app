@@ -102,7 +102,7 @@ export default Ember.View.extend({
 	reset: function() {
 		if(this.get('controller').get('resetInput')) {
 			this.set('errorVisible', false);
-			this.$('input').val();
+			this.$('input').val(this.get('value'));
 			this.set('errorMsg', '');
 			this.get('controller').set('resetInput', false);
 		}

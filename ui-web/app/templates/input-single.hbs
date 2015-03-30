@@ -1,6 +1,12 @@
 {{!-- placeholder is passed as a param from the template where you put the current view --}}
-<input {{bind-attr class='view.errorVisible:error'}} {{bind-attr placeholder=view.placeholder}} type='text' {{bind-attr autofocus=view.autofocus}}>
-<span  {{bind-attr class=':error view.errorVisible::invisible'}}>
+<input  {{bind-attr class='view.errorVisible:error'}} 
+        {{bind-attr placeholder=view.placeholder}} 
+        {{bind-attr value=view.value}}
+        {{bind-attr autofocus=view.autofocus}}
+        type="text">
+{{#if view.errorVisible}}
+<span  class="error">
 	<span class='fa fa-warning'></span>
 	<span class='error-msg'>{{view.errorMsg}}</span>
 </span>
+{{/if}}

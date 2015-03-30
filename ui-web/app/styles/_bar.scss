@@ -35,6 +35,9 @@
                     line-height: inherit;
                     height: $topbar-height;
                     padding: rem-calc(15px 15px 0);
+                    &:hover {
+                        text-decoration: none;
+                    }
                 }
                 &:hover {
                     label {

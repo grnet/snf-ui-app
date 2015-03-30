@@ -5,9 +5,14 @@ $blue-2: #60ACE2;
 $blue-3: #1A82CB;
 $blue-4: #0764A6;
 $fuchsia: #ED2F7E;
+$lime: #97B314;
 
 // theme_settings
 $theme-primary-color: $ciel;
-$theme-secondary-color: $green-1;
+$theme-secondary-color: $lime;
 $theme-alert-color: $fuchsia;
-$theme-success-color: $green-1;
+$theme-success-color: $lime;
+
+
+$theme-anchor-font-color: $blue-4;
+$theme-anchor-font-color-hover: $ciel;

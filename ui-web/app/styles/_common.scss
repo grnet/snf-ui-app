@@ -1,3 +1,7 @@
+body {
+    background: url('../assets/images/fabric_of_squares_gray.png');
+}
+
 // button class
 .btn-minor {
     @include button($button-med, $aluminum, inherit, false, false, false)
@@ -11,11 +15,11 @@
     border-radius: 2px;
     &:hover {
         color: #fff;
-        background: darken($primary-color, 10%);
+        background: $theme-anchor-font-color-hover;
+        text-decoration: none;
     }
     i {
         font-size: rem-calc(20px);
-        padding-left: rem-calc(8px);
     }
 }
 
@@ -66,4 +70,17 @@ span.subtle {
     }
 }
 
+.icon-a {
+    border-radius: 50%;
+    padding: 2px;
+    margin: 0 2px;
+    border: 2px dotted $theme-anchor-font-color-hover;
+    border-color: #ccc;
+    color: #ccc;
+    &:hover {
+        border-color: $theme-anchor-font-color;
+        border-style: solid;
+        color: $theme-anchor-font-color;
+    }
+}
 

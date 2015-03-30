@@ -4,7 +4,7 @@ export default Ember.View.extend({
   templateName: 'th-sortable',
   tagName: 'th',
   classNames: ['th-sort'],
-  classNameBindings: ['thAsc', 'thDesc'],
+  classNameBindings: ['thAsc', 'thDesc', 'field'],
 
   isSorted: function(){
     return _.contains(this.get('controller').get('sortProperties'), this.get('field'));

@@ -1,16 +1,29 @@
 table {
+    border-collapse: collapse;
+    border: 0 none;
+    tr th {
+        padding: 10px 0;
+    }
     &:focus {
         outline: 0 none;
     }
     width: 100%;
-    .size, .last-modified {
+    .size, .last_modified {
         text-align: right;
     }
+    .extension {
+        text-align: center;
+    }
     .share {
-        float: right;
+        text-align: right;
+    }
+    .download {
+        width: 1%;
+        .icon-btn {
+            margin: 0;
+        }
     }
     .name {
-        width: 45%;
         .js-name {
             span {
                 max-width: 340px;
@@ -26,6 +39,12 @@ table {
                 font-size: emCalc(12);
             }
         }
+        form {
+            display: inline;
+        }
+        .js-show-edit {
+            float: right;
+        }
     }
     tr .icon-btn {
         background: $gainsboro;
@@ -35,7 +54,18 @@ table {
             background: darken($table-even-row-bg, 5%); 
         }
         .icon-btn {
-            background: $primary-color; 
+            background: $theme-anchor-font-color-hover; 
+            &:hover {
+                background: $theme-anchor-font-color;
+            }
+        }
+        .icon-a {
+            color: $theme-anchor-font-color-hover;
+            border-color: $theme-anchor-font-color-hover;
+            &:hover {
+                color: $theme-anchor-font-color;
+                border-color: $theme-anchor-font-color;
+            }
         }
     }
     tr.to-paste {
