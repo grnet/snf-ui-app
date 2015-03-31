@@ -9,6 +9,15 @@ var Promise = Ember.RSVP.Promise;
 var all = Ember.RSVP.all;
 var hash = Ember.RSVP.all;
 
+var trimBuffer = function(array, filter) {
+  if (!filter) { filter = function(c) { return c === 0 }};
+  var view = new DataView(array);
+  var pos = array.byteLength - 1;
+  while (filter(view.getInt8(pos)) && pos > 0) {pos--;}
+  if (pos === 0) { return new ArrayBuffer(0); }
+  return array.slice(0, pos + 1);
+}
+
 /*
  * Helper to serialize a group of promises. Accepts a promise generator 
  * function, for each promise passed through generator the result gets stored
@@ -128,9 +137,10 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       if (file._aborted) { reject("abort"); }
       reader = new FileReader();
       reader.onload = function(e) {
-        this.computeHash(e.target.result, params).then(function(hash) {
+        var buffer = trimBuffer(e.target.result);
+        this.computeHash(buffer, params).then(function(hash) {
           resolve({
-            'buffer': e.target.result, 
+            'buffer': buffer,
             'position': position, 
             'to': to, 
             'size': to - position,
