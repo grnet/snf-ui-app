@@ -1,29 +1,19 @@
 <ul class="containers">
   {{#each}}
 	<li {{bind-attr class=":container :row new updated"}}>
-	  <div class="part four columns small-6">
-			{{#if new}}<span class="label">new</span>{{/if}}
-		    {{#if updated}}<span class="label success">updated</span>{{/if}}
-			<h4>{{#link-to 'container' name}}{{name}}{{/link-to}}</h4>
-			<strong>Size:</strong> {{convert-bytes bytes}}<br>
-			<strong>Items:</strong> {{count}}<br>
-	  </div>
-	  <div class="part four columns small-4">
-		{{#if this.view.allowToggleView}}
-		  {{view 'piechart'}}
-		{{/if}}
-	  {{view "select" content=availableProjects
-		   optionLabelPath="content.select_label"
-		   optionValuePath="content.id"
-		   prompt="Reassign project:"
-		   selection=selectedProject}}
-	  </div>
-	  <div class="part two columns small-1">
-			<button class="button alert tiny" {{bind-attr disabled=this.forbidDeletion}} {{action 'showDialog' 'confirm-simple' this.controller this 'emptyAndDelete'}}>Delete</button>
-	  </div>
-	  <div class="part two columns small-1">
-			<button class="button secondary tiny" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>Empty</button>
-	  </div>
+		{{#if new}}<span class="label">new</span>{{/if}}
+		{{#if updated}}<span class="label success">updated</span>{{/if}}
+		<h4>{{#link-to 'container' name}}{{name}}{{/link-to}}</h4>
+		Size: <strong>{{convert-bytes bytes}}</strong><br>
+		Modified: <strong>{{time-from-now last_modified}}</strong><br>
+		Items: <strong>{{count}}</strong><br>
+	    {{view "select" content=availableProjects
+		                optionLabelPath="content.select_label"
+		                optionValuePath="content.id"
+		                prompt="Reassign project:"
+		                selection=selectedProject}}
+		<button class="button alert tiny" {{bind-attr disabled=this.forbidDeletion}} {{action 'showDialog' 'confirm-simple' this.controller this 'emptyAndDelete'}}>Delete</button>
+		<button class="button secondary tiny" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>Empty</button>
 	</li>
   {{/each}}
 </ul>
