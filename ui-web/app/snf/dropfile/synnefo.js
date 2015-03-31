@@ -436,7 +436,7 @@ var SnfUploader = Uploader.extend({
 var SnfAddHandlerMixin = Ember.Mixin.create({
   dropFileAddHandler: function(file) {
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      var store = this.get('controller.store');
+      var store = this.get('store') || this.get('controller.store');
       store.findById('object', file.get('path')).then(function() {
         var msg = "File '${file.get('path')}'" +
                   " already exists. Do you want to overwrite ?";
