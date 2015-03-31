@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import {DropFileViewMixin} from '../snf/dropfile/mixins';
+import {SnfAddHandlerMixin} from '../snf/dropfile/synnefo';
 
-export default Ember.View.extend(DropFileViewMixin, {
+export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 	templateName: 'object',
 	tagName: 'tr',
   classNameBindings: ['isSelected', 'toPaste'],
