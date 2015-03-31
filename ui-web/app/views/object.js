@@ -105,6 +105,7 @@ export default Ember.View.extend(DropFileViewMixin, {
 		this.$('.js-show-edit').on('click', function() {
 			self.send('toggleEdit');
 		});
+
 		this._super();
 	},
 

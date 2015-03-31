@@ -1,5 +1,4 @@
-<td {{bind-attr class=":name new"}}>
-
+<td {{bind-attr class=":name new loading"}}>
     {{#if new}}<span class="label">new</span>{{/if}}
     {{#if is_dir}}
         {{#link-to 'objects' name}}
@@ -34,15 +33,15 @@
         <a class="js-cancel js-hide-edit hidden icon-a" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times fa-fw"}}</a>
     </form>
 
-    <a title="Rename" class="js-show-edit icon-a">{{fa-icon "fa-pencil fa-fw"}}</a>
+    <a class="js-show-edit icon-a" title="Rename">{{fa-icon "fa-pencil fa-fw"}}</a>
 </td>
 <td class="share">
 
     <span class="share">
         {{#if public_link}}
-            <span class="hint--bottom" data-hint="Public link">
+            {{#tooltip-hint title="Public link"}}
                 <a class="icon-btn" {{bind-attr href=public_link}} target="_blank">{{fa-icon "fa-globe"}}</a>
-            </span>
+            {{/tooltip-hint}}
         {{/if}}
         {{#if sharing}}
             <span class="hint--bottom" data-hint="Privately shared">
@@ -59,12 +58,14 @@
 
 </td>
 <td class="last_modified">
-    <span class="hint--bottom" {{bind-attr data-hint=last_modified_human}}>
+    {{#tooltip-hint title=last_modified_human}}
         {{time-from-now last_modified }} <span class="subtle">{{modified-by current_user.email modified_by.email}}</span>
-    </span>
+    {{/tooltip-hint}}
 </td>
-<td class="extension">
-    {{extension}}
+<td class="centered">
+    {{#tooltip-hint title=extension}}
+        {{type}}
+    {{/tooltip-hint}}
 </td>
 <td class="size">
     {{convert-bytes size}}
@@ -73,7 +74,9 @@
     {{#if is_dir}}
         &nbsp;
     {{else}}
-        <a {{bind-attr href=view_src}} title="download Item" target="_blank" class="icon-btn">{{fa-icon "fa-download fa-fw"}}</a>
+        {{#tooltip-hint title="Download"}}
+            <a {{bind-attr href=view_src}} target="_blank" class="icon-btn">{{fa-icon "fa-download fa-fw"}}</a>
+        {{/tooltip-hint}}
     {{/if}}
 </td>
 <td>
