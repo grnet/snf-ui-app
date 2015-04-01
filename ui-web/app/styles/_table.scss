@@ -53,20 +53,6 @@ table {
         td {
             background: darken($table-even-row-bg, 5%); 
         }
-        .icon-btn {
-            background: $theme-anchor-font-color-hover; 
-            &:hover {
-                background: $theme-anchor-font-color;
-            }
-        }
-        .icon-a {
-            color: $theme-anchor-font-color-hover;
-            border-color: $theme-anchor-font-color-hover;
-            &:hover {
-                color: $theme-anchor-font-color;
-                border-color: $theme-anchor-font-color;
-            }
-        }
     }
     tr.to-paste {
         td {

@@ -11,8 +11,7 @@ $green-1: #45C182;
 $green-2: #21B469;
 $green-3: #008441;
 $green-4: #006733;
-
-
+$green-lime: #17A500;
 
 // theme_settings
 $theme-primary-color: $snf-green;
@@ -20,7 +19,8 @@ $theme-secondary-color: $orange;
 $theme-alert-color: $tomato;
 $theme-success-color: $green-1;
 
-
-
 $theme-anchor-font-color: $green-4;
 $theme-anchor-font-color-hover: $snf-green;
+
+$theme-inactive-color: #ddd;
+$theme-primary-color-light: $green-1;

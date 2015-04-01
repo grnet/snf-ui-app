@@ -13,7 +13,7 @@ export default Ember.Route.extend(ResetScrollMixin,{
     });
   },
   renderTemplate: function(){
-    this.render('containers');
+    this.render('containers-grid');
     this.render('bar-lt-containers', {
       into: 'application',
       outlet: 'bar-lt',

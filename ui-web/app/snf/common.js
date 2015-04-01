@@ -13,18 +13,16 @@ export function bytesToHuman(bytes){
     return '--';
   }
   if (bytes === 0) { 
-    return '0 byte';
+    return '0';
   }
   var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-  return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+  return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
 
 
 //Set an object highlight to true for a given time only
-
 export function tempSetProperty(object, prop){
   object.set(prop, true);
-  console.log(object.get('new'));
   Ember.run.later((function() {
     object.set(prop, false);
   }), 10000);

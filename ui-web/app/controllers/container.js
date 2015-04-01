@@ -7,6 +7,7 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
   itemType: 'container',
   title: 'object controller title',
   needs: ['containers'],
+  loading: false,
 
   projects: Ember.computed.alias("controllers.containers.projects"),
 
@@ -32,14 +33,6 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
       this.set('project', sel);
     }
   }.observes('selectedProject'),
-
-	forbidDeletion: function() {
-		var name = this.get('name');
-		if(name === 'trash') {
-			return true;
-		}
-		return false;
-	}.property(),
 
 	chartData: function(){
 		var data = {};
@@ -72,11 +65,16 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
 	}.property('size', 'this.project.@each'),
 
 
+  isEmpty: function(){
+    return this.get('count') == 0;
+  }.property('count'),
+
 
   actions: {
     deleteContainer: function(){
       var container = this.get('model');
       var self = this;
+      self.set('loading', false);
       var onSuccess = function(container) {
         console.log('deleteContainer: onSuccess');
       };
@@ -96,13 +94,15 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
       var container = this.get('model');
       var self = this;
 
+
+      this.set('loading', true);
       var onSuccess = function() {
+        self.set('loading', false);
         if (delete_flag) {
           self.send('deleteContainer');
         } else {
           container.set('count',0);
           container.set('bytes',0);
-          tempSetProperty(container, 'updated');
         }
       };
       var onFail = function(reason){
@@ -112,10 +112,11 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
     },
 
     reassignContainer: function(project_id){
+      var self = this;
       var container = this.get('model');
+      this.set('loading', true);
       var onSuccess = function() {
-        console.log('reassignContainer: onSuccess');
-        tempSetProperty(container, 'updated');
+        self.set('loading', false);
       };
 
       var onFail = function(reason){

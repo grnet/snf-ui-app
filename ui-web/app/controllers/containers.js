@@ -3,7 +3,7 @@ import {tempSetProperty} from '../snf/common';
 
 export default Ember.ArrayController.extend({
   itemController: 'container',
-  sortProperties: ['order'],
+  sortProperties: ['order', 'name'],
   closeDialog: false,
   
   projects: function(){

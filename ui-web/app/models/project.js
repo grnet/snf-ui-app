@@ -15,7 +15,7 @@ export default DS.Model.extend({
 
 
 	select_label: function(){
-		return this.get('human_name')+'  (' + bytesToHuman(this.get('diskspace_free_space'))+ ' available)';
+		return this.get('human_name')+'  (' + bytesToHuman(this.get('diskspace_free_space'))+ ' free)';
 	}.property('human_name', 'diskspace_free_space'),
 
 	// quotas info

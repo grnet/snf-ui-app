@@ -4,7 +4,7 @@ body {
 
 // button class
 .btn-minor {
-    @include button($button-med, $aluminum, inherit, false, false, false)
+    @include button($button-med, $theme-inactive-color, inherit, false, false, false)
 }
 
 .icon-btn {
@@ -23,7 +23,29 @@ body {
     }
 }
 
+tr:hover, li:hover {
+    .icon-btn {
+        background: $theme-anchor-font-color-hover; 
+        &:hover {
+            background: $theme-anchor-font-color;
+        }
+    }
+    .icon-a {
+        color: $theme-anchor-font-color-hover;
+        border-color: $theme-anchor-font-color-hover;
+        &:hover {
+            color: $theme-anchor-font-color;
+            border-color: $theme-anchor-font-color;
+        }
+        &[disabled] {
+            color: $theme-inactive-color;
+            border-color: $theme-inactive-color;
+            border-style: dotted;
+        }
 
+    }
+}
+ 
 
 .danger {
     font-weight: bold;
@@ -32,7 +54,7 @@ body {
 }
 
 span.subtle {
-    color: $aluminum;
+    color: $theme-inactive-color;
     font-size: rem-calc(13px);
     font-style: italic;
 }
@@ -59,15 +81,12 @@ span.subtle {
 }
 
 @include keyframes(background-change) {
-    0% { background-color: $purple; }
-    100% { background-color: transparent; }
+    0% { background-color: $theme-primary-color-light; }
+    100% { background-color: #fff; }
 }
 
-.new, .new ~td {
-    @include animation('background-change 8s');
-    .label {
-        float: right;
-    }
+.new .wrap, .new ~td {
+    @include animation('background-change 2s');
 }
 
 .icon-a {
@@ -75,12 +94,17 @@ span.subtle {
     padding: 2px;
     margin: 0 2px;
     border: 2px dotted $theme-anchor-font-color-hover;
-    border-color: #ccc;
-    color: #ccc;
+    border-color: $theme-inactive-color;
+    color: $theme-inactive-color;
     &:hover {
         border-color: $theme-anchor-font-color;
         border-style: solid;
         color: $theme-anchor-font-color;
+    }
+    &[disabled] {
+        color: $theme-inactive-color;
+        border-color: $theme-inactive-color;
+        border-style: dotted;
     }
 }
 
