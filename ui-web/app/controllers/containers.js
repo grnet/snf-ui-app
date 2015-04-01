@@ -5,6 +5,14 @@ export default Ember.ArrayController.extend({
   itemController: 'container',
   sortProperties: ['order', 'name'],
   closeDialog: false,
+  sorting: undefined,
+
+  sortFields: [
+    {'value': 'count', 'label': 'Items'},
+    {'value': 'bytes', 'label': 'Size'},
+    {'value': 'name', 'label': 'Name'},
+    {'value': 'last_modified', 'label': 'Last modified'},
+  ],
   
   projects: function(){
     return this.store.find('project', {mode: 'member'});
@@ -69,6 +77,12 @@ export default Ember.ArrayController.extend({
       this.set('closeDialog', true);
     }
   }.observes('validInput'),
+
+  watchSorting: function(){
+      if (this.get('sorting') ) {
+        this.set("sortProperties", ['order', this.get('sorting.value')]);
+      }
+  }.observes('sorting'),
 
   actions: {
     validateCreate: function(action) {

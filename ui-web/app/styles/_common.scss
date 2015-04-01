@@ -1,5 +1,10 @@
 body {
-    background: url('../assets/images/fabric_of_squares_gray.png');
+    /*background: url('../assets/images/fabric_of_squares_gray.png');*/
+    background: url('http://subtlepatterns.com/patterns/symphony.png');
+}
+
+:focus {
+    outline-color: $primary-color;
 }
 
 // button class
