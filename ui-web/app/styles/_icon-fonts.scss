@@ -1,0 +1,41 @@
+@font-face {
+	font-family: 'snf-icons';
+	src:url('../assets/fonts/snf-icons.eot?-x7zsib');
+	src:url('../assets/fonts/snf-icons.eot?#iefix-x7zsib') format('embedded-opentype'),
+		url('../assets/fonts/snf-icons.woff?-x7zsib') format('woff'),
+		url('../assets/fonts/snf-icons.ttf?-x7zsib') format('truetype'),
+		url('../assets/fonts/snf-icons.svg?-x7zsib#snf-icons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.snf-font {
+	font-family: 'snf-icons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.if-group:before {
+	content: "\61";
+}
+
+.if-person-add:before {
+	content: "\62";
+}
+
+.if-person:before {
+	content: "\63";
+}
+
+.if-group-add:before {
+	content: "\64";
+}
+

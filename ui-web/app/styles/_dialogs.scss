@@ -9,4 +9,18 @@
     .button + .secondary {
         margin-left: 4em;
     }
+
+    // Groups dialog
+    .group-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+
+    .slide-me {
+        display: none;
+    }
+
+    .side-btn-modal {
+        float: right;
+    }
 }
