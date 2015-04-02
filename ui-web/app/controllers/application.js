@@ -3,10 +3,11 @@ import Ember from 'ember';
 import ResolveSubDirsMixin from '../mixins/resolve-sub-dirs';
 import {DropFileActionsMixin} from '../snf/dropfile/mixins';
 import {SnfUploader} from '../snf/dropfile/synnefo';
+import {SnfAddHandlerMixin} from '../snf/dropfile/synnefo';
 
 
 var defaultWorkerUrl = "/static/ui/assets/workers/worker_hasher.js";
-export default Ember.Controller.extend(DropFileActionsMixin, ResolveSubDirsMixin,{
+export default Ember.Controller.extend(DropFileActionsMixin, SnfAddHandlerMixin, ResolveSubDirsMixin,{
   
   // initialize uploader settings
   dropFileUploader: function() {

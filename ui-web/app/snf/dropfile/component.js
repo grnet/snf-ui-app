@@ -75,7 +75,7 @@ export default Ember.Component.extend({
     }
   },
 
-  _handleFileAdded: function(file) {
+  _handleFileAdded: function(file) {  
     var handler, source = file._source;
     
     if (source && source.dropFileAddHandler) {
