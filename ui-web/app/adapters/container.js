@@ -5,7 +5,8 @@ export default StorageAdapter.extend({
   
   buildURL: function(type, account, id, record) {
     var url = this._super(type, account, record);
-    if (id) { url = url + "/" + id.replace(/^\//, ''); }
+
+    if (id) { url = url + "/" + encodeURIComponent(id.replace(/^\//, '')); }
     url = url.replace(/([^:])\/\//g, "$1/");
     return url;
   },

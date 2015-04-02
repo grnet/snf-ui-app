@@ -5,7 +5,7 @@ export default StorageAdapter.extend({
 
   buildURL: function(type, account, id, record) {
     var url = this._super(type, account, record);
-    if (id) { url = url + "/" + id; }
+    if (id) { url = url + "/" + encodeURIComponent(id); }
     url = url.replace(/([^:])\/\//g, "$1/");
     return url;
   },
@@ -82,7 +82,7 @@ export default StorageAdapter.extend({
     headers['X-Move-From'] = encodeURIComponent(oldPath);
     
     if (copy_flag === true) {
-      headers['X-Copy-From'] = oldPath;
+      headers['X-Copy-From'] = encodeURIComponent(oldPath);
       delete headers['X-Move-From'];
     }
 
@@ -98,7 +98,7 @@ export default StorageAdapter.extend({
     var url = this.buildURL('object', account, record.get('id'))+'?update=';
     var headers = {};
 
-    headers['X-Source-Object'] = path;
+    headers['X-Source-Object'] = encodeURIComponent(path);
     headers['X-Source-Version'] = version;
     headers['Content-Range'] = 'bytes 0-/*';
     headers['Accept'] =  'text/plain';
