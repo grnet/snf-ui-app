@@ -69,11 +69,21 @@ export default Ember.View.extend({
 
 		this._super();
 		this.$().on('click', '.slide-btn', function() {
-			$(this).closest('.slide-container').find('.slide-me').slideToggle('slow');
+			var $cont = $(this).closest('.slide-container');
+			$cont.toggleClass('open');
+			var toOpen = $cont.hasClass('open');
+			if(toOpen) {
+				$cont.find('.slide-me').stop().slideDown('slow', function() {
+					$cont.find('input:first').focus();
+				});
+			}
+			else {
+				$cont.find('.slide-me').stop().slideUp('slow')
+			}
 		});
     
     $('.close-modal').on('click', function(){
-      self.$().foundation('reveal', 'close');
+		self.$().foundation('reveal', 'close');
     });
 
 	},
@@ -83,6 +93,7 @@ export default Ember.View.extend({
 	 */
 	willDestroy: function() {
     $(document).find('.reveal-modal-bg').remove();
+    $(document).off('click', '[data-reveal] .slide-btn');
     $(document).off('closed.fndtn.reveal', '[data-reveal]');
     $(document).off('opened.fndtn.reveal', '[data-reveal]');
 		this._super();
@@ -106,7 +117,9 @@ export default Ember.View.extend({
 	*/
 	slideInnerArea: function(){
 		if(this.get('controller').get('completeReset')) {
-			this.$('.slide-me').slideUp('slow');
+			if(this.$('.slide-me')) {
+				this.$('.slide-me').slideUp('slow');
+			}
 		}
 	}.observes('controller.completeReset'),
 
