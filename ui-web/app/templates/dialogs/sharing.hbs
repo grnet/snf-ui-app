@@ -17,7 +17,7 @@
 </p>
 <div>
     {{!-- {{input type="text" placeholder="Comma separated emails" value=emails autofocus="autofocus"}} --}}
-    {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
+    {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..." label="Add users"}}
     <button {{action 'shareWithUsers'}} class="small button" {{bind-attr disabled='freezeCreation'}}>Add Users</button>
 </div>
 <div>

@@ -1,5 +1,5 @@
-{{!-- placeholder is passed as a param from the template where you put the current view --}}
-	<label>Members</label>
+{{!-- placeholder and label are passed as a param from the template where you put the current view --}}
+	<label>{{view.label}}</label>
 <div class='container-emails'>
 	<span class='tiles'>
 		{{#each user in usersExtended}}

@@ -8,7 +8,7 @@
     </div>
     <div class="create-group slide-me">
         {{view 'input-partial' placeholder="Name..."}}
-        {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
+        {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..." label="Members"}}
         <div class="buttons">
             <button {{action 'resetCreation'}}>Cancel</button>
             <button {{action 'createGroup' }} {{bind-attr disabled='freezeCreation'}}>Create</button>
@@ -25,29 +25,10 @@
             <span class="arrow-up fa fa-angle-up"></span>
             <span class="arrow-down fa fa-angle-down"></span>
         </div>
-        {{!-- {{action 'showDialog' 'confirm-simple' this.controller this 'deleteGroup'}} --}}
+
         <button class="margin-zero right button alert tiny" {{action "deleteGroup"}}>Delete</button>
-        {{!-- <a {{action "deleteGroup"}}>{{fa-icon "fa-remove"}}</a> --}}
     </div>
     <div class="slide-me more-info">
-	{{!--  <ul>
-        {{#each u in users}}
-            <li>
-                {{u.email}}
-<<<<<<< HEAD
-                <a {{action "removeUserFromGroup" u}} title="Remove user from group">{{fa-icon "fa-remove"}}</a>
-            </li>
-        {{/each}}
-        </ul>
-        {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
-        <button {{action "addUsersToGroup"}} {{bind-attr disabled='freezeCreation'}}>{{fa-icon "fa-users"}} Add users</button>
-
-        <hr>
-=======
-                <a {{action "removeUserFromGroup" u}} class="hint--bottom" data-hint="Remove user from group">{{fa-icon "fa-remove"}}</a>
-            </li>
-        {{/each}}
-	</ul> --}}
 	<table>
 		<tbody>
         {{#each u in users}}
@@ -58,12 +39,11 @@
         {{/each}}
 		</tbody>
 	</table>
-        {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
+        {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..." label="Add more users"}}
         <div class="buttons">
             <button class="tiny right" {{action "addUsersToGroup"}} {{bind-attr disabled='freezeCreation'}}>{{fa-icon "fa-users"}} Add users</button>
         </div>
     <hr>
->>>>>>> a206f58... temp
     </div>
 </div>
 {{/each}}
