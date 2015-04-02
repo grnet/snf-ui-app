@@ -30,17 +30,17 @@ body {
 
 tr:hover, li:hover {
     .icon-btn {
-        background: $theme-anchor-font-color-hover; 
+        background: $theme-anchor-font-color; 
         &:hover {
-            background: $theme-anchor-font-color;
+            background: $theme-anchor-font-color-hover;
         }
     }
     .icon-a {
-        color: $theme-anchor-font-color-hover;
-        border-color: $theme-anchor-font-color-hover;
+        color: $theme-anchor-font-color;
+        border-color: $theme-anchor-font-color;
         &:hover {
-            color: $theme-anchor-font-color;
-            border-color: $theme-anchor-font-color;
+            color: $theme-anchor-font-color-hover;
+            border-color: $theme-anchor-font-color-hover;
         }
         &[disabled] {
             color: $theme-inactive-color;
@@ -82,7 +82,7 @@ span.subtle {
 
 
 .hidden {
-    display: none;
+    display: none!important;
 }
 
 @include keyframes(background-change) {
@@ -98,8 +98,7 @@ span.subtle {
     border-radius: 50%;
     padding: 2px;
     margin: 0 2px;
-    border: 2px dotted $theme-anchor-font-color-hover;
-    border-color: $theme-inactive-color;
+    border: 2px dotted $theme-inactive-color;
     color: $theme-inactive-color;
     &:hover {
         border-color: $theme-anchor-font-color;

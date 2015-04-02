@@ -2,15 +2,13 @@
     .wrap {
         padding: 10px 15px;
         background: #fff;
-        border-top: 2px solid #fff;
         position: relative;
         &:hover {
-            background: darken($table-even-row-bg, 5%); 
-            border-color: $theme-anchor-font-color-hover;
+            @include box-shadow();
             h4 a {
-                color: $theme-anchor-font-color-hover;
+                color: $theme-anchor-font-color;
                 &:hover {
-                    color: $theme-anchor-font-color;
+                    color: $theme-anchor-font-color-hover;
                 }
             }
         }

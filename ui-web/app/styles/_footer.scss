@@ -1,10 +1,9 @@
 .footer {
-    background-color: $topbar-bg-color;
     position: fixed;
     bottom:0;
     width: 100%;
     padding: $default-padding;
-    box-shadow: -2px -2px 8px #888;
+    @include bar-style();
     font-size: rem-calc(12);
 }
 

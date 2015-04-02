@@ -3,7 +3,11 @@
     margin-left: 0;
     ul {
         list-style: none outside none;
+   }
+    li {
+        word-break: break-all;
     }
+
 }
 
 

@@ -23,3 +23,14 @@
   -o-animation: #{$str};
   animation: #{$str};      
 }
+
+@mixin box-shadow(){
+    box-shadow: 2px 2px 8px #888;
+}
+
+@mixin bar-style(){
+    @include box-shadow();
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background-color: $topbar-bg-color;
+}

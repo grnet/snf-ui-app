@@ -70,4 +70,10 @@
 			background-color: darken(#935CE4, 10%);
 		}
 	}
+    .close-reveal-modal {
+        font-size: rem-calc(35);
+        &:hover {
+            color: $theme-anchor-font-color-hover;
+        }
+    }
 }
