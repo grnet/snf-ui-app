@@ -3,18 +3,8 @@
 
 <div class="main clearfix">
     <div class="columns small-2 sidebar">
-            <h4>{{#link-to 'containers'}}Containers{{/link-to}}</h4>
-            <ul class="dir-tree">
-                <li>
-                    <a {{action 'showDialog' 'create-container' 'containers'}}>
-                        {{fa-icon "fa-plus-circle"}} New container
-                    </a>
-                </li>
-                {{#each container in sortedContainers}}
-                    {{dir-tree root=container.name resolver=resolveSubDirs role="nav" click='handleDirClick'}}
-                {{/each}}
-            </ul>
-    </div>
+        {{view "sidebar"}}
+   </div>
 
     <div class="columns small-10">
         {{outlet}}

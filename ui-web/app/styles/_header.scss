@@ -1,14 +1,9 @@
 /* Header ----------------------------------------------- */
 
 .header {
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    z-index:100;
     height: $header-height;
     padding: $default-padding;
-    background: #fff;
+    background: $theme-header-background;
     nav {
         float: left;
         ul {

@@ -1,9 +1,4 @@
 .top-bar {
-    position: fixed;
-    top: $header-height;
-    width: 100%;
-    z-index: 100;
-    left: 0;
     padding: rem-calc(0 0 0 20px); 
     @include bar-style();
     .top-bar-section {
@@ -66,5 +61,9 @@
     select {
         width: 200px;
         margin: 10px;
+    }
+    &.fixed {
+        position: fixed;
+        width: 100%;
     }
 }

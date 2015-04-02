@@ -7,6 +7,24 @@ body {
     outline-color: $primary-color;
 }
 
+.clearfix {
+    &>.lt {
+        float: left;
+    }
+    &>.rt {
+        float: right;
+    }
+}
+
+.main {
+    padding: $default-padding;
+    padding-bottom: $topbar-height;
+}
+
+.fixed + .main {
+    padding-top: $default-padding + $topbar-height;
+}
+
 // button class
 .btn-minor {
     @include button($button-med, $theme-inactive-color, inherit, false, false, false)
