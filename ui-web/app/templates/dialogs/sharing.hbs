@@ -15,18 +15,7 @@
 <p>
     <strong>Private sharing</strong> Only people explicitly granted permission can access. Sign-in required.
 </p>
-<div>
-    {{!-- {{input type="text" placeholder="Comma separated emails" value=emails autofocus="autofocus"}} --}}
-    {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..." label="Add users" autofocus="autofocus"}}
-    <button {{action 'shareWithUsers'}} class="small button" {{bind-attr disabled='freezeCreation'}}>Add Users</button>
-</div>
-<div>
-    {{view "select" content=groups
-           optionLabelPath="content.name"
-           optionValuePath="content.id"
-           prompt="Select group"
-           selection=selectedGroup}}
-</div>
+
 {{#if isShared}}
     {{#if shared_users}}
         <table>
@@ -44,11 +33,26 @@
                     <td><a {{action 'removeUserFromShare' s.id}}>Remove</a></td>
                 </tr>
             {{/each}}
+                <tr><td></td><td></td><td></td>
+                    <td><a {{action 'removePrivateSharing'}}>Remove everybody</a></td>
+                </tr>
         </table>
-        <p><a {{action 'removePrivateSharing'}}>Remove everybody</a></p>
+        <p></p>
     {{/if}}
 {{/if}}
 
+<div>
+    {{view "select" content=groups
+           optionLabelPath="content.name"
+           optionValuePath="content.id"
+           prompt="Select group"
+           selection=selectedGroup}}
+</div>
+
+<div>
+    {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..." label="Add users" autofocus="autofocus"}}
+    <button {{action 'shareWithUsers'}} class="small button" {{bind-attr disabled='freezeCreation'}}>Add Users</button>
+</div>
 
 {{#unless isSharedAll}}
 <div>
