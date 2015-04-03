@@ -57,6 +57,17 @@
         .fa {
             font-size: rem-calc(18);
         }
+        li.list {
+            .fa-th {
+                display: none;
+            }
+        }
+        li.grid {
+            .fa-list {
+                display: none;
+            }
+        }
+
     }
     select {
         width: 200px;
@@ -66,4 +77,5 @@
         position: fixed;
         width: 100%;
     }
+    
 }

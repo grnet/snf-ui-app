@@ -4,8 +4,14 @@ import {tempSetProperty} from '../snf/common';
 export default Ember.ArrayController.extend({
   itemController: 'container',
   sortProperties: ['order', 'name'],
+  queryParams: ['view'],
   closeDialog: false,
   sorting: undefined,
+  view: null,
+  otherView: function(){
+    return(this.get('view') == 'list') ? 'grid' : 'list';
+  }.property('view'),
+
 
   sortFields: [
     {'value': 'count', 'label': 'Items'},
@@ -90,7 +96,6 @@ export default Ember.ArrayController.extend({
       this.set('actionToExec', action);
       this.set(flag, true);
     },
-
 
   }
 });

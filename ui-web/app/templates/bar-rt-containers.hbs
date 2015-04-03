@@ -1,3 +1,10 @@
+<li {{bind-attr class="otherView"}}>
+     {{#link-to 'containers' (query-params view=otherView) }}
+        {{fa-icon "fa-th"}}
+        {{fa-icon "fa-list"}}
+        <label>{{otherView}} view</label>
+    {{/link-to}}
+</li>
 <li class="enabled">
     {{view "select" content=sortFields 
                     optionValuePath="content.value" 
