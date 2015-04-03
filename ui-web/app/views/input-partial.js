@@ -26,7 +26,7 @@ export default Ember.View.extend({
 	value: undefined,
 
 	valueEncoded: function() {
-		return encodeURIComponent(this.get('value'));
+		return encodeURIComponent(this.get('value')).toLowerCase();
 	}.property('value'),
 
 	notEmpty: function() {
@@ -88,7 +88,7 @@ export default Ember.View.extend({
 	isUnique: function() {
 		var self = this;
 		return function() {
-			self.get('controller').set('newName', self.get('valueEncoded'))
+			self.get('controller').set('newName', self.get('value'))
 			if(self.get('controller').get('isUnique')) {
 				console.log('IS UNIQUE')
 			}

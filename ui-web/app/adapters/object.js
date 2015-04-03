@@ -79,7 +79,7 @@ export default StorageAdapter.extend({
     }
     var headers = {};
     headers['Content-Type'] = record.get('content_type');
-    headers['X-Move-From'] = oldPath;
+    headers['X-Move-From'] = encodeURIComponent(oldPath);
     
     if (copy_flag === true) {
       headers['X-Copy-From'] = oldPath;
