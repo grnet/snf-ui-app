@@ -25,6 +25,11 @@ body {
     padding-top: $default-padding + $topbar-height;
 }
 
+.small-10 {
+    overflow: hidden;
+}
+
+
 // button class
 .btn-minor {
     @include button($button-med, $theme-inactive-color, inherit, false, false, false)
