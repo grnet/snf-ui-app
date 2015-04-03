@@ -1,32 +1,47 @@
 <h3>Groups</h3>
-<a href="" class="slide-btn"><span></span>+New Group</a>
-<div class="create-group slide-me">
+<div class="list-item create-area slide-container">
+    <button class="button slide-btn">
+        <span>+</span>
+        <span class="fa-group fa group-icon"></span>
+        <span>New Group</span>
+    </button>
+    <div class="create-group slide-me">
 
-    {{view 'input-partial' placeholder="Name..."}}
-    {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
-    <div class="buttons">
-        <button {{action 'resetCreation'}}>Cancel</button>
-        <button {{action 'createGroup' }} {{bind-attr disabled='freezeCreation'}}>Create</button>
+        {{view 'input-partial' placeholder="Name..."}}
+        {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
+        <div class="buttons">
+            <button {{action 'resetCreation'}}>Cancel</button>
+            <button {{action 'createGroup' }} {{bind-attr disabled='freezeCreation'}}>Create</button>
+        </div>
     </div>
 </div>
-
-    <hr>
 {{#each}}
-    Group: <strong>{{name}}</strong><br>
-    Members: 
-    <ul>
-    {{#each u in users}}
-        <li>
-            {{u.email}} 
-            <a {{action "removeUserFromGroup" u}} title="Remove user from group">{{fa-icon "fa-remove"}}</a>
-        </li>
-    {{/each}} 
-    </ul>
-    <a {{action "deleteGroup"}}>Delete group {{fa-icon "fa-remove"}}</a><br>
-    {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
-    <button {{action "addUsersToGroup"}} {{bind-attr disabled='freezeCreation'}}>{{fa-icon "fa-users"}} Add users</button>
-    
-    <hr>
+<div class="list-item slide-container clearfix">
+    <div class="main-info">
+        <span class="fa-group fa group-icon"></span>
+        <span>{{name}}</span>
+        <div class="side-btn-modal">
+            {{!-- {{action 'showDialog' 'confirm-simple' this.controller this 'deleteGroup'}} --}}
+            <button class="slide-btn tiny">Members<span class="fa-angle-down fa"></span></button>
+            <button class="button alert tiny" {{action "deleteGroup"}}>Delete</button>
+            {{!-- <a {{action "deleteGroup"}}>{{fa-icon "fa-remove"}}</a> --}}
+        </div>
+    </div>
+    <div class="slide-me more-info">
+        <ul>
+        {{#each u in users}}
+            <li>
+                {{u.email}}
+                <a {{action "removeUserFromGroup" u}} title="Remove user from group">{{fa-icon "fa-remove"}}</a>
+            </li>
+        {{/each}}
+        </ul>
+        {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
+        <button {{action "addUsersToGroup"}} {{bind-attr disabled='freezeCreation'}}>{{fa-icon "fa-users"}} Add users</button>
+
+        <hr>
+    </div>
+</div>
 {{/each}}
 
 
