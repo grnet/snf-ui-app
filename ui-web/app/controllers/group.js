@@ -36,6 +36,7 @@ export default Ember.ObjectController.extend({
       var usersExtended = this.get('usersExtended');
       var notInserted = usersExtended.filterBy('email', user.email).get('length') === 0;
       var notMember = this.get('users').filterBy('email', user.email).get('length') === 0;
+
       if(notInserted && notMember) {
 
         var userExtended = Ember.Object.create({
@@ -90,6 +91,7 @@ export default Ember.ObjectController.extend({
     },
     deleteGroup: function(){
       var group = this.get('model');
+      var self = this;
 
       var onSuccess = function(data) {
         console.log('success');
@@ -100,8 +102,7 @@ export default Ember.ObjectController.extend({
         self.send('showActionFail', reason);
       };
 
-      group.deleteRecord();
-      group.save().then(onSuccess, onFail);
+      group.destroyRecord().then(onSuccess, onFail);
     },
 
     removeUserFromGroup: function(user){

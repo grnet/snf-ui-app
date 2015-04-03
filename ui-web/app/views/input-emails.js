@@ -5,6 +5,7 @@ import Ember from 'ember';
  * TBA...
  * Also, must have the actions:
  * TBA...
+ * ToDo: All the above should be moved in order to create an independent component or make a mixin for every controller to extend.  
 */
 
 export default Ember.View.extend({
@@ -62,11 +63,9 @@ export default Ember.View.extend({
 
 	eventManager: Ember.Object.create({
 		keyUp: function(event, view) {
-
 			if(view.$('input').is(':focus')) {
-
 				var value = view.$('input').val();
-				view.set('value', value);
+				view.set('value', value.toLowerCase());
 
 				if(view.get('notEmpty')) {
 					value = view.get('value');

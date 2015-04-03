@@ -74,7 +74,6 @@ export default Ember.ArrayController.extend({
 			* is already loaded.
 			* In our case the id of a container it's its name.
 			*/
-
 			var isUnique = !this.get('store').hasRecordForId('group', name);
 			this.set('isUnique', isUnique);
 		}
@@ -150,25 +149,28 @@ export default Ember.ArrayController.extend({
 				var self = this;
 				var uuids = this.get('usersExtended').mapBy('uuid');
 				var name = this.get('newName');
-				var groupUsers = self.store.filter('user', function(user) {
+				self.store.filter('user', function(user) {
 					var id = user.get('id');
 					if(uuids.indexOf(id) !== -1) {
 						return user;
 					}
-				});
+				}).then(function(groupUsers) {
 
-				var group = self.store.createRecord('group', {
-					name: name,
-					id: name
-				});
+					var group = self.store.createRecord('group', {
+						name: name,
+						id: name
+					});
+					group.get('users').then(function(users){
+						groupUsers.forEach(function(user) {
+							users.pushObject(user)
+						});
 
-				group.get('users').then(function(users){
-					users.pushObjects(groupUsers);
-					group.save().then(function(){
-						self.send('resetCreation');
-					}, function(error) {
-						self.send('showActionFail', error)
-						console.log('ERROR!')
+						group.save().then(function(){
+							self.send('resetCreation');
+						}, function(error) {
+							self.send('showActionFail', error)
+							console.log('ERROR!')
+						});
 					});
 				});
 			}
