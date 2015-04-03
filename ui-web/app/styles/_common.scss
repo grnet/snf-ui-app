@@ -113,3 +113,23 @@ span.subtle {
     }
 }
 
+.arrow-down, .arrow-up {
+        margin-left: 6px;
+        vertical-align: middle;
+    }
+.arrow-down {
+    display: initial;
+}
+.arrow-up {
+    display: none;
+}
+
+.slide-container.open {
+    .arrow-down {
+        display: none;
+    }
+    .arrow-up {
+        display: initial;
+    }
+}
+

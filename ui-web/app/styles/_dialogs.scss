@@ -13,14 +13,61 @@
     // Groups dialog
     .group-icon {
         margin-right: 10px;
-        font-size: 1.2rem;
+        font-size: 2.5rem;
+        vertical-align: middle;
+        bottom: 0.18rem;
+        position: relative;
+        color: #474A4F;;
     }
 
     .slide-me {
         display: none;
     }
 
-    .side-btn-modal {
-        float: right;
+    .list-item {
+        background-color: lighten(#ececec, 5%);
+        padding: rem-calc(10) rem-calc(16);
+        &:hover, &:focus {
+            // background-color: #ececec;
+            background-color: #DEEDF5;
+        }
+        &.create-area {
+            margin-bottom: 20px;
+            background-color: #fcfbe9;
+            border: 1px solid #CDE0F2;
+            &:hover, &:focus {
+                border-color: darken(#CDE0F2, 20%);
+            }
+            .btn-line {
+                    text-align: center;
+            }
+        }
     }
+    .btn-line {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+    }
+	.main-info {
+		margin-bottom: rem-calc(10);
+		position: relative;
+	}
+	.group-name {
+		margin-right: 6px;
+	}
+
+	.guide {
+		display: inline-block;
+		width: rem-calc(20);
+		height: rem-calc(20);
+		line-height: rem-calc(20);
+		text-align: center;
+		color: white;
+		background-color: #935CE4;
+		border-radius: (rem-calc(20) / 2);
+
+		&:hover {
+			background-color: darken(#935CE4, 10%);
+		}
+	}
 }

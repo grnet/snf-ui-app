@@ -10,9 +10,9 @@
 		{{/if}}
 	</span>
 	<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder}} type='text' {{bind-attr value='view.value'}}>
-	 <button {{action 'getInputValue' target='view'}} class="tiny" title="You can also validate an e-mail by pressing enter, space or comma">Validate</button>
+	 <button {{action 'getInputValue' target='view'}} class="tiny hint--bottom" data-hint="You can also search an e-mail by pressing enter, space or comma">Search</button>
 </div>
-<a href="" class="guide" title="You can enter multiple e-mails by seperating them with comma, space, tab or enter. Do not forget to validate them!">?</a>
+<a href="" class="guide hint--bottom" data-hint="You can enter multiple e-mails by seperating them with comma, space, tab or enter. Do not forget to validate them!">?</a>
 
 <div  class='info'>
 	<span {{bind-attr class='view.warningVisible:warning:invisible'}}>

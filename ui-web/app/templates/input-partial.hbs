@@ -2,7 +2,7 @@
 
 <label>Group</label>
 <input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder}} type='text' {{bind-attr value='view.value'}}>
-<a href="" class="guide" title="The name of the group cannot have uppercase letters and more than 256 (encoded) characters">?</a>
+<a href="" class="guide hint--bottom" data-hint="The name of the group cannot have uppercase letters and more than 256 (encoded) characters">?</a>
 
 <div  class='info'>
 	<span {{bind-attr class='view.warningVisible:warning:invisible'}}>

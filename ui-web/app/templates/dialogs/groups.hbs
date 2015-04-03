@@ -1,12 +1,12 @@
 <h3>Groups</h3>
 <div class="list-item create-area slide-container">
-    <button class="button slide-btn">
-        <span>+</span>
-        <span class="fa-group fa group-icon"></span>
+    <div class="slide-btn btn-line">
+        <span class="snf-font if-group-add group-icon"></span>
         <span>New Group</span>
-    </button>
+        <span class="arrow-up fa fa-angle-up"></span>
+        <span class="arrow-down fa fa-angle-down"></span>
+    </div>
     <div class="create-group slide-me">
-
         {{view 'input-partial' placeholder="Name..."}}
         {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
         <div class="buttons">
@@ -18,20 +18,23 @@
 {{#each}}
 <div class="list-item slide-container clearfix">
     <div class="main-info">
-        <span class="fa-group fa group-icon"></span>
-        <span>{{name}}</span>
-        <div class="side-btn-modal">
-            {{!-- {{action 'showDialog' 'confirm-simple' this.controller this 'deleteGroup'}} --}}
-            <button class="slide-btn tiny">Members<span class="fa-angle-down fa"></span></button>
-            <button class="button alert tiny" {{action "deleteGroup"}}>Delete</button>
-            {{!-- <a {{action "deleteGroup"}}>{{fa-icon "fa-remove"}}</a> --}}
+        <div class="slide-btn btn-line">
+            <span class="snf-font if-group group-icon"></span>
+			<strong class="group-name">{{name}}</strong>
+			<span>(members: {{users.length}})</span>
+            <span class="arrow-up fa fa-angle-up"></span>
+            <span class="arrow-down fa fa-angle-down"></span>
         </div>
+        {{!-- {{action 'showDialog' 'confirm-simple' this.controller this 'deleteGroup'}} --}}
+        <button class="margin-zero right button alert tiny" {{action "deleteGroup"}}>Delete</button>
+        {{!-- <a {{action "deleteGroup"}}>{{fa-icon "fa-remove"}}</a> --}}
     </div>
     <div class="slide-me more-info">
-        <ul>
+	{{!--  <ul>
         {{#each u in users}}
             <li>
                 {{u.email}}
+<<<<<<< HEAD
                 <a {{action "removeUserFromGroup" u}} title="Remove user from group">{{fa-icon "fa-remove"}}</a>
             </li>
         {{/each}}
@@ -40,6 +43,27 @@
         <button {{action "addUsersToGroup"}} {{bind-attr disabled='freezeCreation'}}>{{fa-icon "fa-users"}} Add users</button>
 
         <hr>
+=======
+                <a {{action "removeUserFromGroup" u}} class="hint--bottom" data-hint="Remove user from group">{{fa-icon "fa-remove"}}</a>
+            </li>
+        {{/each}}
+	</ul> --}}
+	<table>
+		<tbody>
+        {{#each u in users}}
+			<tr>
+				<td>{{u.email}}</td>
+				<td class="text-right"><a {{action "removeUserFromGroup" u}} class="hint--bottom" data-hint="Remove user from group">Remove</a></td>
+				</tr>
+        {{/each}}
+		</tbody>
+	</table>
+        {{view 'input-emails' placeholder="Enter one or more e-mails and then save them..."}}
+        <div class="buttons">
+            <button class="tiny right" {{action "addUsersToGroup"}} {{bind-attr disabled='freezeCreation'}}>{{fa-icon "fa-users"}} Add users</button>
+        </div>
+    <hr>
+>>>>>>> a206f58... temp
     </div>
 </div>
 {{/each}}

@@ -2,10 +2,10 @@ import Ember from 'ember';
 
 export default Ember.View.extend({
 	classNames: ['reveal-modal'],
-  classNameBindings: ['templateCls'],
+	classNameBindings: ['templateCls'],
 	attributeBindings: ['data-reveal'],
 	'data-reveal': 'true',
-  layoutName: 'dialog-wrapper',
+	layoutName: 'dialog-wrapper',
 
 
   /*  Assign a class to each dialog
@@ -25,6 +25,7 @@ export default Ember.View.extend({
       'dialogs.move': 'small',
       'dialogs.restore': 'medium',
       'dialogs.create-container': 'small',
+      'dialogs.groups': 'medium',
     }
     return clsMap[this.get('renderedName')];
   }.property('renderedName'),
@@ -67,10 +68,8 @@ export default Ember.View.extend({
     });
 
 		this._super();
-
-		$('.slide-btn').click(function(e) {
-			e.preventDefault();
-			self.$('.slide-me').slideToggle('slow');
+		this.$().on('click', '.slide-btn', function() {
+			$(this).closest('.slide-container').find('.slide-me').slideToggle('slow');
 		});
     
     $('.close-modal').on('click', function(){
@@ -120,10 +119,14 @@ export default Ember.View.extend({
 		title: "Empty Container",
 		action_verb: 'Empty'
 	},
-  deleteObject: {
-    title: 'Delete Object',
-    action_verb: 'Delete'
-  }
+	deleteObject: {
+		title: 'Delete Object',
+		action_verb: 'Delete'
+	},
+	deleteGroup: {
+		title: 'Delete Group',
+		action_verb: 'Delete'
+	}
 
 
 });

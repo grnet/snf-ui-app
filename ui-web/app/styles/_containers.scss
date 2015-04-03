@@ -106,27 +106,5 @@
             }
         }
     }
-    .container {
-        .slide-area {
-            margin: 0;
-        }
-        .arrow-down, .arrow-up {
-            margin-left: 10px;
-        }
-        .arrow-down {
-            display: initial;
-        }
-        .arrow-up {
-            display: none;
-        }
-    }
-    .container.open {
-        .arrow-down {
-            display: none;
-        }
-        .arrow-up {
-            display: initial;
-        }
-    }
 }
 
