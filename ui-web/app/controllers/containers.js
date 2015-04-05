@@ -3,22 +3,37 @@ import {tempSetProperty} from '../snf/common';
 
 export default Ember.ArrayController.extend({
   itemController: 'container',
-  sortProperties: ['order', 'name'],
-  queryParams: ['view'],
+  queryParams: ['view', 'sortBy'],
   closeDialog: false,
-  sorting: undefined,
   view: null,
+  sortBy: 'name:desc',
   otherView: function(){
     return(this.get('view') == 'list') ? 'grid' : 'list';
   }.property('view'),
 
 
   sortFields: [
-    {'value': 'count', 'label': 'Items'},
-    {'value': 'bytes', 'label': 'Size'},
-    {'value': 'name', 'label': 'Name'},
-    {'value': 'last_modified', 'label': 'Last modified'},
+    {'value': 'name:desc', 'label': 'Sort by name (desc)'},
+    {'value': 'name:asc', 'label': 'Sort by name (asc)'},
+    {'value': 'count:desc', 'label': 'Sort by items (desc)'},
+    {'value': 'count:asc', 'label': 'Sort by items (asc)'},
+    {'value': 'bytes:desc', 'label': 'Sort by size (desc)'},
+    {'value': 'bytes:asc', 'label': 'Sort by size (asc)'},
+    {'value': 'last_modified:desc', 'label': 'More recent first'},
+    {'value': 'last_modified:asc', 'label': 'Older first'},
+ 
   ],
+
+  sorting: function(){
+    return _.findWhere(this.get('sortFields'), {'value': 'name:desc'});
+  }.property('sortFields'),
+
+  sortProperties: function(){
+    return ['order:asc', this.get('sortBy')];
+  }.property('sortBy'),
+
+
+  sortedModel: Ember.computed.sort("model", "sortProperties"),
   
   projects: function(){
     return this.store.find('project', {mode: 'member'});
@@ -86,7 +101,7 @@ export default Ember.ArrayController.extend({
 
   watchSorting: function(){
       if (this.get('sorting') ) {
-        this.set("sortProperties", ['order', this.get('sorting.value')]);
+        this.set("sortBy", this.get('sorting.value'));
       }
   }.observes('sorting'),
 

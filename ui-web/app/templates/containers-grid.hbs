@@ -1,5 +1,5 @@
 <ul class="containers grid small-block-grid-2 large-block-grid-4">
-  {{#each}}
+  {{#each sortedModel itemController="container"}}
 	<li {{bind-attr class="new updated loading"}}>
         <div class="wrap">
             <div class="loader">{{fa-icon "fa-refresh fa-pulse"}}</div>

@@ -6,9 +6,9 @@ export default DS.Model.extend({
   project: DS.belongsTo('project', {async:true}),
   objects: DS.hasMany('object', {async:true}),
   bytes: DS.attr('number', {defaultValue: 0}),
-  count: DS.attr('string', {defaultValue: 0}),
+  count: DS.attr('number', {defaultValue: 0}),
   path: DS.attr('string'),
-  last_modified: DS.attr('string'),
+  last_modified: DS.attr('date'),
 
   last_modified_human: function(){
     return timeHuman(this.get('last_modified'));

@@ -1,5 +1,5 @@
 <ul class="containers">
-  {{#each}}
+  {{#each sortedModel itemController="container"}}
 	<li {{bind-attr class=":container :row new updated"}}>
 		{{#if new}}<span class="label">new</span>{{/if}}
 		{{#if updated}}<span class="label success">updated</span>{{/if}}
