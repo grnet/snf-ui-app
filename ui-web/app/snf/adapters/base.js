@@ -64,7 +64,7 @@ export default DS.RESTAdapter.extend({
     var hosts = this.get('settings');
     var key = this.get('apiKey') + '_url';
     if (hosts) { 
-      return hosts[key];
+      return hosts.get(key);
     }
     throw Error("No key '%@' found in '%@'".fmt(key, hosts));
   }.property('settings'),

@@ -1,6 +1,20 @@
 import Ember from 'ember';
 import {raw as ajax} from 'ic-ajax';
 
+var alias = Ember.computed.alias;
+
+var serviceUrl = function(service, url) {
+  var depKey;
+  url = url || 'publicURL';
+  depKey = 'services.' + service + '.endpoints.' + url;
+  return Ember.computed(depKey, function() {
+    if (this.get('proxy.' + service)) {
+      return this.get('proxy.' + service);
+    } else {
+      return this.get(depKey);
+    }
+  });
+}
 
 export default Ember.Object.extend({
   serviceCatalog: [],
@@ -58,8 +72,23 @@ export default Ember.Object.extend({
       // TODO: also permit login using username/password
       data: JSON.stringify({auth:{token:{id: this.get('token')}}})
     }).then(function(data) {
-      this.set('tokenInfo', data.response.token);
+      this.set('tokenInfo', data.response.access.token);
+      this.set('user', data.response.access.user);
     }.bind(this));
-  }
+  },
+
+  // aliases
+  uuid: alias('tokenInfo.tenant.id'),
+  service_name: alias('branding.SERVICE_NAME'),
+  logo_url: alias('branding.STORAGE_LOGO_URL'),
+
+  storage_url: serviceUrl('pithosObjectStore'),
+  storage_host: function() {
+    return this.get('storage_url') + '/' + this.get('uuid');
+  }.property('storage_url', 'uuid'),
+  storage_view_url: function() {
+    return this.get('services.pithosObjectStore.endpoints.uiURL') + '/view/' + this.get('uuid');
+  }.property('services.pithosObjectStore.endpoints.uiURL'),
+  account_url: serviceUrl('astakosAccount')
 
 });
