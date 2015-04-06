@@ -9,9 +9,7 @@
 </thead>
 <tbody>
 {{#each sortedModel itemController=itemController}}
-    {{#if objects}}{{view 'object'}}{{/if}}
-    {{#if containers}}{{view 'container'}}{{/if}}
-{{else}}
-    <tr><td rowspan="5">No objects in this directory</td></tr>
+    {{#if object_view}}{{view "object"}}{{/if}}
+    {{#if container_view}}{{view "containers-list-item"}}{{/if}}
 {{/each}}
 </tbody>

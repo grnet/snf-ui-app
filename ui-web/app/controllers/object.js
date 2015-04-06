@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
   itemType: 'object',
+  object_view: true,
   needs: ['objects', 'application'],
 
   container_id: Ember.computed.alias('controllers.objects.container_id'),

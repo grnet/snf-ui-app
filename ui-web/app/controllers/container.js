@@ -3,9 +3,8 @@ import ResolveSubDirsMixin from '../mixins/resolve-sub-dirs';
 import {tempSetProperty, bytesToHuman} from '../snf/common';
 
 export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
-
   itemType: 'container',
-  title: 'object controller title',
+  container_view: true,
   needs: ['containers'],
   loading: false,
 

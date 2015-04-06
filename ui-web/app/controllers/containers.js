@@ -2,13 +2,17 @@ import Ember from 'ember';
 import {tempSetProperty} from '../snf/common';
 
 export default Ember.ArrayController.extend({
-  needs: ['application'],
-  systemProject: Ember.computed.alias("controllers.application.systemProject"),
+  templatePrefix: 'containers',
   itemController: 'container',
-  queryParams: ['view', 'sortBy'],
+  needs: ['application'],
+  container_view: true,
+  systemProject: Ember.computed.alias("controllers.application.systemProject"),
+  
   closeDialog: false,
-  view: null,
-  sortBy: 'name:desc',
+  
+  queryParams: ['view', 'sortBy'],
+  view: 'grid',
+  sortBy: 'name:asc',
 
   otherView: function(){
     return(this.get('view') == 'list') ? 'grid' : 'list';
@@ -16,28 +20,43 @@ export default Ember.ArrayController.extend({
 
 
   sortFields: [
-    {'value': 'name:desc', 'label': 'Sort by name (desc)'},
-    {'value': 'name:asc', 'label': 'Sort by name (asc)'},
-    {'value': 'count:desc', 'label': 'Sort by items (desc)'},
-    {'value': 'count:asc', 'label': 'Sort by items (asc)'},
-    {'value': 'bytes:desc', 'label': 'Sort by size (desc)'},
-    {'value': 'bytes:asc', 'label': 'Sort by size (asc)'},
+    {'value': 'name:desc', 'label': 'Sort by name Z → A'},
+    {'value': 'name:asc', 'label': 'Sort by name A → Z'},
+    {'value': 'count:desc', 'label': 'Sort by items ↓'},
+    {'value': 'count:asc', 'label': 'Sort by items ↑'},
+    {'value': 'bytes:desc', 'label': 'Sort by size ↓'},
+    {'value': 'bytes:asc', 'label': 'Sort by size ↑'},
     {'value': 'last_modified:desc', 'label': 'More recent first'},
     {'value': 'last_modified:asc', 'label': 'Older first'},
  
   ],
 
+  ths: [
+    {'label': 'name', 'field': 'name'},
+    {'label': ''},
+    {'label': 'modified', 'field': 'last_modified'},
+    {'label': 'size', 'field': 'bytes'},
+    {'label': ''},
+  ],
+
+
   sorting: function(){
-    return _.findWhere(this.get('sortFields'), {'value': 'name:desc'});
+    return _.findWhere(this.get('sortFields'), {'value': this.get('sortBy')});
   }.property('sortFields'),
 
   sortProperties: function(){
     return ['order:asc', this.get('sortBy')];
   }.property('sortBy'),
 
-
   sortedModel: Ember.computed.sort("model", "sortProperties"),
   
+  watchSorting: function(){
+      if (this.get('sorting') ) {
+        this.set("sortBy", this.get('sorting.value'));
+      }
+  }.observes('sorting'),
+
+ 
   projects: function(){
     return this.store.find('project', {mode: 'member'});
   }.property(),
@@ -101,18 +120,17 @@ export default Ember.ArrayController.extend({
     }
   }.observes('validInput'),
 
-  watchSorting: function(){
-      if (this.get('sorting') ) {
-        this.set("sortBy", this.get('sorting.value'));
-      }
-  }.observes('sorting'),
-
   actions: {
     validateCreate: function(action) {
       var flag = 'validationOnProgress';
       this.set('actionToExec', action);
       this.set(flag, true);
     },
+    sortBy: function(property){
+      this.set('sortBy', property);
+    },
+
+
 
   }
 });

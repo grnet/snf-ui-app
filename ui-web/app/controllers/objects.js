@@ -2,10 +2,60 @@ import Ember from 'ember';
 import {tempSetProperty} from '../snf/common';
 
 export default Ember.ArrayController.extend({
-  needs: ['application'],
+  templatePrefix: 'objects',
   itemController: 'object',
-  sortProperties: ['is_file', 'stripped_name'],
+  needs: ['application'],
+  object_view: true,
+  
   closeDialog: false,
+  
+  queryParams: ['view', 'sortBy'],
+  view: 'list',
+  sortBy: 'stripped_name:asc',
+
+  otherView: function(){
+    return(this.get('view') == 'list') ? 'grid' : 'list';
+  }.property('view'),
+
+
+  sortFields: [
+    {'value': 'stripped_name:desc', 'label': 'Sort by name Z → A'},
+    {'value': 'stripped_name:asc', 'label': 'Sort by name A → Z'},
+    {'value': 'type:desc', 'label': 'Sort by items (desc)'},
+    {'value': 'type:asc', 'label': 'Sort by items (asc)'},
+    {'value': 'size:desc', 'label': 'Sort by size (desc)'},
+    {'value': 'size:asc', 'label': 'Sort by size (asc)'},
+    {'value': 'last_modified:desc', 'label': 'More recent first'},
+    {'value': 'last_modified:asc', 'label': 'Older first'},
+ 
+  ],
+
+  ths: [
+    {'label': 'name', 'field': 'stripped_name'},
+    {'label': ''},
+    {'label': 'modified', 'field': 'last_modified'},
+    {'label': 'type', 'field': 'type'},
+    {'label': 'size', 'field': 'size'},
+    {'label': '', 'cls': 'download'},
+    {'label': ''},
+  ],
+
+  sorting: function(){
+    return _.findWhere(this.get('sortFields'), {'value': 'stripped_name:asc'});
+  }.property('sortFields'),
+
+  sortProperties: function(){
+    return ['is_file:asc', this.get('sortBy')];
+  }.property('sortBy'),
+
+  sortedModel: Ember.computed.sort("model", "sortProperties"),
+
+  watchSorting: function(){
+      if (this.get('sorting') ) {
+        this.set("sortBy", this.get('sorting.value'));
+      }
+  }.observes('sorting'),
+
 
   hasUpPath: function(){
     return this.get('current_path') !== '/';
@@ -146,7 +196,6 @@ export default Ember.ArrayController.extend({
     }
   }.property(),
 
-
   actions: {
 
     validateCreation: function(action) {
@@ -211,8 +260,7 @@ export default Ember.ArrayController.extend({
     },
 
     sortBy: function(property){
-      this.set("sortProperties", [property]);
-      this.toggleProperty("sortAscending");
+      this.set('sortBy', property);
     },
 
     refresh: function(){

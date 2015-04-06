@@ -2,13 +2,11 @@ import Ember from 'ember';
 
 export default Ember.View.extend({
   templateName: function() {
-    var view = 'list';
+    var view = 'grid';
     if (this.get('controller.view')) {
       view = this.get('controller.view');
     }
-    if (this.get('controller')) {
-      return this.get('controller.templatePrefix')+ '-'+view;
-    }
+    return this.get('controller.itemName')+'-'+view;
  
   }.property('controller.view'),
 
