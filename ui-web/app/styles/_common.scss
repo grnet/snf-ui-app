@@ -40,7 +40,7 @@ body {
     padding: rem-calc(4px 8px);
     color: #fff;
     margin: 0 5px;
-    border-radius: 2px;
+    background: $theme-anchor-font-color;
     &:hover {
         color: #fff;
         background: $theme-anchor-font-color-hover;
@@ -52,26 +52,26 @@ body {
 }
 
 tr:hover, li:hover {
-    .icon-btn {
-        background: $theme-anchor-font-color; 
-        &:hover {
-            background: $theme-anchor-font-color-hover;
-        }
-    }
-    .icon-a {
-        color: $theme-anchor-font-color;
-        border-color: $theme-anchor-font-color;
-        &:hover {
-            color: $theme-anchor-font-color-hover;
-            border-color: $theme-anchor-font-color-hover;
-        }
-        &[disabled] {
-            color: $theme-inactive-color;
-            border-color: $theme-inactive-color;
-            border-style: dotted;
-        }
+    /*.icon-btn {*-hover;
+        /*background: $theme-anchor-font-color; */
+        /*&:hover {*/
+            /*background: $theme-anchor-font-color-hover;*/
+        /*}*/
+    /*}*/
+    /*[>.icon-a {<]*/
+        /*color: $theme-anchor-font-color;*/
+        /*border-color: $theme-anchor-font-color;*/
+        /*&:hover {*/
+            /*color: $theme-anchor-font-color-hover;*/
+            /*border-color: $theme-anchor-font-color-hover;*/
+        /*}*/
+        /*&[disabled] {*/
+            /*color: $theme-inactive-color;*/
+            /*border-color: $theme-inactive-color;*/
+            /*border-style: dotted;*/
+        /*}*/
 
-    }
+    /*}*/
 }
  
 
@@ -121,12 +121,10 @@ span.subtle {
     border-radius: 50%;
     padding: 2px;
     margin: 0 2px;
-    border: 2px dotted $theme-inactive-color;
-    color: $theme-inactive-color;
+    border: 2px dotted $theme-anchor-font-color;
     &:hover {
-        border-color: $theme-anchor-font-color;
+        border-color: $theme-anchor-font-color-hover;
         border-style: solid;
-        color: $theme-anchor-font-color;
     }
     &[disabled] {
         color: $theme-inactive-color;

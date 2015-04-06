@@ -46,9 +46,6 @@ table {
             float: right;
         }
     }
-    tr .icon-btn {
-        background: $gainsboro;
-    }
     tr:hover {
         td {
             background: darken($table-even-row-bg, 5%); 
