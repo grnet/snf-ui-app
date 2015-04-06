@@ -14,6 +14,15 @@ export default Ember.Route.extend({
 		});
 	},
 
+  setupController: function(controller, model) {
+    controller.set('model', model);
+    this.store.find('project', controller.settings.get('uuid')).then(function(p) {
+      controller.set('systemProject', p);
+    });
+  },
+
+
+
 	actions: {
 		/*
 		 * when the server returns error and we want to handle it

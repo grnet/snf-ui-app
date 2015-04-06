@@ -2,11 +2,14 @@ import Ember from 'ember';
 import {tempSetProperty} from '../snf/common';
 
 export default Ember.ArrayController.extend({
+  needs: ['application'],
+  systemProject: Ember.computed.alias("controllers.application.systemProject"),
   itemController: 'container',
   queryParams: ['view', 'sortBy'],
   closeDialog: false,
   view: null,
   sortBy: 'name:desc',
+
   otherView: function(){
     return(this.get('view') == 'list') ? 'grid' : 'list';
   }.property('view'),
@@ -57,13 +60,12 @@ export default Ember.ArrayController.extend({
 
   checkUnique: function() {
     if(this.get('newName')) {
-      var type = this.get('model').get('type');
       /*
       * hasRecordForId: Returns true if a record for a given type and ID
       * is already loaded.
       * In our case the id of a container it's its name.
       */
-      var isUnique = !this.get('store').hasRecordForId(type, this.get('newName'));
+      var isUnique = !this.get('store').hasRecordForId('container', this.get('newName'));
       this.set('isUnique', isUnique);
     }
   }.observes('newName'),

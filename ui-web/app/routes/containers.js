@@ -6,12 +6,6 @@ export default Ember.Route.extend(ResetScrollMixin,{
     return this.store.find('container');
   },
 
-  setupController: function(controller, model) {
-    controller.set('model', model);
-    this.store.find('project', controller.settings.get('uuid')).then(function(p) {
-      controller.set('systemProject', p);
-    });
-  },
   renderTemplate: function(params){
     this.render('containers');
     this.render('bar-rt-containers', {
