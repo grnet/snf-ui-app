@@ -80,7 +80,7 @@ export default Ember.ArrayController.extend({
 	}.observes('newName'),
 
 	actions: {
-		resetCreation: function() {
+		reset: function() {
 			this.set('resetInputs', true);
 			this.set('usersExtended', []);
 		},

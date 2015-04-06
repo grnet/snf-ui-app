@@ -4,6 +4,9 @@ export default Ember.ObjectController.extend({
   usersExtended: undefined,
   allUsersValid: false,
   cleanUserInput: true,
+  resetInputs: false,
+  resetedInputs: 0,
+  completeReset: false,
 
   init: function() {
     this.set('usersExtended', []);
@@ -31,7 +34,25 @@ export default Ember.ObjectController.extend({
     return !(allUsersValid && cleanUserInput);
   }.property('allUsersValid', 'cleanUserInput'),
 
+  checkReset: function() {
+    var inputsNum = 1;
+    var resetedInputsNum = this.get('resetedInputs');
+    if(inputsNum === resetedInputsNum) {
+      this.set('resetedInputs', 0);
+      this.set('completeReset', true);
+    }
+    else {
+      this.set('completeReset', false);
+    }
+
+  }.observes('resetedInputs'),
+
   actions: {
+    reset: function() {
+      this.set('resetInputs', true);
+      this.set('usersExtended', []);
+    },
+
     addUser: function(user) {
       var usersExtended = this.get('usersExtended');
       var notInserted = usersExtended.filterBy('email', user.email).get('length') === 0;
