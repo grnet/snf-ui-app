@@ -18,33 +18,32 @@ import json
 
 from urllib import unquote
 
+from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
 from django.conf import settings
-from synnefo_branding import settings as branding_settings
+from synnefo_branding.utils import get_branding_dict
 
 
 from synnefo_ui import ui_settings
 from astakosclient import AstakosClient, parse_endpoints
 
+# TODO: ui should include its own proxy paths
+from pithos.api.settings import ASTAKOS_AUTH_PROXY_PATH
 
 def home(request):
 
-    token = get_token_from_cookie(request, ui_settings.AUTH_COOKIE_NAME)
+    token = None
+    try:
+        token = get_token_from_cookie(request, ui_settings.AUTH_COOKIE_NAME)
+    except:
+        pass
 
     app_settings = {
-        'service_name': branding_settings.SERVICE_NAME,
-        'logo_url': branding_settings.IMAGE_MEDIA_URL + 'storage_logo.png',
+        'branding': get_branding_dict(),
         'token': token,
-        'storage_url': get_publicURL_by_service(token, 'object-store'),
-        'weblogin_url': get_publicURL_by_service(token, 'astakos_weblogin'),
-        'account_url': 'https://pithos.synnefo.live/pithos/_astakos/account',
-        #'account_url': get_publicURL_by_service(token, 'account'),
-        'storage_host': get_publicURL_by_service(token, 'object-store') + '/' + request.user.uuid,
-        'uuid': request.user.uuid,
-        'storage_view_url': ui_settings.STORAGE_VIEW_URL+request.user.uuid+ '/',
-
+        'auth_url': '/' + ASTAKOS_AUTH_PROXY_PATH
     }
-    
+
     context = {
         'app_settings': json.dumps(app_settings)
     }
@@ -68,18 +67,3 @@ def get_token_from_cookie(request, cookiename):
         pass
 
     return None
-
-
-def get_publicURL_by_service(token, service_type):
-    """
-    Extract endpoint publicURL from token and service type
-    """
-
-    auth_url =  ui_settings.AUTH_URL
-    astakos_client = AstakosClient(token, auth_url)
-    endpoint = parse_endpoints(astakos_client.get_endpoints(), ep_type=service_type)
-    publicURL = endpoint[0]['endpoints'][0]['publicURL']
-    return publicURL
-
-
-
