@@ -44,17 +44,18 @@ export default Ember.View.extend({
 
 	didInsertElement: function() {
 
+		this._super();
+
 		var self = this;
-		/*
-		 *  templateName could be:
-		 * - dialogs.error
-		 * - dialogs.feedback etc
-		 */
+
+		// templateName could be: dialogs.error or dialogs.feedback etc
 		var templateName = this.get('renderedName');
+
 		// type is used to disconnect the dialog from the correct outlet
 		var type = templateName.replace('dialogs.', '');
 
 		$(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
+
 			// this bubbles up to application route
 			self.get('controller').send('removeDialog', type);
 			if(self.get('controller').get('name') === 'groups') {
@@ -66,21 +67,6 @@ export default Ember.View.extend({
       var dialog = self.$();
       dialog.find('[autofocus]').focus();
     });
-
-		this._super();
-		this.$().on('click', '.slide-btn', function() {
-			var $cont = $(this).closest('.slide-container');
-			$cont.toggleClass('open');
-			var toOpen = $cont.hasClass('open');
-			if(toOpen) {
-				$cont.find('.slide-me').stop().slideDown('slow', function() {
-					$cont.find('input:first').focus();
-				});
-			}
-			else {
-				$cont.find('.slide-me').stop().slideUp('slow')
-			}
-		});
     
     $('.close-modal').on('click', function(){
 		self.$().foundation('reveal', 'close');
@@ -98,6 +84,33 @@ export default Ember.View.extend({
     $(document).off('opened.fndtn.reveal', '[data-reveal]');
 		this._super();
 	},
+
+	actions: {
+		/*
+		 * slide action slides down a closed areaand focuses the 1st input in it
+		 * or if the area is open, it slides it up and send to the corresponting
+		 * controller the action reset
+		*/
+		slide: function(controller, areaID) {
+			var $area = this.$('.slide-container[data-area-id='+areaID+']');
+			$area.toggleClass('open');
+			var toOpen = $area.hasClass('open');
+
+			if(toOpen) {
+				$area.find('.slide-me').stop().slideDown('slow', function() {
+					$area.find('input:first').focus();
+				});
+			}
+			else {
+				$area.find('.slide-me').stop().slideUp('slow', function() {
+					controller.send('reset');
+				});
+			}
+
+		}
+	},
+
+
 	// Use in the confirmSimple dialog
 	title: function() {
 		var action = this.get('controller').get('actionToPerform');
@@ -109,19 +122,6 @@ export default Ember.View.extend({
 		return (this.get(action).action_verb);
 	}.property(),
 
-	/*
-	* slideInnerArea is used to hide an area inside the dialog.
-	* For now it is used for the create group area. This should be
-	* moved from here. Maybe it should be placed in groups view or
-	* create_group view.
-	*/
-	slideInnerArea: function(){
-		if(this.get('controller').get('completeReset')) {
-			if(this.$('.slide-me')) {
-				this.$('.slide-me').slideUp('slow');
-			}
-		}
-	}.observes('controller.completeReset'),
 
 	// Actions metadata
 	emptyAndDelete: {
