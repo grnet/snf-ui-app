@@ -29,6 +29,7 @@ from astakosclient import AstakosClient, parse_endpoints
 
 # TODO: ui should include its own proxy paths
 from pithos.api.settings import ASTAKOS_AUTH_PROXY_PATH
+from pithos.api.settings import ASTAKOS_ACCOUNT_PROXY_PATH
 
 def home(request):
 
@@ -41,7 +42,10 @@ def home(request):
     app_settings = {
         'branding': get_branding_dict(),
         'token': token,
-        'auth_url': '/' + ASTAKOS_AUTH_PROXY_PATH
+        'auth_url': '/' + ASTAKOS_AUTH_PROXY_PATH,
+        'proxy': {
+            'astakosAccount': '/' + ASTAKOS_ACCOUNT_PROXY_PATH
+        }
     }
 
     context = {
