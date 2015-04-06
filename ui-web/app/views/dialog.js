@@ -6,6 +6,7 @@ export default Ember.View.extend({
 	attributeBindings: ['data-reveal'],
 	'data-reveal': 'true',
 	layoutName: 'dialog-wrapper',
+	needReset: ['dialogs.groups', 'dialogs.sharing'],
 
 
   /*  Assign a class to each dialog
@@ -58,9 +59,6 @@ export default Ember.View.extend({
 
 			// this bubbles up to application route
 			self.get('controller').send('removeDialog', type);
-			if(self.get('controller').get('name') === 'groups') {
-				self.get('controller').set('usersExtended', []);
-			}
 		});
 
     $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
@@ -69,6 +67,13 @@ export default Ember.View.extend({
     });
     
     $('.close-modal').on('click', function(){
+		if(self.get('controller').get('name') === 'groups' || self.get('controller').get('name') === 'sharing') {
+
+			self.$('.open').find('.btn-slide').each(function(){
+				$(this).trigger('click');
+			});
+
+		}
 		self.$().foundation('reveal', 'close');
     });
 
@@ -78,10 +83,10 @@ export default Ember.View.extend({
 	 * before the view gets destroyed
 	 */
 	willDestroy: function() {
-    $(document).find('.reveal-modal-bg').remove();
-    $(document).off('click', '[data-reveal] .slide-btn');
-    $(document).off('closed.fndtn.reveal', '[data-reveal]');
-    $(document).off('opened.fndtn.reveal', '[data-reveal]');
+	    $(document).find('.reveal-modal-bg').remove();
+	    $(document).off('click', '[data-reveal] .slide-btn');
+	    $(document).off('closed.fndtn.reveal', '[data-reveal]');
+	    $(document).off('opened.fndtn.reveal', '[data-reveal]');
 		this._super();
 	},
 
