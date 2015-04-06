@@ -2,6 +2,9 @@ import Ember from 'ember';
 import {raw as ajax} from 'ic-ajax';
 
 var alias = Ember.computed.alias;
+var qsToObject = function(qs) {
+  return JSON.parse('{"' + decodeURI(qs).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+}
 
 var serviceUrl = function(service, url) {
   var depKey;
@@ -75,6 +78,34 @@ export default Ember.Object.extend({
       this.set('tokenInfo', data.response.access.token);
       this.set('user', data.response.access.user);
     }.bind(this));
+  },
+
+  loadFromQS: function(qs) {
+    try {
+      var obj = qsToObject(qs);
+    } catch (err) {};
+    this.setProperties(obj);
+  },
+  
+  loadFromCookie: function(name) {
+    var reg, value, matched;
+    reg = new RegExp(name+'=(.*?);');
+    matched = document.cookie.toString().match(reg);
+    if (matched && matched[1]) {
+      value = decodeURIComponent(matched[1]);
+      value = JSON.parse(value);
+      this.setProperties(value);
+    }
+  },
+
+  persist: function(name, data, props) {
+    var expires, value;
+    props = props || ['auth_url', 'token'];
+    expires = (new Date())
+    expires.setDate(expires.getDate() + 1);
+    value = JSON.stringify(this.getProperties.apply(this, props));
+    value = encodeURIComponent(value);
+    document.cookie = name + "=" + value + ";" + expires.toUTCString();
   },
 
   // aliases
