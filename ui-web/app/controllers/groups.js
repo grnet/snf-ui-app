@@ -5,6 +5,10 @@ export default Ember.ArrayController.extend(EmailsInputAuxMixin, {
 	itemController: 'group',
 	name: 'groups',
 
+	sortProperties: ['name'],
+	sortAscending: true,
+
+
 	/*
 	* Pithos API allows the name of groups to have at most 256 chars
 	* When a new group is created the length of the name is checked
