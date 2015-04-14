@@ -233,8 +233,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     },
 
     refresh: function(){
-      this.set('sortProperties', ['is_file', 'stripped_name']);
-      this.set('sortAscending', true);
+      this.set('sortBy', 'stripped_name:asc');
       this.get('model').map(function(el){
         return el.set('isSelected', false);
       });

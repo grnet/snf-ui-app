@@ -18,6 +18,13 @@ export default Ember.Route.extend(ResetScrollMixin,{
       outlet: 'bar-lt',
       controller: 'containers',
     });
+  },
+
+  actions: {
+    refreshRoute: function(){
+      this.refresh();
+    }
+ 
   }
 
 });

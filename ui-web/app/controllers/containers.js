@@ -90,6 +90,12 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   }.observes('validInput'),
 
   actions: {
+    refresh: function(){
+      this.set('sortBy', 'name:asc');
+      this.send('refreshRoute');
+    },
+
+
     validateCreate: function(action) {
       var flag = 'validationOnProgress';
       this.set('actionToExec', action);
