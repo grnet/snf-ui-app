@@ -4,7 +4,7 @@ import {SnfAddHandlerMixin} from '../snf/dropfile/synnefo';
 
 export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 	templateName: 'object',
-	tagName: 'tr',
+	tagName: 'li',
   classNameBindings: ['isSelected', 'toPaste'],
 
   dropFileTarget: Ember.computed.alias('controller.controllers.application'),

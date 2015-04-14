@@ -9,6 +9,8 @@ export default Ember.ObjectController.extend(ResolveSubDirsMixin,{
   loading: false,
 
   projects: Ember.computed.alias("controllers.containers.projects"),
+  gridView: Ember.computed.alias("controllers.containers.gridView"),
+  listView: Ember.computed.alias("controllers.containers.listView"),
 
   availableProjects: function(){
     var self = this;

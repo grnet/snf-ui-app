@@ -57,12 +57,12 @@
         .fa {
             font-size: rem-calc(18);
         }
-        li.list {
+        span[data-view="list"] {
             .fa-th {
                 display: none;
             }
         }
-        li.grid {
+        span[data-view="grid"] {
             .fa-list {
                 display: none;
             }

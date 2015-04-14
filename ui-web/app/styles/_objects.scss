@@ -1,0 +1,49 @@
+.objects {
+    li:first-child {
+        .select-col {
+            min-width: 100px;
+        }
+    }
+    &.list {
+        .select-col {
+            min-width: 100px;
+            text-align: right;
+        }
+        .actions-col {
+            min-width: 25%;
+        }
+
+    }
+    .name-col {
+        .js-name {
+            span {
+                max-width: 265px;
+                text-overflow: ellipsis;
+                display: inline-block;
+                overflow: hidden;
+                white-space: nowrap;
+                vertical-align: top;
+            }
+            em {
+                color: $aluminum;
+                font-style: normal;
+                font-size: emCalc(12);
+            }
+        }
+        form {
+            display: inline;
+        }
+        .js-show-edit {
+            display: none;
+        }
+    }
+    li:hover {
+        .js-show-edit {
+            display: inline;
+        }
+    }
+    .input-with-valid {
+        margin: 0;
+    }
+}
+

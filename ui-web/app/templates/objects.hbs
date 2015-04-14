@@ -1,1 +1,17 @@
-{{view "table-list"}}
+{{#if listView}}
+    <li>
+        <div class="wrap clearfix">
+            <div class="col name-col">Name</div>
+            <div class="col select-col">&nbsp;</div>
+            <div class="col data-col">Size</div>
+            <div class="col date-col">Modified</div>
+            <div class="col data-col">Type</div>
+            <div class="col actions-col"></div>
+        </div>
+    </li>
+{{/if}}
+
+
+{{#each sortedModel itemController="object"}}
+    {{view "object"}}
+{{/each}}

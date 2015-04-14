@@ -1,22 +1,14 @@
 import Ember from 'ember';
 import {tempSetProperty} from '../snf/common';
+import {ItemsControllerMixin} from '../mixins/items'; 
 
-export default Ember.ArrayController.extend({
-  templatePrefix: 'objects',
+
+export default Ember.ArrayController.extend(ItemsControllerMixin, {
   itemController: 'object',
   needs: ['application'],
-  object_view: true,
   
-  closeDialog: false,
-  
-  queryParams: ['view', 'sortBy'],
   view: 'list',
   sortBy: 'stripped_name:asc',
-
-  otherView: function(){
-    return(this.get('view') == 'list') ? 'grid' : 'list';
-  }.property('view'),
-
 
   sortFields: [
     {'value': 'stripped_name:desc', 'label': 'Sort by name Z → A'},
@@ -30,32 +22,9 @@ export default Ember.ArrayController.extend({
  
   ],
 
-  ths: [
-    {'label': 'name', 'field': 'stripped_name'},
-    {'label': ''},
-    {'label': 'modified', 'field': 'last_modified'},
-    {'label': 'type', 'field': 'type'},
-    {'label': 'size', 'field': 'size'},
-    {'label': '', 'cls': 'download'},
-    {'label': ''},
-  ],
-
-  sorting: function(){
-    return _.findWhere(this.get('sortFields'), {'value': 'stripped_name:asc'});
-  }.property('sortFields'),
-
   sortProperties: function(){
-    return ['is_file:asc', this.get('sortBy')];
+    return ['is_dir:desc', this.get('sortBy')];
   }.property('sortBy'),
-
-  sortedModel: Ember.computed.sort("model", "sortProperties"),
-
-  watchSorting: function(){
-      if (this.get('sorting') ) {
-        this.set("sortBy", this.get('sorting.value'));
-      }
-  }.observes('sorting'),
-
 
   hasUpPath: function(){
     return this.get('current_path') !== '/';

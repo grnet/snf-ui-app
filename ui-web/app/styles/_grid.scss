@@ -1,8 +1,8 @@
 .grid {
+    @include block-grid(4);
     .wrap {
         padding: 10px 15px;
         background: #fff;
-        position: relative;
         &:hover {
             @include box-shadow();
             h4 a {
@@ -13,12 +13,12 @@
             }
         }
     }
+    .loader {
+        padding-top: 50px;
+    }
     h4 {
         text-align: center;
         word-break: break-all;
-        a {
-            display: block;
-        }
     }
     dl {
         font-size: rem-calc(14);
@@ -41,25 +41,4 @@
         right: 15px;
         bottom: 10px;
     }
-    .loader {
-        display: none;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: rgba(255, 255, 255, 0.45);
-        text-align: center;
-        line-height: 100%;
-        i {
-            padding-top: 50px;
-            font-size: 30px;
-        }
-    }
-    .loading {
-        .loader {
-            display: block;
-        }
-    }
-    
 }

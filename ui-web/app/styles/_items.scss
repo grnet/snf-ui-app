@@ -1,0 +1,29 @@
+.items {    
+    .wrap {
+        position: relative;
+    }
+    list-style-type: none;
+    .loading {
+        .loader {
+            display: block;
+        }
+    }
+    .loader {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.45);
+        text-align: center;
+        line-height: 100%;
+        i {
+            font-size: 30px;
+        }
+    }
+    h4 a {
+        display: block;
+    }
+
+}
