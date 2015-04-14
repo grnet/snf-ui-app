@@ -3,18 +3,8 @@
         {{outlet "bar-lt"}}
         <ul class="right top-icons">
             {{outlet "bar-rt"}}
-            <li>
-                <a {{action 'showDialog' 'groups' 'groups' groups}}>
-                    {{fa-icon "users"}}
-                    <label>Groups</label>
-                </a>
-            </li>
-            <li>
-                <a {{action "refresh"}}>
-                    {{fa-icon "refresh"}}
-                    <label>Reload</label>
-                </a>
-            </li>
+            <li>{{partial "global/group-link"}}</li>
+            <li>{{partial "global/group-link"}}</li>
         </ul>
     </section>
 </div>
