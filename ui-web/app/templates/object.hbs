@@ -1,10 +1,9 @@
 <div class="wrap clearfix">
 
     <div class="loader">{{fa-icon "fa-refresh fa-pulse"}}</div>
-    {{#if new}}<span class="label alert">new</span>{{/if}}
 
     <div class="col name-col">
-        {{#if new}}<span class="label">new</span>{{/if}}
+        {{#if new}}<span class="label alert">new</span>{{/if}}
         {{#if is_dir}}
             {{#link-to 'objects' name}}
                 {{fa-icon view.iconCls}}

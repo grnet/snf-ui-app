@@ -11,13 +11,13 @@
     </li>
 {{/if}}
 {{#each sortedModel itemController="container"}}
-    <li {{bind-attr class="new updated loading isTrash"}}>
+    <li {{bind-attr class="new loading isTrash"}}>
         <div class="wrap clearfix">
 
             <div class="loader">{{fa-icon "fa-refresh fa-pulse"}}</div>
-            {{#if new}}<span class="label alert">new</span>{{/if}}
 
             <div class="col name-col">
+                {{#if new}}<span class="label alert">new</span>{{/if}}
                 <h4>{{#link-to 'container' name}}{{name}}{{/link-to}}</h4>
             </div>
             {{#if gridView}}
@@ -68,9 +68,13 @@
                         <a class="icon-a" title="Delete container" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyAndDelete'}}>{{fa-icon "fa-remove fa-fw"}}</a>
                     {{/if}}
                 {{/if}}
-                <a class="icon-a" title="Empty container" {{bind-attr disabled=isEmpty}} {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>
-                    {{fa-icon "fa-trash-o fa-fw"}}
-                </a>
+                {{#if isEmpty}}
+                    <a class="icon-a" title="Empty container" disabled> {{fa-icon "fa-trash-o fa-fw"}}</a>
+                {{else}}
+                    <a class="icon-a" title="Empty container" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>
+                        {{fa-icon "fa-trash-o fa-fw"}}
+                    </a>
+                {{/if}}
             </div>
 
         </div>
