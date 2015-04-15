@@ -19,7 +19,7 @@ export default Ember.View.extend({
 				});
 			}
 			else {
-				self.$('.arrow, .dialog').fadeOut(function() {
+				self.$('.container').fadeOut(function() {
 					$(this).addClass('hidden');
 					self.set('hidden', true);
 				});

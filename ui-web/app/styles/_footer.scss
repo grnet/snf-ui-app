@@ -5,5 +5,6 @@
     padding: $default-padding;
     @include bar-style();
     font-size: rem-calc(12);
+    z-index: 99;
 }
 

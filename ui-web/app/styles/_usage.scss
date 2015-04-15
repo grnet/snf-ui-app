@@ -1,24 +1,12 @@
+$wrap-radius: 6px;
+$wrap-bg-color: $theme-primary-color-light;
 
 .quotas-container {
-    position: relative;
     display: inline-block;
-    // margin-bottom: 1rem;
-    .arrow {
-        width: 0;
-        height: 0;
-        border-top: 10px solid transparent;
-        border-bottom: 10px solid transparent;
-        border-right:10px solid #8D97DD;
-        position: absolute;
-        top: 3px;
-        right: -14px;
-        display: none;
-    }
-    .quotas-data {
-        // border: 1px solid gray;
-        margin-bottom: 1.3rem;
-    }
 
+    .usg-btn {
+        float: left;
+    }
     .rest {
         display: inline-block;
         height: 100%;
@@ -29,38 +17,37 @@
         float: left;
     }
 
-    .proj-list {
+    ul {
         list-style-type: none;
         margin: 1rem;
+        li {
+            margin-bottom: 1.3em; 
+            h5 {
+                font-size: 1rem;
+                font-weight: bold;
+                margin: 0;
+                line-height: 1;
+            }
+            p {
+                font-size: 0.8rem;
+                margin: 0.4rem 0 0.2rem;
+            }
+        }
     }
 
-    .usg-btn {
-        display: inline-block;
+    .container {
+        position: relative;
+        float: left;
     }
 
-    .proj-name {
-        color: black;
-        font-size: 1rem;
-    }
-
-    .usage-text {
-        color: white;
-        font-size: 0.8rem;
-        margin-bottom: 0.2rem;
-        margin-top: 0.4rem;
-    }
-
-    .zero-quotas {
-        font-size: 0.8rem;
-        color: white;
-    }
-    .dialog {
-        border-radius: 7px;
-        background-color: #8D97DD;
+   .wrap {
+        background-color: $wrap-bg-color;
         position: absolute;
-        bottom: -22px;
-        right: -422px;
-        display: none;
+        bottom: -23px;
+        left: 22px;
+        width: 300px;
+        border-radius: $wrap-radius;
+        box-shadow: 2px 2px 8px #888;
         .size {
             position: absolute;
             bottom: 1px;
@@ -78,6 +65,15 @@
         }
         .progress {
             position: relative;
+        }
+        &:before {
+            content:"\A";
+            border-style: solid;
+            border-width: 10px 15px 10px 0;
+            border-color: transparent $wrap-bg-color transparent transparent;
+            position: absolute;
+            left: -15px;
+            bottom: $wrap-radius;
         }
 
     }
