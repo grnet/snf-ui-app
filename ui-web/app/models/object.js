@@ -1,6 +1,13 @@
 import DS from 'ember-data';
 import {timeHuman} from '../snf/common';
 
+UiWeb.Shared = Ember.Object.extend({
+  'permission': null,
+  'id': null,
+  'type': null,
+});
+
+
 export default DS.Model.extend({
   name: DS.attr('string'),
   bytes: DS.attr('number', {defaultValue: 0}),
@@ -78,21 +85,27 @@ export default DS.Model.extend({
       // store read/write permission in a variable
       var permission = parts[0].trim();
       // split  shared users for each permission type
+      //
+
       parts[1].split(',').forEach(function(u){
-        var shared = {};
-        shared.permission = permission;
-        shared.id = u;
-        shared.type = 'user';
+
+        var type = 'user';
         // Show display name according to user type (user, group,all)
         if (u === '*') {
           // `*` means all users
-          shared.type = 'all';
+          type = 'all';
         } else if (u.split(':').length>1) {
           // If u contains `:` that means that it is a group and we will keep
           // only the group's name for the display name
-          shared.type = 'group';
+          type = 'group';
         }
-        shared_users.push(shared);
+        var shared = UiWeb.Shared.create({
+          'permission': permission,
+          'id': u,
+          'type': type,
+          'display_name': null,
+        });
+        shared_users.pushObject(shared);
       });
     });
     return shared_users;

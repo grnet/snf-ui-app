@@ -39,11 +39,11 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
     var shared_with = this.get('model').get('shared_users');
     _.each(shared_with, function(s){
       if (s.type === 'user') {
-        s.user = self.store.find('user', s.id)
+        s.set('user', self.store.find('user', s.id));
       } else if (s.type === 'all'){
-        s.display_name = 'All Pithos users';
+        s.set('display_name', 'All Pithos users');
       } else if (s.type === 'group') {
-        s.display_name = s.id.split(':')[1];
+        s.set('display_name', s.id.split(':')[1]);
       }
     });
       
@@ -93,7 +93,6 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
       var usersExtended = this.get('usersExtended');
       var notInserted = !usersExtended.findBy('email', user.email);
       var notShared = true;
-      var temp = [];
       var self = this;
 
       var usersShared = this.get('shared_with_list').filterBy('type', 'user').map(function(item) {
@@ -131,7 +130,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
       var u_arr = object.get('shared_users');
       _.map(u_arr, function(el){
         if (el.id === param.name) {
-          el.permission = param.value;
+          el.set('permission',param.value);
         }
       });
       var sharing = this.shared_users_to_sharing(u_arr);
@@ -181,11 +180,14 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
       var shared_users = _.reject(object.get('shared_users'), function(el){
         return el.permission === 'read';
       });
-      shared_users.push({
-        'id': '*',
-        'type': 'all',
-        'permission': 'read'
+      
+      var shared = UiWeb.Shared.create({
+          'permission': 'read',
+          'id': '*', 
+          'type': 'all',
       });
+
+      shared_users.pushObject(shared);
 
       var onSuccess = function() {
         object.set('sharing', sharing);
@@ -225,11 +227,13 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
         }).then(function(newUsers) {
           newUsers.forEach(function(user){
 
-            u_arr.pushObject({
-              'id': user.get('id'),
-              'permission': 'read',
-              'type': 'user'
+            var shared = UiWeb.Shared.create({
+                'permission': 'read',
+                'id': user.get('id'), 
+                'type': 'user',
             });
+
+            u_arr.pushObject(shared);
           });
 
           sharing = self.shared_users_to_sharing(u_arr);
@@ -259,11 +263,13 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
         return;
       }
 
-      u_arr.pushObject ({
-        'id': this.get('settings').get('uuid')+':'+group.get('id'), 
-        'permission': 'read',
-        'type': 'group'
+      var shared = UiWeb.Shared.create({
+          'permission': 'read',
+          'id': this.get('settings').get('uuid')+':'+group.get('id'), 
+          'type': 'group',
       });
+ 
+      u_arr.pushObject(shared);
 
       var sharing = this.shared_users_to_sharing(u_arr);
       this.store.setSharing(object, sharing).then(onSuccess, onFail); 
