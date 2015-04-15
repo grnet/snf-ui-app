@@ -10,8 +10,8 @@
         {{view 'input-partial' placeholder="Name..."}}
         {{view 'input-emails' placeholder="user1@example.com user2@example.com..." label="Members"}}
         <div class="buttons">
-            <button {{action 'slide' this 'new' target='view'}}>Cancel</button>
-            <button {{action 'createGroup' }} {{bind-attr disabled='freezeCreation'}}>Create</button>
+            <button class="small" {{action 'slide' this 'new' target='view'}}>Cancel</button>
+            <button class="small" {{action 'createGroup' }} {{bind-attr disabled='freezeCreation'}}>Create</button>
         </div>
     </div>
 </div>
