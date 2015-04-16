@@ -1,0 +1,39 @@
+$wrap-radius: 6px;
+$wrap-bg-color: $theme-primary-color-light;
+
+.popover {
+    &.no-display {
+        display: none;
+    }
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    &.pos-bottom {
+        .wrap {
+            position:relative;
+            top: 10px;
+            right: -40px;
+            padding: 20px;
+            &:before {
+            top: -12px;
+            right: 44px;
+            }
+        }
+    }
+    .wrap {
+        display: block;
+        background-color: $wrap-bg-color;
+        h4, button {
+            margin: 0;
+        }
+
+        &:before {
+            content:"\A";
+            border-style: solid;
+            border-width: 0px 10px 15px 10px;
+            border-color: transparent transparent $wrap-bg-color transparent;
+            position: absolute;
+            // bottom: $wrap-radius;
+        }
+    }
+}
