@@ -95,6 +95,10 @@ span.subtle {
     text-align: center;
     padding: 3em;
     color: gray;
+    h4 {
+        color: $theme-alert-color;
+        margin: 1em;
+    }
 }
 
 .fl-right {

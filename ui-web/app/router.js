@@ -35,7 +35,6 @@ Router.map(function() {
       });
     });
   });
-   // if the user tries to be in a route, that it doesn't exists
   this.resource('errors/404', {path: '*path'});
 });
 
