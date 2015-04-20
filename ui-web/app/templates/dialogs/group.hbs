@@ -1,0 +1,29 @@
+    <div class="main-info">
+        <div class="btn-line" {{action 'slide' this.controller view.id target='view.parentView'}}>
+            <span class="snf-font if-group group-icon"></span>
+            <strong class="group-name">{{name}} </strong>
+            <span>(members: {{users.length}})</span>
+            <span class="arrow-up fa fa-angle-up"></span>
+            <span class="arrow-down fa fa-angle-down"></span>
+        </div>
+        <button class="margin-zero right button alert tiny temp" {{action 'deleteGroup'}} {{bind-attr data-popover-trigger='view.id'}}>Delete</button>
+
+    </div>
+    <div class="js-slide-me slide-me more-info">
+    <table>
+        <tbody>
+        {{#each u in users}}
+            <tr>
+                <td>{{u.email}}</td>
+                <td class="text-right"><a {{action "removeUserFromGroup" u}} class="hint--bottom" data-hint="Remove user from group">Remove</a></td>
+                </tr>
+        {{/each}}
+        </tbody>
+    </table>
+        {{view 'input-emails' placeholder="user1@example.com user2@example.com..." label="Add more users"}}
+        <div class="buttons">
+            <button class="tiny right" {{action "addUsersToGroup"}} {{bind-attr disabled='freezeCreation'}}>{{fa-icon "fa-users"}} Add users</button>
+        </div>
+    <hr>
+    </div>
+</div>

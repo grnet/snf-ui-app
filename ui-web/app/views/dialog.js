@@ -92,17 +92,17 @@ export default Ember.View.extend({
 
 	actions: {
 		/*
-		 * slide action slides down a closed areaand focuses the 1st input in it
+		 * slide action slides down a closed area and focuses the 1st input in it
 		 * or if the area is open, it slides it up and send to the corresponting
 		 * controller the action reset
 		*/
 		slide: function(controller, areaID) {
-			var $area = this.$('.slide-container[data-area-id='+areaID+']');
+			var $area = this.$('.js-slide-container#'+areaID);
 			$area.toggleClass('open');
 			var toOpen = $area.hasClass('open');
 
 			if(toOpen) {
-				$area.find('.slide-me').stop().slideDown('slow', function() {
+				$area.find('.js-slide-me').stop().slideDown('slow', function() {
 					$area.find('input:first').focus();
 				});
 			}
