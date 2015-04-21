@@ -30,5 +30,11 @@
     h4 a {
         display: block;
     }
+    .is-selected {
+        .wrap {
+            background: $theme-primary-color-light!important;
+            border-top: 1px solid #fff;
+        }
+    }
 
 }

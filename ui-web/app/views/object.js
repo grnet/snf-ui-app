@@ -44,7 +44,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
   }.property('controller.controllers.objects.toPasteObject'),
 
   click: function(e) {
-    if (e.target.tagName != 'TD') { return; }
+    if (e.target.tagName != 'DIV') { return; }
     this.get('controller').toggleProperty('isSelected');
   },
 	/*

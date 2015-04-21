@@ -1,9 +1,7 @@
 .dir-tree{
     list-style: none outside none;
     margin-left: 0;
-    ul {
-        list-style: none outside none;
-   }
+    font-size: rem-calc(14);
     li {
         word-break: break-all;
     }
