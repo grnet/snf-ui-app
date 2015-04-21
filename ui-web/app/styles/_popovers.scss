@@ -2,38 +2,54 @@ $wrap-radius: 6px;
 $wrap-bg-color: $theme-primary-color-light;
 
 .popover {
+    position: relative;
     &.no-display {
         display: none;
     }
     z-index: 1;
-    position: absolute;
     right: 0;
+    .wrap {
+        display: block;
+        background-color: $wrap-bg-color;
+        position: absolute;
+        h4, button {
+            margin: 0;
+        }
+        &:before {
+            content:"\A";
+            border-style: solid;
+            position: absolute;
+        }
+    }
     &.pos-bottom {
         .wrap {
-            position:relative;
             top: 10px;
             right: -40px;
             padding: 20px;
             &:before {
-            top: -12px;
-            right: 44px;
+                border-width: 0px 10px 15px 10px;
+                border-color: transparent transparent $wrap-bg-color transparent;
+                top: -12px;
+                right: 44px;
             }
+
         }
     }
-    .wrap {
-        display: block;
-        background-color: $wrap-bg-color;
-        h4, button {
-            margin: 0;
-        }
+    &.pos-right {
+        .wrap {
+            bottom: -23px;
+            left: 22px;
+            width: 300px;
+            // border-radius and box-shadow maybe should be placed with different class?
+            border-radius: $wrap-radius;
+            box-shadow: 2px 2px 8px #888;
 
-        &:before {
-            content:"\A";
-            border-style: solid;
-            border-width: 0px 10px 15px 10px;
-            border-color: transparent transparent $wrap-bg-color transparent;
-            position: absolute;
-            // bottom: $wrap-radius;
+            &:before {
+                border-width: 10px 15px 10px 0;
+                border-color: transparent $wrap-bg-color transparent transparent;
+                left: -15px;
+                bottom: $wrap-radius;
+            }
         }
     }
 }

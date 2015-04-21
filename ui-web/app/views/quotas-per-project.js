@@ -38,7 +38,7 @@ export default Ember.View.extend({
 			return 'width:' + (100 - usage_percentage) + '%';
 	}.property('usage_percentage'),
 	posLabel: function() {
-		if(!this.get('parentView').get('hidden')) {
+		if(!this.get('parentView').get('no-display')) {
 			var sizeWidth = this.$('.size').outerWidth();
 			var meterWidth = this.$('.meter').width();
 			var restWidth = this.$('.rest').width();
@@ -56,6 +56,6 @@ export default Ember.View.extend({
 				this.$('.size').addClass('appear');
 			}
 		}
-	}.observes('parentView.hidden').on('init'),
+	}.observes('parentView.no-display').on('init'),
 
 });

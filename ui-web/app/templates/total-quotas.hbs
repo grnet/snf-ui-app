@@ -1,10 +1,5 @@
-<a class="usg-btn">File Storage Usage</a>
-<div class="container hidden">
-    <div class="wrap">
-        <ul>
-            {{#each project in projects}}
-                {{view 'quotas-per-project' project=project}}
-            {{/each}}
-        </ul>
-    </div>
-</div>
+<ul>
+	{{#each project in projects}}
+	    {{view 'quotas-per-project' project=project}}
+	{{/each}}
+</ul>

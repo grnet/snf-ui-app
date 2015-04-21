@@ -4,7 +4,7 @@ $wrap-bg-color: $theme-primary-color-light;
 .quotas-container {
     display: inline-block;
 
-    .usg-btn {
+    &>* {
         float: left;
     }
     .rest {
@@ -34,49 +34,22 @@ $wrap-bg-color: $theme-primary-color-light;
             }
         }
     }
-
-    .container {
-        position: relative;
-        float: left;
-    }
-
-   .wrap {
-        background-color: $wrap-bg-color;
+    .size {
         position: absolute;
-        bottom: -23px;
-        left: 22px;
-        width: 300px;
-        border-radius: $wrap-radius;
-        box-shadow: 2px 2px 8px #888;
-        .size {
-            position: absolute;
-            bottom: 1px;
-            margin: 0 6px;
-            font-size: 0.8rem;
-            opacity: 0;
+        bottom: 1px;
+        margin: 0 6px;
+        font-size: 0.8rem;
+        opacity: 0;
 
-           transition: opacity 0.3s;
-           -moz-transition: opacity 0.3s;
-           -webkit-transition: opacity 0.3s;
-        }
-
-        .size.appear {
-            opacity: 1;
-        }
-        .progress {
-            position: relative;
-        }
-        &:before {
-            content:"\A";
-            border-style: solid;
-            border-width: 10px 15px 10px 0;
-            border-color: transparent $wrap-bg-color transparent transparent;
-            position: absolute;
-            left: -15px;
-            bottom: $wrap-radius;
-        }
-
+       transition: opacity 0.3s;
+       -moz-transition: opacity 0.3s;
+       -webkit-transition: opacity 0.3s;
     }
 
-
+    .size.appear {
+        opacity: 1;
+    }
+    .progress {
+        position: relative;
+    }
 }
