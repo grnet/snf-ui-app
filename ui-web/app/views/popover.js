@@ -31,6 +31,8 @@ export default Ember.View.extend({
 			}
 		});
 
+
+		// close on click outside content area (.wrap)
 		$(document).mouseup(function(e) {
 			var $popover = self.$('.wrap');
 			if(!$popover.is(e.target) && $popover.has(e.target).length === 0) {
@@ -39,6 +41,15 @@ export default Ember.View.extend({
 				}
 			}
 		});
+
+		// close on esc
+		$(document).keyup(function(e) {
+
+			if (e.keyCode == 27 && !self.get('no-display')) {
+				self.send('closePopover');
+			}
+		});
+
 	}.on('didInsertElement'),
 
 	actions: {
