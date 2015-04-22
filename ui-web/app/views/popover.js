@@ -36,20 +36,20 @@ export default Ember.View.extend({
 			}
 		});
 
-
 		// close on click outside content area (.wrap)
 		$(document).mouseup(function(e) {
-			var $popover = self.$('.wrap');
-			if(!$popover.is(e.target) && $popover.has(e.target).length === 0) {
-				if(!self.get('no-display')) {
-					self.send('closePopover');
+			if(self.get('_state') === 'inDOM') {
+				var $popover = self.$('.wrap');
+				if(!$popover.is(e.target) && $popover.has(e.target).length === 0) {
+					if(!self.get('no-display')) {
+						self.send('closePopover');
+					}
 				}
 			}
 		});
 
 		// close on esc
 		$(document).keyup(function(e) {
-
 			if (e.keyCode == 27 && !self.get('no-display')) {
 				self.send('closePopover');
 			}
@@ -57,19 +57,28 @@ export default Ember.View.extend({
 
 	}.on('didInsertElement'),
 
+
 	actions: {
 		openPopover: function() {
 			var self = this;
-			this.$().fadeIn(function() {
-				self.set('no-display', false);
-			});
+			if(self.get('_state') === 'inDOM') {
+				this.$().fadeIn(function() {
+					if(self.get('_state') === 'inDOM') {
+						self.set('no-display', false);
+					}
+				});
+			}
 		},
 
 		closePopover: function() {
 			var self = this;
+			if(self.get('_state') === 'inDOM') {
 				this.$().fadeOut(function() {
-					self.set('no-display', true);
+					if(self.get('_state') === 'inDOM') {
+						self.set('no-display', true);
+					}
 				});
+			}
 		},
 	},
 

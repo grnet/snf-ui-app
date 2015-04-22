@@ -61,21 +61,21 @@ export default Ember.View.extend({
 			self.get('controller').send('removeDialog', type);
 		});
 
-    $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
-      var dialog = self.$();
-      dialog.find('[autofocus]').focus();
-    });
+	    $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+	      var dialog = self.$();
+	      dialog.find('[autofocus]').focus();
+	    });
     
-    $('.close-modal').on('click', function(){
-		if(self.get('controller').get('name') === 'groups' || self.get('controller').get('name') === 'sharing') {
+	    $('.close-modal').on('click', function(){
+			if(self.get('controller').get('name') === 'groups' || self.get('controller').get('name') === 'sharing') {
 
-			self.$('.open').find('.btn-slide').each(function(){
-				$(this).trigger('click');
-			});
+				self.$('.open').find('.btn-slide').each(function(){
+					$(this).trigger('click');
+				});
 
-		}
-		self.$().foundation('reveal', 'close');
-    });
+			}
+			self.$().foundation('reveal', 'close');
+	    });
 
 	},
 	/*
