@@ -46,9 +46,9 @@ INSTALL_REQUIRES = [
 
 # Provided as an attribute, so you can append to these instead
 # of replicating them:
-standard_exclude = ["*.py", "*.pyc", "*$py.class", "*~", ".*", "*.bak"]
+standard_exclude = ["*.py", "*.pyc", "*$py.class", "*~", ".*", "*.bak", "node_modules"]
 standard_exclude_directories = [
-    ".*", "CVS", "_darcs", "./build", "./dist", "EGG-INFO", "*.egg-info", "snf-0.7"
+    ".*", "CVS", "_darcs", "./build", "./dist", "EGG-INFO", "*.egg-info", "snf-0.7", "node_modules"
 ]
 
 # (c) 2005 Ian Bicking and contributors; written for Paste (http://pythonpaste.org)
