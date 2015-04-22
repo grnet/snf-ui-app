@@ -7,7 +7,7 @@
             <span class="arrow-down fa fa-angle-down"></span>
         </div>
         <button class="margin-zero right button alert tiny" {{bind-attr data-popover-trigger='view.id'}}>Delete</button>
-        {{view 'popover' innerTemplate='dialogs/confirm-simple' actionToPerform='deleteGroup' position='pos-bottom' triggerBy=this.view.id cls='warning'}}
+        {{view 'popover' innerTemplate='overlays/confirm-simple' actionToPerform='deleteGroup' position='pos-bottom' triggerBy=this.view.id cls='warning'}}
 
     </div>
     <div class="js-slide-me slide-me more-info">

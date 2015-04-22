@@ -6,7 +6,7 @@ export default Ember.View.extend({
 	attributeBindings: ['data-reveal'],
 	'data-reveal': 'true',
 	layoutName: 'dialog-wrapper',
-	needReset: ['dialogs.groups', 'dialogs.sharing'],
+	needReset: ['overlays.groups', 'overlays.sharing'],
 
 
   /*  Assign a class to each dialog
@@ -20,13 +20,13 @@ export default Ember.View.extend({
   */
   templateCls: function(){
     var clsMap = {
-      'dialogs.create-dir': 'small',
-      'dialogs.confirm-simple': 'small', 
-      'dialogs.feedback': 'medium',
-      'dialogs.move': 'small',
-      'dialogs.restore': 'medium',
-      'dialogs.create-container': 'small',
-      'dialogs.groups': 'medium',
+      'overlays.create-dir': 'small',
+      'overlays.confirm-simple': 'small', 
+      'overlays.feedback': 'medium',
+      'overlays.move': 'small',
+      'overlays.restore': 'medium',
+      'overlays.create-container': 'small',
+      'overlays.groups': 'medium',
     }
     return clsMap[this.get('renderedName')];
   }.property('renderedName'),
@@ -49,11 +49,11 @@ export default Ember.View.extend({
 
 		var self = this;
 
-		// templateName could be: dialogs.error or dialogs.feedback etc
+		// templateName could be: overlays.error or overlays.feedback etc
 		var templateName = this.get('renderedName');
 
 		// type is used to disconnect the dialog from the correct outlet
-		var type = templateName.replace('dialogs.', '');
+		var type = templateName.replace('overlays.', '');
 
 		$(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
 

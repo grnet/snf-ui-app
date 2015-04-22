@@ -49,7 +49,7 @@ export default Ember.Route.extend({
 		showActionFail: function(error, controller) {
 			console.log('update', error);
 			this.refresh();
-			this.render('dialogs/error', {
+			this.render('overlays/error', {
 				into: 'application',
 				outlet: 'errorDialogs',
 				// controller: controller,
@@ -63,7 +63,7 @@ export default Ember.Route.extend({
 		 * in the template:
 		 * <a  {{action 'showDialog' <dialogType> <controller> <model> <actionName>}}></a>
 		 * if there is no specific action on click there is no need to add actionName
-		 * dialogType is the name of the template in the folder dialogs
+		 * dialogType is the name of the template in the folder overlays
 		 */
 
 		showDialog: function(dialogType, controller, model, actionName) {
@@ -82,7 +82,7 @@ export default Ember.Route.extend({
 			else {
 				outlet = 'dialogs'
 			}
-			this.render('dialogs/'+dialogType, {
+			this.render('overlays/'+dialogType, {
 				into: 'application',
 				outlet: outlet,
 				controller: controller,

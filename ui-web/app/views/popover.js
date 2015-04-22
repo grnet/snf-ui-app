@@ -3,7 +3,7 @@ import Ember from 'ember';
 /*
  * Usage example:
  * <button data-popover-trigger=ID>Btn</button>
- * {{view 'popover' innerTemplate='dialogs/example' actionToPerform='deleteGroup' position='bottom' triggerBy=ID cls='warning'}}
+ * {{view 'popover' innerTemplate='overlays/example' actionToPerform='deleteGroup' position='bottom' triggerBy=ID cls='warning'}}
 */
 export default Ember.View.extend({
 	classNames: ['popover'],
