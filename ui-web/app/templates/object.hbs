@@ -32,8 +32,8 @@
             </span>
         {{/if}}
         <form {{action 'reset' 'validateRename,renameObject' target=view on="submit"}}>
-            {{view "input-single" value=stripped_name placeholder=stripped_name cls="hidden"}}
-            <a  class="hidden js-hide-edit icon-a" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check fa-fw"}}</a>
+            {{view "input-single" value=stripped_name placeholder=stripped_name cls="hidden" oldValue=stripped_name}}
+            <a  class="hidden js-hide-edit icon-a" {{action 'reset' 'validateRename,renameObject' target=view}} title="Rename">{{fa-icon "fa-check fa-fw"}}</a>
             <a class="js-cancel js-hide-edit hidden icon-a" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times fa-fw"}}</a>
         </form>
 

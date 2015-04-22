@@ -17,6 +17,7 @@ export default Ember.View.extend({
 
 	templateName: 'input-single',
 
+	oldValue: undefined,
 	inputValue: function() {
 		var value = this.$('input').val();
 		if(value) {
@@ -44,6 +45,14 @@ export default Ember.View.extend({
 		return this.get('inputValue').length <= charLimit;
 	}.property('inputValue'),
 
+	isModified: function() {
+		var oldValue = this.get('oldValue');
+		if(oldValue && oldValue === this.get('inputValue')) {
+			return false;
+		}
+		return true;
+	}.property('inputValue'),
+
 	/*
 	* Each controller must have these properties:
 	* - validationOnProgress
@@ -61,7 +70,7 @@ export default Ember.View.extend({
 		if(toValidate) {
 			var action = this.get('controller').get('actionToExec');
 			var validForm = false;
-			var notEmpty, noSlash, notTooLarge;
+			var notEmpty, noSlash, notTooLarge, isModified;
 
 			this.set('errorVisible', false);
 			if(action === 'createContainer') {
@@ -77,11 +86,15 @@ export default Ember.View.extend({
 				notEmpty = this.get('notEmpty');
 				notTooLarge = this.get('notTooLarge');
 				validForm = notEmpty && notTooLarge;
-				if(validForm) {
+				isModified = this.get('isModified');
+				if(!isModified) {
+					this.get('parentView').send('reset');
+				}
+				else if(validForm) {
 					this.get('controller').set('newName', this.get('inputValue'));
 				}
 			}
-			if(!validForm) {
+			if(!validForm && isModified) {
 				this.send('showError');
 			}
 		}
