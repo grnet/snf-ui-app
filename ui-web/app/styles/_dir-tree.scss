@@ -1,12 +1,12 @@
-.dir-tree{
-    list-style: none outside none;
+.dir-tree {
     margin-left: 0;
-    font-size: rem-calc(14);
+    >li {
+        margin-bottom: rem-calc(4);
+    }
     li {
+        font-size: rem-calc(14);
+        list-style: none outside none;
         word-break: break-all;
     }
-
 }
-
-
 

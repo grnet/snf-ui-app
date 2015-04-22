@@ -5,6 +5,6 @@ export default LoadingRoute.extend({
 
   setupController: function (controller, model) {
       this._super(controller, model);
-      controller.set('msg', 'Loading application');
+      controller.set('msg', 'Loading data');
   }
 });

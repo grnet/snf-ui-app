@@ -1,16 +1,16 @@
 .top-bar {
-    padding: rem-calc(0 0 0 20px); 
     @include bar-style();
+    padding: rem-calc(0 0 0 20px); 
     .top-bar-section {
         .breadcrumbs {
-            &> *:before {
+            > *:before {
                 margin: rem-calc(0 2px);
             }
             li {
                 text-transform: none;
                 a {
-                    padding: rem-calc(0 5px);
                     display: inline;
+                    padding: rem-calc(0 5px);
                 }
                 &:hover {
                     a {
@@ -22,11 +22,11 @@
         }
         .right {
             li {
-                border-left: 1px solid #d8d8d8;
+                border-left: 1px solid $gainsboro;
                 text-align: center;
                 a {
-                    line-height: inherit;
                     height: $topbar-height;
+                    line-height: inherit;
                     padding: rem-calc(15px 15px 0);
                     &:hover {
                         text-decoration: none;
@@ -42,9 +42,9 @@
         li.disabled {
             opacity: 0.5;
             a:hover {
-                cursor: default;
                 background: inherit;
                 color: inherit;
+                cursor: default;
             }
             &:hover label {
                 color: $body-font-color;
@@ -70,8 +70,8 @@
 
     }
     select {
-        width: 200px;
         margin: 10px;
+        width: 200px;
     }
     &.fixed {
         position: fixed;

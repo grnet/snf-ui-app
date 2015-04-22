@@ -1,26 +1,26 @@
-/* Header ----------------------------------------------- */
-
 .header {
+    background: $theme-header-background;
     height: $header-height;
     padding: $default-padding;
-    background: $theme-header-background;
+
     nav {
         float: left;
         ul {
             margin: 0;
-            li {
-                float: left;
-                list-style: none outside none;
-                padding-left: 20px;
-            }
+        }
+        li {
+            float: left;
+            list-style: none outside none;
+            padding-left: 20px;
         }
     }
+
     .logo {
+        float: left;
         &:hover {
             transform: scale(1.05);
             transition: 0.2s;
         }
-        float:left;
         img {
             max-height: 40px;
         }
