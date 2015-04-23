@@ -8,6 +8,7 @@ app.import('bower_components/foundation/js/foundation/foundation.js');
 app.import('bower_components/foundation/js/foundation/foundation.reveal.js');
 app.import('bower_components/underscore/underscore.js');
 app.import('bower_components/is_js/is.js');
+app.import('bower_components/jquery-cookie/jquery.cookie.js');
 app.import('bower_components/jquery.iframe-transport/jquery.iframe-transport.js');
 app.import('bower_components/chartist/dist/chartist.min.js');
 app.import('bower_components/chartist/dist/chartist.min.css');
