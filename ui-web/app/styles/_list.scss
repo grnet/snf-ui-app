@@ -1,6 +1,7 @@
 $list-line-height : 40px;
 
 .list {
+    font-size: rem-calc(14);
     li:first-child {
         .wrap {
             background: darken($table-even-row-bg, 5%); 
@@ -10,20 +11,19 @@ $list-line-height : 40px;
             min-width: 260px;
         }
     }
-    font-size: rem-calc(14);
     .wrap {
-        padding: 5px 10px;
-        background: #fff;
+        background: $items-bg-color;
         border-top: 1px solid transparent;
+        padding: 5px 10px;
     }
     h4 {
         font-size: rem-calc(14);
         line-height: $list-line-height;
         margin: 0;
         a {
-            width: 100%;
             display: inline-block;
             line-height: rem-calc(20);
+            width: 100%;
         }
     }
     .col {
@@ -35,8 +35,8 @@ $list-line-height : 40px;
         display: none;
     }
     select {
-        min-width: 250px;
         margin: 0;
+        min-width: 250px;
     }
     li {
         line-height: $list-line-height;
@@ -67,12 +67,16 @@ $list-line-height : 40px;
     .date-col {
         min-width: 12%;
         text-align: right;
+        .subtle {
+            display: block;
+            margin-top: - $list-line-height/2;
+        }
     }
     .select-col {
         min-width: 250px;
         select {
-            width: 100%;
             margin: 0;
+            width: 100%;
 
         }
     }
