@@ -1,6 +1,10 @@
 body {
-    background: url('../assets/images/fabric_of_squares_gray.png');
-    /*background: url('http://subtlepatterns.com/patterns/symphony.png');*/
+    background: url("../assets/images/fabric_of_squares_gray.png");
+    // background: url('http://subtlepatterns.com/patterns/symphony.png');
+}
+
+.app {
+    height: 100%;
 }
 
 :focus {
@@ -8,93 +12,58 @@ body {
 }
 
 .clearfix {
-    &>.lt {
+    >.lt {
         float: left;
     }
-    &>.rt {
+    >.rt {
         float: right;
     }
 }
 
 .main {
-    padding: $default-padding;
-    padding-bottom: $topbar-height;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    overflow: hidden;
+    padding: ($topbar-height + $header-height + $default-padding) $default-padding $topbar-height;
+    right: 0;
+    top: 0;
 }
 
-.fixed + .main {
-    padding-top: $default-padding + $topbar-height;
+.content {
+    height: 100%;
+    overflow-y: auto;
 }
-
-
 
 // button class
 .btn-minor {
     @include button($button-med, $theme-inactive-color, inherit, false, false, false)
 }
 
-.icon-btn {
-    display: inline-block;
-    padding: rem-calc(4px 8px);
-    color: #fff;
-    margin: 0 5px;
-    background: $theme-anchor-font-color;
-    line-height: initial;
-    &:hover {
-        color: #fff;
-        background: $theme-anchor-font-color-hover;
-        text-decoration: none;
-    }
-    i {
-        font-size: rem-calc(20px);
-    }
-}
-
-tr:hover, li:hover {
-    /*.icon-btn {*-hover;
-        /*background: $theme-anchor-font-color; */
-        /*&:hover {*/
-            /*background: $theme-anchor-font-color-hover;*/
-        /*}*/
-    /*}*/
-    /*[>.icon-a {<]*/
-        /*color: $theme-anchor-font-color;*/
-        /*border-color: $theme-anchor-font-color;*/
-        /*&:hover {*/
-            /*color: $theme-anchor-font-color-hover;*/
-            /*border-color: $theme-anchor-font-color-hover;*/
-        /*}*/
-        /*&[disabled] {*/
-            /*color: $theme-inactive-color;*/
-            /*border-color: $theme-inactive-color;*/
-            /*border-style: dotted;*/
-        /*}*/
-
-    /*}*/
-}
- 
-
 .danger {
-    font-weight: bold;
+    color: $danger-color;
     font-size: rem-calc(14);
-    color: red;
+    font-weight: bold;
 }
 
-span.subtle {
+.subtle {
     color: $theme-inactive-color;
     font-size: rem-calc(13px);
     font-style: italic;
 }
 
 .sidebar {
-    h4 a.active {
+    height: 100%;
+    overflow-y: auto;
+    h4 .active {
         color: $body-font-color;
     }
 }
 
 #loader {
-    text-align: center;
+    color: $jumbo;
     padding: 3em;
-    color: gray;
+    text-align: center;
     h4 {
         color: $theme-alert-color;
         margin: 1em;
@@ -107,7 +76,7 @@ span.subtle {
 
 
 .hidden {
-    display: none!important;
+    display: none !important;
 }
 
 @include keyframes(background-change) {
@@ -115,31 +84,33 @@ span.subtle {
     100% { background-color: #fff; }
 }
 
-.new .wrap, .new ~td {
-    @include animation('background-change 2s');
+.new .wrap {
+    @include animation("background-change 2s");
 }
 
 .icon-a {
     border-radius: 50%;
-    padding: 2px;
-    margin: 0 2px;
     border: 2px dotted $theme-anchor-font-color;
+    margin: 0 2px;
+    padding: 2px;
     &:hover {
         border-color: $theme-anchor-font-color-hover;
         border-style: solid;
     }
     &[disabled] {
-        color: $theme-inactive-color;
         border-color: $theme-inactive-color;
         border-style: dotted;
+        color: $theme-inactive-color;
         cursor: default;
     }
 }
 
-.arrow-down, .arrow-up {
-        margin-left: 6px;
-        vertical-align: middle;
-    }
+.arrow-down, 
+.arrow-up {
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
 .arrow-down {
     display: initial;
 }

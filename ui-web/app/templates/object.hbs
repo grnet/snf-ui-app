@@ -74,10 +74,10 @@
         {{/if}}
 
        {{#unless trash}}
-            <a {{action 'showDialog' 'sharing' 'object/sharing' this}} class="icon-btn">Share</a>
+            <a {{action 'showDialog' 'sharing' 'object/sharing' this}} class="button small">Share</a>
         {{/unless}}
         {{#if trash}}
-            <a {{action 'showDialog' 'restore' 'object/restore' this}} class="icon-btn">Restore</a>
+            <a {{action 'showDialog' 'restore' 'object/restore' this}} class="button small">Restore</a>
         {{/if}}
     </div>
     {{#if listView}}
@@ -101,7 +101,7 @@
             &nbsp;
         {{else}}
             {{#tooltip-hint title="Download"}}
-                <a {{bind-attr href=view_src}} target="_blank" class="icon-btn">{{fa-icon "fa-download fa-fw"}}</a>
+                <a {{bind-attr href=view_src}} target="_blank" class="button small">{{fa-icon "fa-download fa-fw"}}</a>
             {{/tooltip-hint}}
         {{/if}}
         <a {{action 'showDialog' 'confirm-simple' this.controller this 'deleteObject'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>

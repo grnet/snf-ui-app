@@ -1,23 +1,23 @@
 .items {    
+    list-style-type: none;
     .wrap {
         position: relative;
     }
-    list-style-type: none;
     .loading {
         .loader {
             display: block;
         }
     }
     .loader {
-        display: none;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
         background: rgba(255, 255, 255, 0.45);
-        text-align: center;
+        bottom: 0;
+        display: none;
+        left: 0;
         line-height: 100%;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: 0;
         z-index: 1;
         i {
             font-size: 30px;
@@ -32,9 +32,13 @@
     }
     .is-selected {
         .wrap {
-            background: $theme-primary-color-light!important;
+            background: $theme-primary-color-light !important;
             border-top: 1px solid #fff;
         }
+    }
+    .button {
+        margin: 0;
+        padding: rem-calc(4 8); 
     }
 
 }

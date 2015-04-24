@@ -1,6 +1,12 @@
 .top-bar {
     @include bar-style();
     padding: rem-calc(0 0 0 20px); 
+    position: absolute;
+    top: $header-height;
+    left: 0;
+    right: 0;
+    height: $topbar-height;
+
     .top-bar-section {
         .breadcrumbs {
             > *:before {
@@ -75,6 +81,7 @@
     }
     &.fixed {
         position: fixed;
+        top: 0;
         width: 100%;
     }
     

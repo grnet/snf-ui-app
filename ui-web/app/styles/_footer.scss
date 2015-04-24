@@ -1,10 +1,10 @@
 .footer {
-    position: fixed;
-    bottom:0;
-    width: 100%;
-    padding: $default-padding;
     @include bar-style();
     font-size: rem-calc(12);
+    height: $topbar-height;
+    margin-top: - $topbar-height;
+    padding: $default-padding;
+    position: relative;
     z-index: 99;
 }
 

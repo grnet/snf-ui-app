@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.View.extend({
+  classNames: ['app'],
   didInsertElement: function(){
 
     var stickyOffset = $('.sticky').offset().top;

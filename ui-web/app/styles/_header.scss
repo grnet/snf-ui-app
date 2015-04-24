@@ -1,7 +1,10 @@
 .header {
     background: $theme-header-background;
     height: $header-height;
+    left: 0;
     padding: $default-padding;
+    position: absolute;
+    right: 0;
 
     nav {
         float: left;

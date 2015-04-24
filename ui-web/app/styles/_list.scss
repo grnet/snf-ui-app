@@ -14,7 +14,7 @@ $list-line-height : 40px;
     .wrap {
         background: $items-bg-color;
         border-top: 1px solid transparent;
-        padding: 5px 10px;
+        padding: rem-calc(2 8);
     }
     h4 {
         font-size: rem-calc(14);
@@ -78,6 +78,9 @@ $list-line-height : 40px;
             margin: 0;
             width: 100%;
 
+        }
+        span {
+            float: left;
         }
     }
     .loader {
