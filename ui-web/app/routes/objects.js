@@ -11,7 +11,7 @@ export default Ember.Route.extend(ResetScrollMixin,{
 
     window.scrollTo(0,0);
 
-    return this.store.find('object', {
+    return this.store.findQueryReloadable('object', {
         path: currentPath,
         container_id: containerID
       }).then(function(objects) {

@@ -1,9 +1,11 @@
 import Ember from 'ember';
 import ResetScrollMixin from '../mixins/reset-scroll';
 
-export default Ember.Route.extend(ResetScrollMixin,{
-  model: function(){
-    return this.store.find('container');
+export default Ember.Route.extend(ResetScrollMixin, {
+
+  model: function() {
+    var model = this.store.findQueryReloadable('container', {});
+    return model;
   },
 
   renderTemplate: function(params){
