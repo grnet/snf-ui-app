@@ -1,11 +1,12 @@
 .top-bar {
     @include bar-style();
+    height: $topbar-height;
+    left: 0;
     padding: rem-calc(0 0 0 20px); 
     position: absolute;
-    top: $header-height;
-    left: 0;
     right: 0;
-    height: $topbar-height;
+    top: $header-height;
+    z-index: 1;
 
     .top-bar-section {
         .breadcrumbs {

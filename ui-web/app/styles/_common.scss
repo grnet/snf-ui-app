@@ -25,7 +25,7 @@ body {
     height: 100%;
     left: 0;
     overflow: hidden;
-    padding: ($topbar-height + $header-height + $default-padding) $default-padding $topbar-height;
+    padding: ($topbar-height + $header-height) 0 $topbar-height;
     right: 0;
     top: 0;
 }
@@ -33,6 +33,7 @@ body {
 .content {
     height: 100%;
     overflow-y: auto;
+    padding-top: $default-padding;
 }
 
 // button class
@@ -53,8 +54,10 @@ body {
 }
 
 .sidebar {
+    background: $topbar-bg-color;
     height: 100%;
     overflow-y: auto;
+    padding-top: $default-padding;
     h4 .active {
         color: $body-font-color;
     }
@@ -85,7 +88,7 @@ body {
 }
 
 .new .wrap {
-    @include animation("background-change 2s");
+    @include animation("background-change 4s");
 }
 
 .icon-a {
