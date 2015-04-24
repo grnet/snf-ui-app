@@ -1,6 +1,11 @@
 import DS from 'ember-data';
+import {markRefresh} from '../snf/refresh';
 
 var SynnefoStore = DS.Store.extend({
+  
+  findQueryReloadable: function(type, query) {
+    return markRefresh(this, 'findQuery', type, query)
+  },
 
   reassignContainer: function(type, record, project_id){
     var adapter = this.adapterFor(record.constructor);
