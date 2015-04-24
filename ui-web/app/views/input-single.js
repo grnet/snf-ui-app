@@ -70,7 +70,8 @@ export default Ember.View.extend({
 		if(toValidate) {
 			var action = this.get('controller').get('actionToExec');
 			var validForm = false;
-			var notEmpty, noSlash, notTooLarge, isModified;
+			var notEmpty, noSlash, notTooLarge;
+			var isModified = this.get('isModified');
 
 			this.set('errorVisible', false);
 			if(action === 'createContainer') {
@@ -86,7 +87,6 @@ export default Ember.View.extend({
 				notEmpty = this.get('notEmpty');
 				notTooLarge = this.get('notTooLarge');
 				validForm = notEmpty && notTooLarge;
-				isModified = this.get('isModified');
 				if(!isModified) {
 					this.get('parentView').send('reset');
 				}
