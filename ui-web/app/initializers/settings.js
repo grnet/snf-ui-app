@@ -10,6 +10,9 @@ var registerAndAdvance = function(settings, container, app, err) {
   app.inject('model', 'settings', 'settings:main');
   app.inject('route', 'settings', 'settings:main');
   app.advanceReadiness();
+  
+  // cache settings to cookie
+  settings.persist('ui_settings');
 }
 
 var resolveAuth = function(settings, container, app) {
@@ -29,7 +32,10 @@ var resolveAuth = function(settings, container, app) {
 
 export var initialize = function(container, app) {
   app.deferReadiness();
-  
+ 
+  settings.loadFromCookie("ui_settings");
+  settings.loadFromQS(window.location.hash.replace(/^#/, '') || '');
+
   var authUrl = settings.get("authUrl");
   if (authUrl) {
 
