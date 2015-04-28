@@ -96,7 +96,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     },
 
 
-    validateCreate: function(action) {
+    validateCreation: function(action) {
       var flag = 'validationOnProgress';
       this.set('actionToExec', action);
       this.set(flag, true);
