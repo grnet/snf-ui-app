@@ -30,10 +30,22 @@
     h4 a {
         display: block;
     }
+    .selected-icon {
+        visibility: hidden;
+    }
     .is-selected {
         .wrap {
             background: $theme-primary-color-light !important;
             border-top: 1px solid #fff;
+        }
+        .selected-icon {
+            color: $info-color;
+            font-size: rem-calc(18);
+            left: -8px;
+            position: absolute;
+            top: 2px;
+            visibility: visible;
+
         }
     }
     .button {
