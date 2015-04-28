@@ -20,6 +20,7 @@ var serviceUrl = function(service, url) {
 }
 
 export default Ember.Object.extend({
+  modelRefreshInterval: 5000,
   serviceCatalog: [],
   services: function() {
     var catalog = this.get('serviceCatalog');
