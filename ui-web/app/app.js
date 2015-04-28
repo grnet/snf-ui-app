@@ -11,8 +11,7 @@ var App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver: Resolver,
-  ApplicationStore: SynnefoStore,
-  LOG_TRANSITIONS: true // prints in console the transitions
+  ApplicationStore: SynnefoStore
 });
 
 loadInitializers(App, config.modulePrefix);

@@ -1,11 +1,11 @@
 {
-  "predef": {
-    "document": true,
-    "window": true,
-    "-Promise": true,
-    "WowENV": true,
-    "moment": true
-  },
+  "predef": [
+    "document",
+    "window",
+    "-Promise",
+    "WowENV",
+    "moment"
+  ],
   "browser" : true,
   "boss" : true,
   "curly": true,

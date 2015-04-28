@@ -11,13 +11,18 @@
 
     <link rel="stylesheet" href="{{ MEDIA_URL }}ui/assets/vendor.css">
     <link rel="stylesheet" href="{{ MEDIA_URL }}ui/assets/ui-web.css">
+
+    {{content-for 'head-footer'}}
   </head>
   <body>
     {{content-for 'body'}}
+
     <script>
       window.SETTINGS = {{ app_settings|safe }}
     </script>
     <script src="{{ MEDIA_URL }}ui/assets/vendor.js"></script>
     <script src="{{ MEDIA_URL }}ui/assets/ui-web.js"></script>
- </body>
+
+    {{content-for 'body-footer'}}
+  </body>
 </html>
