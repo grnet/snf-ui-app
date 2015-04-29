@@ -1,5 +1,7 @@
-$header-height: 80px;
-$default-padding: 20px;
+@import "foundation/functions";
+
+$header-height: rem-calc(80);
+$default-padding: rem-calc(20);
 $danger-color: #f43d3d;
 
 // palette
