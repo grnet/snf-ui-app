@@ -30,7 +30,7 @@ Router.map(function() {
 
   this.resource('container', { path: '/containers/:container_id'}, function(){
     this.resource('objects', { path: '/*current_path'}, function(){
-      this.resource('object', function(){
+      this.resource('object', { overrideNameAssertion: true }, function(){
         this.route('versions');
       });
     });
