@@ -99,7 +99,8 @@ var Refresher = Ember.Object.extend({
   },
 
   parseSpec: function(spec) {
-    var name, interval, callee, context, parts, lastpart;
+    var _spec, name, interval, callee, context, parts, lastpart, contextName;
+    _spec = spec;
     spec = spec.split(":");
     name = spec[0];
     if (spec.length > 1) { interval = spec[1]; }
@@ -107,6 +108,7 @@ var Refresher = Ember.Object.extend({
     // resolve context and param|method
     parts = name.split(".");
     lastpart = name;
+    contextName = name;
 
     context = this.get('context');
 
@@ -114,11 +116,20 @@ var Refresher = Ember.Object.extend({
       context = this.get('context').get(
         parts.slice(0, parts.length-1).join('.'));
       lastpart = parts[parts.length-1];
+      if (parts.length > 1) {
+        contextName = parts.slice(0,parts.length-1).join('.');
+      } else {
+        contextName = null;
+      }
     }
 
-    callee = context[lastpart] || (context.get ? context.get(lastpart) : null);
-    context = this.get('context').get(name) || {};
-    
+    if (contextName) {
+      context = this.get('context').get(contextName) || {};
+    } else {
+      context = this.get('context');
+    }
+    callee = (context.get ? context.get(lastpart) : null) || context[lastpart];
+
     if (Ember.$.isFunction(callee)) {
       callee = callee.bind(context);
     }
@@ -135,7 +146,8 @@ var Refresher = Ember.Object.extend({
       interval: interval || this.get('interval'),
       context: context,
       source: this.get('context').toString(),
-      callee: callee
+      callee: callee,
+      spec: _spec
     }
   },
 
