@@ -2,7 +2,9 @@
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var pickFiles = require('broccoli-static-compiler');
 var mergeTrees = require('broccoli-merge-trees');
-var app = new EmberApp();
+var app = new EmberApp({
+  hinting: false
+});
 
 app.import('bower_components/moment/moment.js');
 app.import('bower_components/foundation/js/foundation/foundation.js');
