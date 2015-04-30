@@ -62,7 +62,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 	* - unknown -> fa-file-o (unknown type) 
 	*/
 	iconCls: function() {
-		var type = this.get('controller').get('type');
+		var type = this.get('controller').get('model.type');
 		var iconCls = {};
 
 		iconCls['dir'] = 'fa-folder';
@@ -86,9 +86,9 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 	}.property('controller.type', 'dragActive'),
 
 	previewSupported: function() {
-		var type = this.get('controller').get('type');
-		var name = this.get('controller').get('name');
-		var extensionIndex = name.lastIndexOf('.') + 1;
+		var type = this.get('controller').get('model.type');
+		var name = this.get('controller').get('model.name');
+    var extensionIndex = name.lastIndexOf('.') + 1;
 		var extension = name.substr(extensionIndex).toLowerCase();
 		var supportedFormats;
 		if(type === 'image') {

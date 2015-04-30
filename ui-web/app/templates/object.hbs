@@ -3,45 +3,46 @@
     <div class="loader">{{fa-icon "fa-refresh fa-pulse"}}</div>
 
     <div class="col name-col">
-        {{#if new}}<span class="label alert">new</span>{{/if}}
-        {{#if is_dir}}
-            {{#link-to 'objects' name}}
+        {{#if object.new}}<span class="label alert">new</span>{{/if}}
+        {{#if object.model.is_dir}}
+            {{#link-to 'objects' object.model.name}}
                 {{fa-icon view.iconCls}}
                 <span class="js-name">
-                    {{stripped_name}}
+                    {{object.model.stripped_name}}
                </span>
             {{/link-to}}
         {{else}}
             {{#if view.previewSupported}}
-                {{#if isImg}}
-                    {{#light-box href=view_src data-lightbox="g-1" data-title=stripped_name inlineImage=false}}
+                {{#if object.isImg}}
+                    {{#light-box href=object.model.view_src data-lightbox="g-1" data-title=object.model.stripped_name inlineImage=false}}
                     {{fa-icon "fa-image"}}
                     {{/light-box}}
                 {{/if}}
             {{else}}
                 {{fa-icon view.iconCls}}
             {{/if}}
-            <span class="js-name hint--bottom" {{bind-attr data-hint=stripped_name}}>
+            <span class="js-name hint--bottom" {{bind-attr data-hint=object.model.stripped_name}}>
                 <span>
-                    {{stripped_name_no_ext}}
-                    {{#if has_ext}}
-                        <em>.{{extension}}</em>
+                    {{object.model.stripped_name_no_ext}}
+                    {{#if object.model.has_ext}}
+                        <em>.{{object.model.extension}}</em>
                     {{/if}}
      
                 </span>
             </span>
         {{/if}}
         <form {{action 'reset' 'validateRename,renameObject' target=view on="submit"}}>
-            {{view "input-single" value=stripped_name placeholder=stripped_name cls="hidden" oldValue=stripped_name}}
+            {{view "input-single" value=object.model.stripped_name placeholder=object.model.stripped_name cls="hidden" oldValue=object.model.stripped_name}}
             <a  class="hidden js-hide-edit icon-a" {{action 'reset' 'validateRename,renameObject' target=view}} title="Rename">{{fa-icon "fa-check fa-fw"}}</a>
             <a class="js-cancel js-hide-edit hidden icon-a" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times fa-fw"}}</a>
         </form>
 
         <a class="js-show-edit icon-a" title="Rename">{{fa-icon "fa-pencil fa-fw"}}</a>
-            {{#if public_link}}
+            {{#if object.model.public_link}}
                 <span class="right">
                 {{#tooltip-hint title="Public link"}}
-                    <a {{bind-attr href=public_link}} target="_blank">{{fa-icon "fa-link"}}</a>
+                    <a {{bind-attr href=object.model.public_link}} target="_blank">{{fa-icon "fa-link"}}</a>
+
                 {{/tooltip-hint}}
                 </span>
             {{/if}}
@@ -52,66 +53,66 @@
         <dl>    
             <dt>Type</dt>
             <dd>
-                {{#tooltip-hint title=extension}}
-                    {{type}}
+                {{#tooltip-hint title=object.model.extension}}
+                    {{object.model.type}}
                 {{/tooltip-hint}}
             </dd>
             <dt>Size</dt>
-            <dd>{{convert-bytes bytes}}</dd>
+            <dd>{{convert-bytes object.model.bytes}}</dd>
             <dt>Modified</dt>
             <dd>
-                {{#tooltip-hint title=last_modified_human}}
-                    {{time-from-now last_modified }} <span class="subtle">{{modified-by current_user.email modified_by.email}}</span>
+                {{#tooltip-hint title=object.model.last_modified_human}}
+                    {{time-from-now object.model.last_modified }} <span class="subtle">{{modified-by object.current_user.email object.modified_by.email}}</span>
                 {{/tooltip-hint}}
             </dd>
         </dl>
     {{/if}}
     <div class="col select-col">
-        {{#if sharing}}
+        {{#if object.model.sharing}}
             <span class="hint--bottom" data-hint="Privately shared">
                 {{fa-icon "fa-user"}}
             </span>
         {{/if}}
 
-       {{#unless trash}}
-            <a {{action 'showDialog' 'sharing' 'object/sharing' this}} class="button small">Share</a>
+       {{#unless object.trash}}
+            <a {{action 'showDialog' 'sharing' 'object/sharing' object}} class="button small">Share</a>
         {{/unless}}
-        {{#if trash}}
-            <a {{action 'showDialog' 'restore' 'object/restore' this}} class="button small">Restore</a>
+        {{#if object.trash}}
+            <a {{action 'showDialog' 'restore' 'object/restore' object}} class="button small">Restore</a>
         {{/if}}
     </div>
     {{#if listView}}
        <div class="col data-col">
-            {{convert-bytes bytes}}
+            {{convert-bytes object.model.bytes}}
         </div>
 
        <div class="col date-col">
-                {{#tooltip-hint title=last_modified_human}}
-                    {{time-from-now last_modified }} <span class="subtle">{{modified-by current_user.email modified_by.email}}</span>
+                {{#tooltip-hint title=object.model.last_modified_human}}
+                    {{time-from-now object.model.last_modified }} <span class="subtle">{{modified-by object.current_user.email object.model.modified_by.email}}</span>
                 {{/tooltip-hint}}
         </div>
         <div class="col data-col">
-            {{#tooltip-hint title=extension}}
-                {{type}}
+            {{#tooltip-hint title=object.model.extension}}
+                {{object.model.type}}
             {{/tooltip-hint}}
         </div>
     {{/if}}
     <div class="col actions-col">
-        {{#if is_dir}}
+        {{#if object.model.is_dir}}
             &nbsp;
         {{else}}
             {{#tooltip-hint title="Download"}}
-                <a {{bind-attr href=view_src}} target="_blank" class="button small">{{fa-icon "fa-download fa-fw"}}</a>
+                <a {{bind-attr href=object.model.view_src}} target="_blank" class="button small">{{fa-icon "fa-download fa-fw"}}</a>
             {{/tooltip-hint}}
         {{/if}}
-        <a {{action 'showDialog' 'confirm-simple' this.controller this 'deleteObject'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
-        {{#unless trash}}
+        <a {{action 'showDialog' 'confirm-simple' object object.model 'deleteObject'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
+        {{#unless object.trash}}
             <a {{action 'moveToTrash'}} title="move item to trash" class="icon-a">{{fa-icon "fa-trash fa-fw"}}</a>
         {{/unless}}
         <a {{action 'cutObject'}} title="cut Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
         <a {{action 'copyObject'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
-        {{#unless is_dir}}
-            <a {{action 'showDialog' 'versions' 'object/versions' this}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
+        {{#unless object.is_dir}}
+            <a {{action 'showDialog' 'versions' 'object/versions' object.model}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
         {{/unless}}
     </div>
 

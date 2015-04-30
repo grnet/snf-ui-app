@@ -10,65 +10,65 @@
         </div>
     </li>
 {{/if}}
-{{#each sortedModel itemController="container"}}
-    <li {{bind-attr class="new loading isTrash"}}>
+{{#each container in sortedModel itemController="container"}}
+    <li {{bind-attr class="container.new container.loading container.model.isTrash"}}>
         <div class="wrap clearfix">
 
             <div class="loader">{{fa-icon "fa-refresh fa-pulse"}}</div>
 
             <div class="col name-col">
                 {{#if new}}<span class="label alert">new</span>{{/if}}
-                <h4>{{#link-to 'container' name}}{{name}}{{/link-to}}</h4>
+                <h4>{{#link-to 'container' container.model.name}}{{container.model.name}}{{/link-to}}</h4>
             </div>
             {{#if gridView}}
                 <dl>    
                     <dt>Items</dt>
-                    <dd>{{count}}</dd>
+                    <dd>{{container.model.count}}</dd>
                     <dt>Size</dt>
-                    <dd>{{convert-bytes bytes}}</dd>
+                    <dd>{{convert-bytes container.model.bytes}}</dd>
                     <dt>Modified</dt>
                     <dd>
-                        {{#tooltip-hint title=last_modified_human}}
-                            {{time-from-now last_modified }}
+                        {{#tooltip-hint title=container.model.last_modified_human}}
+                            {{time-from-now container.model.last_modified }}
                         {{/tooltip-hint}}
                     </dd>
                 </dl>
             {{/if}}
             <div class="col select-col">
-                {{view "select" content=availableProjects
+                {{view "select" content=container.availableProjects
                                 optionLabelPath="content.select_label"
                                 optionValuePath="content.id"
                                 prompt="Reassign project:"
-                                selection=selectedProject}}
+                                selection=container.selectedProject}}
             </div>
  
             {{#if listView}}
                <div class="col data-col">
-                    {{convert-bytes bytes}}
+                    {{convert-bytes container.model.bytes}}
                 </div>
                 <div class="col date-col">
-                        {{#tooltip-hint title=last_modified_human}}
-                            {{time-from-now last_modified }}
+                        {{#tooltip-hint title=container.model.last_modified_human}}
+                            {{time-from-now container.model.last_modified }}
                         {{/tooltip-hint}}
                 </div>
 
             {{/if}}
            {{#if listView}}
                 <div class="col data-col">
-                    {{count}}
+                    {{container.model.count}}
                 </div>
             {{/if}}
             <div class="col actions-col">
-                {{#if isTrash}}
+                {{#if container.model.isTrash}}
                     <a class="icon-a" title="Cannot delete trash container" disabled>{{fa-icon "fa-remove fa-fw"}}</a>
                 {{else}}
-                    {{#if isEmpty}}
+                    {{#if container.isEmpty}}
                         <a class="icon-a" title="Delete container" {{action 'emptyAndDelete'}}>{{fa-icon "fa-remove fa-fw"}}</a>
                     {{else}}
                         <a class="icon-a" title="Delete container" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyAndDelete'}}>{{fa-icon "fa-remove fa-fw"}}</a>
                     {{/if}}
                 {{/if}}
-                {{#if isEmpty}}
+                {{#if container.isEmpty}}
                     <a class="icon-a" title="Empty container" disabled> {{fa-icon "fa-trash-o fa-fw"}}</a>
                 {{else}}
                     <a class="icon-a" title="Empty container" {{action 'showDialog' 'confirm-simple' this.controller this 'emptyContainer'}}>

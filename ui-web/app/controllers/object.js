@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
   itemType: 'object',
   object_view: true,
   needs: ['objects', 'application'],
