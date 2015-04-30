@@ -31,21 +31,23 @@
                 </span>
             </span>
         {{/if}}
-        <form {{action 'reset' 'validateRename,renameObject' target=view on="submit"}}>
-            {{view "input-single" value=object.model.stripped_name placeholder=object.model.stripped_name cls="hidden" oldValue=object.model.stripped_name}}
-            <a  class="hidden js-hide-edit icon-a" {{action 'reset' 'validateRename,renameObject' target=view}} title="Rename">{{fa-icon "fa-check fa-fw"}}</a>
-            <a class="js-cancel js-hide-edit hidden icon-a" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times fa-fw"}}</a>
-        </form>
+        {{#if view.canRename}}
+            <form {{action 'reset' 'validateRename,renameObject' target=view on="submit"}}>
+                {{view "input-single" value=object.model.stripped_name placeholder=object.model.stripped_name cls="hidden" oldValue=object.model.stripped_name}}
+                <a  class="hidden js-hide-edit icon-a" {{action 'reset' 'validateRename,renameObject' target=view}} title="Rename">{{fa-icon "fa-check fa-fw"}}</a>
+                <a class="js-cancel js-hide-edit hidden icon-a" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times fa-fw"}}</a>
+            </form>
 
-        <a class="js-show-edit icon-a" title="Rename">{{fa-icon "fa-pencil fa-fw"}}</a>
-            {{#if object.model.public_link}}
-                <span class="right">
-                {{#tooltip-hint title="Public link"}}
-                    <a {{bind-attr href=object.model.public_link}} target="_blank">{{fa-icon "fa-link"}}</a>
+            <a class="js-show-edit icon-a" title="Rename">{{fa-icon "fa-pencil fa-fw"}}</a>
+        {{/if}}
+        {{#if object.model.public_link}}
+            <span class="right">
+            {{#tooltip-hint title="Public link"}}
+                <a {{bind-attr href=object.model.public_link}} target="_blank">{{fa-icon "fa-link"}}</a>
 
-                {{/tooltip-hint}}
-                </span>
-            {{/if}}
+            {{/tooltip-hint}}
+            </span>
+        {{/if}}
  
 
     </div>
@@ -74,10 +76,10 @@
             </span>
         {{/if}}
 
-       {{#unless object.trash}}
+        {{#if view.canShare}}
             <a {{action 'showDialog' 'sharing' 'object/sharing' object}} class="button small">Share</a>
-        {{/unless}}
-        {{#if object.trash}}
+        {{/if}}
+        {{#if view.canRestore}}
             <a {{action 'showDialog' 'restore' 'object/restore' object}} class="button small">Restore</a>
         {{/if}}
     </div>
@@ -98,22 +100,27 @@
         </div>
     {{/if}}
     <div class="col actions-col">
-        {{#if object.model.is_dir}}
-            &nbsp;
-        {{else}}
+        {{#if view.canDownload}}
             {{#tooltip-hint title="Download"}}
                 <a {{bind-attr href=object.model.view_src}} target="_blank" class="button small">{{fa-icon "fa-download fa-fw"}}</a>
             {{/tooltip-hint}}
         {{/if}}
-        <a {{action 'showDialog' 'confirm-simple' object object.model 'deleteObject'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
-        {{#unless object.trash}}
+        {{#if view.canDelete}}
+            <a {{action 'showDialog' 'confirm-simple' object object.model 'deleteObject'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
+        {{/if}}
+        {{#if view.canTrash}}
             <a {{action 'moveToTrash'}} title="move item to trash" class="icon-a">{{fa-icon "fa-trash fa-fw"}}</a>
-        {{/unless}}
-        <a {{action 'cutObject'}} title="cut Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
-        <a {{action 'copyObject'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
-        {{#unless object.is_dir}}
+        {{/if}}
+        {{#if view.canMove}}
+            <a {{action 'cutObject'}} title="cut Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
+
+        {{/if}}
+        {{#if view.canCopy}}
+            <a {{action 'copyObject'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
+        {{/if}}
+        {{#if view.canVersions}}
             <a {{action 'showDialog' 'versions' 'object/versions' object.model}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
-        {{/unless}}
+        {{/if}}
     </div>
 
 </div>
