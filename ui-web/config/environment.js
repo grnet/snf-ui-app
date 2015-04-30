@@ -8,6 +8,12 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: 'ui',
     locationType: 'auto',
+    contentSecurityPolicy: {
+      'style-src': "'self' 'unsafe-inline' fonts.gstatic.com *.googleapis.com",
+      'font-src': "'self' fonts.gstatic.com",
+      'img-src': "'self' *.kym-cdn.com data:",
+      'script-src': "'self' 'unsafe-eval' 'unsafe-inline'"
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
