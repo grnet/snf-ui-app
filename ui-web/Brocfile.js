@@ -5,6 +5,7 @@ var mergeTrees = require('broccoli-merge-trees');
 var app = new EmberApp({
   hinting: false
 });
+app.project.addons.push(require('./ember-cli-synnefo'));
 
 app.import('bower_components/moment/moment.js');
 app.import('bower_components/foundation/js/foundation/foundation.js');

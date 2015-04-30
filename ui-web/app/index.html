@@ -8,21 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{content-for 'head'}}
-
-    <link rel="stylesheet" href="{{ MEDIA_URL }}ui/assets/vendor.css">
-    <link rel="stylesheet" href="{{ MEDIA_URL }}ui/assets/ui-web.css">
-
+    <link rel="stylesheet" href="{{content-for 'mediaURL'}}ui/assets/vendor.css">
+    <link rel="stylesheet" href="{{content-for 'mediaURL'}}ui/assets/ui-web.css">
     {{content-for 'head-footer'}}
   </head>
   <body>
     {{content-for 'body'}}
-
-    <script>
-      window.SETTINGS = {{ app_settings|safe }}
-    </script>
-    <script src="{{ MEDIA_URL }}ui/assets/vendor.js"></script>
-    <script src="{{ MEDIA_URL }}ui/assets/ui-web.js"></script>
-
+    <script>{{content-for 'settings'}}</script>
+    <script src="{{content-for 'mediaURL'}}ui/assets/vendor.js"></script>
+    <script src="{{content-for 'mediaURL'}}ui/assets/ui-web.js"></script>
     {{content-for 'body-footer'}}
   </body>
+  <script>
+    $(document).foundation({
+      animation_speed: 400
+    });
+  </script>
+ </body>
 </html>

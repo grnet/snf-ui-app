@@ -2,6 +2,8 @@
 
 module.exports = function(environment) {
   var ENV = {
+    djangoContext: true,
+    appSettings: {},
     modulePrefix: 'ui-web',
     environment: environment,
     baseURL: 'ui',
@@ -31,6 +33,11 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
+    ENV.djangoContext = false;
+    ENV.appSettings = {
+      token: 'TEST-TOKEN',
+      auth_url: '/api/identity'
+    };
     ENV.baseURL = '/';
     ENV.locationType = 'none';
 
