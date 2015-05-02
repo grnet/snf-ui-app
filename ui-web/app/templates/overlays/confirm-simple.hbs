@@ -1,7 +1,7 @@
 	<h3>{{view.title}}</h3>
 	<p>
-        Do you want to {{view.actionVerb}} the {{itemType}} <b>{{name}}</b> 
-        {{# if count}}(containing {{count}} items){{/if}}?
+        Do you want to {{view.actionVerb}} the {{controller.itemType}} <b>{{model.name}}</b> 
+        {{# if model.count}}(containing {{model.count}} items){{/if}}?
     </p>
     <p><span class="danger">{{fa-icon "fa-warning"}} The action cannot be undone.</span></p>
 

@@ -77,10 +77,10 @@
         {{/if}}
 
         {{#if view.canShare}}
-            <a {{action 'showDialog' 'sharing' 'object/sharing' object}} class="button small">Share</a>
+            <a {{action 'openShare'}} class="button small">Share</a>
         {{/if}}
         {{#if view.canRestore}}
-            <a {{action 'showDialog' 'restore' 'object/restore' object}} class="button small">Restore</a>
+            <a {{action 'openRestore'}} class="button small">Restore</a>
         {{/if}}
     </div>
     {{#if listView}}
@@ -106,7 +106,7 @@
             {{/tooltip-hint}}
         {{/if}}
         {{#if view.canDelete}}
-            <a {{action 'showDialog' 'confirm-simple' object object.model 'deleteObject'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
+            <a {{action 'openDelete'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
         {{/if}}
         {{#if view.canTrash}}
             <a {{action 'moveToTrash'}} title="move item to trash" class="icon-a">{{fa-icon "fa-trash fa-fw"}}</a>
@@ -119,7 +119,7 @@
             <a {{action 'copyObject'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
         {{/if}}
         {{#if view.canVersions}}
-            <a {{action 'showDialog' 'versions' 'object/versions' object.model}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
+            <a {{action 'openVersions'}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
         {{/if}}
     </div>
 

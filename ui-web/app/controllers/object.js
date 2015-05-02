@@ -98,7 +98,24 @@ export default Ember.Controller.extend({
     sendMany: function(action, params){
       var object_list = [];
       object_list.pushObject(this.get('model'));
-      this.get('controllers.objects').send(action, object_list, params);
+      this.send(action, object_list, params);
+    },
+
+
+    openDelete: function(){
+      this.send('showDialog', 'confirm-simple', this, this.get('model'), 'deleteObject');
+    },
+
+    openRestore: function(){
+      this.send('showDialog', 'restore', 'object/restore', this.get('model'));
+    },
+
+    openVersions: function(){
+      this.send('showDialog', 'versions', 'object/versions', this.get('model'));
+    },
+
+    openShare: function(){
+      this.send('showDialog', 'sharing', 'object/sharing', this.get('model'));
     },
 
     deleteObject: function(){
