@@ -62,7 +62,7 @@ export default Ember.View.extend({
 		});
 
 	    $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
-	      var dialog = self.$();
+	      var dialog = $(this);
 	      dialog.find('[autofocus]').focus();
 	    });
     
