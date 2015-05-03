@@ -67,11 +67,21 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
 
 
   isEmpty: function(){
-    return this.get('count') == 0;
-  }.property('count'),
+    return this.get('model.count') == 0;
+  }.property('model.count'),
 
 
   actions: {
+
+    openEmptyAndDelete: function(){
+      this.send('showDialog', 'confirm-simple', this, this.get('model'), 'emptyAndDelete');
+    },
+
+    openEmpty: function(){
+      this.send('showDialog', 'confirm-simple', this, this.get('model'), 'emptyContainer');
+    },
+
+
     deleteContainer: function(){
       var container = this.get('model');
       var self = this;
@@ -88,6 +98,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     },
 
     emptyAndDelete: function() {
+      debugger;
       this.send('emptyContainer', true);
     },
 
@@ -95,15 +106,14 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
       var container = this.get('model');
       var self = this;
 
-
       this.set('loading', true);
       var onSuccess = function() {
-        self.set('loading', false);
         if (delete_flag) {
           self.send('deleteContainer');
         } else {
           container.set('count',0);
           container.set('bytes',0);
+          self.set('loading', false);
         }
       };
       var onFail = function(reason){
