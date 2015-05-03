@@ -298,6 +298,14 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       });
     },
 
+    clearSelected: function(){
+      
+      var selected = this.get('selectedItems');
+      selected.forEach(function(item) {
+        item.set('isSelected', false);
+      });
+    },
+
   }
 
 });

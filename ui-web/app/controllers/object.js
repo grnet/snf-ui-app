@@ -80,19 +80,19 @@ export default Ember.Controller.extend({
   }.observes('newName'),
 
 
-    renameObject: function(){
-      if(this.get('validInput')) {
-        var oldPath = this.get('oldPath');
-        var newID = this.get('newID');
-        var object = this.get('model');
-        var self = this;
-        var onSuccess = function() {
-          self.send('refreshRoute');
-        };
+  renameObject: function(){
+    if(this.get('validInput')) {
+      var oldPath = this.get('oldPath');
+      var newID = this.get('newID');
+      var object = this.get('model');
+      var self = this;
+      var onSuccess = function() {
+        self.send('refreshRoute');
+      };
 
-        var onFail = function(reason){
-          self.send('showActionFail', reason);
-        };
+      var onFail = function(reason){
+        self.send('showActionFail', reason);
+      };
 
       this.store.moveObject(object, newID).then(onSuccess, onFail);
 
@@ -106,12 +106,11 @@ export default Ember.Controller.extend({
   }.observes('validInput'),
 
   actions: {
-    sendMany: function(action, params){
-      var object_list = [];
-      object_list.pushObject(this.get('model'));
-      this.send(action, object_list, params);
+    initAction: function(action){
+      this.get('controllers.objects').send('clearSelected');
+      this.set('isSelected', true);
+      this.send(action);
     },
-
 
     openDelete: function(){
       this.send('showDialog', 'confirm-simple', this, this.get('model'), 'deleteObject');
@@ -130,7 +129,7 @@ export default Ember.Controller.extend({
     },
 
     deleteObject: function(){
-      this.send('sendMany', 'deleteObjects');
+      this.send('deleteObjects');
     },
 
     validateRename: function(action) {
@@ -140,11 +139,11 @@ export default Ember.Controller.extend({
     },
 
     moveToTrash: function(){
-      this.send('sendMany','moveObjectsToTrash');
+      this.send('moveObjectsToTrash');
     },
 
     restoreObjectFromTrash: function(selectedDir){
-      this.send('sendMany', 'restoreObjectsFromTrash', {'selectedDir': selectedDir});
+      this.get('controllers.objects').send('restoreObjectsFromTrash', {'selectedDir': selectedDir});
     },
 
     cutObject: function(){
