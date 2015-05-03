@@ -48,19 +48,11 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     return this.get('length');
   }.property('@each'),
 
-  selectedC: Ember.computed.filterBy("@this", "isSelected", true),
-
-  selected: function(){
-    var objects = [];
-    this.get('selectedC').forEach(function(s){
-      objects.pushObject(s.get('model'));
-    });
-    return objects;
-  }.property('selectedC.@each'),
+  selectedItems: [],
 
   hasSelected: function(){
-    return this.get('selectedC').length > 0;
-  }.property('selectedC.@each'),
+    return this.get('selectedItems').length > 0;
+  }.property('selectedItems.@each'),
 
   toPasteObject: null,
 
@@ -241,11 +233,11 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       this.send('refreshRoute');
     },
 
-    deleteObjects: function(object_list){
+    deleteObjects: function(controller_list){
       var self = this;
-      var selected = this.get('selected');
-      var objects = object_list || selected;
-      if (objects.length === 0) { return; }
+      var selected = controller_list || this.get('selectedItems');
+      if (selected.length === 0) { return; }
+
       var onSuccess = function() {
           console.log('delete object: onSuccess');
       };
@@ -254,17 +246,19 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         self.send('showActionFail', reason);
       };
       
-      objects.forEach(function(object) {
+      selected.forEach(function(item) {
+        item.set('isSelected', false);
+        var object = item.get('model');
         object.deleteRecord();
         object.save().then(onSuccess, onFail);
       });
     },
  
-    moveObjectsToTrash: function(object_list){
+    moveObjectsToTrash: function(controller_list){
       var self = this;
-      var selected = this.get('selected');
-      var objects = object_list || selected;
-      if (objects.length === 0) { return; }
+      var selected = controller_list || this.get('selectedItems');
+      if (selected.length === 0) { return; }
+
       var onSuccess = function() {
           console.log('move to trash object: onSuccess');
       };
@@ -273,7 +267,9 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         self.send('showActionFail', reason);
       };
 
-      objects.forEach(function(object) {
+      selected.forEach(function(item) {
+        item.set('isSelected', false);
+        var object = item.get('model');
         var newID = 'trash/'+object.get('stripped_name');
         self.send('_move', object, newID);
       });
@@ -281,9 +277,10 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
 
     restoreObjectsFromTrash: function(object_list, params){
       var self = this;
-      var selected = this.get('selected');
-      var objects = object_list || selected;
+      var selected = controller_list || this.get('selectedItems');
+      if (selected.length === 0) { return; }
       var selectedDir = params.selectedDir;
+
       if (objects.length === 0) { return; }
       var onSuccess = function() {
           console.log('restore from trash object: onSuccess');
@@ -294,6 +291,8 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       };
 
       objects.forEach(function(object) {
+        item.set('isSelected', false);
+        var object = item.get('model');
         var newID = selectedDir + '/' + object.get('stripped_name');
         self.send('_move', object, newID);
       });

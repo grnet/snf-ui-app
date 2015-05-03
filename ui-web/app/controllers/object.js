@@ -10,8 +10,19 @@ export default Ember.Controller.extend({
   current_user: Ember.computed.alias('controllers.application.currentUser'),
   gridView: Ember.computed.alias("controllers.objects.gridView"),
   listView: Ember.computed.alias("controllers.objects.listView"),
+  selectedItems: Ember.computed.alias("controllers.objects.selectedItems"),
 
   isSelected: false,
+
+  watchSelected: function(){
+    var self = this;
+    var o = this.get('selectedItems');
+    if (this.get('isSelected')){
+      o.pushObject(self);
+    } else {
+      o.removeObject(self);
+    }
+  }.observes('isSelected'),
 
   trash: function(){
     return this.get('container_id') == 'trash';
