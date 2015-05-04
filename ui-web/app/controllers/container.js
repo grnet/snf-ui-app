@@ -12,6 +12,14 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
   gridView: Ember.computed.alias("controllers.containers.gridView"),
   listView: Ember.computed.alias("controllers.containers.listView"),
 
+  canEmpty: function(){
+    return this.get('model.count') >0;
+  }.property('model.count'),
+
+  canDelete: function(){
+    return !this.get('model.isTrash'); 
+  }.property('model.isTrash'),
+
   availableProjects: function(){
     var self = this;
     // show only projects whose free space is enough for the container
