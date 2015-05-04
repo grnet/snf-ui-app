@@ -7,38 +7,6 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 	tagName: 'li',
   classNameBindings: ['isSelected', 'toPaste'],
 
-  // Allowed actions
-  canRename: true,
-  canDelete: true,
-
-  canCopy: function(){
-    return !this.get('controller.trash');
-  }.property('controller.trash'),
-
-  canMove: function(){
-    return !this.get('controller.trash');
-  }.property('controller.trash'),
-
-  canShare: function(){
-    return !this.get('controller.trash');
-  }.property('controller.trash'),
-
-  canDownload: function(){
-    return this.get('controller.model.is_file'); 
-  }.property('model.is_file'),
-
-  canTrash: function(){
-    return !this.get('controller.trash');
-  }.property('controller.trash'),
-
-  canRestore: function(){
-    return this.get('controller.trash');
-  }.property('controller.trash'),
-
-  canVersions: function(){
-    return this.get('controller.model.is_file') && !this.get('controller.trash');
-  }.property('model.is_file'),
-
 
   dropFileTarget: Ember.computed.alias('controller.controllers.application'),
 

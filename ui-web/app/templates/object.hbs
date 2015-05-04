@@ -32,7 +32,7 @@
                 </span>
             </span>
         {{/if}}
-        {{#if view.canRename}}
+        {{#if object.canRename}}
             <form {{action 'reset' 'validateRename,renameObject' target=view on="submit"}}>
                 {{view "input-single" value=object.model.stripped_name placeholder=object.model.stripped_name cls="hidden" oldValue=object.model.stripped_name}}
                 <a  class="hidden js-hide-edit icon-a" {{action 'reset' 'validateRename,renameObject' target=view}} title="Rename">{{fa-icon "fa-check fa-fw"}}</a>
@@ -77,10 +77,10 @@
             </span>
         {{/if}}
 
-        {{#if view.canShare}}
+        {{#if object.canShare}}
             <a {{action 'openShare'}} class="button small">Share</a>
         {{/if}}
-        {{#if view.canRestore}}
+        {{#if object.canRestore}}
             <a {{action 'openRestore'}} class="button small">Restore</a>
         {{/if}}
     </div>
@@ -101,25 +101,25 @@
         </div>
     {{/if}}
     <div class="col actions-col">
-        {{#if view.canDownload}}
+        {{#if object.canDownload}}
             {{#tooltip-hint title="Download"}}
                 <a {{bind-attr href=object.model.view_src}} target="_blank" class="button small">{{fa-icon "fa-download fa-fw"}}</a>
             {{/tooltip-hint}}
         {{/if}}
-        {{#if view.canDelete}}
+        {{#if object.canDelete}}
             <a {{action 'initAction' 'openDelete'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
         {{/if}}
-        {{#if view.canTrash}}
+        {{#if object.canTrash}}
             <a {{action 'initAction' 'moveToTrash'}} title="move item to trash" class="icon-a">{{fa-icon "fa-trash fa-fw"}}</a>
         {{/if}}
-        {{#if view.canMove}}
+        {{#if object.canMove}}
             <a {{action 'cutObject'}} title="cut Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
 
         {{/if}}
-        {{#if view.canCopy}}
+        {{#if object.canCopy}}
             <a {{action 'copyObject'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
         {{/if}}
-        {{#if view.canVersions}}
+        {{#if object.canVersions}}
             <a {{action 'initAction' 'openVersions'}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
         {{/if}}
     </div>

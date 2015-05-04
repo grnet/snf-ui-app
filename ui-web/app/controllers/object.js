@@ -12,6 +12,38 @@ export default Ember.Controller.extend({
   listView: Ember.computed.alias("controllers.objects.listView"),
   selectedItems: Ember.computed.alias("controllers.objects.selectedItems"),
 
+  // Allowed actions
+  canRename: true,
+  canDelete: true,
+
+  canCopy: function(){
+    return !this.get('trash');
+  }.property('trash'),
+
+  canMove: function(){
+    return !this.get('trash');
+  }.property('trash'),
+
+  canShare: function(){
+    return !this.get('trash');
+  }.property('trash'),
+
+  canDownload: function(){
+    return this.get('model.is_file'); 
+  }.property('model.is_file'),
+
+  canTrash: function(){
+    return !this.get('trash');
+  }.property('trash'),
+
+  canRestore: function(){
+    return this.get('trash');
+  }.property('trash'),
+
+  canVersions: function(){
+    return this.get('model.is_file') && !this.get('trash');
+  }.property('model.is_file', 'trash'),
+
   isSelected: false,
 
   watchSelected: function(){
