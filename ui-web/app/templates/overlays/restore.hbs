@@ -1,7 +1,7 @@
 <h4>Restore</h4>
-<p>Choose a folder to restore <strong>{{name}}</strong> to:</p>
-{{#if selected}}
-    <p>Selected path: <strong>{{selectedDir}}</strong></p>
+<p>Choose a folder to restore <strong>{{controller.model.name}}</strong> to:</p>
+{{#if controller.selected}}
+    <p>Selected path: <strong>{{controller.selectedDir}}</strong></p>
 {{/if}}
 <ul class="dir-tree">
     {{#each container in containersNoTrash}}
@@ -9,7 +9,7 @@
     {{/each}}
 </ul>
  
-{{#if selected}}
-    <p><a class="button" {{action "restoreObject"}}>Restore</a></p>
+{{#if controller.selected}}
+    <p><a class="button small" {{action "restoreObject"}}>Restore</a></p>
 {{/if}}
 

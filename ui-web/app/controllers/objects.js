@@ -226,9 +226,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
 
     refresh: function(){
       this.set('sortBy', 'stripped_name:asc');
-      this.get('model').map(function(el){
-        return el.set('isSelected', false);
-      });
       this.set('toPasteObject', null);
       this.send('refreshRoute');
     },
@@ -246,12 +243,12 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         self.send('showActionFail', reason);
       };
       
-      selected.forEach(function(item) {
-        item.set('isSelected', false);
-        var object = item.get('model');
+      while (selected.get(0)) {
+        var object = selected.get(0).get('model');
+        selected.get(0).set('isSelected', false);
         object.deleteRecord();
         object.save().then(onSuccess, onFail);
-      });
+      }
     },
  
     moveObjectsToTrash: function(controller_list){
@@ -259,51 +256,33 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       var selected = controller_list || this.get('selectedItems');
       if (selected.length === 0) { return; }
 
-      var onSuccess = function() {
-          console.log('move to trash object: onSuccess');
-      };
-
-      var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
-
-      selected.forEach(function(item) {
-        item.set('isSelected', false);
-        var object = item.get('model');
+      while (selected.get(0)) {
+        var object = selected.get(0).get('model');
+        selected.get(0).set('isSelected', false);
         var newID = 'trash/'+object.get('stripped_name');
         self.send('_move', object, newID);
-      });
+      }
+
     },
 
-    restoreObjectsFromTrash: function(object_list, params){
+    restoreObjectsFromTrash: function(params, controller_list){
       var self = this;
       var selected = controller_list || this.get('selectedItems');
       if (selected.length === 0) { return; }
-      var selectedDir = params.selectedDir;
 
-      if (objects.length === 0) { return; }
-      var onSuccess = function() {
-          console.log('restore from trash object: onSuccess');
-      };
-
-      var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
-
-      objects.forEach(function(object) {
-        item.set('isSelected', false);
-        var object = item.get('model');
-        var newID = selectedDir + '/' + object.get('stripped_name');
+      while (selected.get(0)) {
+        var object = selected.get(0).get('model');
+        selected.get(0).set('isSelected', false);
+        var newID = params.selectedDir + '/' + object.get('stripped_name');
         self.send('_move', object, newID);
-      });
+      }
     },
 
     clearSelected: function(){
-      
       var selected = this.get('selectedItems');
-      selected.forEach(function(item) {
-        item.set('isSelected', false);
-      });
+      while (selected.get(0)) {
+        selected.get(0).set('isSelected', false);
+      }
     },
 
   }

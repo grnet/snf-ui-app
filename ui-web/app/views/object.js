@@ -5,7 +5,7 @@ import {SnfAddHandlerMixin} from '../snf/dropfile/synnefo';
 export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 	templateName: 'object',
 	tagName: 'li',
-  classNameBindings: ['isSelected', 'toPaste'],
+  classNameBindings: ['isSelected', 'toPaste', 'loading'],
 
 
   dropFileTarget: Ember.computed.alias('controller.controllers.application'),
@@ -19,7 +19,11 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
   isSelected: function(){
     return this.get('controller').get('isSelected');
   }.property('controller.isSelected'),
-  
+ 
+  loading: function(){
+    return this.get('controller').get('loading');
+  }.property('controller.loading'),
+ 
   // delegate events to parent controller for non dir entries
   drop: function(e) {
     if (!this.get("controller.is_dir")) { return true }

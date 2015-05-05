@@ -14,10 +14,10 @@
     {{#each v in versions itemController='object/version'}}
 
         <tr>
-            <td>{{v.id}}</td>
-            <td>{{timestamp-to-human v.timestamp}}</td>
+            <td>{{v.model.id}}</td>
+            <td>{{timestamp-to-human v.model.timestamp}}</td>
             <td><a {{bind-attr  href=v.view_src_version}} title="Download version" target="_blank">{{fa-icon "fa-download"}}</a></td>
-            <td><a class="close-modal" {{action 'restoreObject' v.id}} title="Restore version">{{fa-icon "fa-database"}}</a></td>
+            <td><a class="close-modal" {{action 'restoreObject' v.model.id}} title="Restore version">{{fa-icon "fa-database"}}</a></td>
         </tr>
 
     {{/each}}

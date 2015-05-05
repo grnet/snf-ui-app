@@ -81,7 +81,7 @@
             <a {{action 'openShare'}} class="button small">Share</a>
         {{/if}}
         {{#if object.canRestore}}
-            <a {{action 'openRestore'}} class="button small">Restore</a>
+            <a {{action 'initAction' 'openRestore'}} class="button small">Restore</a>
         {{/if}}
     </div>
     {{#if listView}}
@@ -103,7 +103,7 @@
     <div class="col actions-col">
         {{#if object.canDownload}}
             {{#tooltip-hint title="Download"}}
-                <a {{bind-attr href=object.model.view_src}} target="_blank" class="button small">{{fa-icon "fa-download fa-fw"}}</a>
+                <a {{bind-attr href=object.view_src}} target="_blank" class="button small">{{fa-icon "fa-download fa-fw"}}</a>
             {{/tooltip-hint}}
         {{/if}}
         {{#if object.canDelete}}
@@ -113,11 +113,11 @@
             <a {{action 'initAction' 'moveToTrash'}} title="move item to trash" class="icon-a">{{fa-icon "fa-trash fa-fw"}}</a>
         {{/if}}
         {{#if object.canMove}}
-            <a {{action 'cutObject'}} title="cut Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
+            <a {{action 'initAction' 'cutObject'}} title="cut Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
 
         {{/if}}
         {{#if object.canCopy}}
-            <a {{action 'copyObject'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
+            <a {{action 'initAction' 'copyObject'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
         {{/if}}
         {{#if object.canVersions}}
             <a {{action 'initAction' 'openVersions'}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
