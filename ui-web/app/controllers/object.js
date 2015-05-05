@@ -63,7 +63,7 @@ export default Ember.Controller.extend({
 
   view_src: function(){
     var base_url = this.get('settings').get('storage_view_url');
-    return base_url+this.get('model').get('id');
+    return base_url+'/'+this.get('model').get('id');
   }.property('model.id'),
   
   /*
