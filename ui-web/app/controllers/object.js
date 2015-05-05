@@ -82,8 +82,8 @@ export default Ember.Controller.extend({
   oldPath: undefined,
   newID: undefined,
   isImg: function() {
-    return this.get('type') === 'image';
-  }.property('type'),
+    return this.get('model.type') === 'image';
+  }.property('model.type'),
 
   checkUnique: function() {
     if(this.get('newName')) {
