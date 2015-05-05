@@ -1,15 +1,15 @@
 {{!-- placeholder is passed as a param from the template where you put the current view --}}
 
 <label>Group</label>
-<input {{bind-attr class='view.errorVisible:error view.warningVisible:warning'  placeholder=view.placeholder}} type='text' {{bind-attr value='view.value'}}>
+<input class='{{if view.errorVisible "error"}} {{if view.warningVisible "warning"}}'  placeholder={{view.placeholder}} type='text' value={{view.value}}>
 <a href="" class="guide hint--bottom" data-hint="The name of the group cannot have uppercase letters and more than 256 (encoded) characters">?</a>
 
 <div  class='info'>
-	<span {{bind-attr class='view.warningVisible:warning:invisible'}}>
+	<span class='{{if view.warningVisible "warning" "invisible"}}'>
 		<span class='fa fa-warning'></span>
 		<span class='info-msg'>{{view.warningMsg}}</span>
 	</span>
-	<span {{bind-attr class='view.errorVisible:error:invisible'}}>
+	<span class='{{if view.errorVisible "error" "invisible"}}'>
 		<span class='fa fa-warning'></span>
 		<span class='info-msg'>{{view.errorMsg}}</span>
 	</span>

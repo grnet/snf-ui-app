@@ -35,9 +35,9 @@ export default Ember.View.extend({
 			value = value.trim();
 		}
 		else {
-			value = '';
+			value = null;
 		}
-		if(value === '') {
+		if(value === null) {
 			this.set('value', undefined);
 			return false;
 		}

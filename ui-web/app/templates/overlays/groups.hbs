@@ -1,6 +1,6 @@
 <h3>Groups</h3>
 <div class="list-item create-area js-slide-container slide-container" id="group-new">
-    <div class="btn-line" {{action 'slide' this.controller 'group-new' target='view'}}>
+    <div class="btn-line" {{action 'slide' controller 'group-new' target='view'}}>
         <span class="snf-font if-group-add group-icon"></span>
         <span>New Group</span>
         <span class="arrow-up fa fa-angle-up"></span>
@@ -10,14 +10,10 @@
         {{view 'input-partial' placeholder="Name..."}}
         {{view 'input-emails' placeholder="user1@example.com user2@example.com..." label="Members"}}
         <div class="buttons">
-            <button class="small" {{action 'slide' this 'new' target='view'}}>Cancel</button>
-            <button class="small" {{action 'createGroup' }} {{bind-attr disabled='freezeCreation'}}>Create</button>
+            <button class="small" {{action 'slide' controller 'group-new' target='view'}}>Cancel</button>
+            <button class="small" {{action 'slide' controller 'group-new' 'createGroup' target='view'}} disabled={{controller.freezeCreation}}>Create</button>
         </div>
     </div>
 </div>
 
-{{#each}}
-
-    {{view 'group'}}
-
-{{/each}}
+{{#each group in controller.model itemController="group" itemView="group"}}{{/each}}

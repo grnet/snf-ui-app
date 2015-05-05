@@ -37,6 +37,7 @@ export default Ember.ArrayController.extend(EmailsInputAuxMixin, {
 		if(inputsNum === resetedInputsNum) {
 			this.set('resetedInputs', 0);
 			this.set('completeReset', true);
+			this.set('resetInputs', false);
 		}
 		else {
 			this.set('completeReset', false);
@@ -117,7 +118,6 @@ export default Ember.ArrayController.extend(EmailsInputAuxMixin, {
 						});
 
 						group.save().then(function(){
-							self.send('reset');
 						}, function(error) {
 							self.send('showActionFail', error)
 							console.log('ERROR!')

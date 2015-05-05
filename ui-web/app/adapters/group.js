@@ -44,27 +44,24 @@ export default StorageAdapter.extend({
 		return jsonPayload;
 	},
 
-	updateRecord: function(store, type, record) {
+	updateRecord: function(store, type, snapshot) {
 		var self = this;
 		var headers = this.get('headers');
-		var header = 'X-Account-Group-'+encodeURIComponent(record.get('name'));
+		var header = 'X-Account-Group-'+encodeURIComponent(snapshot.attr('name'));
+		var users = snapshot.hasMany('users');
 		headers['Accept'] = 'text/plain';
-		return record.get('users').then(function(users){
-			headers[header] = users.map(function(user){
-				return user.id;
-			}).join(',');
-			return self.ajax(self.buildURL(type.typeKey)+'?update=', 'POST');
-		});
+		headers[header] = users.getEach('id').join(',');
 
+		return self.ajax(self.buildURL(type.typeKey)+'?update=', 'POST');
 	},
 
-	createRecord: function(store, type, record){
-		return this.updateRecord(store, type, record);
+	createRecord: function(store, type, snapshot){
+		return this.updateRecord(store, type, snapshot);
 	},
 
-	deleteRecord: function(store, type, record) {
+	deleteRecord: function(store, type, snapshot) {
 		var headers = this.get('headers');
-		var header = 'X-Account-Group-' + encodeURIComponent(record.get('name'));
+		var header = 'X-Account-Group-' + encodeURIComponent(snapshot.attr('name'));
 		headers['Accept'] = 'text/plain';
 		headers[header] = '~';
 		return this.ajax(this.buildURL(type.typeKey)+'?update=', 'POST');

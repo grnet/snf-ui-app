@@ -1,2 +1,2 @@
-<a class='email'{{bind-attr title=user.errorMsg}}>{{user.email}}</a>
+<a class='email' title={{user.errorMsg}}>{{user.email}}</a>
 <a class='remove fa fa-remove sign' {{action 'removeUser' user.email target='view.parentView'}} title="Remove"></a>

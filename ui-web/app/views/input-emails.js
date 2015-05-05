@@ -21,10 +21,10 @@ export default Ember.View.extend({
 			value = value.trim();
 		}
 		else {
-			value = '';
+			value = null;
 		}
 
-		if(value === '') {
+		if(value === null) {
 			this.set('value', undefined);
 			return false;
 		}
@@ -44,7 +44,6 @@ export default Ember.View.extend({
 	reset: function() {
 		if(this.get('controller').get('resetInputs')) {
 			this.set('value', undefined);
-			this.get('controller').set('resetInputs', false);
 			this.get('controller').set('resetedInputs', (this.get('controller').get('resetedInputs') + 1));
 		}
 	}.observes('controller.resetInputs'),
@@ -73,7 +72,7 @@ export default Ember.View.extend({
 					// paste multiple emails seperated by commas
 					if(value.indexOf(',') !== -1) {
 						var emails = value.split(',');
-						view.set('value', '');
+						view.set('value', null);
 						emails.forEach(function(email, index) {
 							email = email.trim();
 							view.send('handleNewEmail', email);
@@ -87,7 +86,7 @@ export default Ember.View.extend({
 					*/
 					else if(value.indexOf(' ') !== -1) {
 						var emails = value.split(' ');
-						view.set('value', '');
+						view.set('value', null);
 						emails.forEach(function(email, index) {
 							email = email.trim();
 							view.send('handleNewEmail', email);
@@ -100,7 +99,7 @@ export default Ember.View.extend({
 					*/
 					else if(value.indexOf('\t') !== -1) {
 						var emails = value.split('\t');
-						view.set('value', '');
+						view.set('value', null);
 						emails.forEach(function(email, index) {
 							view.send('handleNewEmail', email);
 							email = email.trim();
@@ -110,7 +109,7 @@ export default Ember.View.extend({
 					// enter or space
 					else if(event.keyCode === 13 || event.keyCode === 32) {
 						var email = value;
-						view.set('value', '');
+						view.set('value', null);
 						view.send('handleNewEmail', email);
 					}
 				}

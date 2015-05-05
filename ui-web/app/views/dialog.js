@@ -108,10 +108,14 @@ export default Ember.View.extend({
 		 * or if the area is open, it slides it up and send to the corresponting
 		 * controller the action reset
 		*/
-		slide: function(controller, areaID) {
+		slide: function(controller, areaID, action) {
 			var $area = this.$('.js-slide-container#'+areaID);
 			$area.toggleClass('open');
 			var toOpen = $area.hasClass('open');
+
+			if(action) {
+				controller.send(action);
+			}
 
 			if(toOpen) {
 				$area.find('.js-slide-me').stop().slideDown('slow', function() {
@@ -119,10 +123,11 @@ export default Ember.View.extend({
 				});
 			}
 			else {
-				$area.find('.slide-me').stop().slideUp('slow', function() {
+				$area.find('.js-slide-me').stop().slideUp('slow', function() {
 					controller.send('reset');
 				});
 			}
+
 
 		}
 	},

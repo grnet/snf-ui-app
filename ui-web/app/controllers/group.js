@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import EmailsInputAuxMixin from '../mixins/emails-input-aux';
 
-export default Ember.ObjectController.extend(EmailsInputAuxMixin, {
+export default Ember.Controller.extend(EmailsInputAuxMixin, {
 
   freezeCreation: function() {
 
@@ -16,7 +16,7 @@ export default Ember.ObjectController.extend(EmailsInputAuxMixin, {
     addUser: function(user) {
       var usersExtended = this.get('usersExtended');
       var notInserted = usersExtended.filterBy('email', user.email).get('length') === 0;
-      var notMember = this.get('users').filterBy('email', user.email).get('length') === 0;
+      var notMember = this.get('model').get('users').filterBy('email', user.email).get('length') === 0;
 
       if(notInserted && notMember) {
 
@@ -62,9 +62,9 @@ export default Ember.ObjectController.extend(EmailsInputAuxMixin, {
         self.send('showActionFail', reason);
       };
 
-      group.get("users").then(function(users){
+      group.get('users').then(function(users){
         users.removeObject(user);
-        if (users.content.length === 0) {
+        if (users.get('length') === 0) {
           self.send('deleteGroup');
         } else {
           group.save().then(onSuccess, onFail);
