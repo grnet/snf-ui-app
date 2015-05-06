@@ -81,6 +81,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 		iconCls['word'] = 'fa-file-word-o';
 		iconCls['excel'] = 'fa-file-excel-o';
 		iconCls['powerpoint'] = 'fa-file-powerpoint-o';
+		iconCls['ebook'] = 'fa-book';
 		iconCls['unknown'] = 'fa-file-o';
     
     if (type == "dir") {

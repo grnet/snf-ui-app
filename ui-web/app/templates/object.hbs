@@ -16,11 +16,11 @@
             {{#if view.previewSupported}}
                 {{#if object.isImg}}
                     {{#light-box href=object.view_src data-lightbox="g-1" data-title=object.model.stripped_name inlineImage=false}}
-                    {{fa-icon "fa-image"}}
+                    {{fa-icon "fa-image" fixedWidth=true}}
                     {{/light-box}}
                 {{/if}}
             {{else}}
-                {{fa-icon view.iconCls}}
+                {{fa-icon view.iconCls fixedWidth=true}}
             {{/if}}
             <span class="js-name hint--bottom" {{bind-attr data-hint=object.model.stripped_name}}>
                 <span>

@@ -152,6 +152,7 @@ export default DS.Model.extend({
       var extMSWord = ['doc', 'docx', 'docm'];
       var extMSExcel = ['xls', 'xlsx', 'xla'];
       var extMSPPT = ['ppt', 'pptx'];
+      var extBook = ['mobi', 'epub'];
 
       switch(true) {
         case(extTxt.indexOf(objExtension) > -1):
@@ -180,6 +181,9 @@ export default DS.Model.extend({
           break;
         case(extMSPPT.indexOf(objExtension) > -1):
           type = 'powerpoint';
+          break;
+        case(extBook.indexOf(objExtension) > -1):
+          type = 'ebook';
           break;
         default:
           type = 'unknown';
