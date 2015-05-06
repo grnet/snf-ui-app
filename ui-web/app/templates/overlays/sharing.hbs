@@ -1,14 +1,14 @@
-<h3>Share {{fa-icon "fa-share-alt"}} {{stripped_name}}</h3>
+<h3>Share {{fa-icon "fa-share-alt"}} {{model.stripped_name}}</h3>
 
-{{#if is_dir}}
-<p><span class="subtle">Public sharing is currently disabled for folders</span></p>
+{{#if model.is_dir}}
+    <p><span class="subtle">Public sharing is currently disabled for folders</span></p>
 {{else}}
     <label>
-        {{input type="checkbox" checked=isPublic}} 
+        {{input type="checkbox" checked=controller.isPublic}} 
        <strong>Public on the Internet</strong> Anyone who has the public link can access. No sign-in required. 
     </label>
-    {{#if isPublic}}
-    <strong>Public link</strong><br> <span class="label secondary">{{public_link}}</span>
+    {{#if controller.isPublic}}
+        <strong>Public link</strong><br> <span class="label secondary">{{model.public_link}}</span>
     {{/if}}
 {{/if}}
 <hr>
@@ -16,8 +16,8 @@
     <strong>Private sharing</strong> Only people explicitly granted permission can access. Sign-in required.
 </p>
 
-{{#if isShared}}
-    {{#if shared_users}}
+{{#if controller.isShared}}
+    {{#if model.shared_users}}
         <table>
             <tr>
                 <td>Users/Groups</td>
@@ -25,7 +25,7 @@
                 <td>Read/Write</td>
                 <td>&nbsp;</td>
             </tr>
-            {{#each s in shared_with_list}}
+            {{#each s in controller.shared_with_list}}
                 <tr>
                     <td>{{#if s.user}}{{s.user.email}}{{else}}{{s.display_name}}{{/if}}</td>
                     <td>{{radio-button name=s.id bindValue=s.permission value="read" action="togglePermission"}}</td>
@@ -54,7 +54,7 @@
     <button {{action 'shareWithUsers'}} class="small button" {{bind-attr disabled='freezeCreation'}}>Add Users</button>
 </div>
 
-{{#unless isSharedAll}}
+{{#unless controller.isSharedAll}}
 <div>
     <button {{action 'shareWithAll'}} class="small button alert">Privately share with everybody</button>
 </div>

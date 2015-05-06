@@ -4,13 +4,12 @@ import EmailsInputAuxMixin from '../../mixins/emails-input-aux';
 export default ObjectController.extend(EmailsInputAuxMixin, {
 
   name: 'sharing',
-
   isPublic: false,
 
   setPublic: function(){
-    var isPublic = this.get('model').get('public_link')? true: false;
+    var isPublic = this.get('model.public_link')? true: false;
     this.set('isPublic', isPublic);
-  }.observes('public_link'),
+  }.observes('model.public_link'),
 
   isShared: function(){
     return this.get('model').get('sharing')? true: false;
@@ -18,7 +17,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
 
   // returns True if the object is privately shared with everyone
   isSharedAll: function(){
-    return this.get('isShared') && this.get('model').get('sharing').indexOf('*') > 0;
+    return this.get('isShared') && this.get('model.sharing').indexOf('*') > 0;
   }.property('model.sharing'),
 
   watchGroup: function(){
@@ -36,7 +35,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
   // verbose version of 'all' 
   shared_with_list: function(){
     var self = this;
-    var shared_with = this.get('model').get('shared_users');
+    var shared_with = this.get('model.shared_users');
     _.each(shared_with, function(s){
       if (s.type === 'user') {
         s.set('user', self.store.find('user', s.id));
@@ -48,7 +47,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
     });
       
     return shared_with;
-  }.property('shared_users.@each'),
+  }.property('model.shared_users.@each'),
 
   /**
    * Ugly function that converts model's  
