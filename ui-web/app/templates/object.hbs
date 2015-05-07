@@ -106,22 +106,22 @@
                 <a {{bind-attr href=object.view_src}} target="_blank" class="button small">{{fa-icon "fa-download fa-fw"}}</a>
             {{/tooltip-hint}}
         {{/if}}
-        {{#if object.canDelete}}
-            <a {{action 'initAction' 'openDelete'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
+        {{#if object.canVersions}}
+            <a {{action 'initAction' 'openVersions'}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
         {{/if}}
-        {{#if object.canTrash}}
-            <a {{action 'initAction' 'moveToTrash'}} title="move item to trash" class="icon-a">{{fa-icon "fa-trash fa-fw"}}</a>
-        {{/if}}
-        {{#if object.canMove}}
-            <a {{action 'initAction' 'openCut'}} title="move Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
+       {{#if object.canMove}}
+            <a {{action 'initAction' 'openCut'}} title="move Item" class="icon-a">{{fa-icon "fa-share fa-fw"}}</a>
         {{/if}}
         {{#if object.canCopy}}
             <a {{action 'initAction' 'openCopy'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
         {{/if}}
-        {{#if object.canVersions}}
-            <a {{action 'initAction' 'openVersions'}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
+       {{#if object.canTrash}}
+            <a {{action 'initAction' 'moveToTrash'}} title="move item to trash" class="icon-a">{{fa-icon "fa-trash fa-fw"}}</a>
         {{/if}}
-    </div>
+        {{#if object.canDelete}}
+            <a {{action 'initAction' 'openDelete'}} title="Permanently delete object" class="icon-a">{{fa-icon "fa-remove fa-fw"}}</a>
+        {{/if}}
+   </div>
 
 </div>
 
