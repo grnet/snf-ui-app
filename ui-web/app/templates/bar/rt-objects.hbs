@@ -1,44 +1,61 @@
-<li class="enabled">
-    {{# snf-dropfile-btn tagName="a" 
-        inputName="X-Object-Data"
-        multiple=true onclick="select" 
-        target=controllers.application
-        location=path
-        }}
-        {{fa-icon "fa-upload"}}
-        <label>Upload</label>
-    {{/snf-dropfile-btn}}
-</li>
-<li {{bind-attr class="hasSelected::disabled"}}>
-    <a {{action 'moveObjectsToTrash'}}>
-        {{fa-icon "fa-trash"}}
-        <label>Trash</label>
-    </a>
-</li>
+{{#if canUpload}}
+    <li class="enabled">
+        {{# snf-dropfile-btn tagName="a" 
+            inputName="X-Object-Data"
+            multiple=true onclick="select" 
+            target=controllers.application
+            location=path
+            }}
+            {{fa-icon "fa-upload"}}
+            <label>Upload</label>
+        {{/snf-dropfile-btn}}
+    </li>
+{{/if}}
 
-<li {{bind-attr class="hasSelected::disabled"}}>
-    <a {{action 'deleteObjects'}}>
-        {{fa-icon "fa-remove"}}
-        <label>Delete</label>
-    </a>
-</li>
-<li {{bind-attr class="hasSelected::disabled"}}>
-    <a {{action 'openCopy'}}>
-        {{fa-icon "fa-copy"}}
-        <label>Copy</label>
-    </a>
-</li>
-<li {{bind-attr class="hasSelected::disabled"}}>
-    <a {{action 'openCut'}}>
-        {{fa-icon "fa-share"}}
-        <label>Move</label>
-    </a>
-</li>
-<li>
-    <a {{action 'showDialog' 'create-dir' 'objects'}}>
-        {{fa-icon "fa-folder"}}
-        <label>New folder</label>
-    </a>
-</li>
+{{#if canTrash}}
+    <li {{bind-attr class="hasSelected::disabled"}}>
+        <a {{action 'moveObjectsToTrash'}}>
+            {{fa-icon "fa-trash"}}
+            <label>Trash</label>
+        </a>
+    </li>
+{{/if}}
+
+{{#if canDelete}}
+    <li {{bind-attr class="hasSelected::disabled"}}>
+        <a {{action 'deleteObjects'}}>
+            {{fa-icon "fa-remove"}}
+            <label>Delete</label>
+        </a>
+    </li>
+{{/if}}
+
+{{#if canCopy}}
+    <li {{bind-attr class="hasSelected::disabled"}}>
+        <a {{action 'openCopy'}}>
+            {{fa-icon "fa-copy"}}
+            <label>Copy</label>
+        </a>
+    </li>
+{{/if}}
+
+{{#if canCut}}
+    <li {{bind-attr class="hasSelected::disabled"}}>
+        <a {{action 'openCut'}}>
+            {{fa-icon "fa-share"}}
+            <label>Move</label>
+        </a>
+    </li>
+{{/if}}
+
+{{#if canCreate}}
+    <li>
+        <a {{action 'showDialog' 'create-dir' 'objects'}}>
+            {{fa-icon "fa-folder"}}
+            <label>New folder</label>
+        </a>
+    </li>
+{{/if}}
+
 <li>{{partial "items/sort-select"}}</li>
 <li>{{partial "global/refresh"}}</li>

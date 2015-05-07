@@ -26,6 +26,28 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     return ['is_dir:desc', this.get('sortBy')];
   }.property('sortBy'),
 
+  canDelete: true,
+
+  canTrash: function(){
+    return this.get('container_id') != 'trash';
+  }.property('container_id'),
+
+  canCopy: function(){
+    return this.get('container_id') != 'trash';
+  }.property('container_id'),
+
+  canMove: function(){
+    return this.get('container_id') != 'trash';
+  }.property('container_id'),
+
+  canUpload: function(){
+    return this.get('container_id') != 'trash';
+  }.property('container_id'),
+
+  canCreate: function(){
+    return this.get('container_id') != 'trash';
+  }.property('container_id'),
+
   hasUpPath: function(){
     return this.get('current_path') !== '/';
   }.property('current_path'),
