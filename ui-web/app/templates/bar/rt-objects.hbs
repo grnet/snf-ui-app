@@ -22,10 +22,16 @@
         <label>Delete</label>
     </a>
 </li>
-<li  {{bind-attr class="toPasteObject::disabled"}}>
-    <a {{action 'pasteObject'}}>
-        {{fa-icon "fa-paste"}}
-        <label>Paste</label>
+<li {{bind-attr class="hasSelected::disabled"}}>
+    <a {{action 'openCopy'}}>
+        {{fa-icon "fa-copy"}}
+        <label>Copy</label>
+    </a>
+</li>
+<li {{bind-attr class="hasSelected::disabled"}}>
+    <a {{action 'openCut'}}>
+        {{fa-icon "fa-cut"}}
+        <label>Move</label>
     </a>
 </li>
 <li>

@@ -54,8 +54,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     return this.get('selectedItems').length > 0;
   }.property('selectedItems.@each'),
 
-  toPasteObject: null,
-
   copyFlag: false,
 
  /*
@@ -165,20 +163,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       this.set(flag, true);
     },
 
-    pasteObject: function(){
-      if (!this.get('toPasteObject')){
-        console.log('Nothing has been cut or copied');
-        return false;
-      }
-      var object = this.get('toPasteObject');
-      var current_path = (this.get('current_path') === '/')? '/': '/'+this.get('current_path')+'/';
-      var newID = this.get('container_id')+current_path+object.get('stripped_name');
-      var copyFlag = this.get('copyFlag');
-
-      this.send('_move', object, newID, copyFlag);
-    
-    },
-
     _move: function(object, newID, copyFlag){
       var self = this;
       var arr = newID.split('/');
@@ -226,7 +210,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
 
     refresh: function(){
       this.set('sortBy', 'stripped_name:asc');
-      this.set('toPasteObject', null);
       this.send('refreshRoute');
     },
 
@@ -278,11 +261,44 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       }
     },
 
+    copyObjects: function(params, controller_list){
+      var self = this;
+      var selected = controller_list || this.get('selectedItems');
+      if (selected.length === 0) { return; }
+
+      while (selected.get(0)) {
+        var object = selected.get(0).get('model');
+        selected.get(0).set('isSelected', false);
+        var newID = params.selectedDir + '/' + object.get('stripped_name');
+        self.send('_move', object, newID, true);
+      }
+    },
+
+    moveObjectsTo: function(params, controller_list){
+      var self = this;
+      var selected = controller_list || this.get('selectedItems');
+      if (selected.length === 0) { return; }
+
+      while (selected.get(0)) {
+        var object = selected.get(0).get('model');
+        selected.get(0).set('isSelected', false);
+        var newID = params.selectedDir + '/' + object.get('stripped_name');
+        self.send('_move', object, newID);
+      }
+    },
+
     clearSelected: function(){
-      var selected = this.get('selectedItems');
+      var selected = this.get('selectedItems') || [];
       while (selected.get(0)) {
         selected.get(0).set('isSelected', false);
       }
+    },
+    openCopy: function(){
+      this.send('showDialog', 'paste', 'object/copy');
+    },
+
+    openCut: function(){
+      this.send('showDialog', 'paste', 'object/cut');
     },
 
   }

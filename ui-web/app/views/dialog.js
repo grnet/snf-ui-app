@@ -23,8 +23,8 @@ export default Ember.View.extend({
       'overlays.create-dir': 'small',
       'overlays.confirm-simple': 'small', 
       'overlays.feedback': 'medium',
-      'overlays.move': 'small',
-      'overlays.restore': 'medium',
+      'overlays.restore': 'small',
+      'overlays.paste': 'small',
       'overlays.create-container': 'small',
       'overlays.groups': 'medium',
     }

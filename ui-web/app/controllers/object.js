@@ -178,17 +178,6 @@ export default Ember.Controller.extend({
     restoreObjectFromTrash: function(selectedDir){
       this.get('controllers.objects').send('restoreObjectsFromTrash', {'selectedDir': selectedDir});
     },
-
-    cutObject: function(){
-      var object = this.get('model');
-      this.set('controllers.objects.toPasteObject', object);
-    },
-
-    copyObject: function(){
-      var object = this.get('model');
-      this.set('controllers.objects.toPasteObject', object);
-      this.set('controllers.objects.copyFlag', true);
-    },
   }
 });
 

@@ -5,8 +5,7 @@ import {SnfAddHandlerMixin} from '../snf/dropfile/synnefo';
 export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 	templateName: 'object',
 	tagName: 'li',
-  classNameBindings: ['isSelected', 'toPaste', 'loading'],
-
+  classNameBindings: ['isSelected', 'loading'],
 
   dropFileTarget: Ember.computed.alias('controller.controllers.application'),
 
@@ -37,16 +36,6 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
     if (!this.get("controller.is_dir")) { return true }
     return this._super(e);
   },
-
-  toPaste: function(){
-    var pasted = this.get('controller.controllers.objects.toPasteObject');
-    var el = this.get('controller').get('model');
-    if (pasted) {
-      return (Ember.compare(pasted.get('id'),el.get('id')) === 0);
-    } else {
-      return false;
-    }
-  }.property('controller.controllers.objects.toPasteObject'),
 
   click: function(e) {
     if (e.target.tagName != 'DIV') { return; }

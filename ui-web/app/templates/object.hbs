@@ -113,11 +113,10 @@
             <a {{action 'initAction' 'moveToTrash'}} title="move item to trash" class="icon-a">{{fa-icon "fa-trash fa-fw"}}</a>
         {{/if}}
         {{#if object.canMove}}
-            <a {{action 'initAction' 'cutObject'}} title="cut Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
-
+            <a {{action 'initAction' 'openCut'}} title="move Item" class="icon-a">{{fa-icon "fa-cut fa-fw"}}</a>
         {{/if}}
         {{#if object.canCopy}}
-            <a {{action 'initAction' 'copyObject'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
+            <a {{action 'initAction' 'openCopy'}} title="copy Item" class="icon-a">{{fa-icon "fa-copy fa-fw"}}</a>
         {{/if}}
         {{#if object.canVersions}}
             <a {{action 'initAction' 'openVersions'}} class="icon-a" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
