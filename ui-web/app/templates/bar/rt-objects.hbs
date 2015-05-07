@@ -1,5 +1,5 @@
 {{#if canUpload}}
-    <li class="enabled">
+    <li>
         {{# snf-dropfile-btn tagName="a" 
             inputName="X-Object-Data"
             multiple=true onclick="select" 
@@ -13,7 +13,7 @@
 {{/if}}
 
 {{#if canTrash}}
-    <li {{bind-attr class="hasSelected::disabled"}}>
+    <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'moveObjectsToTrash'}}>
             {{fa-icon "fa-trash"}}
             <label>Trash</label>
@@ -22,7 +22,7 @@
 {{/if}}
 
 {{#if canDelete}}
-    <li {{bind-attr class="hasSelected::disabled"}}>
+    <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'deleteObjects'}}>
             {{fa-icon "fa-remove"}}
             <label>Delete</label>
@@ -31,7 +31,8 @@
 {{/if}}
 
 {{#if canCopy}}
-    <li {{bind-attr class="hasSelected::disabled"}}>
+
+    <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'openCopy'}}>
             {{fa-icon "fa-copy"}}
             <label>Copy</label>
@@ -40,7 +41,7 @@
 {{/if}}
 
 {{#if canCut}}
-    <li {{bind-attr class="hasSelected::disabled"}}>
+    <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'openCut'}}>
             {{fa-icon "fa-share"}}
             <label>Move</label>

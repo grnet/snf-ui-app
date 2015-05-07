@@ -2,8 +2,8 @@
 {{#if project.diskspace_effective_limit}}
 	<p><strong>{{convert-bytes project.diskspace_user_usage}}</strong> out of {{convert-bytes project.diskspace_effective_limit}} used ({{convert-bytes project.diskspace_free_space}} left)</p>
 	<div class="progress usage-bar large-12 secondary radius">
-		<span class="meter" {{bind-attr style=view.width_usage }}></span>
-		<span class="rest" {{bind-attr style=view.width_free}}></span>
+		<span class="meter" style={{view.width_usage}}></span>
+		<span class="rest" style={{view.width_free}}></span>
 		<span class="size">{{view.usage_percentage}} %</span>
 	</div>
 {{else}}
