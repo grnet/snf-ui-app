@@ -6,7 +6,7 @@ export default ObjectController.extend(ResolveSubDirsMixin, {
   selectedDir: null,
   closeDialog: false,
 
-  containersNoTrash: Ember.computed.filter('controllers.application.containers', function(c) {
+  containersNoTrash: Ember.computed.filter('controllers.application.sortedContainers', function(c) {
     return c.get('name').toLowerCase() != 'trash';
   }),
 
