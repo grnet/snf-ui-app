@@ -293,11 +293,16 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         selected.get(0).set('isSelected', false);
       }
     },
+
     openCopy: function(){
+      var selected = this.get('selectedItems');
+      if (selected.length === 0) { return; }
       this.send('showDialog', 'paste', 'object/copy');
     },
 
     openCut: function(){
+      var selected = this.get('selectedItems');
+      if (selected.length === 0) { return; }
       this.send('showDialog', 'paste', 'object/cut');
     },
 
