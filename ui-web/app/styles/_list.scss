@@ -47,7 +47,7 @@ $list-line-height : 40px;
         }
     
     }
-    li:hover {
+    li:not(:first-child):hover {
         .wrap {
             background: lighten($theme-primary-color-light, 9%); 
         }
