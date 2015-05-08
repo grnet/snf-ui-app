@@ -55,7 +55,7 @@ export default StorageAdapter.extend({
     }
 
     return payload.then(function(payload) {
-      payload.container_id = container;
+      payload.set('container_id', container);
       return payload;
     });
   },
@@ -166,18 +166,21 @@ export default StorageAdapter.extend({
    * 
    * setSharing method sets/unsets an object as privately shared
    *
-   * @method setPublic
+   * @method setSharing
    * @param record {Object}
    * @param sharing {string} A properly formated string with users/groups and 
    * their permissions(read/write)
    */
   setSharing: function(record, sharing) {
-    var headers = this.get('headers');
+    var headers = {};
     var account = this.get('account');
+    var url = this.buildURL('object', account, record.get('id'))+'?update=';
     headers['X-Object-Sharing'] = sharing;
     headers['Accept'] =  'text/plain';
     
-    return this.ajax(this.buildURL('object', account, record.get('id'))+'?update=', 'POST');
+    return this.ajax(url, 'POST', {
+      headers: headers,
+    });
    },
 
   /**
