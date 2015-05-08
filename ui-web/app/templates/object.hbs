@@ -44,7 +44,7 @@
         {{#if object.model.public_link}}
             <span class="right">
             {{#tooltip-hint title="Public link"}}
-                <a {{bind-attr href=object.model.public_link}} target="_blank">{{fa-icon "fa-link"}}</a>
+                <a href={{object.model.public_link}} target="_blank">{{fa-icon "fa-link"}}</a>
 
             {{/tooltip-hint}}
             </span>

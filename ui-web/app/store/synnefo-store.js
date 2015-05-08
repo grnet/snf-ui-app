@@ -26,23 +26,27 @@ var SynnefoStore = DS.Store.extend({
   },
 
   moveObject: function(record, new_id, copy_flag) {
-    var adapter = this.adapterFor(record.constructor);
-    return adapter.moveObject(record, new_id, copy_flag);
+    var snapshot = record._createSnapshot();
+    var adapter = this.adapterFor(snapshot.type);
+    return adapter.moveObject(snapshot, new_id, copy_flag);
   },
 
   restoreObject: function(record, version){
-    var adapter = this.adapterFor(record.constructor);
-    return adapter.restoreObject(record, version);
+    var snapshot = record._createSnapshot();
+    var adapter = this.adapterFor(snapshot.type);
+    return adapter.restoreObject(snapshot, version);
   },
 
   setPublic: function(record, flag){
-    var adapter = this.adapterFor(record.constructor);
-    return adapter.setPublic(record, flag);
+    var snapshot = record._createSnapshot();
+    var adapter = this.adapterFor(snapshot.type);
+    return adapter.setPublic(snapshot, flag);
   },
 
   setSharing: function(record, sharing){
-    var adapter = this.adapterFor(record.constructor);
-    return adapter.setSharing(record, sharing);
+    var snapshot = record._createSnapshot();
+    var adapter = this.adapterFor(snapshot.type);
+    return adapter.setSharing(snapshot, sharing);
   },
 
   user_catalogs: function(uuids, emails) {

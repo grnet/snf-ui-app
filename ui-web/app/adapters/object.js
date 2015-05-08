@@ -3,27 +3,27 @@ import StorageAdapter from 'ui-web/snf/adapters/storage';
 
 export default StorageAdapter.extend({
 
-  buildURL: function(type, account, id, record) {
-    var url = this._super(type, account, record);
+  buildURL: function(type, account, id, snapshot) {
+    var url = this._super(type, account, snapshot);
     if (id) { url = url + "/" + encodeURIComponent(id); }
     url = url.replace(/([^:])\/\//g, "$1/");
     return url;
   },
 
-  deleteRecord: function(store, type, record) {
+  deleteRecord: function(store, type, snapshot) {
     var account = this.get('account');
-    var url = this.buildURL(type.typeKey, account, record.get('id'), record);
+    var url = this.buildURL(type.typeKey, account, snapshot.id, snapshot);
     var timestamp =(new Date().getTime())/1000;
     url = url+'?until='+timestamp;
-    if (record.get('is_dir')){
+    if (snapshot.record.get('is_dir')) {
       url = url + '&delimiter=/';
     } 
     return this.ajax(url, "DELETE");
   },
     
-  find: function(store, type, id, record) {
-    var account = record && record.get('account') || this.get('account');
-    return this.ajax(this.buildURL(type.typeKey, account, id, record), 'HEAD');
+  find: function(store, type, id, snapshot) {
+    var account = snapshot && snapshot.belongsTo('account') || this.get('account');
+    return this.ajax(this.buildURL(type.typeKey, id, snapshot), 'GET');
   },
 
   findQuery: function(store, type, query) {
@@ -70,32 +70,33 @@ export default StorageAdapter.extend({
 
    */
 
-  moveObject: function(record, new_id, copy_flag) {
-    var oldPath = '/'+record.get('id');
+  moveObject: function(snapshot, new_id, copy_flag) {
+    var oldPath = '/' + snapshot.id;
     var account = this.get('account');
     var url = this.buildURL('object', account, new_id, null);
-    if (record.get('is_dir')){
+
+    if (snapshot.record.get('is_dir')) {
       url = url+'?delimiter=/';
     }
     var headers = {};
-    headers['Content-Type'] = record.get('content_type');
+    headers['Content-Type'] = snapshot.attr('content_type');
     headers['X-Move-From'] = encodeURIComponent(oldPath);
+    headers['Accept'] =  'text/plain';
     
     if (copy_flag === true) {
       headers['X-Copy-From'] = encodeURIComponent(oldPath);
       delete headers['X-Move-From'];
     }
 
-    headers['Accept'] =  'text/plain';
     return this.ajax(url, 'PUT', {
       headers: headers,
     });
   },
 
-  restoreObject: function(record, version) {
-    var path = '/'+record.get('id');
+  restoreObject: function(snapshot, version) {
+    var path = '/'+snapshot.id;
     var account = this.get('account');
-    var url = this.buildURL('object', account, record.get('id'))+'?update=';
+    var url = this.buildURL('object', account, snapshot.id)+'?update=';
     var headers = {};
 
     headers['X-Source-Object'] = encodeURIComponent(path);
@@ -108,13 +109,13 @@ export default StorageAdapter.extend({
     });
   },
 
-  createRecord: function(store, type, record) {
+  createRecord: function(store, type, snapshot) {
     var headers = {};
     headers['Accept'] =  'text/plain';
-    headers['Content-Type'] =  record.get('content_type');
+    headers['Content-Type'] =  snapshot.attr('content_type');
 
     var account = this.get('account');
-    return this.ajax(this.buildURL('object', account, record.get('id')), "PUT", {
+    return this.ajax(this.buildURL('object', account, snapshot.id), "PUT", {
       headers: headers,
     });
   },
@@ -124,16 +125,16 @@ export default StorageAdapter.extend({
    * setPublic method sets/unsets an object as publicly shared
    *
    * @method setPublic
-   * @param record {Object}
+   * @param snapshot {Object}
    * @param flag {bool} If true, the object is rendered public, if false, the
    * object is rendered private.
    * @return {string} object's public url
    */
 
 
-  setPublic: function(record, flag) {
+  setPublic: function(snapshot, flag) {
     var account = this.get('account');
-    var url = this.buildURL('object', account, record.get('id'))+'?update=';
+    var url = this.buildURL('object', account, snapshot.id)+'?update=';
     var headers = this.get('headers');
     var self = this;
 
@@ -146,7 +147,8 @@ export default StorageAdapter.extend({
         dataType: 'text',
         headers: headers,
       }).then(function(data) {
-          self.getRecordInfo(record).then(function(res){
+
+          self.getRecordInfo(snapshot).then(function(res){
             Ember.run(null, resolve, res.x_object_public);
           }, function(jqXHR) {
             var response = Ember.$.parseJSON(jqXHR.responseText);
@@ -167,14 +169,14 @@ export default StorageAdapter.extend({
    * setSharing method sets/unsets an object as privately shared
    *
    * @method setSharing
-   * @param record {Object}
+   * @param snapshot {Object}
    * @param sharing {string} A properly formated string with users/groups and 
    * their permissions(read/write)
    */
-  setSharing: function(record, sharing) {
+  setSharing: function(snapshot, sharing) {
     var headers = {};
     var account = this.get('account');
-    var url = this.buildURL('object', account, record.get('id'))+'?update=';
+    var url = this.buildURL('object', account, snapshot.id)+'?update=';
     headers['X-Object-Sharing'] = sharing;
     headers['Accept'] =  'text/plain';
     
@@ -191,9 +193,9 @@ export default StorageAdapter.extend({
    * @param record {Object}
    * @return {object} with key/value pairs of Response Headers
    */
-  getRecordInfo: function(record) {
+  getRecordInfo: function(snapshot) {
     var account = this.get('account');
-    var url = this.buildURL('object', account, record.get('id'));
+    var url = this.buildURL('object', account, snapshot.id);
     var headers = this.get('headers');
     var res = {};
  
