@@ -92,8 +92,8 @@ body {
 }
 
 .icon-a {
-    border-radius: 50%;
     border: 2px dotted $theme-anchor-font-color;
+    border-radius: 50%;
     margin: 0 2px;
     padding: 2px;
     &:hover {
@@ -132,4 +132,8 @@ body {
 
 .margin-zero {
     margin: 0 !important;
+}
+
+.u-wrap {
+    word-wrap: break-word;
 }
