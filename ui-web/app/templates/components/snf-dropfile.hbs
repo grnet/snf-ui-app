@@ -1,47 +1,59 @@
 <div class="dropfiles">
-<div class="small-12 columns">
-{{# if files.length }}
-<div class="batch-actions columns small-12">
-<div class="left small-4">
-{{#if filesToRemove.length }}<a {{ action 'removeAll' }}>{{ fa-icon 'remove' }}</a>{{/if}}
-{{#if filesToUpload.length }}<a {{ action 'uploadAll' }}>{{ fa-icon 'upload' }}</a>{{/if}}
-{{#if filesUploading.length }}<a {{ action 'abortAll' }}>{{ fa-icon 'stop' }}</a>{{/if}}
-</div>
-<div class="right small-8">
-<span></span>
-<label for="autoStartUpload">auto start</label>{{input type="checkbox" id="autoStartUpload" checked=autoStartUpload}}
-<label for="autoRemoveOnSuccess">auto remove</label>{{input type="checkbox" id="autoRemoveOnSuccess" checked=autoRemoveOnSuccess}}
-<label for="noChunked">skip hash compute</label>{{input type="checkbox" id="noChunked" checked=noChunked}}
-</div>
+    {{# if files.length }}
+        <div class="batch-actions row">
+            <div class="columns left small-4">
+                {{#if filesToRemove.length }}<a {{ action 'removeAll' }}>{{ fa-icon 'remove' }}</a>{{/if}}
+                {{#if filesToUpload.length }}<a {{ action 'uploadAll' }}>{{ fa-icon 'upload' }}</a>{{/if}}
+                {{#if filesUploading.length }}<a {{ action 'abortAll' }}>{{ fa-icon 'stop' }}</a>{{/if}}
+            </div>
+            <div class="columns right small-8">
+                <span></span>
+                <label for="autoStartUpload">auto start</label>{{input type="checkbox" id="autoStartUpload" checked=autoStartUpload}}
+                <label for="autoRemoveOnSuccess">auto remove</label>{{input type="checkbox" id="autoRemoveOnSuccess" checked=autoRemoveOnSuccess}}
+                <label for="noChunked">skip hash compute</label>{{input type="checkbox" id="noChunked" checked=noChunked}}
+            </div>
+        </div>
+        <div class="row title">
+            <div class="columns small-9">
+                <div class="row">
+                    <span class="columns small-4">Name</span>
+                    <span class="columns small-2">Type</span>
+                    <span class="columns small-1">Status</span>
+                    <span class="columns small-2">Location</span>
+                    <span class="columns small-3">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    {{/if }}
+    {{# each file in files}}
+    <div class="file row">
+        <div class="head columns small-9">
+            <div class="row">
+                <span class="name columns small-4">{{ file.name }}</span>
+                <span class="status columns small-2">{{ file.type }}</span>
+                <span class="status columns small-1">{{ file.status }} {{#if file.uploadError }}({{ file.uploadError }}){{/if}}</span>
+                <span class="location columns small-2">{{ file.location }}</span>
+                {{# if file.isUploading }}
+                    <span class="progress columns small-3">
+                        <span class="ratio">{{#if file.uploadProgress }}{{ file.uploadProgress }}%{{/if}}</span>
+                        {{# if file.progress.message }}<span>({{ file.progress.message }}...)</span>{{/if}}
+                        <span class="size">{{file.uploadedSize}}/{{file.size}}</span>
+                    </span>
+                {{else}}
+                    <span class="columsn small-3"></span>
+                {{/if}}
+            </div>
+        </div>
 
-</div>
-{{/if }}
-{{# each file in files}}
-<div class="file">
-<div class="head columns small-9">
-    <span class="name columns small-4">{{ file.name }}</span>
-    <span class="status columns small-2">{{ file.type }}</span>
-    <span class="status columns small-1">{{ file.status }} {{#if file.uploadError }}({{ file.uploadError }}){{/if}}</span>
-    <span class="location columns small-2">{{ file.location }}</span>
-    {{# if file.isUploading }}
-    <span class="progress columns small-3">
-    <span class="ratio">{{#if file.uploadProgress }}{{ file.uploadProgress }}%{{/if}}</span>
-    {{# if file.progress.message }}<span>({{ file.progress.message }}...)</span>{{/if}}
-    <span class="size">{{file.uploadedSize}}/{{file.size}}</span>
-    </span>
+        <div class="actions columns small-3 text-right">
+            {{#if file.canRemove}}<a {{ action 'remove' file }} title="remove file">Remove {{ fa-icon 'fa-remove' }}</a>{{/if}}
+            {{#if file.canAbort}}<a {{ action 'abort' file }} title="abort upload">Abort {{ fa-icon 'fa-pause' }}</a>{{/if}}
+            {{#if file.canUpload}}<a {{ action 'upload' file }} title="upload file">Retry {{ fa-icon 'fa-play' }}</a>{{/if}}
+        </div>
+
+    </div>
+    {{/each}}
+
+    {{# if files.length }}
     {{/if}}
-</div>
-
-<div class="actions columns small-3">
-{{# if file.canRemove }}<a {{ action 'remove' file }}>{{ fa-icon 'remove' }}</a>{{/if}}
-{{# if file.canAbort }}<a {{ action 'abort' file }}>{{ fa-icon 'stop' }}</a>{{/if}}
-{{# if file.canUpload }}<a {{ action 'upload' file }}>{{ fa-icon 'upload' }}</a>{{/if}}
-</div>
-
-</div>
-{{/each}}
-
-{{# if files.length }}
-{{/if}}
-</div>
 </div>

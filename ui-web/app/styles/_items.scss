@@ -1,6 +1,8 @@
 .items {    
+    position: relative;
     list-style-type: none;
     margin-left: 0;
+    min-height: 80%;
     .wrap {
         position: relative;
     }
