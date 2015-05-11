@@ -78,7 +78,7 @@
         {{/if}}
 
         {{#if object.canShare}}
-            <a {{action 'openShare'}} class="button small">Share</a>
+            <a {{action 'openShare'}} class="button small">{{fa-icon "fa-share-alt"}}</a>
         {{/if}}
         {{#if object.canRestore}}
             <a {{action 'initAction' 'openRestore'}} class="button small">Restore</a>

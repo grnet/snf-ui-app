@@ -31,7 +31,6 @@
 {{/if}}
 
 {{#if canCopy}}
-
     <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'openCopy'}}>
             {{fa-icon "fa-copy"}}
@@ -40,7 +39,7 @@
     </li>
 {{/if}}
 
-{{#if canCut}}
+{{#if canMove}}
     <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'openCut'}}>
             {{fa-icon "fa-share"}}
