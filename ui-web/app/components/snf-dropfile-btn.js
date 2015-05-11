@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   
   inputName: 'file',
+  classNames: ['button', 'alert', 'small'],
 
   _initInput: function() {
     var name = this.get("inputName");

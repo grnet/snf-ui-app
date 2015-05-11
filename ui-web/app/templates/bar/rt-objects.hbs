@@ -1,17 +1,3 @@
-{{#if canUpload}}
-    <li>
-        {{# snf-dropfile-btn tagName="a" 
-            inputName="X-Object-Data"
-            multiple=true onclick="select" 
-            target=controllers.application
-            location=path
-            }}
-            {{fa-icon "fa-upload"}}
-            <label>Upload</label>
-        {{/snf-dropfile-btn}}
-    </li>
-{{/if}}
-
 {{#if canTrash}}
     <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'moveObjectsToTrash'}}>

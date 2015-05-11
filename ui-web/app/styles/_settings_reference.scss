@@ -409,11 +409,11 @@ $crumb-border-size: 0;
 // $crumb-radius: $global-radius;
 
 // We use these to set various text styles for breadcrumbs.
-// $crumb-font-size: rem-calc(11);
-// $crumb-font-color: $primary-color;
+$crumb-font-size: rem-calc(12);
+$crumb-font-color: $theme-anchor-font-color;
 // $crumb-font-color-current: $oil;
 // $crumb-font-color-unavailable: $aluminum;
-// $crumb-font-transform: uppercase;
+$crumb-font-transform: none;
 // $crumb-link-decor: underline;
 
 // We use these to control the slash between breadcrumbs
@@ -1406,7 +1406,7 @@ $topbar-link-bg-hover: $primary-color;
 // $topbar-link-bg-color-hover: $charcoal;
 // $topbar-link-bg-active: $primary-color;
 // $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
-// $topbar-link-font-family: $body-font-family;
+// $topb2r-link-font-family: $body-font-family;
 // $topbar-link-text-transform: none;
 // $topbar-link-padding: ($topbar-height / 3);
 // $topbar-back-link-size: rem-calc(18);

@@ -53,6 +53,7 @@ $list-line-height : 40px;
         }
     }
     .name-col {
+        overflow: hidden;
         width: 32%;
     }
     .actions-col {
