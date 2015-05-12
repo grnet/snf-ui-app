@@ -32,13 +32,20 @@ export default Ember.View.extend({
   }.property('renderedName'),
 
 	revealDialog: function() {
-		this.$().foundation('reveal', 'open');
+		this.$().foundation('reveal', 'open', {
+      animation: 'fade',
+      animation_speed: 250,
+    });
 	}.on('didInsertElement'),
 
 	closeDialog: function() {
 		var closeDialog = this.get('controller').get('closeDialog');
 		if(closeDialog) {
-			this.$().foundation('reveal', 'close');
+      this.$().foundation('reveal', 'close', {
+        animation: 'fade',
+        animation_speed: 100,
+      });
+
 			this.get('controller').set('closeDialog', false)
 		}
 	}.observes('controller.closeDialog'),
@@ -74,7 +81,12 @@ export default Ember.View.extend({
 				});
 
 			}
-			self.$().foundation('reveal', 'close');
+      self.$().foundation('reveal', 'close', {
+        animation: 'fade',
+        animation_speed: 100,
+      });
+
+
 	    });
 
 	},

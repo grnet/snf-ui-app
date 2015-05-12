@@ -29,10 +29,10 @@
     <div class="file row">
         <div class="head columns small-9">
             <div class="row">
-                <span class="name columns small-4">{{ file.name }}</span>
+                <span class="name columns small-4 u-wrap">{{ file.name }}</span>
                 <span class="status columns small-2">{{ file.type }}</span>
                 <span class="status columns small-1">{{ file.status }} {{#if file.uploadError }}({{ file.uploadError }}){{/if}}</span>
-                <span class="location columns small-2">{{ file.location }}</span>
+                <span class="location columns small-2 u-wrap">{{ file.location }}</span>
                 {{# if file.isUploading }}
                     <span class="progress columns small-3">
                         <span class="ratio">{{#if file.uploadProgress }}{{ file.uploadProgress }}%{{/if}}</span>

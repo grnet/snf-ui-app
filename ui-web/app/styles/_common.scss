@@ -138,9 +138,4 @@ body {
     word-wrap: break-word;
 }
 
-.hint:after, [data-hint]:after {
-    white-space: initial;
-    max-width: 300px;
-    min-width: 100px;
-    word-break: break-word;
-}
+

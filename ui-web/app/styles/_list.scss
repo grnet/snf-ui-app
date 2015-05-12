@@ -54,6 +54,12 @@ $list-line-height : 40px;
     }
     .name-col {
         width: 32%;
+        .hint:after, 
+        [data-hint]:after {
+            max-width: 300px;
+            white-space: initial;
+            word-wrap: break-word;
+        }
     }
     .actions-col {
         float: right;
