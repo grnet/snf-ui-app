@@ -159,6 +159,15 @@ export default Ember.Route.extend({
 				dataType: 'text',
 				data: data
 	    }).then(onSuccess, onFail);
-		}
+		},
+
+    toggleTheme: function(theme){
+      var el = $('link[rel="stylesheet"]').eq(1);
+      var temp = el.attr('href').split('/');
+      temp.pop();
+      temp.push(theme+'.css');
+      var new_href = temp.join('/');
+      el.attr('href', new_href);
+    }
 	}
 });

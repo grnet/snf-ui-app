@@ -121,6 +121,20 @@ export default Ember.Object.extend({
   storage_view_url: function() {
     return this.get('services.pithosObjectStore.endpoints.uiURL') + '/view/' + this.get('uuid');
   }.property('services.pithosObjectStore.endpoints.uiURL'),
-  account_url: serviceUrl('astakosAccount')
+  account_url: serviceUrl('astakosAccount'),
+
+  // Theme settings
+  // `name` is the css file name (without the .css extension)
+  // `color` is the primary color of the theme and
+  // `icon` is the icon that will be visible in the templates
+  themes: [{
+    'name': 'ui-web',
+    'color': '#00a551',
+    'icon': 'birthday-cake',
+  }, {
+    'name': 'theme-funky',
+    'color': '#3aa6f4',
+    'icon': 'fa-life-ring',
+  }] 
 
 });
