@@ -10,10 +10,10 @@
 		{{!-- *for now* will use it to recognize if the template is included in popover or dialog --}}
 		{{#if view.actionToPerform}}
 			<a class="button small" {{action 'closePopover' target='view'}}>Cancel</a>
-			<a class="button small alert close-modal right" {{action view.actionToPerform}}>{{view.actionVerb}}</a>
+			<a class="button small alert right" {{action view.actionToPerform}}>{{view.actionVerb}}</a>
 			{{!-- for dialogs the action is a controller property --}}
 		{{else}}
-			<a class="button small close-modal">Cancel</a>
-			<a class="button small alert close-modal right" {{action actionToPerform}}> {{view.actionVerb}}</a>
+			<a class="button small js-btn-close-modal">Cancel</a>
+			<a class="button small alert right js-btn-close-modal" {{action actionToPerform}}> {{view.actionVerb}}</a>
 		{{/if}}
 	</p>

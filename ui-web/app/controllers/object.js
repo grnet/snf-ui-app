@@ -6,6 +6,8 @@ export default Ember.Controller.extend({
   needs: ['objects', 'application'],
   loading: false,
 
+  closeDialog: false,
+
   container_id: Ember.computed.alias('controllers.objects.container_id'),
   groups: Ember.computed.alias('controllers.application.groups'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
@@ -163,6 +165,7 @@ export default Ember.Controller.extend({
 
     deleteObject: function(){
       this.send('deleteObjects');
+      this.set('closeDialog', true);
     },
 
     validateRename: function(action) {

@@ -60,13 +60,13 @@
             {{/if}}
             <div class="col actions-col">
                 {{#if container.canDelete}}
-                    <a class="icon-a" title="Delete container" {{action 'openEmptyAndDelete'}}>{{fa-icon "fa-remove fa-fw"}}</a>
+                    <a class="icon-a" title="Delete container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyAndDelete'}}>{{fa-icon "fa-remove fa-fw"}}</a>
                 {{else}}
                     <a class="icon-a" title="Cannot delete this container" disabled>{{fa-icon "fa-remove fa-fw"}}</a>
                 {{/if}}
 
                 {{#if container.canEmpty}}
-                    <a class="icon-a" title="Empty container" {{action 'openEmpty'}}>{{fa-icon "fa-trash-o fa-fw"}}</a>
+                    <a class="icon-a" title="Empty container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyContainer'}}>{{fa-icon "fa-trash-o fa-fw"}}</a>
                 {{else}}
                     <a class="icon-a" title="Empty container" disabled> {{fa-icon "fa-trash-o fa-fw"}}</a>
                 {{/if}}

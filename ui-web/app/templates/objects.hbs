@@ -12,8 +12,7 @@
 {{/if}}
 
 
-{{#each object in sortedModel itemController="object"}}
-    {{view "object"}}
+{{#each object in sortedModel itemController="object" itemView="object"}}
 {{else}}
     <li>No objects</li>
 {{/each}}

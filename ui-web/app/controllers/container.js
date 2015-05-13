@@ -7,6 +7,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
   container_view: true,
   needs: ['containers'],
   loading: false,
+  closeDialog: false,
 
   projects: Ember.computed.alias("controllers.containers.projects"),
   gridView: Ember.computed.alias("controllers.containers.gridView"),
@@ -81,16 +82,8 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
 
   actions: {
 
-    openEmptyAndDelete: function(){
-      this.send('showDialog', 'confirm-simple', this, this.get('model'), 'emptyAndDelete');
-    },
-
-    openEmpty: function(){
-      this.send('showDialog', 'confirm-simple', this, this.get('model'), 'emptyContainer');
-    },
-
-
     deleteContainer: function(){
+      this.set('closeDialog', true);
       var container = this.get('model');
       var self = this;
       self.set('loading', false);
@@ -106,7 +99,6 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     },
 
     emptyAndDelete: function() {
-      debugger;
       this.send('emptyContainer', true);
     },
 
@@ -114,6 +106,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
       var container = this.get('model');
       var self = this;
 
+      this.set('closeDialog', true);
       this.set('loading', true);
       var onSuccess = function() {
         if (delete_flag) {

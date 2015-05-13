@@ -38,14 +38,15 @@ export default Ember.View.extend({
     });
 	}.on('didInsertElement'),
 
+	// use this if you want to do reset actions in controller before close
 	closeDialog: function() {
 		var closeDialog = this.get('controller').get('closeDialog');
-		if(closeDialog) {
-      this.$().foundation('reveal', 'close', {
-        animation: 'fade',
-        animation_speed: 100,
-      });
 
+		if(closeDialog && this.get('_state') === 'inDOM') {
+			this.$().foundation('reveal', 'close', {
+				animation: 'fade',
+				animation_speed: 100,
+			});
 			this.get('controller').set('closeDialog', false)
 		}
 	}.observes('controller.closeDialog'),
@@ -62,44 +63,51 @@ export default Ember.View.extend({
 		// type is used to disconnect the dialog from the correct outlet
 		var type = templateName.replace('overlays.', '');
 
-		$(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
+		// for close btns that are not "x" like cancel
+		$('.js-btn-close-modal').on('click', function(){
+			if(self.get('controller').get('name') === 'groups' || self.get('controller').get('name') === 'sharing') {
+				self.$('.open').find('.js-btn-slide').each(function(){
+					$(this).trigger('click');
+				});
+			}
+			self.$().foundation('reveal', 'close', {
+				animation: 'fade',
+				animation_speed: 100,
+			});
+	    });
 
-			// this bubbles up to application route
-			self.get('controller').send('removeDialog', type);
+		$(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+			if(self.get('_state') === 'inDOM') {
+				if(self.get('controller').get('name') === 'groups' || self.get('controller').get('name') === 'sharing') {
+					self.$('.open').find('.js-btn-slide').each(function(){
+						$(this).trigger('click');
+					});
+				}
+			}
+		});
+
+		$(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
+				// this bubbles up to application route
+				self.get('controller').send('removeDialog', type);
 		});
 
 	    $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
 	      var dialog = $(this);
 	      dialog.find('[autofocus]').focus();
 	    });
-    
-	    $('.close-modal').on('click', function(){
-			if(self.get('controller').get('name') === 'groups' || self.get('controller').get('name') === 'sharing') {
-
-				self.$('.open').find('.btn-slide').each(function(){
-					$(this).trigger('click');
-				});
-
-			}
-      self.$().foundation('reveal', 'close', {
-        animation: 'fade',
-        animation_speed: 100,
-      });
-
-
-	    });
-
 	},
 	/*
 	 * Every event handler that has bound with the current view should be removed
 	 * before the view gets destroyed
 	 */
-	willDestroy: function() {
+	willDestroyElement: function() {
 	    $(document).find('.reveal-modal-bg').remove();
-	    $(document).off('click', '[data-reveal] .slide-btn');
+	    $(document).off('click', '[data-reveal] .js-btn-slide');
+	    // check off(close)
+	    $(document).off('close.fndtn.reveal', '[data-reveal]');
+	    // check off(closed)
 	    $(document).off('closed.fndtn.reveal', '[data-reveal]');
 	    $(document).off('opened.fndtn.reveal', '[data-reveal]');
-		this._super();
 	},
 
 	actions: {

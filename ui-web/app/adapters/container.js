@@ -3,8 +3,8 @@ import Ember from 'ember';
 
 export default StorageAdapter.extend({
   
-  buildURL: function(type, account, id, record) {
-    var url = this._super(type, account, record);
+  buildURL: function(type, account, id, snapshot) {
+    var url = this._super(type, account, snapshot);
 
     if (id) { url = url + "/" + encodeURIComponent(id.replace(/^\//, '')); }
     url = url.replace(/([^:])\/\//g, "$1/");
@@ -26,9 +26,10 @@ export default StorageAdapter.extend({
    * In order to find a container by account/name pass `{account}/{name}` 
    * as id.
    */
-  find: function(store, type, id, record) {
+  find: function(store, type, id, snapshot) {
     var parts, account;
 
+    // Todo: Update the code below
     if (id && id.match("/")) {
       parts = id.split("/");
       id = parts[1];
@@ -38,7 +39,7 @@ export default StorageAdapter.extend({
 
     if (!account) { account = this.get('account'); }
       
-    return this.ajax(this.buildURL(type.typeKey, account, id, record), 'GET');
+    return this.ajax(this.buildURL(type.typeKey, account, id, snapshot), 'GET');
   },
 
   findQuery: function(store, type, query) {
@@ -49,51 +50,41 @@ export default StorageAdapter.extend({
     return this.ajax(url, 'GET', { data: query, headers: headers });
   },
 
-  createRecord: function(store, type, record) {
+  createRecord: function(store, type, snapshot) {
     var self = this;
     var account = this.get('account');
+    var project = snapshot.belongsTo('project');
+    var headers = {};
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      record.get('project').then(function(project){
-        var headers = {};
-        headers['X-Container-Policy-Project'] =  project.get('id');
-        headers['Accept'] =  'text/plain';
-        
-        return self.ajax(self.buildURL(type.typeKey, account, record.get('id'), record), "PUT", {
-          headers: headers
-        }).then(function(data){
-          Ember.run(null, resolve, data);
-        }, function(jqXHR) {
-          jqXHR.then = null;
-          Ember.run(null, reject, jqXHR);
-        });
-      }, function() {
-        Ember.run(null, reject, "Invalid project");
-      });
+    headers['X-Container-Policy-Project'] =  project.id;
+    headers['Accept'] =  'text/plain';
+
+    return this.ajax(self.buildURL(snapshot.typeKey, account, snapshot.id, snapshot), "PUT", {
+      headers: headers
     });
   },
 
-  deleteRecord: function(store, type, record) {
+  deleteRecord: function(store, type, snapshot) {
     var timestamp = (new Date().getTime())/1000;
     var account = this.get('account');
 
-    return this.ajax(this.buildURL(type.typeKey, account, record.get('id'))+'?until='+timestamp, "DELETE");
+    return this.ajax(this.buildURL(type.typeKey, account, snapshot.id)+'?until='+timestamp, "DELETE");
   },
 
-  reassignContainer: function(type, record, project_id){
+  reassignContainer: function(type, snapshot, project_id){
     var headers = {};
     var account = this.get('account');
     headers['X-Container-Policy-Project'] =  project_id;
     headers['Accept'] =  'text/plain';
 
-    return this.ajax(this.buildURL(type, account, record.get('id')), "POST", {
+    return this.ajax(this.buildURL(type, account, snapshot.get('id')), "POST", {
       headers: headers
     });
   },
 
-  emptyContainer: function(type, record) {
+  emptyContainer: function(type, snapshot) {
     var account = this.get('account');
-    return this.ajax(this.buildURL(type, account, record.get('id'))+'?delimiter=/', "DELETE");
+    return this.ajax(this.buildURL(type, account, snapshot.get('id'))+'?delimiter=/', "DELETE");
   },
 
 });

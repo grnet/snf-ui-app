@@ -13,7 +13,7 @@ import Ember from 'ember';
 */
 export default Ember.View.extend({
 	classNames: ['input-with-valid', 'input-single'],
-	classNameBindings: ['cls'], // cls is provited by parent the template
+	classNameBindings: ['cls'], // cls is provided by parent the template
 
 	templateName: 'input-single',
 
@@ -65,6 +65,7 @@ export default Ember.View.extend({
 	* If the checks of the view result that the input is in a valid form,
 	* the controller must check if the ID is unique
 	*/
+
 	validateInput: function() {
 		var toValidate = this.get('controller').get('validationOnProgress');
 		if(toValidate) {
@@ -72,13 +73,13 @@ export default Ember.View.extend({
 			var validForm = false;
 			var notEmpty, noSlash, notTooLarge;
 			var isModified = this.get('isModified');
-
 			this.set('errorVisible', false);
 			if(action === 'createContainer') {
 				notEmpty = this.get('notEmpty');
 				noSlash = this.get('noSlash');
 				notTooLarge = this.get('notTooLarge');
 				validForm = notEmpty && noSlash && notTooLarge;
+
 				if(validForm) {
 					this.get('controller').set('newName', this.get('inputValue'));
 				}
