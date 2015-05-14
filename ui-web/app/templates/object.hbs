@@ -9,7 +9,9 @@
             {{#link-to 'objects' object.model.name}}
                 {{fa-icon view.iconCls}}
                 <span class="js-name">
-                    {{object.model.stripped_name}}
+                    <span>
+                        {{object.model.stripped_name}}
+                    </span>
                </span>
             {{/link-to}}
         {{else}}

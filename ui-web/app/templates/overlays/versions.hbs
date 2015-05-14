@@ -1,6 +1,4 @@
-{{#with controller as file}}
-
-<h3>Versions for {{file.stripped_name}}</h3>
+<h3>Versions for <span class="u-wrap">{{controller.model.stripped_name}}</span></h3>
 <table>
     <thead>
         <tr>
@@ -12,7 +10,6 @@
     </thead>
     <tbody>
     {{#each v in versions itemController='object/version'}}
-
         <tr>
             <td>{{v.model.id}}</td>
             <td>{{timestamp-to-human v.model.timestamp}}</td>
@@ -23,4 +20,3 @@
     {{/each}}
     </tbody>
 </table>
-{{/with}}

@@ -8,6 +8,7 @@
         .select-col {
             min-width: 100px;
             text-align: right;
+            width: auto;
         }
         .actions-col {
             min-width: 25%;
@@ -20,17 +21,17 @@
     .name-col {
         .js-name {
             span {
-                max-width: 265px;
-                text-overflow: ellipsis;
                 display: inline-block;
+                max-width: 265px;
                 overflow: hidden;
-                white-space: nowrap;
+                text-overflow: ellipsis;
                 vertical-align: top;
+                white-space: nowrap;
             }
             em {
                 color: $aluminum;
+                font-size: rem-calc(12);
                 font-style: normal;
-                font-size: emCalc(12);
             }
         }
         form {

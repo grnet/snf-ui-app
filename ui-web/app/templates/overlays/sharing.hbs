@@ -1,4 +1,4 @@
-<h3>Share {{fa-icon "fa-share-alt"}} {{model.stripped_name}}</h3>
+<h3>Share {{fa-icon "fa-share-alt"}} <span class="u-wrap">{{model.stripped_name}}</span></h3>
 
 {{#if model.is_dir}}
     <p><span class="subtle">Public sharing is currently disabled for folders</span></p>
@@ -19,23 +19,27 @@
 {{#if controller.isShared}}
     {{#if model.shared_users}}
         <table>
-            <tr>
-                <td>Users/Groups</td>
-                <td>Read Only</td>
-                <td>Read/Write</td>
-                <td>&nbsp;</td>
-            </tr>
-            {{#each s in controller.shared_with_list}}
+            <thead>
                 <tr>
-                    <td>{{#if s.user}}{{s.user.email}}{{else}}{{s.display_name}}{{/if}}</td>
-                    <td>{{radio-button name=s.id bindValue=s.permission value="read" action="togglePermission"}}</td>
-                    <td>{{radio-button name=s.id bindValue=s.permission value="write" action="togglePermission"}}</td>
-                    <td><a {{action 'removeUserFromShare' s.id}}>Remove</a></td>
+                    <th>Users/Groups</th>
+                    <th>Read Only</th>
+                    <th>Read/Write</th>
+                    <th>&nbsp;</th>
                 </tr>
-            {{/each}}
-                <tr><td></td><td></td><td></td>
-                    <td><a {{action 'removePrivateSharing'}}>Remove everybody</a></td>
+            </thead>
+            <tbody>
+                {{#each s in controller.shared_with_list}}
+                    <tr>
+                        <td class="u-wrap">{{#if s.user}}{{s.user.email}}{{else}}{{s.display_name}}{{/if}}</td>
+                        <td>{{radio-button name=s.id bindValue=s.permission value="read" action="togglePermission"}}</td>
+                        <td>{{radio-button name=s.id bindValue=s.permission value="write" action="togglePermission"}}</td>
+                        <td><a {{action 'removeUserFromShare' s.id}}>Remove</a></td>
+                    </tr>
+                {{/each}}
+                <tr>
+                    <td colspan="4"><a {{action 'removePrivateSharing'}}>Remove everybody</a></td>
                 </tr>
+            </tbody>
         </table>
         <p></p>
     {{/if}}
