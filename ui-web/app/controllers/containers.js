@@ -70,7 +70,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       });
 
       var onSuccess = function(container) {
-        self.send('refreshRoute');
+        self.get('model').pushObject(container);
         tempSetProperty(container, 'new');
      };
 

@@ -12,6 +12,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
   projects: Ember.computed.alias("controllers.containers.projects"),
   gridView: Ember.computed.alias("controllers.containers.gridView"),
   listView: Ember.computed.alias("controllers.containers.listView"),
+  sortedModel: Ember.computed.alias("controllers.containers.sortedModel"),
 
   canEmpty: function(){
     return this.get('model.count') >0;
@@ -87,7 +88,9 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
       var container = this.get('model');
       var self = this;
       self.set('loading', false);
+      var sorted = this.get('sortedModel');
       var onSuccess = function(container) {
+        sorted.removeObject(container);
         console.log('deleteContainer: onSuccess');
       };
 
