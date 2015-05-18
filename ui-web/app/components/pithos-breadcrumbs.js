@@ -14,6 +14,7 @@ export default Ember.Component.extend({
 
   cnt: function(){
     var num = this.get('objects_count');
+    if (num === 0) { return null;}
     return '('+num+' object'+((num===1)?'':'s')+')';
   }.property('objects_count'),
   

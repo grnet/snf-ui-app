@@ -7,6 +7,9 @@
     .button + .secondary {
         margin-left: 4em;
     }
+    .button {
+        text-transform: capitalize;
+    }
 
     // Groups dialog
     .group-icon {

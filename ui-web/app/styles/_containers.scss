@@ -5,5 +5,18 @@
         }
 
     }
+    .name-col {
+        i {
+            font-size: rem-calc(14);
+            font-weight: bold;
+            margin-left: rem-calc(4);
+            visibility: hidden;
+        }
+        a:hover {
+            i {
+                visibility: visible;
+            }
+        }
+    }
 }
 

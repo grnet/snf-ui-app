@@ -164,19 +164,19 @@ export default Ember.View.extend({
 	// Actions metadata
 	emptyAndDelete: {
 		title: 'Delete Container',
-		action_verb: 'Delete'
+		action_verb: 'delete'
 	},
 	emptyContainer: {
 		title: "Empty Container",
-		action_verb: 'Empty'
+		action_verb: 'empty'
 	},
 	deleteObject: {
 		title: 'Delete Object',
-		action_verb: 'Delete'
+		action_verb: 'delete'
 	},
 	deleteGroup: {
 		title: 'Delete Group',
-		action_verb: 'Delete'
+		action_verb: 'delete'
 	}
 
 
