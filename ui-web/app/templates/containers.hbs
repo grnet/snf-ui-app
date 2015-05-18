@@ -71,9 +71,13 @@
                 {{/if}}
 
                 {{#if container.canEmpty}}
-                    <a class="icon-a" title="Empty container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyContainer'}}>{{fa-icon "fa-trash-o fa-fw"}}</a>
+                    <a class="icon-a" title="Empty container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyContainer'}}>
+                        <i class="bold fa-fw fa">&empty;</i>
+                    </a>
                 {{else}}
-                    <a class="icon-a" title="Empty container" disabled> {{fa-icon "fa-trash-o fa-fw"}}</a>
+                    <a class="icon-a" title="Empty container" disabled>
+                        <i class="bold fa-fw fa">&empty;</i>
+                    </a>
                 {{/if}}
             </div>
 
