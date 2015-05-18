@@ -33,12 +33,20 @@ export default Ember.View.extend({
 
 	revealDialog: function() {
 		this.$().foundation('reveal', 'open', {
-      animation: 'fade',
-      animation_speed: 250,
-    });
+			animation: 'fade',
+			animation_speed: 250,
+		});
 	}.on('didInsertElement'),
 
-	// use this if you want to do reset actions in controller before close
+	/*
+	 * CloseDialog can be used if you want to trigger the closing action
+	 * from the controller.
+	 * For example, use it if you want to do reset actions in the views,
+	 * that are included inside the dialog, before the dialog gets hidden
+	 * or removed from the DOM. In this case the controller that is related
+	 * with the dialog must have the property closeDialog. This prop will
+	 * be updated when all child-views finish with their actions.
+	*/
 	closeDialog: function() {
 		var closeDialog = this.get('controller').get('closeDialog');
 
