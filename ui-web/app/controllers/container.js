@@ -80,6 +80,18 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     return this.get('model.count') == 0;
   }.property('model.count'),
 
+  isNew: function(){
+    if (this.get('model.new')) {
+      return 'new';
+    }
+  }.property('model.new'),
+
+  isLoading: function(){
+    if (this.get('loading')){
+      return 'loading';
+    }
+  }.property('loading'),
+
 
   actions: {
 

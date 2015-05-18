@@ -11,13 +11,13 @@
     </li>
 {{/if}}
 {{#each container in sortedModel itemController="container"}}
-    <li {{bind-attr class="container.new container.loading container.model.isTrash"}}>
+    <li class="{{container.isNew}} {{container.isLoading}}">
         <div class="wrap clearfix">
 
             <div class="loader">{{fa-icon "fa-refresh fa-pulse"}}</div>
 
             <div class="col name-col">
-                {{#if new}}<span class="label alert">new</span>{{/if}}
+                {{#if container.model.new}}<span class="label alert">new</span>{{/if}}
                 <h4>
                     {{#link-to 'container' container.model.name}}
                         <span class="u-wrap">{{container.model.name}}</span>
