@@ -3,52 +3,54 @@ $wrap-bg-color: $theme-primary-color-light;
 
 .popover {
     position: relative;
+    right: 0;
+    z-index: 1;
     &.no-display {
         display: none;
     }
-    z-index: 1;
-    right: 0;
     .wrap {
-        display: block;
         background-color: $wrap-bg-color;
+        display: block;
+        max-height: 60vh;
+        padding: 1em;
         position: absolute;
-        h4, button {
+        h4, 
+        button {
             margin: 0;
         }
         &:before {
-            content:"\A";
             border-style: solid;
+            content: "\A";
             position: absolute;
         }
     }
     &.pos-bottom {
         .wrap {
-            top: 10px;
-            right: -40px;
             padding: 20px;
+            right: -40px;
+            top: 10px;
             &:before {
-                border-width: 0px 10px 15px 10px;
                 border-color: transparent transparent $wrap-bg-color transparent;
-                top: -12px;
+                border-width: 0 10px 15px;
                 right: 44px;
+                top: -12px;
             }
 
         }
     }
     &.pos-right {
         .wrap {
+            border-radius: $wrap-radius;
             bottom: -23px;
+            box-shadow: 2px 2px 8px #888;
             left: 22px;
             width: 300px;
-            // border-radius and box-shadow maybe should be placed with different class?
-            border-radius: $wrap-radius;
-            box-shadow: 2px 2px 8px #888;
 
             &:before {
-                border-width: 10px 15px 10px 0;
                 border-color: transparent $wrap-bg-color transparent transparent;
-                left: -15px;
+                border-width: 10px 15px 10px 0;
                 bottom: $wrap-radius;
+                left: -15px;
             }
         }
     }

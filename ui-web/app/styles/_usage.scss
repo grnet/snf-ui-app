@@ -19,7 +19,9 @@ $wrap-bg-color: $theme-primary-color-light;
 
     ul {
         list-style-type: none;
-        margin: 1rem;
+        margin: 0;
+        height: 50vh;
+        overflow-y: scroll;
         li {
             margin-bottom: 1.3em; 
             h5 {
