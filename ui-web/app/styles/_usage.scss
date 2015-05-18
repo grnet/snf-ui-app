@@ -1,16 +1,16 @@
-$wrap-radius: 6px;
 $wrap-bg-color: $theme-primary-color-light;
+$wrap-radius: 6px;
 
 .quotas-container {
     display: inline-block;
 
-    &>* {
+    >* {
         float: left;
     }
     .rest {
+        background-color: transparent;
         display: inline-block;
         height: 100%;
-        background-color: transparent;
     }
 
     .meter {
@@ -18,17 +18,17 @@ $wrap-bg-color: $theme-primary-color-light;
     }
 
     ul {
+        height: 50vh;
         list-style-type: none;
         margin: 0;
-        height: 50vh;
         overflow-y: scroll;
         li {
             margin-bottom: 1.3em; 
             h5 {
                 font-size: 1rem;
                 font-weight: bold;
-                margin: 0;
                 line-height: 1;
+                margin: 0;
             }
             p {
                 font-size: 0.8rem;
@@ -37,20 +37,17 @@ $wrap-bg-color: $theme-primary-color-light;
         }
     }
     .size {
-        position: absolute;
         bottom: 1px;
-        margin: 0 6px;
         font-size: 0.8rem;
+        margin: 0 6px;
         opacity: 0;
-
-       transition: opacity 0.3s;
-       -moz-transition: opacity 0.3s;
-       -webkit-transition: opacity 0.3s;
+        position: absolute;
+        transition: opacity 0.3s;
+        &.appear {
+            opacity: 1;
+        }
     }
 
-    .size.appear {
-        opacity: 1;
-    }
     .progress {
         position: relative;
     }
