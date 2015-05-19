@@ -50,13 +50,13 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
 
   hasUpPath: function(){
     return this.get('current_path') !== '/';
-  }.property('current_path'),
+  }.property('model.current_path'),
 
   upPath: function(){
     var arr =  this.get('current_path').split('/');
     arr.pop();
     return arr.join('/');
-  }.property('current_path'),
+  }.property('model.current_path'),
 
   path: function(){
     var url =  this.get('container_id')+'/';
@@ -64,7 +64,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       url = url + this.get('current_path')+ '/';
     }
     return url;
-  }.property('current_path'),
+  }.property('model.current_path'),
 
   objectsCount: function(){
     return this.get('length');
