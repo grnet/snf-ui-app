@@ -11,8 +11,9 @@ export default Ember.View.extend({
 		this.$('textarea').keypress(function() {
 			self.set('errorVisible', false);
 		});
-		this._super();
+    this._super();
 	},
+
 	validateInput: function(actionToExec) {
 		var validationOnProgress = this.get('controller').get('validationOnProgress')
 		if(validationOnProgress) {
@@ -29,7 +30,8 @@ export default Ember.View.extend({
 				this.send('showError', 'Empty input');
 			}
 		}
-	}.observes('controller.validationOnProgress'),
+	}.observes('controller.validationOnProgress').on('init'),
+
 	actions: {
 		showError: function(errorMsg) {
 			this.set('errorMsg', errorMsg);

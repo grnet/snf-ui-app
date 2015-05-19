@@ -100,7 +100,7 @@ export default Ember.View.extend({
 			}
 		}
 
-	}.observes('controller.validationOnProgress'),
+	}.observes('controller.validationOnProgress').on('init'),
 
 	completeValidations: function() {
 		var isUnique = this.get('controller').get('isUnique');
