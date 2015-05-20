@@ -9,10 +9,10 @@
     <div class="create-group js-slide-me slide-me">
         {{view 'input-partial' placeholder="Name..."}}
         {{view 'input-emails' placeholder="user1@example.com user2@example.com..." label="Members"}}
-        <div class="buttons">
-            <button class="small" {{action 'slide' controller 'group-new' target='view'}}>Cancel</button>
-            <button class="small" {{action 'slide' controller 'group-new' 'createGroup' target='view'}} disabled={{controller.freezeCreation}}>Create</button>
-        </div>
+        <p>
+            <button class="small" {{action 'slide' controller 'group-new' target='view'}}>{{t 'button.cancel'}}</button>
+            <button class="small right" {{action 'slide' controller 'group-new' 'createGroup' target='view'}} disabled={{controller.freezeCreation}}>{{t 'button.create_group'}}</button>
+        </p>
     </div>
 </div>
 

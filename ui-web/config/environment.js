@@ -22,7 +22,7 @@ module.exports = function(environment) {
     },
 
     APP: {
-        myOption: 'my-option',
+      defaultLocale: 'en',
       // Here you can pass flags/options to your application instance
       // when it is created
     }

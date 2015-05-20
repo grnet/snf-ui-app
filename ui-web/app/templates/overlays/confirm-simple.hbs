@@ -1,19 +1,19 @@
-	<h3>{{view.title}}</h3>
-	<p>
-        Do you want to {{view.actionVerb}} the {{controller.itemType}} <b class="u-wrap">{{model.name}}</b> 
-        {{# if model.count}}(containing {{pluralize model.count 'item'}}){{/if}}?
-    </p>
-    <p><span class="danger">{{fa-icon "fa-warning"}} The action cannot be undone.</span></p>
+<h3>{{view.confirm_title}}</h3>
+<p>
+    {{{controller.confirm_intro}}}
+    {{# if model.count}}(containing {{pluralize model.count 'item'}}){{/if}}?
+</p>
+<p><span class="danger">{{fa-icon "fa-warning"}}{{t 'cannot_undo_action'}}</span></p>
 
-	<p>
-		{{!-- for popovers the action passes through template as a view propeprty --}}
-		{{!-- *for now* will use it to recognize if the template is included in popover or dialog --}}
-		{{#if view.actionToPerform}}
-			<a class="button small" {{action 'closePopover' target='view'}}>Cancel</a>
-			<a class="button small alert right" {{action view.actionToPerform}}>{{view.actionVerb}}</a>
-			{{!-- for dialogs the action is a controller property --}}
-		{{else}}
-			<a class="button small js-btn-close-modal">Cancel</a>
-			<a class="button small alert right js-btn-close-modal" {{action actionToPerform}}> {{view.actionVerb}}</a>
-		{{/if}}
-	</p>
+<p>
+    {{!-- for popovers the action passes through template as a view propeprty --}}
+    {{!-- *for now* will use it to recognize if the template is included in popover or dialog --}}
+    {{#if view.actionToPerform}}
+        <a class="button small" {{action 'closePopover' target='view'}}>{{t 'button.cancel'}}</a>
+        <a class="button small alert right" {{action view.actionToPerform}}>{{controller.confirm_button}}</a>
+        {{!-- for dialogs the action is a controller property --}}
+    {{else}}
+        <a class="button small js-btn-close-modal">{{t 'button.cancel'}}</a>
+        <a class="button small alert right js-btn-close-modal" {{action actionToPerform}}>{{controller.confirm_button}}</a>
+    {{/if}}
+</p>

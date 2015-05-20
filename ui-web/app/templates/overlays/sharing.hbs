@@ -1,11 +1,11 @@
-<h3>Share {{fa-icon "fa-share-alt"}} <span class="u-wrap">{{model.stripped_name}}</span></h3>
+<h3>{{t 'action_verb.share'}} {{fa-icon "fa-share-alt"}} <span class="u-wrap">{{model.stripped_name}}</span></h3>
 
 {{#if model.is_dir}}
-    <p><span class="subtle">Public sharing is currently disabled for folders</span></p>
+    <p><span class="subtle">{{t 'disable_public_sharing_for_folders'}}</span></p>
 {{else}}
     <label>
         {{input type="checkbox" checked=controller.isPublic}} 
-       <strong>Public on the Internet</strong> Anyone who has the public link can access. No sign-in required. 
+       <strong>Public on the Internet </strong>{{t 'public_sharing_explain'}}
     </label>
     {{#if controller.isPublic}}
         <strong>Public link</strong><br> <span class="label secondary">{{model.public_link}}</span>
@@ -13,7 +13,7 @@
 {{/if}}
 <hr>
 <p>
-    <strong>Private sharing</strong> Only people explicitly granted permission can access. Sign-in required.
+    <strong>Private sharing</strong> {{t 'private_sharing_explain'}} 
 </p>
 
 {{#if controller.isShared}}
@@ -33,11 +33,11 @@
                         <td class="u-wrap">{{#if s.user}}{{s.user.email}}{{else}}{{s.display_name}}{{/if}}</td>
                         <td>{{radio-button name=s.id bindValue=s.permission value="read" action="togglePermission"}}</td>
                         <td>{{radio-button name=s.id bindValue=s.permission value="write" action="togglePermission"}}</td>
-                        <td><a {{action 'removeUserFromShare' s.id}}>Remove</a></td>
+                        <td><a {{action 'removeUserFromShare' s.id}}>{{t 'button.remove_user_from_share'}}</a></td>
                     </tr>
                 {{/each}}
                 <tr>
-                    <td colspan="4"><a {{action 'removePrivateSharing'}}>Remove everybody</a></td>
+                    <td colspan="4"><a {{action 'removePrivateSharing'}}>{{t 'button.remove_private_sharing'}}</a></td>
                 </tr>
             </tbody>
         </table>
@@ -55,12 +55,12 @@
 
 <div>
     {{view 'input-emails' placeholder="user1@example.com user2@example.com..." label="Add users" autofocus="autofocus"}}
-    <button {{action 'shareWithUsers'}} class="small button" {{bind-attr disabled='freezeCreation'}}>Add Users</button>
+    <button {{action 'shareWithUsers'}} class="small button" {{bind-attr disabled='freezeCreation'}}>{{t 'button.share_with_users'}}</button>
 </div>
 
 {{#unless controller.isSharedAll}}
 <div>
-    <button {{action 'shareWithAll'}} class="small button alert">Privately share with everybody</button>
+    <button {{action 'shareWithAll'}} class="small button alert">{{t 'button.share_with_all'}}</button>
 </div>
 {{/unless}}
 

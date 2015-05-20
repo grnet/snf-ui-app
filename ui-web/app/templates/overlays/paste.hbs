@@ -1,7 +1,7 @@
 <h3>{{controller.title}}</h3>
-<p>Choose a folder to {{controller.actionVerb}} to:</p>
+<p>{{t 'choose_folder_to_paste' controller.actionVerb}}</p>
 {{#if controller.selected}}
-    <p>Selected path: <strong class="u-wrap">{{controller.selectedDir}}</strong></p>
+    <p>{{t 'selected_path'}} <strong class="u-wrap">{{controller.selectedDir}}</strong></p>
 {{/if}}
 <ul class="dir-tree">
     {{#each container in containersNoTrash}}

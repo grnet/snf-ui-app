@@ -1,5 +1,5 @@
-<h4>Restore</h4>
-<p>Choose a folder to restore <strong class="u-wrap">{{controller.model.name}}</strong> to:</p>
+<h3>{{t 'overlay.restore.title'}}</h3>
+<p>{{t 'overlay.restore.intro' controller.model.name}}</p>
 {{#if controller.selected}}
     <p>Selected path: <strong class="u-wrap">{{controller.selectedDir}}</strong></p>
 {{/if}}
@@ -10,6 +10,6 @@
 </ul>
  
 {{#if controller.selected}}
-    <p><a class="button small" {{action "restoreObject"}}>Restore</a></p>
+    <p><a class="button small" {{action "restoreObject"}}>{{t 'button.restore'}}</a></p>
 {{/if}}
 

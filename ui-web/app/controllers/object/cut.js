@@ -2,8 +2,12 @@ import ObjectPasteController from '../object/paste';
 
 export default ObjectPasteController.extend({
   
-  title: 'Move your files to',
-  actionVerb: 'move',
+  title: function(){
+    return this.t('overlay.move.title');
+  }.property(),
+  actionVerb: function(){
+    return this.t('action_verb.move');
+  }.property(),
 
   actions: {
     paste: function(){

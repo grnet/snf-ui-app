@@ -1,11 +1,8 @@
-<h3>Contact</h3>
-<p>If you would like to contact us for any reason, please feel free to write
-your message in the following form. Feedback and suggestions are
-also highly appreciated.</p>
-<label>Message
+<h3>{{t 'overlay.feedback.title'}}</h3>
+<p>{{{t 'overlay.feedback.intro'}}}</p>
+<label>Message</label>
 {{view 'textarea-with-validation' autofocus=true}}
-</label>
 <p>
-	<a class="button small js-btn-close-modal btn-minor">Cancel</a>
-	<a href="" class="button small right" {{action 'validateTextArea'}}>Send</a>
+	<a class="button small js-btn-close-modal btn-minor">{{t 'button.cancel'}}</a>
+	<a class="button small right" {{action 'validateTextArea'}}>{{t 'button.send_feedback'}}</a>
 </p>

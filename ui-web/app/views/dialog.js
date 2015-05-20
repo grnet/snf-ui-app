@@ -118,6 +118,11 @@ export default Ember.View.extend({
 	    $(document).off('opened.fndtn.reveal', '[data-reveal]');
 	},
 
+  confirm_title: function(){
+    return this.get('controller.verb_for_action') + ' ' + this.get('controller.itemType');
+  }.property('controller.verb_for_action', 'controller_itemType'),
+
+
 	actions: {
 		/*
 		 * slide action slides down a closed area and focuses the 1st input in it
@@ -148,32 +153,6 @@ export default Ember.View.extend({
 		}
 	},
 
-
-	// Use in the confirmSimple dialog
-	title: function() {
-		var action = this.get('controller').get('actionToPerform');
-		return this.get(action).title;
-	}.property(),
-
-	actionVerb: function() {
-		var action = this.get('controller').get('actionToPerform');
-		return (this.get(action).action_verb);
-	}.property(),
-
-
-	// Actions metadata
-	emptyAndDelete: {
-		title: 'Delete Container',
-		action_verb: 'delete'
-	},
-	emptyContainer: {
-		title: "Empty Container",
-		action_verb: 'empty'
-	},
-	deleteObject: {
-		title: 'Delete Object',
-		action_verb: 'delete'
-	},
 	deleteGroup: {
 		title: 'Delete Group',
 		action_verb: 'delete'

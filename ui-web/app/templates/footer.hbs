@@ -1,8 +1,8 @@
 <footer class="footer">
 	{{partial "usage-info"}}
-    <a class="right" {{action 'showDialog' 'feedback' 'feedback'}}>Send us Feedback</a>
+    <a class="right" {{action 'showDialog' 'feedback' 'feedback'}}>{{t 'global.prompt_feedback'}}</a>
     <span class="right themes">
-        Choose Theme: 
+        {{t 'global.choose_theme'}} 
         {{#each theme in settings.themes}}
             <a {{action 'toggleTheme' theme.name}} style="color:{{theme.color}}">{{fa-icon theme.icon}}</a>
         {{/each}}

@@ -11,17 +11,9 @@ export default Ember.View.extend({
 	'no-display': true,
 	templateName: 'popover',
 
-	// Use in the confirmSimple dialog
-	title: function() {
-		var action = this.get('actionToPerform');
-		return this.get(action).title;
-	}.property(),
-
-	actionVerb: function() {
-		var action = this.get('actionToPerform');
-		return (this.get(action).action_verb);
-	}.property(),
-
+  confirm_title: function(){
+    return this.get('controller.verb_for_action') + ' ' + this.get('controller.itemType');
+  }.property('controller.verb_for_action', 'controller_itemType'),
 
 	toggleVisibility: function() {
 		var self = this;

@@ -37,6 +37,27 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
 
   actionToPerform: undefined,
 
+  verb_for_action: function(){
+    var action = this.get('actionToPerform');
+    var dict = {
+      'emptyAndDelete': 'delete',
+      'emptyContainer': 'empty',
+    };
+    return dict[action];
+  }.property('actionToPerform'),
+  
+  confirm_intro: function(){
+    var verb =  this.t('action_verb.'+this.get('verb_for_action'));
+    var type = this.get('itemType');
+    var name = this.get('model.name');
+    return this.t('overlay.confirm_simple.intro', verb , type, name);
+  }.property('verb_for_action', 'model.name'),
+
+  confirm_button: function(){
+    return this.t('button.'+this.get('verb_for_action'));
+  }.property('verb_form_action'),
+
+
   watchProject: function(){
     var sel = this.get('selectedProject');
     if (sel && this.get('model.project.id')!=sel.get('id')){

@@ -10,9 +10,9 @@
 		{{/if}}
 	</span>
 	<input class='{{if view.errorVisible "error"}} {{if view.warningVisible "warning"}}'  placeholder={{view.placeholder}} type='text' value={{view.value}} autofocus={{view.autofocus}}>
-	 <button {{action 'getInputValue' target='view'}} class="tiny hint--bottom" data-hint="You can also search an e-mail by pressing enter, space or comma">Search</button>
+	 <button {{action 'getInputValue' target='view'}} class="tiny hint--bottom" data-hint={{t 'help_text.search_users'}}>Search</button>
 </div>
-<a href="" class="guide hint--bottom" data-hint="You can enter multiple e-mails by seperating them with comma, space, tab or enter. Do not forget to validate them!">?</a>
+<a href="" class="guide hint--bottom" data-hint={{t 'help_text.search_users_info'}}>?</a>
 
 <div  class='info'>
 	<span class='{{if view.warningVisible "warning" "invisible"}}'>

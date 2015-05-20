@@ -1,4 +1,4 @@
-<h3>Create container</h3>
+<h3>{{t 'overlay.create_container.title'}}</h3>
 <form {{action 'validateCreation' 'createContainer' on="enter" }}>
     {{view 'input-single' placeholder='Create Container...' autofocus=true controller=controller}}
 
@@ -7,6 +7,6 @@
                     optionValuePath="content.id"
                     selection=newProject}}
     <p>
-        <button class="button small" {{action 'validateCreation' 'createContainer' }}>Create container</button>
+        <button class="button small" {{action 'validateCreation' 'createContainer' }}>{{t 'button.create_container'}}</button>
     </p>
 </form>

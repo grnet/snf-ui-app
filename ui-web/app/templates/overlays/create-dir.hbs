@@ -1,8 +1,8 @@
-<h3>Create directory</h3>
+<h3>{{t 'overlay.create_dir.title'}}</h3>
 <p>New directory in <strong class="u-wrap">{{path}}</strong></p>
 <form {{action 'validateCreation' 'createDir' on="enter"}}>
     {{view "input-single" placeholder="Directory name" autofocus=true controller=controller}}
     <p>
-        <button class="button small" {{action 'validateCreation' 'createDir'}}>Create</button>
+        <button class="button small" {{action 'validateCreation' 'createDir'}}>{{t 'button.create_dir'}}</button>
     </p>
 </form>

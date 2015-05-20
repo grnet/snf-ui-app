@@ -2,8 +2,12 @@ import ObjectPasteController from '../object/paste';
 
 export default ObjectPasteController.extend({
   
-  title: 'Choose copy location',
-  actionVerb: 'copy',
+  title: function(){
+    return this.t('overlay.copy.title');
+  }.property(),
+  actionVerb: function(){
+    return this.t('action_verb.copy');
+  }.property(),
 
   actions: {
     paste: function(){
