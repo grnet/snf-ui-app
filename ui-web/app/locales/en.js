@@ -71,6 +71,18 @@ export default {
     prompt_feedback: 'Contact us',
     prompt_quotas: 'File Storage Usage',
   },
+
+  icon_label: {
+    move_to_trash: 'trash',
+    'delete': 'delete',
+    copy: 'copy',
+    move: 'move',
+    create_dir: 'New folder',
+    reload_model: 'refresh',
+    groups: 'groups',
+    view: 'view',
+  },
+
   cannot_undo_action: 'The action cannot be undone',
   disable_public_sharing_for_folders: 'Public sharing is currently disabled for folders',
   private_sharing_explain: 'Only people explicitly granted permission can access. Sign-in required.',

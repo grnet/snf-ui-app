@@ -2,7 +2,7 @@
     <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'moveObjectsToTrash'}}>
             {{fa-icon "fa-trash"}}
-            <label>Trash</label>
+            <label>{{t 'icon_label.move_to_trash'}}</label>
         </a>
     </li>
 {{/if}}
@@ -11,7 +11,7 @@
     <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'deleteObjects'}}>
             {{fa-icon "fa-remove"}}
-            <label>Delete</label>
+            <label>{{t 'icon_label.delete'}}</label>
         </a>
     </li>
 {{/if}}
@@ -20,7 +20,7 @@
     <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'openCopy'}}>
             {{fa-icon "fa-copy"}}
-            <label>Copy</label>
+            <label>{{t 'icon_label.copy'}}</label>
         </a>
     </li>
 {{/if}}
@@ -29,7 +29,7 @@
     <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'openCut'}}>
             {{fa-icon "fa-share"}}
-            <label>Move</label>
+            <label>{{t 'icon_label.move'}}</label>
         </a>
     </li>
 {{/if}}
@@ -38,7 +38,7 @@
     <li>
         <a {{action 'showDialog' 'create-dir' 'objects'}}>
             {{fa-icon "fa-folder"}}
-            <label>New folder</label>
+            <label>{{t 'icon_label.create_dir'}}</label>
         </a>
     </li>
 {{/if}}
