@@ -4,7 +4,7 @@
     {{fa-icon "fa-check" size=2 classNames="selected-icon"}}
 
     <div class="col name-col">
-        {{#if object.new}}<span class="label alert">new</span>{{/if}}
+        {{#if object.model.new}}<span class="label alert">new</span>{{/if}}
         {{#if object.model.is_dir}}
             {{#link-to 'objects' object.model.name}}
                 {{fa-icon view.iconCls}}
