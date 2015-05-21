@@ -1,6 +1,16 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+	init: function() {
+		var self = this;
+
+		// Catches js errors
+		Ember.onerror = function(error) {
+			console.error('%c[Ember.onerror] Error Report\n', error.message, error.stack);
+			self.send('showActionFail', error);
+		};
+	},
+
 	actions: {
 		/*
 		 * when the server returns error and we want full page error msg
@@ -25,7 +35,12 @@ export default Ember.Mixin.create({
 			}
 		},
 		showActionFail: function(error, controller) {
-			console.log('update', error);
+			if(error.stack) {
+				var error = Ember.Object.create({
+					message: error.message,
+					stack: error.stack
+				});
+			}
 			this.refresh();
 			this.render('overlays/error', {
 				into: 'application',

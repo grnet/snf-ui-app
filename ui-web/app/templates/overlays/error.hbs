@@ -1,2 +1,11 @@
-<h3>Error {{model.status}}</h3>
-<p>Server response: {{model.status}} - {{model.statusText}}</p>
+{{!-- status we have when we get server response --}}
+{{#if model.status}}
+	<h3>Error {{model.status}}</h3>
+	<p>Server response: {{model.status}} - {{model.statusText}}</p>
+
+{{!-- stack we have when js errors happen --}}
+{{else if model.stack}}
+	<h3>Error</h3>
+	<p><strong>message:</strong> {{model.message}}</p>
+	<p><strong>stack:</strong>{{model.stack}}</p>
+{{/if}}
