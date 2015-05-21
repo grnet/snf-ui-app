@@ -7,6 +7,8 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   itemController: 'object',
   needs: ['application'],
   
+  current_user: Ember.computed.alias('controllers.application.currentUser'),
+
   view: 'list',
   sortBy: 'stripped_name:asc',
 
@@ -129,6 +131,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         id: id,
         name: name,
         content_type: 'application/directory',
+        modified_by: self.get('current_user')
       });
 
       var onSuccess = function(object) {
