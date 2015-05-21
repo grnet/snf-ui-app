@@ -47,6 +47,9 @@ $dragFgCol: #FFFFFF;
         &:hover {
             background: darken($topbar-bg, 10%); 
         }
+        &:last-child {
+            margin-bottom: 1rem;
+        }
     }
     .batch-actions {
         .right {
