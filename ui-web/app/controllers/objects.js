@@ -13,8 +13,8 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   sortFields: [
     {'value': 'stripped_name:desc', 'label': 'Sort by name Z → A'},
     {'value': 'stripped_name:asc', 'label': 'Sort by name A → Z'},
-    {'value': 'type:desc', 'label': 'Sort by items (desc)'},
-    {'value': 'type:asc', 'label': 'Sort by items (asc)'},
+    {'value': 'type:desc', 'label': 'Sort by type Z → A'},
+    {'value': 'type:asc', 'label': 'Sort by type A → Z'},
     {'value': 'size:desc', 'label': 'Sort by size (desc)'},
     {'value': 'size:asc', 'label': 'Sort by size (asc)'},
     {'value': 'last_modified:desc', 'label': 'More recent first'},
