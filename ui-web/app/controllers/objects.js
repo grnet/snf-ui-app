@@ -132,8 +132,9 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       });
 
       var onSuccess = function(object) {
+        let model = self.get('model') || Ember.A();
+        model.pushObject(object);
         tempSetProperty(object, 'new');
-        self.send('refreshRoute');
       };
 
       var onFail = function(reason){
@@ -240,8 +241,12 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       var selected = controller_list || this.get('selectedItems');
       if (selected.length === 0) { return; }
 
-      var onSuccess = function() {
-          console.log('delete object: onSuccess');
+      var onSuccess = function(a) {
+        let s = self.get('sortedModel');
+        if ( s.contains(a) ) {
+          s.removeObject(a);
+        }
+        console.log('delete object: onSuccess');
       };
 
       var onFail = function(reason){
@@ -253,7 +258,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         selected.get(0).set('isSelected', false);
         object.deleteRecord();
         object.save().then(onSuccess, onFail);
-      }
+     }
     },
  
     moveObjectsToTrash: function(controller_list){
