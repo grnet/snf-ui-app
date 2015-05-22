@@ -19,6 +19,7 @@ export default Ember.Route.extend(ResetScrollMixin,{
         // When the server returns an emtpy array should check if the url is valid.
         if(objects.get('length') === 0) {
             // if not direct child of container or a container
+
             if(currentPath.indexOf('/') !== -1 && currentPath !== '/') {
 
                 var parentPath;
@@ -67,7 +68,7 @@ export default Ember.Route.extend(ResetScrollMixin,{
             }
             //direct child of container (but not a container)
             else if(currentPath !== '/') {
-                return self.store.find('object').then(function(objList) {
+                return self.store.find('object', {container_id:containerID}).then(function(objList) {
                     var isEmptyDir = false;
                     objList.forEach(function(object) {
                         var objPath = object.get('id');
