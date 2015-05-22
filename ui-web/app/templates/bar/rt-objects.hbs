@@ -9,7 +9,7 @@
 
 {{#if canDelete}}
     <li class={{unless hasSelected 'disabled'}}>
-        <a {{action 'deleteObjects'}}>
+        <a {{action 'openDelete'}}>
             {{fa-icon "fa-remove"}}
             <label>{{t 'icon_label.delete'}}</label>
         </a>

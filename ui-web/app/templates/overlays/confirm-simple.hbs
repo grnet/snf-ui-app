@@ -3,6 +3,15 @@
     {{{controller.confirm_intro}}}
     {{# if model.count}}(containing {{pluralize model.count 'item'}}){{/if}}?
 </p>
+
+{{#if selectedMany}}
+    <ul>
+    {{#each item in selectedItems}}
+        <li>{{item.model.name}}</li>
+    {{/each}}
+    </ul>
+{{/if}}
+
 <p><span class="danger">{{fa-icon "fa-warning"}}{{t 'cannot_undo_action'}}</span></p>
 
 <p>

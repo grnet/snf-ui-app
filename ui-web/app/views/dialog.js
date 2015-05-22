@@ -120,7 +120,7 @@ export default Ember.View.extend({
 
   confirm_title: function(){
     return this.get('controller.verb_for_action') + ' ' + this.get('controller.itemType');
-  }.property('controller.verb_for_action', 'controller_itemType'),
+  }.property('controller.verb_for_action', 'controller.itemType'),
 
 
 	actions: {

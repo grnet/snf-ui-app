@@ -5,6 +5,7 @@ import {ItemsControllerMixin} from '../mixins/items';
 
 export default Ember.ArrayController.extend(ItemsControllerMixin, {
   itemController: 'object',
+  itemType: 'objects',
   needs: ['application'],
   
   current_user: Ember.computed.alias('controllers.application.currentUser'),
@@ -71,6 +72,32 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   objectsCount: function(){
     return this.get('length');
   }.property('@each'),
+
+  selectedMany: function(){
+    return this.get('selectedItems.length') >1;
+  }.property('selectedItems.@each'),
+
+  verb_for_action: function(){
+    var action = this.get('actionToPerform');
+    var dict = {
+      'deleteObjects': 'delete',
+    };
+    return dict[action];
+  }.property('actionToPerform'),
+  
+  confirm_intro: function(){
+    var verb =  this.t('action_verb.'+this.get('verb_for_action'));
+    var type = this.get('itemType');
+    var name = this.get('model.name');
+    return this.t('overlay.confirm_simple.intro', verb , type, name);
+  }.property('verb_for_action', 'model.name'),
+
+  confirm_button: function(){
+    return this.t('button.'+this.get('verb_for_action'));
+  }.property('verb_form_action'),
+
+
+
 
   selectedItems: [],
 
@@ -335,6 +362,14 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       if (selected.length === 0) { return; }
       this.send('showDialog', 'paste', 'object/cut');
     },
+
+    openDelete: function(){
+      var self = this;
+      var selected = this.get('selectedItems');
+      if (selected.length === 0) { return; }
+      this.send('showDialog', 'confirm-simple', self, null, 'deleteObjects' );
+    },
+
 
   }
 
