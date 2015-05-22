@@ -113,6 +113,13 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     }
   }.property('loading'),
 
+  isTrash: function(){
+    if (this.get('model.isTrash')){
+      return 'is-trash';
+    }; 
+  }.property('model.isTrash'),
+
+
 
   actions: {
 

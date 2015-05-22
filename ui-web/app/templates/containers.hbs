@@ -11,7 +11,7 @@
     </li>
 {{/if}}
 {{#each container in sortedModel itemController="container"}}
-    <li class="{{container.isNew}} {{container.isLoading}}">
+    <li class="{{container.isNew}} {{container.isLoading}} {{container.isTrash}}">
         <div class="wrap clearfix">
 
             <div class="loader">{{fa-icon "fa-refresh fa-pulse"}}</div>
@@ -20,6 +20,7 @@
                 {{#if container.model.new}}<span class="label alert">new</span>{{/if}}
                 <h4>
                     {{#link-to 'container' container.model.name}}
+                        {{fa-icon "fa-trash trash-icon"}}
                         <span class="u-wrap">{{container.model.name}}</span>
                         {{fa-icon "fa-external-link"}}
                     {{/link-to}}

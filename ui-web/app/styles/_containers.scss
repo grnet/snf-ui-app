@@ -6,16 +6,27 @@
 
     }
     .name-col {
-        i {
+        .trash-icon {
+            display: none;
+        }
+        .fa-external-link {
             font-size: rem-calc(14);
             font-weight: bold;
             margin-left: rem-calc(4);
             visibility: hidden;
         }
         a:hover {
-            i {
+            .fa-external-link {
                 visibility: visible;
             }
+        }
+    }
+    .is-trash {
+        .wrap {
+            background: $theme-secondary-color-light; 
+        }
+        .trash-icon {
+            display: inline-block;
         }
     }
 }
