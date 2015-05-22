@@ -19,11 +19,7 @@ export default DS.Model.extend({
   }.property('name'),
 
   order: function(){
-    if (this.get('isTrash')) {
-      return 1;
-    }
-    return 0;
+    return this.get('isTrash')? 1: 0;
   }.property('isTrash'),
-
 
 });

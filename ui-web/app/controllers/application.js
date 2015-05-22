@@ -39,11 +39,11 @@ export default Ember.Controller.extend(DropFileActionsMixin, SnfAddHandlerMixin,
   },
 
 	title: function(){
-			return this.get('settings').get('service_name');
+			return this.get('settings.service_name');
 	}.property(),
 
 	currentUser: function(){
-		var uuid = this.get('settings').get('uuid');
+		var uuid = this.get('settings.uuid');
 		return this.store.find('user', uuid);
 	}.property(),
 
