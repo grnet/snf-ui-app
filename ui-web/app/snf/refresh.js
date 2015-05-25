@@ -69,8 +69,18 @@ function _findQuery(adapter, store, type, query, recordArray) {
     var payload = serializer.extract(store, type, adapterPayload, null, 'findQuery');
 
     Ember.assert("The response from a findQuery must be an Array, not " + Ember.inspect(payload), Ember.typeOf(payload) === 'array');
-
-    recordArray.load(payload);
+    
+    var records = store.pushMany(type, payload);
+    var ids = payload.getEach("id");
+    var removed = recordArray.filter(function(m) {
+      return ids.indexOf(m.get('id')) === -1;
+    });
+    var existingIds = recordArray.getEach("id");
+    var added = records.filter(function(m) {
+      return existingIds.indexOf(m.get('id')) === -1;
+    });
+    recordArray.removeObjects(removed);
+    recordArray.pushObjects(added);
     return recordArray;
   }, null, "DS: Extract payload of findQuery " + type);
 }
