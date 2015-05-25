@@ -209,6 +209,10 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   }.property(),
 
   actions: {
+    
+    uploadSuccess: function() {
+      this.get('model').update();
+    },
 
     validateCreation: function(action) {
       var flag = 'validationOnProgress';

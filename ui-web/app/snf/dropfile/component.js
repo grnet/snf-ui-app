@@ -144,10 +144,12 @@ export default Ember.Component.extend({
     // level (e.g. application route/controller)
     
     if (file._source) {
-      action = this.get(action);
+      action = this.get(action) || action;
       target = this._resolveTarget(file._source);
-      if (action && target) { 
-        target.send.apply(target, [action, file].concat(params));
+      if (action && target && target.send) { 
+        try {
+          target.send.apply(target, [action, file].concat(params));
+        } catch(err) {};
       }
     }
     
