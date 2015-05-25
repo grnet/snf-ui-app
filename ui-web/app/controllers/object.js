@@ -171,10 +171,6 @@ export default Ember.Controller.extend({
       this.send('showDialog', 'confirm-simple', this, this.get('model'), 'deleteObject');
     },
 
-    openRestore: function(){
-      this.send('showDialog', 'restore', 'object/restore', this.get('model'));
-    },
-
     openVersions: function(){
       this.send('showDialog', 'versions', 'object/versions', this.get('model'));
     },
@@ -196,10 +192,6 @@ export default Ember.Controller.extend({
 
     moveToTrash: function(){
       this.send('moveObjectsToTrash');
-    },
-
-    restoreObjectFromTrash: function(selectedDir){
-      this.get('controllers.objects').send('restoreObjectsFromTrash', {'selectedDir': selectedDir});
     },
   }
 });

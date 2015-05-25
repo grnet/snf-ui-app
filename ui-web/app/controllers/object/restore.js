@@ -1,26 +1,22 @@
-import ObjectController from '../object';
+import ObjectPasteController from '../object/paste';
 import ResolveSubDirsMixin from '../../mixins/resolve-sub-dirs';
 
-export default ObjectController.extend(ResolveSubDirsMixin, {
-  selected: false,
-  selectedDir: null,
-  closeDialog: false,
+export default ObjectPasteController.extend(ResolveSubDirsMixin,{
 
-  containersNoTrash: Ember.computed.filter('controllers.application.sortedContainers', function(c) {
-    return c.get('name').toLowerCase() != 'trash';
-  }),
+  title: function(){
+    return this.t('overlay.restore.title');
+  }.property(),
+
+  actionVerb: function(){
+    return this.t('action_verb.restore');
+  }.property(),
+
 
   actions: {
-    selectDir: function(param){
-      this.set('selected', true);
-      this.set('selectedDir', param);
+    move: function(){
+      this.get('controllers.objects').send('restoreObjectsFromTrash', {selectedDir: this.get('selectedDir')});
+      this.send('unSelectDir');
     },
-    restoreObject: function(){
-      this.send('restoreObjectFromTrash', this.get('selectedDir'));
-      this.set('selected', false);
-      this.set('selectedDir', null);
-			this.set('closeDialog', true);
-    }
   }
 
 });

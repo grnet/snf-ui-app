@@ -25,9 +25,9 @@ export default {
     move: {
       title: 'Move your files to',
     },
+
     restore: {
       title: 'Restore',
-      intro: 'Chose a folder to restore your file to:',
     }
   },
 
@@ -60,6 +60,7 @@ export default {
     share: 'share',
     copy: 'copy',
     move: 'move',
+    restore: 'restore',
   },
 
   open_dialog: {
@@ -74,6 +75,7 @@ export default {
 
   icon_label: {
     move_to_trash: 'trash',
+    restore_from_trash: 'restore',
     'delete': 'delete',
     copy: 'copy',
     move: 'move',
@@ -87,7 +89,7 @@ export default {
   disable_public_sharing_for_folders: 'Public sharing is currently disabled for folders',
   private_sharing_explain: 'Only people explicitly granted permission can access. Sign-in required.',
   public_sharing_explain: 'Anyone who has the public link can access. No sign-in required.',
-  choose_folder_to_paste: 'Choose a folder to %@ to:',
+  choose_folder_to_move: 'Choose a folder to %@ to:',
   selected_path: 'Selected path:',
 
 

@@ -1,5 +1,5 @@
 <h3>{{controller.title}}</h3>
-<p>{{t 'choose_folder_to_paste' controller.actionVerb}}</p>
+<p>{{t 'choose_folder_to_move' controller.actionVerb}}</p>
 {{#if controller.selected}}
     <p>{{t 'selected_path'}} <strong class="u-wrap">{{controller.selectedDir}}</strong></p>
 {{/if}}
@@ -9,6 +9,6 @@
     {{/each}}
 </ul>
 {{#if controller.selected}}
-    <p><a class="button small" {{action "paste"}}>{{controller.actionVerb}}</a></p>
+    <p><a class="button small" {{action "move"}}>{{controller.actionVerb}}</a></p>
 {{/if}}
 

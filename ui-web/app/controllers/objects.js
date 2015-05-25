@@ -51,6 +51,11 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     return this.get('container_id') != 'trash';
   }.property('container_id'),
 
+  canRestore: function(){
+    return this.get('container_id') == 'trash';
+  }.property('container_id'),
+
+
   hasUpPath: function(){
     return this.get('current_path') !== '/';
   }.property('model.current_path'),
@@ -373,6 +378,13 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       if (selected.length === 0) { return; }
       this.send('showDialog', 'confirm-simple', self, null, 'deleteObjects' );
     },
+
+    openRestore: function(){
+      var selected = this.get('selectedItems');
+      if (selected.length === 0) { return; }
+      this.send('showDialog', 'paste', 'object/restore');
+    },
+
 
 
   }
