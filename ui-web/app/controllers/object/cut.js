@@ -1,21 +1,8 @@
 import ObjectPasteController from '../object/paste';
 
 export default ObjectPasteController.extend({
+
+  action: 'moveObjectsTo',
+  type: 'move'
   
-  title: function(){
-    return this.t('overlay.move.title');
-  }.property(),
-
-  actionVerb: function(){
-    return this.t('action_verb.move');
-  }.property(),
-
-  actions: {
-    move: function(){
-      this.get('controllers.objects').send('moveObjectsTo', {selectedDir: this.get('selectedDir')});
-      this.send('unSelectDir');
-    }
-
-  }
-
 });
