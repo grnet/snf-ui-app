@@ -1,8 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+	errors: undefined,
 	init: function() {
 		var self = this;
+		this.set('errors', []);
 
 		// Catches js errors
 		Ember.onerror = function(error) {
@@ -10,6 +12,8 @@ export default Ember.Mixin.create({
 			self.send('showActionFail', error);
 		};
 	},
+
+	errorRendered: false,
 
 	actions: {
 		/*
@@ -35,20 +39,33 @@ export default Ember.Mixin.create({
 			}
 		},
 		showActionFail: function(error, controller) {
+			var timestamp = new Date().toString();
+			var errors = this.get('errors')//.pushObject(error);
 			if(error.stack) {
 				var error = Ember.Object.create({
 					message: error.message,
-					stack: error.stack
+					stack: error.stack,
+					timestamp: timestamp
 				});
 			}
-			this.refresh();
-			this.render('overlays/error', {
-				into: 'application',
-				outlet: 'errorDialogs',
-				controller: controller,
-				model: error,
-				view: 'dialog',
-			});
+			else {
+				console.log('%The rror has no stack.\nDo you want to make it ember object?', error);
+			}
+			errors.pushObject(error)
+			if(!this.get('errorRendered')) {
+				this.set('errorRendered', true)
+				if(!controller) {
+					controller = 'feedback'
+				}
+				this.refresh();
+				this.render('overlays/error', {
+					into: 'application',
+					outlet: 'errorDialogs',
+					controller: controller,
+					model: errors,
+					view: 'dialog',
+				});
+			}
 		}
 	}
 });

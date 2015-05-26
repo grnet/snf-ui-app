@@ -66,6 +66,7 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 					outlet = 'feedback';
 				}
 				else if(dialogType === 'error') {
+					this.set('errorRendered', false)
 					outlet = 'errorDialogs';
 				}
 				else {
