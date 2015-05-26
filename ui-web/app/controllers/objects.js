@@ -187,26 +187,20 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   }.observes('validInput'),
 
 
+  // Checks if an object with a given id exists. If it does, it returns a new 
+  // unique id. If not, it returns the id.
   _verifyID: function(id){
     var self = this;
     return function(id){
       var obj = self.store.getById('object',id );
       if (obj) {
         if (obj.get('is_dir') ) {
-          var object_id = id + '-copy';
+          var object_id = id + '_copy_';
         } else {
-          var temp = id.split('.');
-          var extension = null;
-          if (temp.length>1 ) {
-            extension = '.'+ temp.pop();
-          }
-          object_id = temp.join('.')+'-copy';
-          if (extension) {
-            object_id = object_id + extension;
-          }
+          var newname = id.replace(/(\..*$)/, '_copy_$1');
         }
         // if you omit return _verifyID returns undefined
-        return self.get('_verifyID')(object_id);
+        return self.get('_verifyID')(newname);
       } else {
         return id;
       }
@@ -232,7 +226,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       arr.pop();
       var path = arr.join('/')+'/';
       this.store.find('object', {
-        container_id: container_id,
+        container: container_id,
         path: path
       }).then(function(){
         var newVerifiedID = self.get('_verifyID')(newID);
@@ -285,7 +279,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         if ( s.contains(a) ) {
           s.removeObject(a);
         }
-        console.log('delete object: onSuccess');
       };
 
       var onFail = function(reason){
