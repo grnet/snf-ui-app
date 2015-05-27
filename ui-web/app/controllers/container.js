@@ -14,13 +14,8 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
   listView: Ember.computed.alias("controllers.containers.listView"),
   containersModel: Ember.computed.alias("controllers.containers.model"),
 
-  canEmpty: function(){
-    return this.get('model.count') >0;
-  }.property('model.count'),
-
-  canDelete: function(){
-    return !this.get('model.isTrash'); 
-  }.property('model.isTrash'),
+  canEmpty: Ember.computed.bool('model.count'),
+  canDelete: Ember.computed.not('model.isTrash'),
 
   availableProjects: function(){
     var self = this;
@@ -96,10 +91,6 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
 		return data;
 	}.property('size', 'this.project.@each'),
 
-
-  isEmpty: function(){
-    return this.get('model.count') == 0;
-  }.property('model.count'),
 
   isNew: function(){
     if (this.get('model.new')) {

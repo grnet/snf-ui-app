@@ -14,34 +14,17 @@ export default Ember.Controller.extend({
   gridView: Ember.computed.alias("controllers.objects.gridView"),
   listView: Ember.computed.alias("controllers.objects.listView"),
   selectedItems: Ember.computed.alias("controllers.objects.selectedItems"),
+  trash: Ember.computed.equal('container_id', 'trash'),
 
   // Allowed actions
   canRename: true,
   canDelete: true,
-
-  canCopy: function(){
-    return !this.get('trash');
-  }.property('trash'),
-
-  canMove: function(){
-    return !this.get('trash');
-  }.property('trash'),
-
-  canShare: function(){
-    return !this.get('trash');
-  }.property('trash'),
-
-  canDownload: function(){
-    return this.get('model.is_file'); 
-  }.property('model.is_file'),
-
-  canTrash: function(){
-    return !this.get('trash');
-  }.property('trash'),
-
-  canRestore: function(){
-    return this.get('trash');
-  }.property('trash'),
+  canCopy: Ember.computed.not('trash'),
+  canMove: Ember.computed.not('trash'),
+  canShare: Ember.computed.not('trash'),
+  canTrash: Ember.computed.not('trash'),
+  canDownload: Ember.computed.bool('model.is_file'),
+  canRestore: Ember.computed.bool('trash'),
 
   canVersions: function(){
     return this.get('model.is_file') && !this.get('trash');
@@ -58,10 +41,6 @@ export default Ember.Controller.extend({
       o.removeObject(self);
     }
   }.observes('isSelected'),
-
-  trash: function(){
-    return this.get('container_id') == 'trash';
-  }.property('container_id'),
 
   view_src: function(){
     var base_url = this.get('settings').get('storage_view_url');

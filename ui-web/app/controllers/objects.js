@@ -8,7 +8,21 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   itemType: 'objects',
   needs: ['application'],
   
+  objectsCount: Ember.computed.alias('length'),
+  selectedMany: Ember.computed.gt('selectedItems.length', 1),
+  hasSelected: Ember.computed.bool('selectedItems.length'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
+  hasUpPath: Ember.computed.not('current_path', '/'),
+  trash: Ember.computed.equal('container_id', 'trash'),
+
+
+  canDelete: true,
+  canTrash: Ember.computed.not('trash'),
+  canCopy: Ember.computed.not('trash'),
+  canMove: Ember.computed.not('trash'),
+  canUpload: Ember.computed.not('trash'),
+  canCreate: Ember.computed.not('trash'),
+  canRestore: Ember.computed.bool('trash'),
 
   view: 'list',
   sortBy: 'stripped_name:asc',
@@ -29,36 +43,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     return ['is_dir:desc', this.get('sortBy')];
   }.property('sortBy'),
 
-  canDelete: true,
-
-  canTrash: function(){
-    return this.get('container_id') != 'trash';
-  }.property('container_id'),
-
-  canCopy: function(){
-    return this.get('container_id') != 'trash';
-  }.property('container_id'),
-
-  canMove: function(){
-    return this.get('container_id') != 'trash';
-  }.property('container_id'),
-
-  canUpload: function(){
-    return this.get('container_id') != 'trash';
-  }.property('container_id'),
-
-  canCreate: function(){
-    return this.get('container_id') != 'trash';
-  }.property('container_id'),
-
-  canRestore: function(){
-    return this.get('container_id') == 'trash';
-  }.property('container_id'),
-
-
-  hasUpPath: function(){
-    return this.get('current_path') !== '/';
-  }.property('model.current_path'),
 
   upPath: function(){
     var arr =  this.get('current_path').split('/');
@@ -72,15 +56,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       url = url + this.get('current_path')+ '/';
     }
     return url;
-  }.property('model.current_path'),
-
-  objectsCount: function(){
-    return this.get('length');
-  }.property('@each'),
-
-  selectedMany: function(){
-    return this.get('selectedItems.length') >1;
-  }.property('selectedItems.@each'),
+  }.property('current_path'),
 
   verb_for_action: function(){
     var action = this.get('actionToPerform');
@@ -101,15 +77,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     return this.t('button.'+this.get('verb_for_action'));
   }.property('verb_form_action'),
 
-
-
-
   selectedItems: [],
-
-  hasSelected: function(){
-    return this.get('selectedItems').length > 0;
-  }.property('selectedItems.@each'),
-
   copyFlag: false,
 
  /*
@@ -363,8 +331,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       if (selected.length === 0) { return; }
       this.send('showDialog', 'paste', 'object/restore');
     },
-
-
 
   }
 
