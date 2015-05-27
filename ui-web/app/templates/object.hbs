@@ -8,7 +8,7 @@
         {{#if object.model.is_dir}}
             {{#link-to 'objects' object.model.name}}
                 {{fa-icon view.iconCls}}
-                <span class="js-name">
+                <span class="js-name hint--bottom ellipsis" {{bind-attr data-hint=object.model.stripped_name}}>
                     <span>
                         {{object.model.stripped_name}}
                     </span>
@@ -24,7 +24,7 @@
             {{else}}
                 {{fa-icon view.iconCls fixedWidth=true}}
             {{/if}}
-            <span class="js-name hint--bottom" {{bind-attr data-hint=object.model.stripped_name}}>
+            <span class="js-name hint--bottom ellipsis" {{bind-attr data-hint=object.model.stripped_name}}>
                 <span>
                     {{object.model.stripped_name_no_ext}}
                     {{#if object.model.has_ext}}

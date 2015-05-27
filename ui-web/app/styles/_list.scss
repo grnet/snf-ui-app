@@ -60,6 +60,17 @@ $list-line-height : 40px;
             white-space: initial;
             word-wrap: break-word;
         }
+        .ellipsis {
+            span {
+                display: inline-block;
+                max-width: 265px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                vertical-align: top;
+                white-space: nowrap;
+            }
+            
+        }
     }
     .actions-col {
         float: right;

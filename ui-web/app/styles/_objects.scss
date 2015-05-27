@@ -20,14 +20,6 @@
     }
     .name-col {
         .js-name {
-            span {
-                display: inline-block;
-                max-width: 265px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                vertical-align: top;
-                white-space: nowrap;
-            }
             em {
                 color: $aluminum;
                 font-size: rem-calc(12);

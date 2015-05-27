@@ -18,13 +18,24 @@
 
             <div class="col name-col">
                 {{#if container.model.new}}<span class="label alert">new</span>{{/if}}
-                <h4>
+                {{#if listView}}
+                <h4 class="ellipsis hint--bottom" data-hint={{container.model.name}}>
                     {{#link-to 'container' container.model.name}}
                         {{fa-icon "fa-trash trash-icon"}}
-                        <span class="u-wrap">{{container.model.name}}</span>
+                        <span>{{container.model.name}}</span>
                         {{fa-icon "fa-external-link"}}
                     {{/link-to}}
                 </h4>
+                {{else}}
+                <h4>
+                    {{#link-to 'container' container.model.name}}
+                        {{fa-icon "fa-trash trash-icon"}}
+                        <span>{{container.model.name}}</span>
+                        {{fa-icon "fa-external-link"}}
+                    {{/link-to}}
+                </h4>
+
+                {{/if}}
             </div>
             {{#if gridView}}
                 <dl>    
