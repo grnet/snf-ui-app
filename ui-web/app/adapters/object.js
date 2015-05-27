@@ -22,7 +22,7 @@ export default StorageAdapter.extend({
   },
     
   find: function(store, type, id, snapshot) {
-    var account = snapshot && snapshot.get('account') || this.get('account');
+    var account = snapshot && snapshot.account || this.get('account');
     return this.ajax(this.buildURL(type.typeKey, id, snapshot), 'GET');
   },
 
