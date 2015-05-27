@@ -2,12 +2,12 @@
     <span>{{name}}</span>
 {{/if}}
 {{#if is_container}}
-    <a {{action 'click' root }}>
+    <a {{action 'click' root }} href="containers/{{root}}">
         <span>{{name}}</span>
     </a>
 {{/if}}
 {{#if is_folder}}
-    <a {{action 'click' root }}>
+    <a {{action 'click' root }} href="containers/{{root}}">
     <span>{{name}}</span>
     </a>
 {{/if}}
