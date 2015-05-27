@@ -12,7 +12,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   selectedMany: Ember.computed.gt('selectedItems.length', 1),
   hasSelected: Ember.computed.bool('selectedItems.length'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
-  hasUpPath: Ember.computed.not('current_path', '/'),
   trash: Ember.computed.equal('container_id', 'trash'),
 
 
@@ -23,6 +22,10 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   canUpload: Ember.computed.not('trash'),
   canCreate: Ember.computed.not('trash'),
   canRestore: Ember.computed.bool('trash'),
+
+  hasUpPath: function(){
+    return this.get('current_path') !== '/';
+  }.property('current_path'),
 
   view: 'list',
   sortBy: 'stripped_name:asc',
@@ -56,7 +59,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       url = url + this.get('current_path')+ '/';
     }
     return url;
-  }.property('current_path'),
+  }.property('current_path', 'container_id'),
 
   verb_for_action: function(){
     var action = this.get('actionToPerform');
