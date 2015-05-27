@@ -1,5 +1,5 @@
 <h3>{{t 'overlay.create_dir.title'}}</h3>
-<p>New directory in <strong class="u-wrap">{{path}}</strong></p>
+<p>New directory in <strong class="u-wrap">{{controller.path}}</strong></p>
 <form {{action 'validateCreation' 'createDir' on="enter"}}>
     {{view "input-single" placeholder="Directory name" autofocus=true controller=controller}}
     <p>
