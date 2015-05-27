@@ -195,7 +195,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       var obj = self.store.getById('object',id );
       if (obj) {
         if (obj.get('is_dir') ) {
-          var object_id = id + '_copy_';
+          var newname = id + '_copy';
         } else {
           var newname = id.replace(/(\..*$)/, '_copy_$1');
         }
@@ -219,40 +219,33 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       this.set(flag, true);
     },
 
-    _move: function(object, newID, copyFlag){
+    _move: function(object, newID, copyFlag, callback){
       var self = this;
-      var arr = newID.split('/');
-      var container_id = arr.shift();
-      arr.pop();
-      var path = arr.join('/')+'/';
-      this.store.find('object', {
-        container: container_id,
-        path: path
-      }).then(function(){
-        var newVerifiedID = self.get('_verifyID')(newID);
-        if (newVerifiedID != newID){
-          object._newID = newID;
-          object._newVerifiedID = newVerifiedID;
-          object._copyFlag = copyFlag;
-          self.send('showDialog', 'move', 'object/move' , object);
-          return;
-        }
-        self.send('moveObject', object,newID, copyFlag);
-      });
+      var newVerifiedID = self.get('_verifyID')(newID);
+      if (newVerifiedID != newID){
+        object._newID = newID;
+        object._newVerifiedID = newVerifiedID;
+        object._copyFlag = copyFlag;
+        object._callback = callback;
+        self.send('showDialog', 'move', 'object/move' , object);
+        return;
+      }
+      
+      self.send('moveObject', object,newID, copyFlag, callback);
     },
 
-    // moves object from to newID
-    moveObject: function(object, newID, copyFlag){
+    moveObject: function(object, newID, copyFlag, callback){
       var self = this;
 
       var onSuccess = function(object) {
-        self.send('refreshRoute');
+        //self.send('refreshRoute');
       };
 
       var onFail = function(reason){
         self.send('showActionFail', reason);
       };
 
+      callback && callback();
       this.store.moveObject(object, newID, copyFlag).then(onSuccess, onFail);
 
       this.set('toPasteObject', null);
@@ -292,58 +285,51 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         object.save().then(onSuccess, onFail);
      }
     },
- 
-    moveObjectsToTrash: function(controller_list){
+
+    _moveObjects: function(selectedDir, controller_list, copyFlag){
       var self = this;
       var selected = controller_list || this.get('selectedItems');
       if (selected.length === 0) { return; }
 
-      while (selected.get(0)) {
-        var object = selected.get(0).get('model');
-        selected.get(0).set('isSelected', false);
-        var newID = 'trash/'+object.get('stripped_name');
-        self.send('_move', object, newID);
+      var processNext = function() {
+        var next = selected.get(0);
+        if (!next) { 
+          return 
+        }
+        var object = next.get('model');
+        next.set('isSelected', false);
+        var newID = selectedDir + '/' + object.get('stripped_name');
+        var callback = processNext;
+        self.send('_move', object, newID, copyFlag, callback);
       }
 
+      var arr = selectedDir.split('/');
+      var container_id = arr.shift();
+      var path = arr.join('/')+'/';
+
+      this.store.find('object', {
+        container: container_id,
+        path: path
+      }).then(function(){ 
+        processNext();
+      });
+    },
+
+ 
+    moveObjectsToTrash: function(controller_list){
+      this.send('_moveObjects', 'trash', controller_list);
     },
 
     restoreObjectsFromTrash: function(params, controller_list){
-      var self = this;
-      var selected = controller_list || this.get('selectedItems');
-      if (selected.length === 0) { return; }
-
-      while (selected.get(0)) {
-        var object = selected.get(0).get('model');
-        selected.get(0).set('isSelected', false);
-        var newID = params.selectedDir + '/' + object.get('stripped_name');
-        self.send('_move', object, newID);
-      }
+      this.send('_moveObjects', params.selectedDir, controller_list);
     },
 
     copyObjects: function(params, controller_list){
-      var self = this;
-      var selected = controller_list || this.get('selectedItems');
-      if (selected.length === 0) { return; }
-
-      while (selected.get(0)) {
-        var object = selected.get(0).get('model');
-        selected.get(0).set('isSelected', false);
-        var newID = params.selectedDir + '/' + object.get('stripped_name');
-        self.send('_move', object, newID, true);
-      }
-    },
+      this.send('_moveObjects', params.selectedDir, controller_list, true);
+   },
 
     moveObjectsTo: function(params, controller_list){
-      var self = this;
-      var selected = controller_list || this.get('selectedItems');
-      if (selected.length === 0) { return; }
-
-      while (selected.get(0)) {
-        var object = selected.get(0).get('model');
-        selected.get(0).set('isSelected', false);
-        var newID = params.selectedDir + '/' + object.get('stripped_name');
-        self.send('_move', object, newID);
-      }
+      this.send('_moveObjects', params.selectedDir, controller_list);
     },
 
     clearSelected: function(){
