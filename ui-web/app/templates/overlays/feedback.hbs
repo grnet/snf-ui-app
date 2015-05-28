@@ -1,8 +1,19 @@
-<h3>{{t 'overlay.feedback.title'}}</h3>
-<p>{{{t 'overlay.feedback.intro'}}}</p>
-<label>Message</label>
-{{view 'textarea-with-validation' autofocus=true}}
-<p>
-	<a class="button small js-btn-close-modal btn-minor">{{t 'button.cancel'}}</a>
-	<a class="button small right" {{action 'validateTextArea'}}>{{t 'button.send_feedback'}}</a>
-</p>
+{{!-- if the feedback is inside the error report, it has errors as model --}}
+{{!-- if the feedback is standing alone, it has an empty object as model --}}
+{{#if model.length}}
+	<label>Please describe the actions that triggered the error:</label>
+	{{view 'textarea-with-validation' autofocus=true}}
+	<p>
+		<a class="button small js-btn-close-modal btn-minor">{{t 'button.cancel'}}</a>
+		<a class="button small right js-btn-close-modal" {{action 'fwdErrorFeedback'}}>{{t 'button.send_feedback'}}</a>
+	</p>
+{{else}}
+	<h3>{{t 'overlay.feedback.title'}}</h3>
+	<p>{{{t 'overlay.feedback.intro'}}}</p>
+	<label>Message</label>
+	{{view 'textarea-with-validation' autofocus=true}}
+	<p>
+		<a class="button small js-btn-close-modal btn-minor">{{t 'button.cancel'}}</a>
+		<a class="button small right" {{action 'validateAndSend'}}>{{t 'button.send_feedback'}}</a>
+	</p>
+{{/if}}

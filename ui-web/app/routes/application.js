@@ -50,6 +50,8 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 			}
 			if(dialogType === 'feedback') {
 				outlet = 'feedback'
+				// empty the model of the feedback (could have errors as model)
+				var model = Ember.Object.create({});
 			}
 			else {
 				outlet = 'dialogs'
@@ -112,12 +114,20 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 	      'X-Requested-With': 'XMLHttpRequest',
 	      'Content-Type': 'application/json'
 	    };
+
+		// feedback has additional data
+	    if(data) {
+			var errorFeedback = true;
+	    }
 	    var data = {
 				feedback_msg: msg,
 				feedback_data: data
 	    };
 	    var onSuccess = function(data, textStatus, jqXHR) {
-				// tba
+				// send the erros and then remove them from the list
+				if(errorFeedback) {
+					self.set('errors', []);
+				}
 	    };
 
 	    var onFail = function(jqXHR, textStatus, error) {

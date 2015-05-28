@@ -145,7 +145,9 @@ export default Ember.View.extend({
 			}
 			else {
 				$area.find('.js-slide-me').stop().slideUp('slow', function() {
-					controller.send('reset');
+					if(controller.get('name') === 'groups') {
+						controller.send('reset');
+					}
 				});
 			}
 

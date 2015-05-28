@@ -40,17 +40,27 @@ export default Ember.Mixin.create({
 		},
 		showActionFail: function(error, controller) {
 			var timestamp = new Date().toString();
-			var errors = this.get('errors')//.pushObject(error);
+			var errors = this.get('errors');
 			if(error.stack) {
+				let msg = 'message:' + error.message + '\n';
+				let stack = 'stack:' + error.stack + '\n';
+				let time = 'timestamp:' + timestamp + '\n';
 				var error = Ember.Object.create({
 					message: error.message,
 					stack: error.stack,
-					timestamp: timestamp
+					timestamp: timestamp,
+					string: time + msg + stack
 				});
 			}
+			// tba special handling of server errors
 			else if(typeof error === 'object') {
 				console.log('%The error has no stack. But it is an object.\n Do you want to make it ember object?', error);
 				error['timestamp'] = timestamp;
+				var str = '';
+				for (var prop in error) {
+					str += str + prop + ': ' + error.prop + '\n';
+				}
+				error['string'] = str;
 			}
 			errors.pushObject(error)
 			if(!this.get('errorRendered')) {

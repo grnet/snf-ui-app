@@ -1,21 +1,29 @@
-{{#each error in model}}
+<h3>{{t 'overlay.error.title'}}</h3>
+<p>{{t 'overlay.error.intro'}}</p>
+<div class="js-slide-container" id="error-details">
+	<div class="js-btn-slide btn-line" {{action 'slide' controller 'error-details' target='view'}}>
+		<span>{{t 'button.error_details'}}</span>
+        <span class="arrow-up fa fa-angle-up"></span>
+        <span class="arrow-down fa fa-angle-down"></span>
+	</div>
+	<div class="js-slide-me slide-me">
+		{{#each error in model}}
 
-	{{!-- status we have when we get server response --}}
-	{{#if error.status}}
-		<h3>Error {{error.status}}</h3>
-		<p><strong>timestamp</strong> {{error.timestamp}}</p>
-		<p>server response: {{error.status}} - {{error.statusText}}</p>
+			{{!-- status we have when we get server response --}}
+			{{#if error.status}}
+				<p><strong>{{error.timestamp}}</strong></p>
+				<p>server response: {{error.status}} - {{error.statusText}}</p>
 
-	{{!-- stack we have when js errors happen --}}
-	{{else if error.stack}}
-		<h3>Error</h3>
-		<p><strong>timestamp:</strong> {{error.timestamp}}</p>
-		<p><strong>message:</strong> {{error.message}}</p>
-		<p><strong>stack:</strong>{{error.stack}}</p>
-	{{/if}}
-	<hr>
-{{/each}}
+			{{!-- stack we have when js errors happen --}}
+			{{else if error.stack}}
+				<p><strong>{{error.timestamp}}</strong></p>
+				<p><strong>message:</strong> {{error.message}}</p>
+				<p><strong>stack:</strong>{{error.stack}}</p>
+			{{/if}}
+			<hr>
+		{{/each}}
+	</div>
 
+</div>
 
 {{partial "overlays/feedback"}}
-

@@ -23,6 +23,14 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     {'value': 'last_modified:asc', 'label': 'Older first'},
   ],
 
+  // throwErrors: function() {
+  //   var self = this;
+  //   setInterval(function() {
+  //     console.log('error....')
+  //     self.send('showActionFail', {message: 'hi', stack: 'bye'})
+  //   }, 3000)
+  // }.on('init'),
+
   sortProperties: function(){
     return ['order:asc', this.get('sortBy')];
   }.property('sortBy'),
