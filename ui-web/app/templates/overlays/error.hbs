@@ -3,11 +3,13 @@
 	{{!-- status we have when we get server response --}}
 	{{#if error.status}}
 		<h3>Error {{error.status}}</h3>
-		<p>Server response: {{error.status}} - {{error.statusText}}</p>
+		<p><strong>timestamp</strong> {{error.timestamp}}</p>
+		<p>server response: {{error.status}} - {{error.statusText}}</p>
 
 	{{!-- stack we have when js errors happen --}}
 	{{else if error.stack}}
 		<h3>Error</h3>
+		<p><strong>timestamp:</strong> {{error.timestamp}}</p>
 		<p><strong>message:</strong> {{error.message}}</p>
 		<p><strong>stack:</strong>{{error.stack}}</p>
 	{{/if}}

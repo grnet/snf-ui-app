@@ -48,8 +48,9 @@ export default Ember.Mixin.create({
 					timestamp: timestamp
 				});
 			}
-			else {
-				console.log('%The rror has no stack.\nDo you want to make it ember object?', error);
+			else if(typeof error === 'object') {
+				console.log('%The error has no stack. But it is an object.\n Do you want to make it ember object?', error);
+				error['timestamp'] = timestamp;
 			}
 			errors.pushObject(error)
 			if(!this.get('errorRendered')) {
