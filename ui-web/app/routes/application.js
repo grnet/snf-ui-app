@@ -13,6 +13,11 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 			into: 'application',
 			outlet: 'total-quotas',
 		});
+    this.render('shared-with-me', {
+      into: 'application',
+      outlet: 'shared-with-me',
+      controller: 'account',
+    });
 	},
 
   setupController: function(controller, model) {
