@@ -4,8 +4,8 @@
         outline: 0 none;
     }
     h3 {
-        text-align: center;
         margin-bottom: rem-calc(16);
+        text-align: center;
     }
 
     .button + .secondary {
@@ -17,12 +17,12 @@
 
     // Groups dialog
     .group-icon {
-        margin-right: 10px;
-        font-size: 2.5rem;
-        vertical-align: middle;
         bottom: 0.18rem;
+        color: $tuatara;
+        font-size: 2.5rem;
+        margin-right: 10px;
         position: relative;
-        color: #474A4F;;
+        vertical-align: middle;
     }
 
     .slide-me {
@@ -30,21 +30,22 @@
     }
 
     .list-item {
-        background-color: lighten(#ececec, 5%);
-        padding: rem-calc(10) rem-calc(16);
+        padding: rem-calc(10 16);
+        &li:nth-child(2n) {
+            background: $table-even-row-bg;
+        }
         &:hover, &:focus {
-            // background-color: #ececec;
-            background-color: #DEEDF5;
+            background-color: $theme-secondary-color-light;
         }
         &.create-area {
             margin-bottom: 20px;
-            background-color: #fcfbe9;
+            background-color: $theme-primary-color-light;
             border: 1px solid #CDE0F2;
             &:hover, &:focus {
                 border-color: darken(#CDE0F2, 20%);
             }
             .btn-line {
-                    text-align: center;
+                text-align: center;
             }
         }
     }
@@ -53,27 +54,26 @@
         display: inline-block;
         position: relative;
     }
-	.main-info {
-		margin-bottom: rem-calc(10);
-		position: relative;
+    .main-info {
+        margin-bottom: rem-calc(10);
+        position: relative;
 	}
-	.group-name {
-		margin-right: 6px;
+    .group-name {
+        margin-right: 6px;
         word-break: break-word;
 	}
-
 	.guide {
-		display: inline-block;
-		width: rem-calc(20);
+		background-color: $theme-guide-bg-color;
+		border-radius: (rem-calc(20) / 2);
+		color: white;
 		height: rem-calc(20);
 		line-height: rem-calc(20);
 		text-align: center;
-		color: white;
-		background-color: #935CE4;
-		border-radius: (rem-calc(20) / 2);
+        display: inline-block;
+        width: rem-calc(20);
 
 		&:hover {
-			background-color: darken(#935CE4, 10%);
+			background-color: darken($theme-guide-bg-color, 10%);
 		}
 	}
     .close-reveal-modal {
@@ -84,7 +84,7 @@
     }
     
     &.medium {
-        max-width: 8800px;
+        max-width: 880px;
     }
     &.small {
         max-width: 600px;
