@@ -10,7 +10,9 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   
   objectsCount: Ember.computed.alias('length'),
   selectedMany: Ember.computed.gt('selectedItems.length', 1),
+  selectedOne: Ember.computed.equal('selectedItems.length', 1),
   hasSelected: Ember.computed.bool('selectedItems.length'),
+  selectedCount: Ember.computed.alias('selectedItems.length'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
   trash: Ember.computed.equal('container_id', 'trash'),
 
@@ -71,12 +73,15 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   
   confirm_intro: function(){
     if (this.get('verb_for_action')) {
+      var name;
+      var selectedCount = this.get('selectedCount');
       var verb =  this.t('action_verb.'+this.get('verb_for_action'));
-      var type = this.get('itemType');
-      var name = this.get('model.name');
-      return this.t('overlay.confirm_simple.intro', verb , type, name);
+      if (this.get('selectedOne')) {
+        name = this.get('selectedItems').get('firstObject').get('model.name');
+      } 
+      return this.t('overlay.confirm_simple.intro', selectedCount,  verb , 'object' , name);
     }
-  }.property('verb_for_action', 'model.name'),
+  }.property('verb_for_action', 'selectedItems.@each.model.name'),
 
   confirm_button: function(){
     if (this.get('verb_for_action') ) {

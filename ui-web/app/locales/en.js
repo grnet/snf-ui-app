@@ -11,7 +11,10 @@ export default {
       title: 'Create folder'
     },
     confirm_simple: {
-      intro: 'Are you sure you want to %@ the %@ <strong class="u-wrap">%@</strong>'
+      intro: {
+        one: 'Are you sure you want to %@2 the %@3 <strong class="u-wrap">%@4</strong> ?',
+        other: 'Are you sure you want to %@2 the following:'
+      }
     },
     versions: {
       title: 'Versions for <strong class="u-wrap">%@</strong>'
