@@ -1,8 +1,12 @@
 <a {{action "toggle"}}>
-    {{#if expanded}}
-        {{fa-icon "fa-folder-open"}}
+    {{#if isTrash}}
+        {{fa-icon "fa-trash"}}
     {{else}}
-        {{fa-icon "fa-folder"}}
+        {{#if expanded}}
+            {{fa-icon "fa-folder-open"}}
+        {{else}}
+            {{fa-icon "fa-folder"}}
+        {{/if}}
     {{/if}}
 </a>
 {{partial textTemplateName}}

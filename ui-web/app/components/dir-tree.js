@@ -25,6 +25,10 @@ export default Ember.Component.extend({
     return !this.get('is_container') && !this.get('is_root');
   }.property('is_root', 'is_container'),
 
+  isTrash: function(){
+    return this.get('root') === 'trash' && this.get('is_container');  
+  }.property('root'),
+
   textTemplateName: function(){
     var role = this.get('role');
     if (role) {
