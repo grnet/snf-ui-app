@@ -5,6 +5,7 @@ import {ItemsControllerMixin} from '../mixins/items';
 export default Ember.ArrayController.extend(ItemsControllerMixin, {
   itemController: 'container',
   needs: ['application'],
+  projectsLoading: true,
 
   systemProject: Ember.computed.alias("controllers.application.systemProject"),
   
@@ -27,8 +28,14 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   }.property('sortBy'),
 
   projects: function(){
-    return this.store.find('project', {mode: 'member'});
+    var self = this;
+    var projects = this.store.find('project', {mode: 'member'}).then(function(p){
+      self.set('projectsLoading', false);
+      return p;
+    });
+    return DS.PromiseArray.create({promise: projects});
   }.property(),
+  
   
   newProject: function(){
     return this.get('systemProject');

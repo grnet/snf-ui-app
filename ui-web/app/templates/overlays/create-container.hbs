@@ -2,10 +2,16 @@
 <form {{action 'validateCreation' 'createContainer' on="enter" }}>
     {{view 'input-single' placeholder='Create Container...' autofocus=true controller=controller}}
 
+    {{#if projectsLoading }}
+        <p>
+            {{fa-icon "fa-refresh" spin=true}} Loading projects
+        </p>
+    {{else}}
     {{view "select" content=projects
                     optionLabelPath="content.select_label"
                     optionValuePath="content.id"
                     selection=newProject}}
+    {{/if}}
     <p>
         <button class="button small" {{action 'validateCreation' 'createContainer' }}>{{t 'button.create_container'}}</button>
     </p>
