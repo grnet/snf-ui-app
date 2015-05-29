@@ -194,25 +194,29 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       this.set(flag, true);
     },
 
-    _move: function(object, newID, copyFlag, callback){
+    _move: function(next, newID, copyFlag, callback){
       var self = this;
+      var object = next.get('model');
       var newVerifiedID = self.get('_verifyID')(newID);
       if (newVerifiedID != newID){
         object._newID = newID;
         object._newVerifiedID = newVerifiedID;
         object._copyFlag = copyFlag;
         object._callback = callback;
+        object._next = next;
         self.send('showDialog', 'move', 'object/move' , object);
         return;
       }
       
-      self.send('moveObject', object,newID, copyFlag, callback);
+      self.send('moveObject', object, newID, copyFlag, callback, next);
     },
 
-    moveObject: function(object, newID, copyFlag, callback){
+    moveObject: function(object, newID, copyFlag, callback, next){
       var self = this;
+      var object = next.get('model');
 
       var onSuccess = function(object) {
+        next.set('loading', false);
         //self.send('refreshRoute');
       };
 
@@ -255,6 +259,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       
       while (selected.get(0)) {
         var object = selected.get(0).get('model');
+        selected.get(0).set('loading', true);
         selected.get(0).set('isSelected', false);
         object.deleteRecord();
         object.save().then(onSuccess, onFail);
@@ -273,9 +278,10 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         }
         var object = next.get('model');
         next.set('isSelected', false);
+        next.set('loading', true);
         var newID = selectedDir + '/' + object.get('stripped_name');
         var callback = processNext;
-        self.send('_move', object, newID, copyFlag, callback);
+        self.send('_move', next, newID, copyFlag, callback);
       }
 
       var arr = selectedDir.split('/');
