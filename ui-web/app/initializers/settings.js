@@ -44,8 +44,8 @@ export var initialize = function(container, app) {
     settings.extendFromUrl(authUrl, {method: 'post'})
       .then(_bind(resolveAuth), _bind(resolveAuth))
       .then(_bind(registerAndAdvance)).catch(function(err) {
-        console.error(err);
-        app.advanceReadiness();
+        settings.invalidate('ui_settings');
+        window.location.reload();
       });; 
   }
 };

@@ -34,7 +34,7 @@ export default StorageAdapter.extend({
       parts = id.split("/");
       id = parts[1];
       account = parts[0];
-      record.set("id", id);
+      snapshot["id"] = id;
     }
 
     if (!account) { account = this.get('account'); }
