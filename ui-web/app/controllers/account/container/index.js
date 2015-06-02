@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import FilesListMixin from 'ui-web/mixins/shared-files-list.js';
+import FilesListMixin from 'ui-web/mixins/shared-files-list';
 
 export default Ember.ArrayController.extend(FilesListMixin, {
   needs: ['account/container'],
