@@ -2,7 +2,7 @@ export default {
   overlay: {
     feedback: {
       intro: 'If you would like to contact us for any reason, please feel free to write your message in the following form. <br> Feedback and suggestions are also highly appreciated.',
-      title: 'Contact us'
+      title: 'Contact us',
     },
     create_container: {
       title: 'Create container'
@@ -28,9 +28,12 @@ export default {
     move: {
       title: 'Move your files to',
     },
-
     restore: {
       title: 'Restore',
+    },
+    error: {
+      title: 'Error report',
+      intro: 'Oups... Something went wrong.',
     }
   },
 
@@ -49,6 +52,7 @@ export default {
     restore: 'restore',
     remove_user_from_group: 'remove',
     add_users_to_group: 'add users',
+    error_details: 'Details'
   },
   
   help_text: {
@@ -95,5 +99,12 @@ export default {
   choose_folder_to_move: 'Choose a folder to %@ to:',
   selected_path: 'Selected path:',
 
+  error_report: {
+    title: 'Error report\n-------------------',
+    delimiter: '-'.repeat(72) + '\n',
+    descr_label: 'Actions that triggered the error:' + '\n',
+    errors_label: 'Errors details:' + '\n',
+    system_data_label: 'Additional data:' + '\n',
+  }
 
 };
