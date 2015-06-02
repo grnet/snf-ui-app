@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import {raw as ajax} from 'ic-ajax';
-import config from '../config/environment';
+import config from 'ui-web/config/environment';
 
 var alias = Ember.computed.alias;
 var qsToObject = function(qs) {

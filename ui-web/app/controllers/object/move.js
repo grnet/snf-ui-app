@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ObjectController from '../object';
+import ObjectController from 'ui-web/controllers/object';
 
 export default ObjectController.extend({
 

@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
-import ResolveSubDirsMixin from '../mixins/resolve-sub-dirs';
-import {DropFileActionsMixin} from '../snf/dropfile/mixins';
-import {SnfUploader} from '../snf/dropfile/synnefo';
-import {SnfAddHandlerMixin} from '../snf/dropfile/synnefo';
+import ResolveSubDirsMixin from 'ui-web/mixins/resolve-sub-dirs';
+import {DropFileActionsMixin} from 'ui-web/snf/dropfile/mixins';
+import {SnfUploader} from 'ui-web/snf/dropfile/synnefo';
+import {SnfAddHandlerMixin} from 'ui-web/snf/dropfile/synnefo';
 
 
 var defaultWorkerUrl = "/static/ui/assets/workers/worker_hasher.js";

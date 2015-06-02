@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import {markRefresh} from '../snf/refresh';
+import {markRefresh} from 'ui-web/snf/refresh';
 
 var SynnefoStore = DS.Store.extend({
   

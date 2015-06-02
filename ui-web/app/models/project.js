@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import {bytesToHuman} from '../snf/common';
+import {bytesToHuman} from 'ui-web/snf/common';
 
 export default DS.Model.extend({
 	name: DS.attr('string'),

@@ -1,4 +1,4 @@
-import ObjectPasteController from '../object/paste';
+import ObjectPasteController from 'ui-web/controllers/object/paste';
 
 export default ObjectPasteController.extend({
 

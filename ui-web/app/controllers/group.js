@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import EmailsInputAuxMixin from '../mixins/emails-input-aux';
+import EmailsInputAuxMixin from 'ui-web/mixins/emails-input-aux';
 
 export default Ember.Controller.extend(EmailsInputAuxMixin, {
   itemType: 'group',

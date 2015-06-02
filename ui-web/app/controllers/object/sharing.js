@@ -1,5 +1,5 @@
-import ObjectController from '../object';
-import EmailsInputAuxMixin from '../../mixins/emails-input-aux';
+import ObjectController from 'ui-web/controllers/object';
+import EmailsInputAuxMixin from 'ui-web/mixins/emails-input-aux';
 
 export default ObjectController.extend(EmailsInputAuxMixin, {
 

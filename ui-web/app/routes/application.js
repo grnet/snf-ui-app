@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ErrorHandlingMixin from '../mixins/error-handling';
+import ErrorHandlingMixin from 'ui-web/mixins/error-handling';
 
 export default Ember.Route.extend(ErrorHandlingMixin, {
 

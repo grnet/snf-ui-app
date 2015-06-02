@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ResolveSubDirsMixin from '../../mixins/resolve-sub-dirs';
+import ResolveSubDirsMixin from 'ui-web/mixins/resolve-sub-dirs';
 
 export default Ember.Controller.extend(ResolveSubDirsMixin, {
   needs: ['application', 'objects'],

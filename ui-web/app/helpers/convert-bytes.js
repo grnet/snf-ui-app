@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import {bytesToHuman} from '../snf/common';
+import {bytesToHuman} from 'ui-web/snf/common';
 
 function convertBytes(bytes) {
   return bytesToHuman(bytes);

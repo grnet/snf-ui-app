@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import {timeHuman} from '../snf/common';
+import {timeHuman} from 'ui-web/snf/common';
 
 function timeToHumanShort(value) {
   return timeHuman(value, true);

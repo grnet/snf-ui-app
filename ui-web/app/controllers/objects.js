@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import {tempSetProperty} from '../snf/common';
-import {ItemsControllerMixin} from '../mixins/items'; 
+import {tempSetProperty} from 'ui-web/snf/common';
+import {ItemsControllerMixin} from 'ui-web/mixins/items'; 
 
 
 export default Ember.ArrayController.extend(ItemsControllerMixin, {

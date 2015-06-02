@@ -1,5 +1,5 @@
-import ObjectPasteController from '../object/paste';
-import ResolveSubDirsMixin from '../../mixins/resolve-sub-dirs';
+import ObjectPasteController from 'ui-web/controllers/object/paste';
+import ResolveSubDirsMixin from 'ui-web/mixins/resolve-sub-dirs';
 
 export default ObjectPasteController.extend({
 

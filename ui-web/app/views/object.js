@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import {DropFileViewMixin} from '../snf/dropfile/mixins';
-import {SnfAddHandlerMixin} from '../snf/dropfile/synnefo';
-import {TooltipViewMixin} from '../mixins/tooltip';
+import {DropFileViewMixin} from 'ui-web/snf/dropfile/mixins';
+import {SnfAddHandlerMixin} from 'ui-web/snf/dropfile/synnefo';
+import {TooltipViewMixin} from 'ui-web/mixins/tooltip';
 
 export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipViewMixin, {
 	layoutName: 'object',

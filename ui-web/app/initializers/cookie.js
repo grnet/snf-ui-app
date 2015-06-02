@@ -1,4 +1,4 @@
-import Cookie from '../snf/cookie';
+import Cookie from 'ui-web/snf/cookie';
 
 export function initialize(container, app) {
   app.register('cookie:main', Cookie);

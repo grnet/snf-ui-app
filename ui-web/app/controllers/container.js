@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import ResolveSubDirsMixin from '../mixins/resolve-sub-dirs';
-import {tempSetProperty, bytesToHuman} from '../snf/common';
+import ResolveSubDirsMixin from 'ui-web/mixins/resolve-sub-dirs';
+import {tempSetProperty, bytesToHuman} from 'ui-web/snf/common';
 
 export default Ember.Controller.extend(ResolveSubDirsMixin,{
   itemType: 'container',

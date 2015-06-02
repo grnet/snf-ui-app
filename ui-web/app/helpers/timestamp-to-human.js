@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import {timestampHuman} from '../snf/common';
+import {timestampHuman} from 'ui-web/snf/common';
 
 // http://momentjs.com/docs/#/displaying/format/
 function timestampToHuman(value) {

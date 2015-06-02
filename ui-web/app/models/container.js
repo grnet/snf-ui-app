@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import {timeHuman} from '../snf/common';
+import {timeHuman} from 'ui-web/snf/common';
 
 export default DS.Model.extend({
   name: DS.attr('string'),

@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import {DropFileViewMixin} from '../snf/dropfile/mixins';
-import {SnfAddHandlerMixin} from '../snf/dropfile/synnefo';
-import {ItemsViewMixin} from '../mixins/items'; 
-import {RefreshViewMixin} from '../snf/refresh';
+import {DropFileViewMixin} from 'ui-web/snf/dropfile/mixins';
+import {SnfAddHandlerMixin} from 'ui-web/snf/dropfile/synnefo';
+import {ItemsViewMixin} from 'ui-web/mixins/items'; 
+import {RefreshViewMixin} from 'ui-web/snf/refresh';
 
 export default Ember.View.extend(RefreshViewMixin, DropFileViewMixin, SnfAddHandlerMixin, ItemsViewMixin,  {
   refreshTasks: ['controller.model:@controller.settings.modelRefreshInterval'],
