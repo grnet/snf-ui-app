@@ -4,7 +4,8 @@ export default DS.RESTSerializer.extend({
   keyForAttribute: function(attr) {
     var mapping = {
       'public_link': 'x_object_public',
-      'sharing': 'x_object_sharing'
+      'sharing': 'x_object_sharing',
+      'allowed_to': 'x_object_allowed_to'
     };
     return mapping[attr] || attr;
   },

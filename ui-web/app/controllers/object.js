@@ -15,20 +15,37 @@ export default Ember.Controller.extend({
   listView: Ember.computed.alias("controllers.objects.listView"),
   selectedItems: Ember.computed.alias("controllers.objects.selectedItems"),
   trash: Ember.computed.equal('container_id', 'trash'),
+  read_only: Ember.computed.equal('model.allowed_to', 'read'),
+  shared_with_me: Ember.computed.bool('model.allowed_to'),
+  mine: Ember.computed.not('shared_with_me'),
 
   // Allowed actions
-  canRename: true,
-  canDelete: true,
+
+  canRename: Ember.computed.alias('mine'),
+  canDelete: Ember.computed.alias('mine'),
   canCopy: Ember.computed.not('trash'),
-  canMove: Ember.computed.not('trash'),
-  canShare: Ember.computed.not('trash'),
-  canTrash: Ember.computed.not('trash'),
+
+  canMove: function(){
+    return !this.get('trash') && this.get('mine');
+  }.property('trash', 'mine'),
+
+  canShare: function(){
+    return !this.get('trash') && this.get('mine');
+  }.property('trash', 'mine'),
+
+  canTrash: function(){
+    return !this.get('trash') && this.get('mine');
+  }.property('trash', 'mine'),
+
   canDownload: Ember.computed.bool('model.is_file'),
-  canRestore: Ember.computed.bool('trash'),
+
+  canRestore: function(){
+    return this.get('trash');
+  }.property('trash'),
 
   canVersions: function(){
-    return this.get('model.is_file') && !this.get('trash');
-  }.property('model.is_file', 'trash'),
+    return this.get('model.is_file') && !this.get('trash') && this.get('mine');
+  }.property('model.is_file', 'trash', 'mine'),
 
   isSelected: false,
 

@@ -15,6 +15,7 @@ export default DS.Model.extend({
   hash: DS.attr('string'),
   last_modified: DS.attr('string'),
   modified_by: DS.belongsTo('user', {async:true}),
+  allowed_to: DS.attr('string'),
 
   last_modified_human: function(){
     return timeHuman(this.get('last_modified'));
