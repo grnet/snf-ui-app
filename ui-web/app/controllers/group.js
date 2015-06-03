@@ -24,7 +24,7 @@ export default Ember.Controller.extend(EmailsInputAuxMixin, {
   confirm_intro: function(){
     var verb =  this.t('action_verb.'+this.get('verb_for_action'));
     var name = this.get('model.name');
-    return this.t('overlay.confirm_simple.intro', verb , 'group', name);
+    return this.t('overlay.confirm_simple.intro', 1, verb , 'group', name);
   }.property('verb_for_action', 'model.name'),
 
   confirm_button: function(){
