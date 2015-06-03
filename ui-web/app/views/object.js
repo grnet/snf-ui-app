@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import {DropFileViewMixin} from '../snf/dropfile/mixins';
 import {SnfAddHandlerMixin} from '../snf/dropfile/synnefo';
+import {TooltipViewMixin} from '../mixins/tooltip';
 
-export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
+export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipViewMixin, {
 	layoutName: 'object',
 	tagName: 'li',
   classNameBindings: ['isSelected', 'loading', 'new'],
