@@ -19,6 +19,8 @@ app.project.addons.push(require('./ember-cli-synnefo'));
 app.import('bower_components/moment/moment.js');
 app.import('bower_components/foundation/js/foundation/foundation.js');
 app.import('bower_components/foundation/js/foundation/foundation.reveal.js');
+app.import('bower_components/foundation/js/foundation/foundation.tooltip.js');
+app.import('bower_components/foundation/js/vendor/modernizr.js');
 app.import('bower_components/underscore/underscore.js');
 app.import('bower_components/is_js/is.js');
 app.import('bower_components/jquery-cookie/jquery.cookie.js');
