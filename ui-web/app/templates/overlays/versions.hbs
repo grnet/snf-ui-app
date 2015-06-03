@@ -13,8 +13,8 @@
         <tr>
             <td>{{v.model.id}}</td>
             <td>{{timestamp-to-human v.model.timestamp}}</td>
-            <td><a {{bind-attr  href=v.view_src_version}} title="Download version" target="_blank">{{fa-icon "fa-download"}}</a></td>
-            <td><a {{action 'restoreObject' v.model.id}} title="Restore version">{{fa-icon "fa-database"}}</a></td>
+            <td><a {{bind-attr  href=v.view_src_version}} target="_blank">{{fa-icon "fa-download"}}</a></td>
+            <td><a {{action 'restoreObject' v.model.id}}>{{fa-icon "fa-database"}}</a></td>
         </tr>
 
     {{/each}}
