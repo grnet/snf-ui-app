@@ -25,10 +25,10 @@ var SynnefoStore = DS.Store.extend({
     return this._findByRecord(record, preload);
   },
 
-  moveObject: function(record, new_id, copy_flag) {
+  moveObject: function(record, new_id, copy_flag, source_account) {
     var snapshot = record._createSnapshot();
     var adapter = this.adapterFor(snapshot.type);
-    return adapter.moveObject(snapshot, new_id, copy_flag);
+    return adapter.moveObject(snapshot, new_id, copy_flag, source_account);
   },
 
   restoreObject: function(record, version){

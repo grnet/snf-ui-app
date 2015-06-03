@@ -70,7 +70,7 @@ export default StorageAdapter.extend({
 
    */
 
-  moveObject: function(snapshot, new_id, copy_flag) {
+  moveObject: function(snapshot, new_id, copy_flag, source_account) {
     var oldPath = '/' + snapshot.id;
     var account = this.get('account');
     var url = this.buildURL('object', account, new_id, null);
@@ -82,6 +82,9 @@ export default StorageAdapter.extend({
     headers['Content-Type'] = snapshot.attr('content_type');
     headers['X-Move-From'] = encodeURIComponent(oldPath);
     headers['Accept'] =  'text/plain';
+    if (source_account) {
+      headers['X-Source-Account'] = source_account;
+    }
     
     if (copy_flag === true) {
       headers['X-Copy-From'] = encodeURIComponent(oldPath);

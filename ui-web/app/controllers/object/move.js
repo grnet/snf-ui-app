@@ -14,11 +14,13 @@ export default ObjectController.extend({
       var copyFlag = object._copyFlag;
       var callback = object._callback;
       var next = object._next;
+      var source_account = object._source_account;
       delete object._newID;
       delete object._newVerifiedID;
       delete object._copyFlag;
       delete object._callback;
       delete object._next;
+      delete object._source_account;
 
       // if versionFlag is set to true, a new object of the version will be 
       // created. If not, it will be renamed
@@ -27,12 +29,13 @@ export default ObjectController.extend({
         copyFlag: copyFlag,
         callback: callback,
         ID: ID,
-        next: next
+        next: next,
+        source_account: source_account
       }
 
       // Ugly: wait for the dialog to close before opening a new dialog
       Ember.run.later(p, function(){
-        self.get('controllers.objects').send('moveObject', object, p.ID, p.copyFlag, p.callback, p.next); 
+        self.get('controllers.objects').send('moveObject', object, p.ID, p.copyFlag, p.source_account,  p.callback, p.next); 
       }, 200);
   
     },

@@ -2,11 +2,13 @@ import Ember from 'ember';
 import ResolveSubDirsMixin from 'ui-web/mixins/resolve-sub-dirs';
 
 export default Ember.Controller.extend(ResolveSubDirsMixin, {
-  needs: ['application', 'objects'],
+  needs: ['application', 'objects', 'account/container/objects'],
   selected: false,
   selectedDir: null,
   closeDialog: false,
 
+  account: Ember.computed.alias('controllers.account/container/objects.account'),
+ 
   containersNoTrash: Ember.computed.filter('controllers.application.sortedContainers', function(c) {
     return c.get('name').toLowerCase() != 'trash';
   }),
@@ -33,7 +35,11 @@ export default Ember.Controller.extend(ResolveSubDirsMixin, {
     },
     move: function(){
       var action = this.get('action');
-      this.get('controllers.objects').send(action, {selectedDir: this.get('selectedDir')});
+      var params = {selectedDir: this.get('selectedDir')};
+      if (this.get('account')) {
+        params.account = this.get('account.uuid');
+      };
+      this.get('controllers.objects').send(action, params);
       this.send('unSelectDir');
     },
  

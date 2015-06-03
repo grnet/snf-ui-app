@@ -199,7 +199,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       this.set(flag, true);
     },
 
-    _move: function(next, newID, copyFlag, callback){
+    _move: function(next, newID, copyFlag, source_account, callback){
       var self = this;
       var object = next.get('model');
       var newVerifiedID = self.get('_verifyID')(newID);
@@ -209,14 +209,17 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         object._copyFlag = copyFlag;
         object._callback = callback;
         object._next = next;
+        object._source_account = source_account
         self.send('showDialog', 'move', 'object/move' , object);
         return;
       }
       
-      self.send('moveObject', object, newID, copyFlag, callback, next);
+      self.send('moveObject', object, newID, copyFlag, source_account, callback, next);
     },
 
-    moveObject: function(object, newID, copyFlag, callback, next){
+    moveObject: function(object, newID, copyFlag, source_account, callback, next){
+      console.log(this.get('trash'));
+      debugger;
       var self = this;
       var object = next.get('model');
 
@@ -230,7 +233,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       };
 
       callback && callback();
-      this.store.moveObject(object, newID, copyFlag).then(onSuccess, onFail);
+      this.store.moveObject(object, newID, copyFlag, source_account).then(onSuccess, onFail);
 
       this.set('toPasteObject', null);
       this.set('copyFlag', false);
@@ -271,7 +274,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
      }
     },
 
-    _moveObjects: function(selectedDir, controller_list, copyFlag){
+    _moveObjects: function(selectedDir, controller_list, copyFlag, source_account){
       var self = this;
       var selected = controller_list || this.get('selectedItems');
       if (selected.length === 0) { return; }
@@ -286,7 +289,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         next.set('loading', true);
         var newID = selectedDir + '/' + object.get('stripped_name');
         var callback = processNext;
-        self.send('_move', next, newID, copyFlag, callback);
+        self.send('_move', next, newID, copyFlag, source_account, callback);
       }
 
       var arr = selectedDir.split('/');
@@ -311,7 +314,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     },
 
     copyObjects: function(params, controller_list){
-      this.send('_moveObjects', params.selectedDir, controller_list, true);
+      this.send('_moveObjects', params.selectedDir, controller_list, true, params.account);
    },
 
     moveObjectsTo: function(params, controller_list){
