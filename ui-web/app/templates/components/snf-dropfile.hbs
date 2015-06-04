@@ -46,9 +46,9 @@
         </div>
 
         <div class="actions columns small-3 text-right">
-            {{#if file.canRemove}}<a {{ action 'remove' file }} title="remove file">Remove {{ fa-icon 'fa-remove' }}</a>{{/if}}
-            {{#if file.canAbort}}<a {{ action 'abort' file }} title="abort upload">Abort {{ fa-icon 'fa-pause' }}</a>{{/if}}
-            {{#if file.canUpload}}<a {{ action 'upload' file }} title="upload file">Retry {{ fa-icon 'fa-play' }}</a>{{/if}}
+            {{#if file.canRemove}}<a data-tooltip class="has-tip" {{ action 'remove' file }} title="remove file">Remove {{ fa-icon 'fa-remove' }}</a>{{/if}}
+            {{#if file.canAbort}}<a data-tooltip class="has-tip" {{ action 'abort' file }} title="abort upload">Abort {{ fa-icon 'fa-pause' }}</a>{{/if}}
+            {{#if file.canUpload}}<a data-tooltip class="has-tip" {{ action 'upload' file }} title="upload file">Retry {{ fa-icon 'fa-play' }}</a>{{/if}}
         </div>
 
     </div>
