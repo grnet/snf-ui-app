@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import {TooltipViewMixin} from '../mixins/tooltip';
 
-export default Ember.View.extend({
+export default Ember.View.extend(TooltipViewMixin, {
 	layoutName: 'overlays/group',
 	classNames: ['list-item', 'js-slide-container', 'slide-container', 'clearfix'],
 	attributeBindings: ['id'],
