@@ -1,2 +1,6 @@
-<a class='email' title={{user.errorMsg}}>{{user.email}}</a>
-<a class='remove fa fa-remove sign' {{action 'removeUser' user.email target='view.parentView'}} title="Remove"></a>
+{{#if user.errorMsg}}
+	<a data-tooltip class='email has-tip tip-top' title={{user.errorMsg}}>{{user.email}}</a>
+{{else}}
+	<a class='email'>{{user.email}}</a>
+{{/if}}
+<a data-tooltip class='remove fa fa-remove sign has-tip' {{action 'removeUser' user.email target='view.parentView'}} title="Remove"></a>
