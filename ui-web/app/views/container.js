@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import {TooltipViewMixin} from '../mixins/tooltip';
 
-export default Ember.View.extend({
+export default Ember.View.extend(TooltipViewMixin, {
 	layoutName: 'container',
 	tagName: 'li',
 	classNameBindings: ['isNew', 'isLoading', 'isTrash'],
