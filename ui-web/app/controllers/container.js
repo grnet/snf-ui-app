@@ -42,14 +42,18 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
   }.property('actionToPerform'),
   
   confirm_intro: function(){
-    var verb =  this.t('action_verb.'+this.get('verb_for_action'));
-    var type = this.get('itemType');
-    var name = this.get('model.name');
-    return this.t('overlay.confirm_simple.intro', 1, verb , type, name);
+    if (this.get('verb_for_action')) {
+      var verb =  this.t('action_verb.'+this.get('verb_for_action'));
+      var type = this.get('itemType');
+      var name = this.get('model.name');
+      return this.t('overlay.confirm_simple.intro', 1, verb , type, name);
+    }
   }.property('verb_for_action', 'model.name'),
 
   confirm_button: function(){
-    return this.t('button.'+this.get('verb_for_action'));
+    if (this.get('verb_for_action')) {
+      return this.t('button.'+this.get('verb_for_action'));
+    }
   }.property('verb_form_action'),
 
 
@@ -60,37 +64,6 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
       this.set('project', sel);
     }
   }.observes('selectedProject'),
-
-	chartData: function(){
-		var data = {};
-		var size = this.get('bytes');
-		var proj = this.get('project');
-		var limit = proj.get('diskspace_effective_limit');
-		var containersSize = proj.get('diskspace_user_usage');
-		var othersSize = containersSize - size;
-		var free = limit - containersSize;
-
-    // sizes in bytes (int)
-		data['series'] = [othersSize, size, free];
-    // sizes with units
-    data['seriesWithUnits'] = [bytesToHuman(othersSize), bytesToHuman(size), bytesToHuman(free)];
-
-		var freePerCent = (free/limit*100).toFixed(2);
-		var sizePerCent = (size/limit*100).toFixed(2);
-		// Because we use toFixed function and these data will be displayed in a pie chart, the othersSizePerCent will be calculated as below.
-		var othersSizePerCent = (100 - freePerCent - sizePerCent).toFixed(2);
-
-		data['percent'] = [othersSizePerCent, sizePerCent, freePerCent]
-
-		var othersLabel = 'other containers size';
-		var currentLabel = this.get('name') + ' size';
-		var freeLabel = 'free space size';
-
-		data['labels'] = [othersLabel, currentLabel, freeLabel]
-
-		return data;
-	}.property('size', 'this.project.@each'),
-
 
   isNew: function(){
     if (this.get('model.new')) {
@@ -109,8 +82,6 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
       return 'is-trash';
     }; 
   }.property('model.isTrash'),
-
-
 
   actions: {
 

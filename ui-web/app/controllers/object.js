@@ -73,13 +73,17 @@ export default Ember.Controller.extend({
   }.property('actionToPerform'),
   
   confirm_intro: function(){
-    var verb =  this.t('action_verb.'+this.get('verb_for_action'));
-    var name = this.get('model.name');
-    return this.t('overlay.confirm_simple.intro', 1, verb , 'object' , name);
+    if (this.get('verb_for_action')) {
+      var verb =  this.t('action_verb.'+this.get('verb_for_action'));
+      var name = this.get('model.name');
+      return this.t('overlay.confirm_simple.intro', 1, verb , 'object' , name);
+    } 
   }.property('verb_for_action', 'model.name'),
 
   confirm_button: function(){
-    return this.t('button.'+this.get('verb_for_action'));
+    if (this.get('verb_for_action')) {
+      return this.t('button.'+this.get('verb_for_action'));
+    }
   }.property('verb_form_action'),
 
 

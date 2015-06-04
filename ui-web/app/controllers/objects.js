@@ -218,8 +218,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     },
 
     moveObject: function(object, newID, copyFlag, source_account, callback, next){
-      console.log(this.get('trash'));
-      debugger;
       var self = this;
       var object = next.get('model');
 
