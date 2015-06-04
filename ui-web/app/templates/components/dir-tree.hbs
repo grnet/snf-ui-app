@@ -1,13 +1,5 @@
 <a {{action "toggle"}}>
-    {{#if isTrash}}
-        {{fa-icon "fa-trash"}}
-    {{else}}
-        {{#if expanded}}
-            {{fa-icon "fa-folder-open"}}
-        {{else}}
-            {{fa-icon "fa-folder"}}
-        {{/if}}
-    {{/if}}
+    {{fa-icon iconCls fixedWidth=true}}
 </a>
 {{partial textTemplateName}}
 

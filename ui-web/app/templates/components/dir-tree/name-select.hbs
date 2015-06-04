@@ -1,7 +1,7 @@
-{{#unless is_root}}
+{{#if notLink}}
+    <span>{{name}}</span>
+{{else}}
 <a {{action "select"}}>
     <span>{{name}}</span>
 </a>
-{{else}}
-    <span>{{name}}</span>
-{{/unless}}
+{{/if}}

@@ -1,0 +1,7 @@
+{{#if notLink}}
+    <span>{{name}}</span>
+{{else}}
+    <a {{action 'click' root }} href="containers/{{root}}">
+        <span>{{name}}</span>
+    </a>
+{{/if}}
