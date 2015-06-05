@@ -1,4 +1,7 @@
 <h4>{{#link-to 'containers'}}Containers{{/link-to}}</h4>
+{{#if containersLoading}}
+    {{fa-icon "fa-refresh" spin=true}}
+{{/if}}
 <ul class="dir-tree">
    {{#each container in sortedContainers}}
         {{dir-tree root=container.name resolver=resolveSubDirs role="nav" click='handleDirClick'}}

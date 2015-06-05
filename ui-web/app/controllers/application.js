@@ -8,6 +8,7 @@ import {SnfAddHandlerMixin} from 'ui-web/snf/dropfile/synnefo';
 
 var defaultWorkerUrl = "/static/ui/assets/workers/worker_hasher.js";
 export default Ember.Controller.extend(DropFileActionsMixin, SnfAddHandlerMixin, ResolveSubDirsMixin,{
+  containersLoading: true,
 
   // initialize uploader settings
   dropFileUploader: function() {
@@ -56,7 +57,13 @@ export default Ember.Controller.extend(DropFileActionsMixin, SnfAddHandlerMixin,
 
   containers: function(){
     var query = {'account': this.get('settings.uuid')};
-    return this.store.findQueryReloadable('container', query);
+    var containers =  this.store.findQueryReloadable('container', query);
+    var promiseArray = DS.PromiseArray.create({promise: containers});
+    promiseArray.then(function(){
+      this.set('containersLoading', false);
+    }.bind(this));
+    return promiseArray;
+
   }.property(),
 
   groups: function(){
