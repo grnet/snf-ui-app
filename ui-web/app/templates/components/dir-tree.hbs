@@ -2,7 +2,7 @@
     {{fa-icon iconCls fixedWidth=true}}
 </a>
 {{partial textTemplateName}}
-
+{{#if loading}}{{fa-icon "fa-refresh" spin=true}}{{/if}}
 {{#if expanded}}
     <ul>
     {{#each dir in subdirs}}

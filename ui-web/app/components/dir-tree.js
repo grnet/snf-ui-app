@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'li',
   expanded: false,
+  loading: false,
   
   name: function(){
     var root = this.get('root');
@@ -68,15 +69,23 @@ export default Ember.Component.extend({
   }.property('root'),
 
   subdirs: function(){
+    var self = this;
     if (!this.get('expanded')){
       return [];
     }
-    return this.get('resolver')(this.get('root'));
+    var res = this.get('resolver')(this.get('root'));
+    res.then(function(b){
+      self.set('loading', false);
+    });
+    return res;
   }.property('root', 'expanded'),
  
   actions: {
 
     toggle: function(){
+      if (!(this.get('expanded'))) {
+        this.set('loading', true);
+      }
       this.toggleProperty('expanded');
     },
 
