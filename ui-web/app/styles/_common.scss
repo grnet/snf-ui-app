@@ -64,7 +64,6 @@ body {
 }
 
 #loader {
-    color: $jumbo;
     padding: 3em;
     text-align: center;
     h4 {
@@ -73,13 +72,18 @@ body {
     }
 }
 
+.fa-refresh, 
+.fa-spinner {
+    color: $jumbo;
+}
+
 .hidden {
     display: none !important;
 }
 
 @include keyframes(background-change) {
     0% { background-color: $theme-primary-color-light; }
-    100% { background-color: #fff; }
+    100% { background-color: $items-bg-color; }
 }
 
 .new .wrap {
@@ -136,8 +140,4 @@ body {
 table {
     border-spacing: 0;
     width: 100%;
-}
-
-body .bold  {
-    font-weight: bold;
 }
