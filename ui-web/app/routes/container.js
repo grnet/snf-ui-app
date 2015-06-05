@@ -3,7 +3,7 @@ import ResetScrollMixin from 'ui-web/mixins/reset-scroll';
 
 export default Ember.Route.extend(ResetScrollMixin,{
   renderTemplate: function(){
-    this.render('container');
+    this.render('objects-list');
     this.render('bar/rt-objects', {
       into: 'application',
       outlet: 'bar-rt',
