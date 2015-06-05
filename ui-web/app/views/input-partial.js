@@ -12,6 +12,9 @@ export default Ember.View.extend({
 	classNameBindings: ['cls'], // cls is provited by parent the template
 
 	templateName: 'input-partial',
+	id: function() {
+		return 'input-partial-'+this.get('_uuid');
+	}.property(),
 
 	errorVisible: false,
 	errorMsg: undefined,

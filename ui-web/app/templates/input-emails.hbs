@@ -10,9 +10,11 @@
 		{{/if}}
 	</span>
 	<input class='{{if view.errorVisible "error"}} {{if view.warningVisible "warning"}}'  placeholder={{view.placeholder}} type='text' value={{view.value}} autofocus={{view.autofocus}}>
-	 <button {{action 'getInputValue' target='view'}} class="tiny hint--bottom" data-hint={{t 'help_text.search_users'}}>Search</button>
+	 <button data-tooltip {{action 'getInputValue' target='view'}} class="tiny has-tip" title={{t 'help_text.search_users'}}>Search</button>
 </div>
-<a href="" class="guide hint--bottom" data-hint={{t 'help_text.search_users_info'}}>?</a>
+
+<a data-popover-trigger={{view.id}} class="guide">?</a>
+{{view 'popover' innerTemplate='overlays/guides' actionToPerform='deleteGroup' position='pos-bottom' triggerBy=view.id cls='info' help_text='help_text.search_users_info'}}
 
 <div  class='info'>
 	<span class='{{if view.warningVisible "warning" "invisible"}}'>

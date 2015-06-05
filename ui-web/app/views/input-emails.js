@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import {TooltipViewMixin} from '../mixins/tooltip';
 
 /*
  * In order this view to work its controller must have the properties:
@@ -8,9 +9,13 @@ import Ember from 'ember';
  * ToDo: All the above should be moved in order to create an independent component or make a mixin for every controller to extend.  
 */
 
-export default Ember.View.extend({
+export default Ember.View.extend(TooltipViewMixin, {
 	templateName: 'input-emails',
 	classNames: ['input-emails', 'input-with-valid'],
+
+	id: function() {
+		return 'input-emails-'+this.get('_uuid');
+	}.property(),
 
 
 	value: undefined,

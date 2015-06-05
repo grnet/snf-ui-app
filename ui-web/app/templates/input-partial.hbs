@@ -2,7 +2,9 @@
 
 <label>Group</label>
 <input class='{{if view.errorVisible "error"}} {{if view.warningVisible "warning"}}'  placeholder={{view.placeholder}} type='text' value={{view.value}}>
-<a href="" class="guide hint--bottom" data-hint="The name of the group cannot have uppercase letters and more than 256 (encoded) characters">?</a>
+
+<a data-popover-trigger={{view.id}} class="guide">?</a>
+{{view 'popover' innerTemplate='overlays/guides' position='pos-bottom' triggerBy=view.id cls='info' help_text='help_text.create_group_info'}}
 
 <div  class='info'>
 	<span class='{{if view.warningVisible "warning" "invisible"}}'>

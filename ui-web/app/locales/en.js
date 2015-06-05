@@ -56,9 +56,9 @@ export default {
   },
   
   help_text: {
-    search_users: 'You can also search an e-mail by pressing enter, space or comma',
+    search_users: 'You can also search an e-mail by pressing enter, space or comma.',
     search_users_info: 'You can enter multiple e-mails by seperating them with comma, space, tab or enter. Do not forget to validate them!',
-  
+    create_group_info: 'The name of the group cannot have uppercase letters and more than 256 (encoded) characters' 
   },
 
   action_verb: {
