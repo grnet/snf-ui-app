@@ -5,7 +5,7 @@
     <div class="col name-col">
         {{#if container.model.new}}<span class="label alert">new</span>{{/if}}
         {{#if listView}}
-        <h4 data-tooltip class="ellipsis has-tip" title={{container.model.name}}>
+        <h4 class="ellipsis" title={{container.model.name}}>
             {{#link-to 'container' container.model.name}}
                 {{fa-icon "fa-trash trash-icon"}}
                 <span>{{container.model.name}}</span>
@@ -30,8 +30,10 @@
             <dt>Size</dt>
             <dd>{{convert-bytes container.model.bytes}}</dd>
             <dt>Modified</dt>
-            <dd data-tooltip calss="has-tip" title={{container.model.last_modified_human}}>
+            <dd>
+                <span data-tooltip title={{container.model.last_modified_human}} class="tip-left">
                     {{time-from-now container.model.last_modified }}
+                </span>
             </dd>
         </dl>
     {{/if}}
@@ -47,8 +49,10 @@
        <div class="col data-col">
             {{convert-bytes container.model.bytes}}
         </div>
-        <div data-tooltip class="col date-col has-tip" title={{container.model.last_modified_human}}>
+        <div class="col date-col">
+            <span data-tooltip title={{container.model.last_modified_human}} class="tip-left">
                 {{time-from-now container.model.last_modified }}
+            </span>
         </div>
 
     {{/if}}
@@ -59,17 +63,17 @@
     {{/if}}
     <div class="col actions-col">
         {{#if container.canDelete}}
-            <a data-tooltip class="icon-a has-tip" title="Delete container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyAndDelete'}}>{{fa-icon "fa-remove fa-fw"}}</a>
+            <a data-tooltip class="icon-a" title="Delete container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyAndDelete'}}>{{fa-icon "fa-remove fa-fw"}}</a>
         {{else}}
-            <a data-tooltip class="icon-a has-tip" title="Cannot delete this container" disabled>{{fa-icon "fa-remove fa-fw"}}</a>
+            <a data-tooltip class="icon-a" title="Cannot delete this container" disabled>{{fa-icon "fa-remove fa-fw"}}</a>
         {{/if}}
 
         {{#if container.canEmpty}}
-            <a data-tooltip class="icon-a has-tip" title="Empty container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyContainer'}}>
+            <a data-tooltip class="icon-a" title="Empty container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyContainer'}}>
                 <i class="fa-fw fa">&empty;</i>
             </a>
         {{else}}
-            <a data-tooltip class="icon-a has-tip" title="Empty container" disabled>
+            <a data-tooltip class="icon-a" title="Empty container" disabled>
                 <i class="fa-fw fa">&empty;</i>
             </a>
         {{/if}}

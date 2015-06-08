@@ -3,7 +3,7 @@
     <div class="loader">{{fa-icon "fa-refresh" spin=true}}</div>
     {{fa-icon "fa-check" size=2 classNames="selected-icon"}}
 
-    <div data-tooltip class="col name-col has-tip" title={{object.model.stripped_name}}>
+    <div class="col name-col">
         {{#if object.model.new}}<span class="label alert">new</span>{{/if}}
         {{#if object.model.is_dir}}
             {{#link-to 'objects' object.model.name}}
@@ -37,15 +37,15 @@
         {{#if object.canRename}}
             <form {{action 'reset' 'validateRename,renameObject' target=view on="submit"}}>
                 {{view "input-single" value=object.model.stripped_name placeholder=object.model.stripped_name cls="hidden" oldValue=object.model.stripped_name}}
-                <a data-tooltip class="hidden js-hide-edit icon-a has-tip" title="Rename" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check fa-fw"}}</a>
-                <a data-tooltip class="js-cancel js-hide-edit hidden icon-a has-tip" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times fa-fw"}}</a>
+                <a data-tooltip class="hidden js-hide-edit icon-a" title="Rename" {{action 'reset' 'validateRename,renameObject' target=view}}>{{fa-icon "fa-check fa-fw"}}</a>
+                <a data-tooltip class="js-cancel js-hide-edit hidden icon-a" title="Cancel" {{action 'reset' target=view}}>{{fa-icon "fa-times fa-fw"}}</a>
             </form>
 
-            <a data-tooltip class="js-show-edit icon-a has-tip" title="Rename">{{fa-icon "fa-pencil fa-fw"}}</a>
+            <a data-tooltip class="js-show-edit icon-a" title="Rename">{{fa-icon "fa-pencil fa-fw"}}</a>
         {{/if}}
         {{#if object.model.public_link}}
             <span class="right">
-                <a data-tooltip class="has-tip" title="Public link" href={{object.model.public_link}} target="_blank" >{{fa-icon "fa-link"}}</a>
+                <a data-tooltip  title="Public link" href={{object.model.public_link}} target="_blank" >{{fa-icon "fa-link"}}</a>
             </span>
         {{/if}}
  
@@ -73,10 +73,10 @@
         {{/if}}
 
         {{#if object.canShare}}
-            <a data-tooltip {{action 'openShare'}} class="button small has-tip" title="Share">{{fa-icon "fa-share-alt"}}</a>
+            <a data-tooltip {{action 'openShare'}} class="button small" title="Share">{{fa-icon "fa-share-alt"}}</a>
         {{/if}}
         {{#if object.canRestore}}
-            <a data-tooltip {{action 'initAction' 'openRestore'}} class="button small has-tip" title="Restore">Restore</a>
+            <a data-tooltip {{action 'initAction' 'openRestore'}} class="button small " title="Restore">Restore</a>
         {{/if}}
     </div>
     {{#if listView}}
@@ -84,31 +84,36 @@
             {{convert-bytes object.model.bytes}}
         </div>
 
-       <div data-tooltip class="col date-col has-tip" title={{object.model.last_modified_human}}>
-            {{time-from-now object.model.last_modified }} <span class="subtle">{{modified-by object.current_user.email object.model.modified_by.email}}</span>
+        <div class="col date-col">
+            <span data-tooltip title={{object.model.last_modified_human}} class="tip-top">
+                {{time-from-now object.model.last_modified }}
+                <span class="subtle">{{modified-by object.current_user.email object.model.modified_by.email}}</span>
+            </span>
         </div>
-        <div data-tooltip class="col data-col has-tip" title={{object.model.extension}}>
-            {{object.model.type}}
+        <div class="col data-col">
+            <span data-tooltip class="" title={{object.model.extension}} class="tip-top">
+                {{object.model.type}}
+            </span>
         </div>
     {{/if}}
     <div class="col actions-col">
         {{#if object.canDownload}}
-            <a data-tooltip {{bind-attr href=object.view_src}} target="_blank" class="button small has-tip" title="Download">{{fa-icon "fa-download fa-fw"}}</a>
+            <a data-tooltip {{bind-attr href=object.view_src}} target="_blank" class="button small tip-left" title="Download">{{fa-icon "fa-download fa-fw"}}</a>
         {{/if}}
         {{#if object.canVersions}}
-            <a data-tooltip {{action 'initAction' 'openVersions'}} class="icon-a has-tip" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
+            <a data-tooltip {{action 'initAction' 'openVersions'}} class="icon-a tip-left" title="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
         {{/if}}
        {{#if object.canMove}}
-            <a data-tooltip {{action 'initAction' 'openCut'}} title="move Item" class="icon-a has-tip">{{fa-icon "fa-share fa-fw"}}</a>
+            <a data-tooltip {{action 'initAction' 'openCut'}} title="Move" class="icon-a tip-left">{{fa-icon "fa-share fa-fw"}}</a>
         {{/if}}
         {{#if object.canCopy}}
-            <a data-tooltip {{action 'initAction' 'openCopy'}} title="copy Item" class="icon-a has-tip">{{fa-icon "fa-copy fa-fw"}}</a>
+            <a data-tooltip {{action 'initAction' 'openCopy'}} title="Copy" class="icon-a tip-left">{{fa-icon "fa-copy fa-fw"}}</a>
         {{/if}}
        {{#if object.canTrash}}
-            <a data-tooltip {{action 'initAction' 'moveToTrash'}} title="move item to trash" class="icon-a has-tip">{{fa-icon "fa-trash fa-fw"}}</a>
+            <a data-tooltip {{action 'initAction' 'moveToTrash'}} title="Move to trash" class="icon-a tip-left">{{fa-icon "fa-trash fa-fw"}}</a>
         {{/if}}
         {{#if object.canDelete}}
-            <a data-tooltip {{action 'initAction' 'openDelete'}} title="Permanently delete object" class="icon-a has-tip">{{fa-icon "fa-remove fa-fw"}}</a>
+            <a data-tooltip {{action 'initAction' 'openDelete'}} title="Delete" class="icon-a tip-left">{{fa-icon "fa-remove fa-fw"}}</a>
         {{/if}}
    </div>
 

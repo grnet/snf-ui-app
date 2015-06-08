@@ -15,7 +15,7 @@
         {{#each u in controller.model.users}}
             <tr>
                 <td>{{u.email}}</td>
-                <td class="text-right"><a data-tooltip {{action "removeUserFromGroup" u}} class="has-tip" title="Remove user from group">{{t 'button.remove_user_from_group'}}</a></td>
+                <td class="text-right"><a {{action "removeUserFromGroup" u}} title="">{{t 'button.remove_user_from_group'}}</a></td>
                 </tr>
         {{/each}}
         </tbody>

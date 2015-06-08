@@ -10,7 +10,7 @@
 		{{/if}}
 	</span>
 	<input class='{{if view.errorVisible "error"}} {{if view.warningVisible "warning"}}'  placeholder={{view.placeholder}} type='text' value={{view.value}} autofocus={{view.autofocus}}>
-	 <button data-tooltip {{action 'getInputValue' target='view'}} class="tiny has-tip" title={{t 'help_text.search_users'}}>Search</button>
+	 <button data-tooltip {{action 'getInputValue' target='view'}} class="tiny" title={{t 'help_text.search_users'}}>Search</button>
 </div>
 
 <a data-popover-trigger={{view.id}} class="guide">?</a>
