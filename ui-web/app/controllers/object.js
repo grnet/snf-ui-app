@@ -182,6 +182,14 @@ export default Ember.Controller.extend({
       this.send('showDialog', 'sharing', 'object/sharing', this.get('model'));
     },
 
+    openCopy: function(){
+      this.send('showDialog', 'paste', 'object/copy');
+    },
+
+    openCut: function(){
+      this.send('showDialog', 'paste', 'object/cut');
+    },
+
     deleteObject: function(){
       this.send('deleteObjects');
       this.set('closeDialog', true);
