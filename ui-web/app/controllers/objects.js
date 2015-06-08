@@ -15,6 +15,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   selectedCount: Ember.computed.alias('selectedItems.length'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
   trash: Ember.computed.equal('container_id', 'trash'),
+  shared: false,
 
 
   canDelete: true,

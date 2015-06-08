@@ -86,6 +86,10 @@ export default Ember.Controller.extend({
     }
   }.property('verb_form_action'),
 
+  dirLinkRoute: function(){
+    var p = this.get('parentController.shared');
+    return p ? 'account.container.objects': 'objects';
+  }.property('parentController.shared'),
 
   /*
   * Pithos API allows the name of objects to have at most 1024 chars.

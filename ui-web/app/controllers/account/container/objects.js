@@ -10,6 +10,8 @@ export default ObjectsController.extend(FilesListMixin, {
   cont: alias('controllers.account/container.cont'),
   rootPath: alias('cont.name'),
 
+  shared: true,
+
   parentPath: function() {
     var path = this.get('path');
     if (!path) {
