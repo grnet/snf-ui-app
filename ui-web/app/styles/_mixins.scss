@@ -1,41 +1,25 @@
 @mixin keyframes($animation-name) {
-  @-webkit-keyframes $animation-name {
-    @content;
-  }
-  @-moz-keyframes $animation-name {
-    @content;
-  }  
-  @-ms-keyframes $animation-name {
-    @content;
-  }
-  @-o-keyframes $animation-name {
-    @content;
-  }  
-  @keyframes $animation-name {
-    @content;
-  }
+    @keyframes $animation-name {
+        @content;
+    }
 }
 
 @mixin animation($str) {
-  -webkit-animation: #{$str};
-  -moz-animation: #{$str};
-  -ms-animation: #{$str};
-  -o-animation: #{$str};
-  animation: #{$str};      
+    animation: #{$str};      
 }
 
-@mixin box-shadow(){
-    box-shadow: 2px 2px 8px #888;
+@mixin box-shadow() {
+    box-shadow: 2px 2px 8px $jumbo;
 }
 
-@mixin bar-style(){
+@mixin bar-style() {
     @include box-shadow();
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-top: 1px solid $iron;
+    border-bottom: 1px solid $iron;
     background-color: $topbar-bg-color;
 }
 
-@mixin horizontal-stripes($color1, $color2:null){
+@mixin horizontal-stripes($color1, $color2:null) {
     @if $color2 {
         $color2 : $color2;
     } @else {
