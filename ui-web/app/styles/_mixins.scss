@@ -34,3 +34,18 @@
     border-bottom: 1px solid #ccc;
     background-color: $topbar-bg-color;
 }
+
+@mixin horizontal-stripes($color1, $color2:null){
+    @if $color2 {
+        $color2 : $color2;
+    } @else {
+        $color2: lighten($color1, 10%);
+    }
+    background: repeating-linear-gradient(
+      to right,
+        $color1,
+        $color1 10px,
+        $color2 10px,
+        $color2 20px
+    ) !important;
+}
