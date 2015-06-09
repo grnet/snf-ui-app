@@ -10,7 +10,7 @@ var TooltipViewMixin = Ember.Mixin.create({
   }.on('didInsertElement'),
 
   removeTooltips: function() {
-    this.$().find('.has-tip.open').each(function() {
+    this.$().find('[data-tooltip].open').each(function() {
       var tooltipID = $(this).attr('data-selector');
       $('#' + tooltipID).remove();
     });
