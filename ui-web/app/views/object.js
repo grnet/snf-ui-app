@@ -13,7 +13,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipV
   dropFileLocation: function(event) {
     return this.get("controller.controllers.objects.path").replace(/\/$/, "") + 
            "/" + 
-           this.get("controller.stripped_name");
+           this.get("controller.model.stripped_name");
   },
 
   isSelected: function(){
@@ -30,15 +30,15 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipV
  
   // delegate events to parent controller for non dir entries
   drop: function(e) {
-    if (!this.get("controller.is_dir")) { return true }
+    if (!this.get("controller.model.is_dir")) { return true }
     return this._super(e);
   },
   dragEnter: function(e) { 
-    if (!this.get("controller.is_dir")) { return true }
+    if (!this.get("controller.model.is_dir")) { return true }
     return this._super(e);
   },
   dragLeave: function(e) { 
-    if (!this.get("controller.is_dir")) { return true }
+    if (!this.get("controller.model.is_dir")) { return true }
     return this._super(e);
   },
 
