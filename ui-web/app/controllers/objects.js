@@ -15,8 +15,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   selectedCount: Ember.computed.alias('selectedItems.length'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
   trash: Ember.computed.equal('container_id', 'trash'),
-  shared: false,
-
 
   canDelete: true,
   canTrash: Ember.computed.not('trash'),
@@ -25,6 +23,9 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   canUpload: Ember.computed.not('trash'),
   canCreate: Ember.computed.not('trash'),
   canRestore: Ember.computed.bool('trash'),
+
+
+  objectRoute: 'objects',
 
   hasUpPath: function(){
     return this.get('current_path') !== '/';

@@ -10,8 +10,6 @@ export default ObjectsController.extend(FilesListMixin, {
   cont: alias('controllers.account/container.cont'),
   rootPath: alias('cont.name'),
 
-  shared: true,
-
   canDelete: false,
   canTrash: false,
   canCopy: true,
