@@ -12,6 +12,14 @@ export default ObjectsController.extend(FilesListMixin, {
 
   shared: true,
 
+  canDelete: false,
+  canTrash: false,
+  canCopy: true,
+  canMove: false,
+  canUpload: false,
+  canCreate: false,
+  canRestore: false,
+
   parentPath: function() {
     var path = this.get('path');
     if (!path) {

@@ -32,5 +32,15 @@ export default Ember.Route.extend({
     this._super(controller, model);
     controller.set('cont', this.get('cont'));
     controller.set('path', this.get('path'));
+  },
+
+  renderTemplate: function(){
+    this._super();
+    this.render('bar/rt-objects', {
+      into: 'application',
+      outlet: 'bar-rt',
+      controller: 'account/container/objects',
+    });
   }
+
 });
