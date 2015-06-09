@@ -110,6 +110,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipV
 		this._super();
 	},
 
+  wait: false,
 	actions: {
 		reset: function(actions) {
 			/*
@@ -117,15 +118,18 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipV
 			* action -> actions[0]
 			* params -> actions[1]
 			*/
-			if(actions) {
-				var actions = actions.split(',');
-				this.get('controller').send(actions[0], actions[1])
-			}
-			else {
-				this.$('input').val('');
-				this.send('toggleEdit');
-			}
-		},
+      if(!this.get('wait')) {
+        this.set('wait', true);
+        if(actions) {
+          var actions = actions.split(',');
+          this.get('controller').send(actions[0], actions[1])
+        }
+        else {
+          this.$('input').val('');
+          this.send('toggleEdit');
+        }
+      }
+    },
 		toggleEdit: function() {
 			this.$('.js-show-edit').toggleClass('hidden');
 			this.$('.input-with-valid').toggleClass('hidden');
@@ -133,6 +137,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipV
 			this.$('.js-name').toggleClass('hidden');
       this.$(".input-with-valid").find('input')[0].focus();
 			this.get('controller').set('resetInput', true);
+      this.set('wait', false);
 		}
 	}
 });
