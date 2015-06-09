@@ -73,7 +73,7 @@ export default Ember.View.extend({
 
 		// for close btns that are not "x" like cancel
 		$('.js-btn-close-modal').on('click', function(){
-			if(self.get('controller').get('name') === 'groups' || self.get('controller').get('name') === 'sharing') {
+			if(self.get('controller').get('name') === 'groups') {
 				self.$('.open').find('.js-btn-slide').each(function(){
 					$(this).trigger('click');
 				});
@@ -86,11 +86,15 @@ export default Ember.View.extend({
 
 		$(document).on('close.fndtn.reveal', '[data-reveal]', function () {
 			if(self.get('_state') === 'inDOM') {
-				if(self.get('controller').get('name') === 'groups' || self.get('controller').get('name') === 'sharing') {
+				if(self.get('controller').get('name') === 'groups') {
 					self.$('.open').find('.js-btn-slide').each(function(){
 						$(this).trigger('click');
 					});
 				}
+				else if(self.get('controller').get('name') === 'sharing') {
+					self.get('controller').send('reset');
+				}
+
 			}
 		});
 

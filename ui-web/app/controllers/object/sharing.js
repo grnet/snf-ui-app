@@ -210,7 +210,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
 
 
         var onSuccess = function(res) {
-          self.set('emails', '');
+          self.send('reset');
           object.set('sharing', sharing);
         };
 
