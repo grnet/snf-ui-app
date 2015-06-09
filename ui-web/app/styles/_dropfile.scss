@@ -1,42 +1,39 @@
-$dragBgCol: #8A75A5;
-$dragFgCol: #FFFFFF;
-
-.drag-active {
+ul.drag-active {
+    @include horizontal-stripes($theme-drag-bg-color);
+    li .wrap,
+    li:nth-child(2n) .wrap {
+        background: transparent;
+    }
     .upload-area {
         display: block;
     }
 }
 
+li.drag-active {
+    .wrap {
+        @include horizontal-stripes($theme-drag-bg-color);
+    }
+}
 .upload-area {
-    border: 3px dashed $dragFgCol;
     display: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    opacity: 0.8;
-    background: $theme-alert-color;
-    color: $dragFgCol;
-    z-index: 1;
+    font-size: rem-calc(24);
     padding-top: 5%;
     text-align: center;
-    font-size: rem-calc(24);
 }
 
 
 .dropfiles {
     @include bar-style();
-    z-index: 100;
-    right: 0;
+    bottom: 0;
     left: 0;
-    position: fixed;
     max-height: 2 * $header-height;
     overflow: auto;
-    bottom: 0;
+    position: fixed;
+    right: 0;
+    z-index: 100;
     .title {
-        font-weight: bold;
         font-size: rem-calc(13);
+        font-weight: bold;
     }
     >.row {
         padding: 0 $default-padding;
