@@ -4,6 +4,7 @@ export default Ember.Component.extend({
   tagName: 'li',
   expanded: false,
   loading: false,
+  classNameBindings: ['isTrash'],
   
   name: function(){
     var root = this.get('root');
