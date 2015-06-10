@@ -40,9 +40,15 @@ export default Ember.View.extend({
 		return this.get('inputValue').indexOf('/') === -1;
 	}.property('inputValue'),
 
-	notTooLarge: function() {
+	notTooLargeName: function() {
 		var charLimit = this.get('controller').get('nameMaxLength');
 		return this.get('inputValue').length <= charLimit;
+	}.property('inputValue'),
+
+	notTooLargePath: function() {
+		var charLimit = this.get('controller').get('nameMaxLength');
+		var newPath = this.get('controller').get('current_path') + this.get('inputValue');
+		return (newPath.length + 1) <= charLimit;
 	}.property('inputValue'),
 
 	isModified: function() {
@@ -71,14 +77,14 @@ export default Ember.View.extend({
 		if(toValidate) {
 			var action = this.get('controller').get('actionToExec');
 			var validForm = false;
-			var notEmpty, noSlash, notTooLarge;
+			var notEmpty, noSlash, notTooLargeName, notTooLargePath;
 			var isModified = this.get('isModified');
 			this.set('errorVisible', false);
 			if(action === 'createContainer') {
 				notEmpty = this.get('notEmpty');
 				noSlash = this.get('noSlash');
-				notTooLarge = this.get('notTooLarge');
-				validForm = notEmpty && noSlash && notTooLarge;
+				notTooLargeName = this.get('notTooLargeName');
+				validForm = notEmpty && noSlash && notTooLargeName;
 
 				if(validForm) {
 					this.get('controller').set('newName', this.get('inputValue'));
@@ -86,8 +92,9 @@ export default Ember.View.extend({
 			}
 			else if(action === 'createDir' || action === 'renameObject') {
 				notEmpty = this.get('notEmpty');
-				notTooLarge = this.get('notTooLarge');
-				validForm = notEmpty && notTooLarge;
+				notTooLargeName = this.get('notTooLargeName');
+				notTooLargePath = this.get('notTooLargePath');
+				validForm = notEmpty && notTooLargeName && notTooLargePath;
 				if(!isModified) {
 					this.get('parentView').send('reset');
 				}
@@ -131,18 +138,24 @@ export default Ember.View.extend({
 			}
 			else {
 				var notEmpty = this.get('notEmpty');
-				var notTooLarge = this.get('notTooLarge');
+				var notTooLargeName = this.get('notTooLargeName');
 
 				if(!notEmpty) {
 					this.set('errorMsg', 'Empty input');
 				}
-				else if(!notTooLarge) {
-					this.set('errorMsg', 'Too large. Max: '+this.get('controller').get('nameMaxLength')+ ' chars');
+				else if(!notTooLargeName) {
+					this.set('errorMsg', 'Too large name. Max: ' + this.get('controller').get('nameMaxLength') + ' bytes');
 				}
 				else if(action === 'createContainer') {
 					var noSlash = this.get('noSlash');
 					if(!noSlash) {
 						this.set('errorMsg', '"/" is not allowed');
+					}
+				}
+				else if(action === 'createDir') {
+					var notTooLargePath = this.get('notTooLargePath');
+					if(!notTooLargePath) {
+						this.set('errorMsg', 'Too large path. Max: ' + this.get('controller').get('nameMaxLength') + ' bytes')
 					}
 				}
 			}
