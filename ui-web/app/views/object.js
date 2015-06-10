@@ -44,6 +44,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipV
 
   click: function(e) {
     if (e.target.tagName != 'DIV') { return; }
+    if (e.target.className === 'loader') { return; }
     this.get('controller').toggleProperty('isSelected');
   },
 	/*
