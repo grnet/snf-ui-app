@@ -224,8 +224,8 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       var object = next.get('model');
 
       var onSuccess = function(object) {
+        self.get("model").update();
         next.set('loading', false);
-        //self.send('refreshRoute');
       };
 
       var onFail = function(reason){
@@ -235,7 +235,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       callback && callback();
       this.store.moveObject(object, newID, copyFlag, source_account).then(onSuccess, onFail);
 
-      this.set('toPasteObject', null);
       this.set('copyFlag', false);
 
     },
