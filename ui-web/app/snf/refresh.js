@@ -276,7 +276,7 @@ var markRefresh = function(context, method, type, query, ...args) {
   promise = context[method](type, query); // TODO: introspect return value
   promise.then(function(res) {
     res.set('query', query);
-    res.update = function() { reloadRecordArray(res); }
+    res.update = function() { return reloadRecordArray(res); }
     return res;
   });
   return promise;
