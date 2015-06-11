@@ -144,8 +144,11 @@ export default Ember.Controller.extend({
       var object = this.get('model');
       var self = this;
       var onSuccess = function() {
-        self.send('refreshRoute');
-      };
+        var parent = this.get("parentController");
+        parent && parent.get("model").update().then(function() {
+          object.unloadRecord();
+        });
+      }.bind(this);
 
       var onFail = function(reason){
         self.send('showActionFail', reason);
