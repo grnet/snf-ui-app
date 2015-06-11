@@ -16,6 +16,7 @@ export default Ember.ArrayController.extend(EmailsInputAuxMixin, {
 	nameMaxLength: 256,
 
 	newName: undefined,
+	notEmptyName: undefined,
 	isUnique: undefined,
 	cleanUserInput: true,
 
@@ -47,13 +48,13 @@ export default Ember.ArrayController.extend(EmailsInputAuxMixin, {
 
 	// overrides the freezeCreation of EmailsInputAuxMixin
 	freezeCreation: function() {
-
+		var notEmptyName = this.get('notEmptyName');
 		var isNameValid = this.get('isNameValid');
 		var allUsersValid = this.get('allUsersValid');
 		var cleanUserInput = this.get('cleanUserInput');
 
-		return !(isNameValid && allUsersValid && cleanUserInput);
-	}.property('isNameValid', 'allUsersValid', 'cleanUserInput'),
+		return !(notEmptyName && isNameValid && allUsersValid && cleanUserInput);
+	}.property('notEmptyName', 'isNameValid', 'allUsersValid', 'cleanUserInput'),
 
 
 	checkUnique: function() {

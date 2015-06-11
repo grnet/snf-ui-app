@@ -108,12 +108,16 @@ export default Ember.View.extend({
 			var value = view.$('input').val();
 			view.set('value', value);
 			if(view.get('notEmpty')) {
+				view.get('controller').set('notEmptyName', true);
 				Ember.run.debounce(view, function() {
 					console.log(view.get('value'))
 					view.get('toLowerCase')();
 					view.get('adjustSize')();
 					view.get('isUnique')();
 				}, 300);
+			}
+			else {
+				view.get('controller').set('notEmptyName', false);
 			}
 		},
 		focusOut: function(event, view) {
