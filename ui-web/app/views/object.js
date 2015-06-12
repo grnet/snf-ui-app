@@ -102,6 +102,33 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipV
 		return false;
 	}.property('controller.name'),
 
+  hideRenameForm: function() {
+    var self = this;
+    // hide rename form on click outside input and buttons
+    $(document).mouseup(function(e) {
+      if(self.get('_state') === 'inDOM' && self.$('.js-input-single').hasClass('open')) {
+        var $btnCancel = self.$('.js-cancel');
+        var $btnOK = self.$('.js-hide-edit');
+        var $input = self.$('input');
+
+        var okNotPressed = !$btnOK.is(e.target) && ($btnOK.has(e.target).length === 0);
+        var cancelNotPressed = !$btnCancel.is(e.target) && ($btnCancel.has(e.target).length === 0);
+
+        if(cancelNotPressed && okNotPressed && !$input.is(e.target)) {
+          self.send('reset');
+        }
+      }
+    });
+
+    // hide on esc
+    $(document).keyup(function(e) {
+      if (e.keyCode == 27 && self.$('.js-input-single').hasClass('open')) {
+        self.send('reset');
+      }
+    });
+
+  }.on('didInsertElement'),
+
 	didInsertElement: function() {
 		var self = this;
 		this.$('.js-show-edit').on('click', function() {
@@ -133,7 +160,8 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipV
     },
 		toggleEdit: function() {
 			this.$('.js-show-edit').toggleClass('hidden');
-			this.$('.input-with-valid').toggleClass('hidden');
+      this.$('.js-input-single').toggleClass('hidden');
+			this.$('.js-input-single').toggleClass('open');
 			this.$('.js-hide-edit').toggleClass('hidden');
 			this.$('.js-name').toggleClass('hidden');
       this.$(".input-with-valid").find('input')[0].focus();
