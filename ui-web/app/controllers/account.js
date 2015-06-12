@@ -7,11 +7,13 @@ export default Ember.ArrayController.extend({
 
   _resolveSubDirs: function(root) {
     var parts = root.split("/"), account, container, path, containers, query;
+    var uuid = this.get('settings.uuid'), other_users;
     if (parts.length === 1) {
       var accounts = new Ember.RSVP.Promise(function(resolve, reject) {
         this.store.find('account').then(function(accounts) {
           Ember.RSVP.all(accounts.getEach('user')).then(function(users) {
-            resolve(users.map(function(user) {
+            other_users = users.rejectBy('id', uuid);
+            resolve(other_users.map(function(user) {
               return Ember.Object.create({
                 id: '/accounts/' + user.get("email"),
                 name: user.get("email")
