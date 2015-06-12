@@ -180,6 +180,7 @@ export default StorageAdapter.extend({
     var headers = {};
     var account = this.get('account');
     var url = this.buildURL('object', account, snapshot.id)+'?update=';
+    if (sharing === "") { sharing = "\t" }
     headers['X-Object-Sharing'] = sharing;
     headers['Accept'] =  'text/plain';
     
