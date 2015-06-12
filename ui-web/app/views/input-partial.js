@@ -104,20 +104,27 @@ export default Ember.View.extend({
 
 	eventManager: Ember.Object.create({
 		keyUp: function(event, view) {
-			view.send('hideInfo', true)
-			var value = view.$('input').val();
-			view.set('value', value);
-			if(view.get('notEmpty')) {
-				view.get('controller').set('notEmptyName', true);
-				Ember.run.debounce(view, function() {
-					console.log(view.get('value'))
-					view.get('toLowerCase')();
-					view.get('adjustSize')();
-					view.get('isUnique')();
-				}, 300);
+
+			// when esc is preesed the parent dialog should close
+			if(event.keyCode == 27) {
+				$('body .close-reveal-modal').trigger('click');
 			}
 			else {
-				view.get('controller').set('notEmptyName', false);
+				view.send('hideInfo', true)
+				var value = view.$('input').val();
+				view.set('value', value);
+				if(view.get('notEmpty')) {
+					view.get('controller').set('notEmptyName', true);
+					Ember.run.debounce(view, function() {
+						console.log(view.get('value'))
+						view.get('toLowerCase')();
+						view.get('adjustSize')();
+						view.get('isUnique')();
+					}, 300);
+				}
+				else {
+					view.get('controller').set('notEmptyName', false);
+				}
 			}
 		},
 		focusOut: function(event, view) {

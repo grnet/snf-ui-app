@@ -68,54 +68,60 @@ export default Ember.View.extend(TooltipViewMixin, {
 	eventManager: Ember.Object.create({
 		keyUp: function(event, view) {
 			if(view.$('input').is(':focus')) {
-				var value = view.$('input').val();
-				view.set('value', value.toLowerCase());
+				// when esc is preesed the parent dialog should close
+				if(event.keyCode == 27) {
+					$('body .close-reveal-modal').trigger('click');
+				}
+				else {
+					var value = view.$('input').val();
+					view.set('value', value.toLowerCase());
 
-				if(view.get('notEmpty')) {
-					value = view.get('value');
+					if(view.get('notEmpty')) {
+						value = view.get('value');
 
-					// paste multiple emails seperated by commas
-					if(value.indexOf(',') !== -1) {
-						var emails = value.split(',');
-						view.set('value', null);
-						emails.forEach(function(email, index) {
-							email = email.trim();
+						// paste multiple emails seperated by commas
+						if(value.indexOf(',') !== -1) {
+							var emails = value.split(',');
+							view.set('value', null);
+							emails.forEach(function(email, index) {
+								email = email.trim();
+								view.send('handleNewEmail', email);
+							});
+						}
+
+						/*
+						 * paste multiple emails seperated by spaces
+						 * if the emails are seperated by enter, the input understands
+						 * it as space
+						*/
+						else if(value.indexOf(' ') !== -1) {
+							var emails = value.split(' ');
+							view.set('value', null);
+							emails.forEach(function(email, index) {
+								email = email.trim();
+								view.send('handleNewEmail', email);
+							});
+						}
+
+						/*
+						 * paste multiple emails seperated by tabs
+						 * (copy from spreadsheet)
+						*/
+						else if(value.indexOf('\t') !== -1) {
+							var emails = value.split('\t');
+							view.set('value', null);
+							emails.forEach(function(email, index) {
+								view.send('handleNewEmail', email);
+								email = email.trim();
+							});
+						}
+
+						// enter or space
+						else if(event.keyCode === 13 || event.keyCode === 32) {
+							var email = value;
+							view.set('value', null);
 							view.send('handleNewEmail', email);
-						});
-					}
-
-					/*
-					 * paste multiple emails seperated by spaces
-					 * if the emails are seperated by enter, the input understands
-					 * it as space
-					*/
-					else if(value.indexOf(' ') !== -1) {
-						var emails = value.split(' ');
-						view.set('value', null);
-						emails.forEach(function(email, index) {
-							email = email.trim();
-							view.send('handleNewEmail', email);
-						});
-					}
-
-					/*
-					 * paste multiple emails seperated by tabs
-					 * (copy from spreadsheet)
-					*/
-					else if(value.indexOf('\t') !== -1) {
-						var emails = value.split('\t');
-						view.set('value', null);
-						emails.forEach(function(email, index) {
-							view.send('handleNewEmail', email);
-							email = email.trim();
-						});
-					}
-
-					// enter or space
-					else if(event.keyCode === 13 || event.keyCode === 32) {
-						var email = value;
-						view.set('value', null);
-						view.send('handleNewEmail', email);
+						}
 					}
 				}
 			}
