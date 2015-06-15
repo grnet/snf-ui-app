@@ -35,18 +35,24 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
   // verbose version of 'all' 
   shared_with_list: function(){
     var self = this;
-    var shared_with = this.get('model.shared_users');
-    _.each(shared_with, function(s){
-      if (s.type === 'user') {
+    var shared_with_users = this.get('model.shared_users').filterBy('type', 'user');
+    var shared_with_groups = this.get('model.shared_users').filterBy('type', 'group');
+    var shared_with_everybody = this.get('model.shared_users').filterBy('type', 'all');
+
+    _.each(shared_with_users, function(s){
         s.set('user', self.store.find('user', s.id));
-      } else if (s.type === 'all'){
-        s.set('display_name', 'All Pithos users');
-      } else if (s.type === 'group') {
-        s.set('display_name', s.id.split(':')[1]);
-      }
     });
+
+    _.each(shared_with_groups, function(s){
+      s.set('display_name', s.id.split(':')[1]);
+    });
+
+    if(shared_with_everybody.length > 0) {
+      shared_with_everybody[0].set('display_name', 'All Pithos users');
       
-    return shared_with;
+    }
+
+    return shared_with_users.sortBy('user.email').concat(shared_with_groups.sortBy('display_name'), shared_with_everybody) ;
   }.property('model.shared_users.@each'),
 
   /**

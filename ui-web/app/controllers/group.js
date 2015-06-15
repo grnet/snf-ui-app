@@ -35,6 +35,11 @@ export default Ember.Controller.extend(EmailsInputAuxMixin, {
     }
   }.property('verb_form_action'),
 
+  sortedUsers: function() {
+    var usersSorted = this.get('model').get('users').sortBy('email');
+    return usersSorted;
+  }.property('model.users.@each.email'),
+
   actions: {
 
     addUser: function(user) {

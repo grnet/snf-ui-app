@@ -12,7 +12,7 @@
     <div class="js-slide-me slide-me more-info">
     <table>
         <tbody>
-        {{#each u in controller.model.users}}
+        {{#each u in controller.sortedUsers}}
             <tr>
                 <td>{{u.email}}</td>
                 <td class="text-right"><a {{action "removeUserFromGroup" u}} title="">{{t 'button.remove_user_from_group'}}</a></td>

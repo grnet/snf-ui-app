@@ -18,7 +18,7 @@ export default Ember.ArrayController.extend({
                 id: '/accounts/' + user.get("email"),
                 name: user.get("email")
               });
-            }));
+            }).sortBy('name'));
           }, reject);
         }, reject);
       }.bind(this));
