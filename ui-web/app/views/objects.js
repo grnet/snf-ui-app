@@ -14,5 +14,15 @@ export default Ember.View.extend(RefreshViewMixin, DropFileViewMixin, SnfAddHand
   dropFileLocation: function(event) {
     var controller = this.get("controller");
     return controller.get("path").replace(/\/$/, "");
-  }
+  },
+
+  createNewOnKeyUp: function() {
+    var self = this;
+    var newKey = 78; // "n"
+    $(document).keyup(function(e) {
+      if(e.keyCode == newKey) {
+        self.get('controller').send('showDialog', 'create-dir', 'objects');
+      }
+    });
+  }.on('didInsertElement'),
 });
