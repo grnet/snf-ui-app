@@ -12,6 +12,17 @@ showUsageOnKeyUp: function() {
   });
 }.on('didInsertElement'),
 
+showGroupsOnKeyUp: function() {
+  var self = this;
+  var groups = this.get('controller').get('groups');
+  var groupKey = 71; // "g"
+  $(document).keyup(function(e) {
+    if(e.keyCode == groupKey) {
+      self.get('controller').send('showDialog', 'groups', 'groups', groups)
+    }
+  });
+}.on('didInsertElement'),
+
 
   didInsertElement: function(){
 
