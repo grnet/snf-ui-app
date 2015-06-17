@@ -17,10 +17,18 @@ export default Ember.View.extend({
 
 	eventManager: Ember.Object.create({
 		keyUp: function(event, view) {
-			if(view.$('textarea').is(':focus')) {
-				var value = view.$('textarea').val();
-				view.set('value', value);
-				view.get('controller').set('inputValue', value);
+			// when esc is pressed the parent dialog should close
+			var escKey = 27;
+			event.stopPropagation();
+			if(event.keyCode !== escKey) {
+				if(view.$('textarea').is(':focus')) {
+					var value = view.$('textarea').val();
+					view.set('value', value);
+					view.get('controller').set('inputValue', value);
+				}
+			}
+			else {
+				$('body .close-reveal-modal').trigger('click');
 			}
 		}
 	}),

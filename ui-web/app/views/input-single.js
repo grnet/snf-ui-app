@@ -129,6 +129,16 @@ export default Ember.View.extend({
 		}
 	}.observes('controller.resetInput'),
 
+	eventManager: Ember.Object.create({
+		keyUp: function(event, view) {
+			var escKey = 27;
+			event.stopPropagation();
+			if(event.keyCode == escKey) {
+				$('body .close-reveal-modal').trigger('click');
+			}
+		}
+	}),
+
 	actions: {
 		showError: function(notUnique) {
 			var action = this.get('controller').get('actionToExec');

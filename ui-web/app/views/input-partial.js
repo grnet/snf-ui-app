@@ -104,9 +104,10 @@ export default Ember.View.extend({
 
 	eventManager: Ember.Object.create({
 		keyUp: function(event, view) {
-
 			// when esc is preesed the parent dialog should close
-			if(event.keyCode == 27) {
+			var escKey = 27;
+			event.stopPropagation();
+			if(event.keyCode == escKey) {
 				$('body .close-reveal-modal').trigger('click');
 			}
 			else {
