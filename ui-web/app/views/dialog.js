@@ -5,7 +5,7 @@ export default Ember.View.extend({
 	classNameBindings: ['templateCls'],
 	attributeBindings: ['data-reveal'],
 	'data-reveal': 'true',
-	layoutName: 'dialog-wrapper',
+	layoutName: 'overlays/dialog-wrapper',
 	needReset: ['overlays.groups', 'overlays.sharing'],
 
 

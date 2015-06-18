@@ -9,9 +9,9 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 		* define and the main template, it will crash
 		*/
 		this.render("application");
-		this.render('total-quotas', {
+		this.render('overlays/total-quotas', {
 			into: 'application',
-			outlet: 'total-quotas',
+			outlet: 'overlays/total-quotas',
 		});
     this.render('shared-with-me', {
       into: 'application',

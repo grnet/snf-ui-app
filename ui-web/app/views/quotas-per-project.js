@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.View.extend({
-	templateName: 'quotas-per-project',
+	templateName: 'overlays/quotas-per-project',
 	tagName: 'li',
 	minWidth: 2, //percent
 	warningFull: function() {

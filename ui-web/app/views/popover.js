@@ -9,7 +9,7 @@ export default Ember.View.extend({
 	classNames: ['popover'],
 	classNameBindings: ['position', 'cls', 'no-display'],
 	'no-display': true,
-	templateName: 'popover',
+	templateName: 'overlays/popover',
 
   confirm_title: function(){
     return this.get('controller.verb_for_action') + ' ' + this.get('controller.itemType');
