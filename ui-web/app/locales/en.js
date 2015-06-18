@@ -61,6 +61,12 @@ export default {
     create_group_info: 'The name of the group cannot have uppercase letters and more than 256 (encoded) characters' 
   },
 
+  shortcuts_info: {
+    create_new: 'Create new container or folder',
+    show_groups: 'Edit groups',
+    show_usage: 'Usage information'
+  },
+
   action_verb: {
     'delete': 'delete',
     empty: 'empty',

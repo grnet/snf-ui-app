@@ -1,10 +1,11 @@
 <footer class="footer">
 	{{partial "overlays/usage-info"}}
-    <a class="right" {{action 'showDialog' 'feedback' 'feedback'}}>{{t 'global.prompt_feedback'}}</a>
+    {{partial "overlays/shortcuts-info"}}
+    <a class="right footer-item" {{action 'showDialog' 'feedback' 'feedback'}}>{{t 'global.prompt_feedback'}}</a>
     <span class="right themes">
         {{t 'global.choose_theme'}} 
         {{#each theme in settings.themes}}
-            <a {{action 'toggleTheme' theme.name}} style="color:{{theme.color}}">{{fa-icon theme.icon}}</a>
+            <a class="icon" {{action 'toggleTheme' theme.name}} style="color:{{theme.color}}">{{fa-icon theme.icon}}</a>
         {{/each}}
     </span>
 </footer>

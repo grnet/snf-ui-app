@@ -1,12 +1,7 @@
 $wrap-bg-color: $theme-primary-color-light;
 $wrap-radius: 6px;
 
-.quotas-container {
-    display: inline-block;
-
-    >* {
-        float: left;
-    }
+.usage-info {
     .rest {
         background-color: transparent;
         display: inline-block;
@@ -23,13 +18,7 @@ $wrap-radius: 6px;
         margin: 0;
         overflow-y: scroll;
         li {
-            margin-bottom: 1.3em; 
-            h5 {
-                font-size: 1rem;
-                font-weight: bold;
-                line-height: 1;
-                margin: 0;
-            }
+            margin-bottom: 1.3em;
             p {
                 font-size: 0.8rem;
                 margin: 0.4rem 0 0.2rem;
@@ -47,7 +36,6 @@ $wrap-radius: 6px;
             opacity: 1;
         }
     }
-
     .progress {
         position: relative;
     }

@@ -5,10 +5,14 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 
 	renderTemplate: function() {
 		/*
-		* if you define an inner outlet you don't
+		* if you define an inner outlet and you don't
 		* define and the main template, it will crash
 		*/
 		this.render("application");
+		this.render('overlays/shortcuts', {
+			into: 'application',
+			outlet: 'overlays/shortcuts',
+		});
 		this.render('overlays/total-quotas', {
 			into: 'application',
 			outlet: 'overlays/total-quotas',

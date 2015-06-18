@@ -1,0 +1,10 @@
+.shortcuts {
+    .key {
+        background-color: $theme-primary-color;
+        min-width: rem-calc(40);
+    }
+    .wrap>div {
+        margin-top: rem-calc(10);
+        margin-bottom: rem-calc(10);
+    }   
+}
