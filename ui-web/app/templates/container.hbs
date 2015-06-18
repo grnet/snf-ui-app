@@ -38,10 +38,10 @@
         </dl>
     {{/if}}
     <div class="col select-col">
+        <label>Reassign project</label>
         {{view "select" content=container.availableProjects
                         optionLabelPath="content.select_label"
                         optionValuePath="content.id"
-                        prompt="Reassign project:"
                         selection=container.selectedProject}}
     </div>
 

@@ -49,7 +49,7 @@ $list-line-height : 40px;
     }
     li:not(:first-child):hover {
         .wrap {
-            background: $theme-primary-color-light; 
+            background: lighten($theme-primary-color-light, 8%); 
         }
     }
     .name-col {

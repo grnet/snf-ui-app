@@ -1,5 +1,8 @@
 .containers {
     &.list {
+        .wrap {
+            padding: rem-calc(14 8);
+        }
         .actions-col {
             width: 10%;
         }
@@ -27,6 +30,31 @@
         }
         .trash-icon {
             display: inline-block;
+        }
+    }
+    .select-col {
+        position: relative;
+        label {
+            color: $theme-guide-bg-color;
+            font-size: rem-calc(12);
+            font-weight: bold;
+            left: rem-calc(4);
+            overflow: hidden;
+            position: absolute;
+            text-indent: -120px;
+            top: - rem-calc(16);
+            transition: 300ms ease-out;
+        }
+    }
+    .select-col:hover label {
+        text-indent: 0;
+    }
+    &.grid {
+        .select-col {
+            padding: rem-calc(10 0);
+            label {
+                top: - rem-calc(9);
+            }
         }
     }
 }

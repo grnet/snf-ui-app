@@ -1,11 +1,12 @@
 // palette
 $ciel: #3aa6f4;
-$blue-1: #c6e7ff;
+$blue-1: #b5defc;
 $blue-2: #60ace2;
 $blue-3: #1a82cb;
 $blue-4: #0764a6;
 $fuchsia: #ed2f7e;
 $lime: #97b314;
+$bordeaux: #b31475;
 
 // theme_settings
 $theme-primary-color: $ciel;
@@ -24,6 +25,6 @@ $theme-secondary-color-light: #f9cd82;
 
 $theme-header-background: $theme-primary-color;
 
-$theme-guide-bg-color: $lime;
+$theme-guide-bg-color: $bordeaux;
 $theme-drag-bg-color: $theme-secondary-color-light;
 $trash-bg-color: $theme-secondary-color-light;
