@@ -248,6 +248,11 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       this.send('refreshRoute');
     },
 
+    toggleSelectAll: function(){
+      var toggle = this.get("selectedItems.length") ? false : true;
+      Ember.sendEvent(this, "selectAll", [toggle]);
+    },
+
     deleteObjects: function(controller_list){
       var self = this;
       var selected = controller_list || this.get('selectedItems');

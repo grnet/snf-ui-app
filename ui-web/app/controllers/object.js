@@ -24,6 +24,21 @@ export default Ember.Controller.extend({
   canRename: Ember.computed.alias('mine'),
   canDelete: Ember.computed.alias('mine'),
   canCopy: Ember.computed.not('trash'),
+  
+  handleSelect: function(selected) {
+    this.set('isSelected', selected);
+  },
+
+  bindToSelectAll: function() {
+    var context = this.get('selectAllContext') || this.parentController;
+    Ember.addListener(context, "selectAll", this, this.handleSelect);
+  }.on('init'),
+
+  destroy: function() {
+    this._super();
+    var context = this.get('selectAllContext') || this.parentController;
+    Ember.removeListener(context, "selectAll", this, this.handleSelect);
+  }.on('destroy'),
 
   canMove: function(){
     return !this.get('trash') && this.get('mine');
