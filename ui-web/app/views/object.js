@@ -43,9 +43,14 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, TooltipV
   },
 
   click: function(e) {
-    if (e.target.tagName != 'DIV') { return; }
-    if (e.target.className === 'loader') { return; }
-    this.get('controller').toggleProperty('isSelected');
+    let isCheck = e.target.className.includes("fa-check");
+    let isDiv = (e.target.tagName == 'DIV') && (e.target.className != 'loader');
+
+    if (isCheck || isDiv) {
+      this.get('controller').toggleProperty('isSelected');
+    } else {
+      return;
+    }
   },
 	/*
 	* type -> iconCls:
