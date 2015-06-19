@@ -49,6 +49,8 @@ export default Ember.Object.extend({
   loginUrl: function() {
     var ui, loc, login;
     ui = this.get('services.astakosAccount.endpoints.uiURL');
+    if (!ui) { return null }
+
     loc = window.location.toString();
     login = ui.replace(/\/$/, '') + '/login/?next=' + loc;
     return login;

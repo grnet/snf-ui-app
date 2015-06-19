@@ -15,9 +15,10 @@ var registerAndAdvance = function(settings, container, app, err) {
   settings.persist('ui_settings');
 }
 
-var resolveAuth = function(settings, container, app) {
+var resolveAuth = function(settings, container, app, resp) {
   var token = settings.get('token'), loginUrl = settings.get('loginUrl');
-  if (!token) {
+
+  if (!token || (resp && resp.errorThrown)) {
     if (settings.localToken) {
       token = window.prompt("Gimme your token");
       settings.set('token', token);
@@ -45,7 +46,7 @@ export var initialize = function(container, app) {
       .then(_bind(resolveAuth), _bind(resolveAuth))
       .then(_bind(registerAndAdvance)).catch(function(err) {
         settings.invalidate('ui_settings');
-        window.location.reload();
+        throw new Error("Failed to resolve authentication params (" + err + ")");
       });; 
   }
 };
