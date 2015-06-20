@@ -180,6 +180,9 @@ export default StorageAdapter.extend({
     var headers = {};
     var account = this.get('account');
     var url = this.buildURL('object', account, snapshot.id)+'?update=';
+    // According to the API we should send an empty X-Object-Sharing header to 
+    // un-share an object. However some browsers ignore completely empty headers
+    // and that is the reason we had to use the "\t" workaround
     if (sharing === "") { sharing = "\t" }
     headers['X-Object-Sharing'] = sharing;
     headers['Accept'] =  'text/plain';
