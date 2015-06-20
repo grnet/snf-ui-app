@@ -189,6 +189,14 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     }
   }.property(),
 
+  checkSelectedCls: "fa-square-o",
+
+  watchHasSelected: function(){
+    if (this.get('selectedItems.length') == 0) {
+      this.set('checkSelectedCls', "fa-square-o");
+    } 
+  }.observes('selectedItems.@each'),
+
   actions: {
     
     uploadSuccess: function() {
@@ -250,6 +258,8 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
 
     toggleSelectAll: function(){
       var toggle = this.get("selectedItems.length") ? false : true;
+      var cls = toggle? "fa-check-square-o": "fa-square-o";
+      this.set('checkSelectedCls', cls);
       Ember.sendEvent(this, "selectAll", [toggle]);
     },
 

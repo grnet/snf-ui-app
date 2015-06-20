@@ -1,7 +1,10 @@
 {{#if listView}}
     <li>
         <div class="wrap clearfix">
-            <div class="col name-col">Name</div>
+            <div class="col name-col" {{action "toggleSelectAll"}}>
+                {{fa-icon controller.checkSelectedCls fixedWidth=true}}
+                 Name
+            </div>
             <div class="col select-col">&nbsp;</div>
             <div class="col data-col">Size</div>
             <div class="col date-col">Modified</div>
@@ -10,7 +13,6 @@
         </div>
     </li>
 {{/if}}
-
 
 {{#each object in sortedModel itemController="object" itemView="object"}}
 {{else}}
