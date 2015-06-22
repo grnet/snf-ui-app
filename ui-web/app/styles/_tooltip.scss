@@ -1,0 +1,234 @@
+// To use the custom tooltip add an `aria-label` attribute with the desired
+// content and the class `snf-tooltip` to an element.
+// The following classes are used for directing the tooltip:
+//
+// .snf-tooltip-n: Top centered
+// .snf-tooltip-ne: Top right
+// .snf-tooltip-nw: Top left
+// .snf-tooltip-e: Right
+// .snf-tooltip-w: Left
+// .snf-tooltip-s: Bottom centered
+// .snf-tooltip-se: Bottom right
+// .snf-tooltip-sw: Bottom left
+//
+// In addition to this, we can use the class `snf-tooltip-multiline` for
+// multiline comments.
+// Custom background colors can be used with the classes
+// `snf-tooltip-alert` and `snf-tooltip-success`
+
+.snf-tooltip {
+    position: relative;
+}
+
+// This is the tooltip bubble
+.snf-tooltip:after {
+    background: $tooltip-bg;
+    border-radius: $tooltip-radius;
+    color: $tooltip-font-color;
+    content: attr(aria-label);
+    display: none;
+    font-size: $tooltip-font-size;
+    height: auto;
+    line-height: $tooltip-line-height;
+    padding: $tooltip-padding;
+    pointer-events: none;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    white-space: pre;
+    word-wrap: break-word;
+    z-index: 1000000;
+}
+
+// This is the tooltip arrow
+.snf-tooltip:before {
+    border: $tooltip-pip-size solid transparent;
+    color: $tooltip-bg;
+    content: "";
+    display: none;
+    height: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    z-index: 1000001;
+}
+
+.snf-tooltip:hover,
+.snf-tooltip:active,
+.snf-tooltip:focus {
+    &:before,
+    &:after {
+        display: inline-block;
+        text-decoration: none;
+    }
+}
+
+.snf-tooltip-multiline:hover,
+.snf-tooltip-multiline:active,
+.snf-tooltip-multiline:focus {
+    &:after {
+        display: table-cell;
+    }
+}
+
+.snf-tooltip-s,
+.snf-tooltip-se,
+.snf-tooltip-sw {
+    &:after {
+        margin-top: 5px;
+        right: 50%;
+        top: 100%;
+    }
+
+    &:before {
+        border-bottom-color: $tooltip-bg;
+        bottom: -5px;
+        margin-right: -5px;
+        right: 50%;
+        top: auto;
+    }
+}
+
+.snf-tooltip-se {
+    &:after {
+        left: 50%;
+        margin-left: -15px;
+        right: auto;
+    }
+}
+
+.snf-tooltip-sw:after {
+    margin-right: -15px;
+}
+
+.snf-tooltip-n,
+.snf-tooltip-ne,
+.snf-tooltip-nw {
+    &:after {
+        bottom: 100%;
+        margin-bottom: 5px;
+        right: 50%;
+    }
+
+    &:before {
+        border-top-color: $tooltip-bg;
+        bottom: auto;
+        margin-right: -5px;
+        right: 50%;
+        top: -5px;
+    }
+}
+
+.snf-tooltip-ne {
+    &:after {
+        left: 50%;
+        margin-left: -15px;
+        right: auto;
+    }
+}
+
+.snf-tooltip-nw:after {
+    margin-right: -15px;
+}
+
+.snf-tooltip-s:after,
+.snf-tooltip-n:after {
+    transform: translateX(50%);
+}
+
+.snf-tooltip-w {
+    &:after {
+        bottom: 50%;
+        margin-right: 5px;
+        right: 100%;
+        transform: translateY(50%);
+    }
+
+    &:before {
+        border-left-color: $tooltip-bg;
+        bottom: 50%;
+        left: -5px;
+        margin-top: -5px;
+        top: 50%;
+    }
+}
+
+.snf-tooltip-e {
+    &:after {
+        bottom: 50%;
+        left: 100%;
+        margin-left: 5px;
+        transform: translateY(50%);
+    }
+
+    &:before {
+        border-right-color: $tooltip-bg;
+        bottom: 50%;
+        margin-top: -5px;
+        right: -5px;
+        top: 50%;
+    }
+}
+
+.snf-tooltip-multiline {
+    &:after {
+        border-collapse: separate;
+        max-width: $tooltip-max-width;
+        white-space: pre-line;
+        width: max-content;
+        word-break: break-word;
+        word-wrap: normal;
+    }
+
+    &.snf-tooltip-s:after,
+    &.snf-tooltip-n:after {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+    }
+
+    &.snf-tooltip-w:after,
+    &.snf-tooltip-e:after {
+        right: 100%;
+    }
+}
+
+// Colors for different tooltip states.
+@mixin colorize-tooltip($text-color, $background-color) {
+    &:after {
+        background: $background-color;
+        color: $text-color;
+    }
+
+    .snf-tooltip-s,
+    .snf-tooltip-se,
+    .snf-tooltip-sw {
+        &:before {
+            border-bottom-color: $background-color;
+        }
+    }
+
+    &.snf-tooltip-n,
+    &.snf-tooltip-ne,
+    &.snf-tooltip-nw {
+        &:before {
+            border-top-color: $background-color;
+        }
+    }
+
+    &.snf-tooltip-e:before {
+        border-right-color: $background-color;
+    }
+
+    &.snf-tooltip-w:before {
+        border-left-color: $background-color;
+    }
+}
+
+.snf-tooltip-alert {
+    @include colorize-tooltip($tooltip-font-color, $theme-alert-color);
+}
+
+.snf-tooltip-success {
+    @include colorize-tooltip($tooltip-font-color, $theme-success-color);
+}

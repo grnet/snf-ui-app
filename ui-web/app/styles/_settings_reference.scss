@@ -1360,7 +1360,7 @@ $table-border-style: none;
 // $has-tip-font-color-hover: $primary-color;
 // $has-tip-cursor-type: help;
 
-$tooltip-padding: rem-calc(4 12 6);
+$tooltip-padding: rem-calc(2 8 4);
 // $tooltip-bg: $oil;
 $tooltip-font-size: rem-calc(12);
 // $tooltip-font-weight: $font-weight-normal;
@@ -1370,7 +1370,7 @@ $tooltip-font-size: rem-calc(12);
 // $tooltip-close-font-weight: $font-weight-normal;
 // $tooltip-close-font-color: $monsoon;
 // $tooltip-font-size-sml: rem-calc(14);
-// $tooltip-radius: $global-radius;
+$tooltip-radius: 1px;
 // $tooltip-rounded: $global-rounded;
 // $tooltip-pip-size: 5px;
 // $tooltip-max-width: 300px;
