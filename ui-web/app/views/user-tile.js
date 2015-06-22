@@ -1,7 +1,6 @@
 import Ember from 'ember';
-import {TooltipViewMixin} from '../mixins/tooltip';
 
-export default Ember.View.extend(TooltipViewMixin, {
+export default Ember.View.extend({
 	templateName: 'user-tile',
 	tagName: 'span',
 	classNames: ['tile'],

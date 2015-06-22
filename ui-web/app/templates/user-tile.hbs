@@ -1,6 +1,6 @@
 {{#if user.errorMsg}}
-	<a data-tooltip class='email tip-top' title={{user.errorMsg}}>{{user.email}}</a>
+	<a class='email snf-tooltip snf-tooltip-s' aria-label={{user.errorMsg}}>{{user.email}}</a>
 {{else}}
 	<a class='email'>{{user.email}}</a>
 {{/if}}
-<a data-tooltip class='remove fa fa-remove sign' {{action 'removeUser' user.email target='view.parentView'}} title="Remove"></a>
+<a class='remove fa fa-remove sign snf-tooltip snf-tooltip-s' {{action 'removeUser' user.email target='view.parentView'}} aria-label="Remove">x</a>

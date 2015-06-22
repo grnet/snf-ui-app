@@ -31,7 +31,7 @@
             <dd>{{convert-bytes container.model.bytes}}</dd>
             <dt>Modified</dt>
             <dd>
-                <span data-tooltip title={{container.model.last_modified_human}} class="tip-left">
+                <span aria-label={{container.model.last_modified_human}} class="snf-tooltip snf-tooltip-n">
                     {{time-from-now container.model.last_modified }}
                 </span>
             </dd>
@@ -50,7 +50,7 @@
             {{convert-bytes container.model.bytes}}
         </div>
         <div class="col date-col">
-            <span data-tooltip title={{container.model.last_modified_human}} class="tip-left">
+            <span aria-label={{container.model.last_modified_human}} class="snf-tooltip snf-tooltip-n">
                 {{time-from-now container.model.last_modified }}
             </span>
         </div>
@@ -63,17 +63,17 @@
     {{/if}}
     <div class="col actions-col">
         {{#if container.canDelete}}
-            <a data-tooltip class="icon-a" title="Delete container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyAndDelete'}}>{{fa-icon "fa-remove fa-fw"}}</a>
+            <a class="icon-a snf-tooltip {{iconTooltipDir}}" aria-label="Delete container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyAndDelete'}}>{{fa-icon "fa-remove fa-fw"}}</a>
         {{else}}
-            <a data-tooltip class="icon-a" title="Cannot delete this container" disabled>{{fa-icon "fa-remove fa-fw"}}</a>
+            <a class="icon-a snf-tooltip {{iconTooltipDir}}" aria-label="Cannot delete this container" disabled>{{fa-icon "fa-remove fa-fw"}}</a>
         {{/if}}
 
         {{#if container.canEmpty}}
-            <a data-tooltip class="icon-a" title="Empty container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyContainer'}}>
+            <a class="icon-a snf-tooltip {{iconTooltipDir}}" aria-label="Empty container" {{action 'showDialog' 'confirm-simple' controller container.model 'emptyContainer'}}>
                 <i class="fa-fw fa">&empty;</i>
             </a>
         {{else}}
-            <a data-tooltip class="icon-a" title="Empty container" disabled>
+            <a class="icon-a snf-tooltip {{iconTooltipDir}} snf-tooltip-multiline" aria-label="Cannot empty container without objects" disabled>
                 <i class="fa-fw fa">&empty;</i>
             </a>
         {{/if}}
