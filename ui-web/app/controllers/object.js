@@ -31,13 +31,17 @@ export default Ember.Controller.extend({
 
   bindToSelectAll: function() {
     var context = this.get('selectAllContext') || this.parentController;
-    Ember.addListener(context, "selectAll", this, this.handleSelect);
+    if (context) {
+      Ember.addListener(context, "selectAll", this, this.handleSelect);
+    }
   }.on('init'),
 
   destroy: function() {
     this._super();
     var context = this.get('selectAllContext') || this.parentController;
-    Ember.removeListener(context, "selectAll", this, this.handleSelect);
+    if (context) {
+      Ember.removeListener(context, "selectAll", this, this.handleSelect);
+    }
   }.on('destroy'),
 
   canMove: function(){
