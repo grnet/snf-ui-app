@@ -228,17 +228,20 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     },
 
     moveObject: function(object, newID, copyFlag, source_account, callback, next){
-      var self = this;
       var object = next.get('model');
 
-      var onSuccess = function(object) {
-        self.get("model").update();
-        next.set('loading', false);
-      };
+      var onSuccess = function() {
+        this.get('model').update().then(function(){
+          next.set('loading', false);
+          if (!copyFlag) {
+            object.unloadRecord();
+          }
+        });
+      }.bind(this);
 
       var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
+        this.send('showActionFail', reason);
+      }.bind(this);
 
       callback && callback();
       this.store.moveObject(object, newID, copyFlag, source_account).then(onSuccess, onFail);
@@ -264,20 +267,18 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     },
 
     deleteObjects: function(controller_list){
-      var self = this;
       var selected = controller_list || this.get('selectedItems');
       if (selected.length === 0) { return; }
 
       var onSuccess = function(a) {
-        let s = self.get('sortedModel');
-        if ( s.contains(a) ) {
-          s.removeObject(a);
-        }
-      };
+        this.get('model').update().then(function(){
+          a.unloadRecord();
+        });
+      }.bind(this);
 
       var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
+        this.send('showActionFail', reason);
+      }.bind(this);
       
       while (selected.get(0)) {
         var object = selected.get(0).get('model');
