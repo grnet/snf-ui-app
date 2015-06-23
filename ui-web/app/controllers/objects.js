@@ -4,7 +4,6 @@ import {ItemsControllerMixin} from 'ui-web/mixins/items';
 
 
 export default Ember.ArrayController.extend(ItemsControllerMixin, {
-  itemController: 'object',
   itemType: 'objects',
   needs: ['application'],
   

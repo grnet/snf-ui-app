@@ -3,7 +3,6 @@ import {tempSetProperty} from 'ui-web/snf/common';
 import {ItemsControllerMixin} from 'ui-web/mixins/items'; 
 
 export default Ember.ArrayController.extend(ItemsControllerMixin, {
-  itemController: 'container',
   needs: ['application'],
   projectsLoading: true,
 
