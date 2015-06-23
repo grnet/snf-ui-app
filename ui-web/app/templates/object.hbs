@@ -60,7 +60,7 @@
                 {{object.model.type}}
             </dd>
             <dt>Size</dt>
-            <dd>{{convert-bytes object.model.bytes}}</dd>
+            <dd>{{convert-bytes object.model.size}}</dd>
             <dt>Modified</dt>
             <dd>
                 {{time-from-now object.model.last_modified }} <span class="subtle">{{modified-by object.current_user.email object.modified_by.email}}</span>
@@ -69,7 +69,7 @@
     {{/if}}
     <div class="col select-col">
         {{#if object.model.sharing}}
-            <span>
+            <span class="snf-tooltip snf-tooltip-n" aria-label="Privately shared">
                 {{fa-icon "fa-user"}}
             </span>
         {{/if}}
@@ -87,7 +87,7 @@
     </div>
     {{#if listView}}
        <div class="col data-col">
-            {{convert-bytes object.model.bytes}}
+            {{convert-bytes object.model.size}}
         </div>
 
         <div class="col date-col">
