@@ -40,6 +40,10 @@ export default Ember.Controller.extend(EmailsInputAuxMixin, {
     return usersSorted;
   }.property('model.users.@each.email'),
 
+  hasOneMember: function() {
+    return this.get('model').get('users').get('length') === 1;
+  }.property('model.users.@each'),
+
   actions: {
 
     addUser: function(user) {

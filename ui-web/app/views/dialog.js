@@ -7,6 +7,7 @@ export default Ember.View.extend({
 	'data-reveal': 'true',
 	layoutName: 'overlays/dialog-wrapper',
 	needReset: ['overlays.groups', 'overlays.sharing'],
+	rerenderPopovers: false,
 
 
   /*  Assign a class to each dialog
@@ -134,6 +135,7 @@ export default Ember.View.extend({
 		 * controller the action reset
 		*/
 		slide: function(controller, areaID, action) {
+			var self = this;
 			var $area = this.$('.js-slide-container#'+areaID);
 			$area.toggleClass('open');
 			var toOpen = $area.hasClass('open');
@@ -145,6 +147,8 @@ export default Ember.View.extend({
 			if(toOpen) {
 				$area.find('.js-slide-me').stop().slideDown('slow', function() {
 					$area.find('input:first').focus();
+					self.set('rerenderPopovers', true);
+					console.log('-----')
 				});
 			}
 			else {

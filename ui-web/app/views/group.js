@@ -7,4 +7,7 @@ export default Ember.View.extend({
 	id: function() {
 		return 'group-'+this.get('_uuid');
 	}.property(),
+  remove_last_user: function() {
+    return this.get('id') + '_remove_last_user';
+  }.property('id')
 });

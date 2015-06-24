@@ -2,7 +2,7 @@ import Ember from 'ember';
 import EmailsInputAuxMixin from 'ui-web/mixins/emails-input-aux';
 
 export default Ember.ArrayController.extend(EmailsInputAuxMixin, {
-	itemController: 'group',
+	// itemController: 'group',
 	name: 'groups',
 
 	sortProperties: ['name'],

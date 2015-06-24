@@ -1,7 +1,7 @@
 <h3>{{view.confirm_title}}</h3>
 <p>
     {{{controller.confirm_intro}}}
-    {{# if model.count}}(containing {{pluralize model.count 'item'}}){{/if}}
+    {{#if model.count}}(containing {{pluralize model.count 'item'}}){{/if}}
 </p>
 
 {{#if selectedMany}}
@@ -15,11 +15,11 @@
 <p><span class="danger">{{fa-icon "fa-warning"}}{{t 'cannot_undo_action'}}</span></p>
 
 <p>
-    {{!-- for popovers the action passes through template as a view propeprty --}}
+    {{!-- for popovers the action passes through template as a view property --}}
     {{!-- *for now* will use it to recognize if the template is included in popover or dialog --}}
     {{#if view.actionToPerform}}
         <a class="button small" {{action 'closePopover' target='view'}}>{{t 'button.cancel'}}</a>
-        <a class="button small alert right" {{action view.actionToPerform}}>{{controller.confirm_button}}</a>
+        <a class="button small alert right" {{action view.actionToPerform}}>{{view.actionToPer}}</a>
         {{!-- for dialogs the action is a controller property --}}
     {{else}}
         <a class="button small js-btn-close-modal">{{t 'button.cancel'}}</a>

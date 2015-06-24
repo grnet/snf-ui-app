@@ -34,6 +34,12 @@ export default {
     error: {
       title: 'Error report',
       intro: 'Oups... Something went wrong.',
+    },
+    remove_last_group_member: {
+      title: 'Remove last group member',
+      info: 'If you delete the last member of the group, the group will be deleted, too.',
+      intro: 'Are you sure you want to delete the group %@?'
+
     }
   },
 
@@ -51,6 +57,7 @@ export default {
     share_with_all: 'privately share with everybody',
     restore: 'restore',
     remove_user_from_group: 'remove',
+    delete_group: 'Delete Group',
     add_users_to_group: 'add users',
     error_details: 'Details'
   },
