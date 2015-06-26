@@ -21,12 +21,12 @@ export default Ember.View.extend({
   */
   templateCls: function(){
     var clsMap = {
-      'overlays.create-dir': 'small',
+      'overlays.create-dir': 'tiny',
       'overlays.confirm-simple': 'small', 
       'overlays.feedback': 'medium',
       'overlays.restore': 'small',
       'overlays.paste': 'small',
-      'overlays.create-container': 'small',
+      'overlays.create-container': 'tiny',
       'overlays.groups': 'medium',
     }
     return clsMap[this.get('renderedName')];
@@ -73,7 +73,8 @@ export default Ember.View.extend({
 		var type = templateName.replace('overlays.', '');
 
 		// for close btns that are not "x" like cancel
-		$('.js-btn-close-modal').on('click', function(){
+		$('.js-btn-close-modal').on('click', function(e){
+      e.preventDefault();
 			if(self.get('controller').get('name') === 'groups') {
 				self.$('.open').find('.js-btn-slide').each(function(){
 					$(this).trigger('click');

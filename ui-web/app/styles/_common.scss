@@ -8,7 +8,8 @@ body {
 }
 
 :focus {
-    outline-color: $primary-color;
+    outline-color: $input-focus-border-color;
+    outline-width: 1px;
 }
 
 .clearfix {
@@ -43,8 +44,6 @@ body {
 
 .danger {
     color: $danger-color;
-    font-size: rem-calc(14);
-    font-weight: bold;
 }
 
 .subtle {

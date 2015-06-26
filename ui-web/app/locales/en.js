@@ -44,11 +44,11 @@ export default {
   },
 
   button: {
-    cancel: 'Abort mission!',
-    send_feedback: 'send',
-    create_dir: 'create',
-    create_group: 'create',
-    create_container: 'create',
+    cancel: 'Cancel',
+    send_feedback: 'Send',
+    create_dir: 'Create',
+    create_group: 'Create',
+    create_container: 'Create',
     'delete': 'delete',
     empty: 'empty',
     remove_private_sharing: 'remove everybody',

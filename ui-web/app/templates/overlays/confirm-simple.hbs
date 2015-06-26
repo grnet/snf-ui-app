@@ -1,7 +1,9 @@
 <h3>{{view.confirm_title}}</h3>
 <p>
     {{{controller.confirm_intro}}}
-    {{#if model.count}}(containing {{pluralize model.count 'item'}}){{/if}}
+    {{# if model.count}}(containing <strong>{{pluralize model.count 'item'}}</strong>){{/if}}
+    <br>
+    <span class="danger">{{fa-icon "fa-warning"}}{{t 'cannot_undo_action'}}</span>
 </p>
 
 {{#if selectedMany}}
@@ -12,7 +14,6 @@
     </ul>
 {{/if}}
 
-<p><span class="danger">{{fa-icon "fa-warning"}}{{t 'cannot_undo_action'}}</span></p>
 
 <p>
     {{!-- for popovers the action passes through template as a view property --}}

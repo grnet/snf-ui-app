@@ -4,15 +4,27 @@
         outline: 0 none;
     }
     h3 {
-        margin-bottom: rem-calc(16);
-        text-align: center;
+        margin-bottom: 2.5rem;
+        &:first-letter {
+            text-transform: uppercase;
+        }
     }
 
-    .button + .secondary {
-        margin-left: 4em;
-    }
-    .button {
-        text-transform: capitalize;
+    .btns {
+        margin: 2.5rem 0 0;
+        text-align: right;
+        button {
+            @include button-size($padding:$button-sml); 
+            margin-bottom: 0;
+        }
+        .abort {
+            float: left;
+            font-size: $button-font-sml;
+            padding-top: $button-sml;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 
     // Groups dialog
@@ -34,14 +46,16 @@
         &li:nth-child(2n) {
             background: $table-even-row-bg;
         }
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             background-color: $theme-secondary-color-light;
         }
         &.create-area {
-            margin-bottom: 20px;
             background-color: $theme-primary-color-light;
             border: 1px solid #CDE0F2;
-            &:hover, &:focus {
+            margin-bottom: 20px;
+            &:hover, 
+            &:focus {
                 border-color: darken(#CDE0F2, 20%);
             }
             .btn-line {
@@ -62,31 +76,31 @@
         margin-right: 6px;
         word-break: break-word;
 	}
-	.guide {
-		background-color: $theme-guide-bg-color;
-		border-radius: (rem-calc(20) / 2);
-		color: white;
-		height: rem-calc(20);
-		line-height: rem-calc(20);
-		text-align: center;
+    .guide {
+        background-color: $theme-guide-bg-color;
+        border-radius: (rem-calc(20) / 2);
+        color: white;
         display: inline-block;
+        height: rem-calc(20);
+        line-height: rem-calc(20);
+        text-align: center;
         width: rem-calc(20);
-
-		&:hover {
-			background-color: darken($theme-guide-bg-color, 10%);
-		}
+        &:hover {
+		    background-color: darken($theme-guide-bg-color, 10%);
+        }
 	}
     .close-reveal-modal {
-        font-size: rem-calc(35);
         &:hover {
             color: $theme-anchor-font-color-hover;
         }
     }
-    
     &.medium {
         max-width: 880px;
     }
     &.small {
         max-width: 600px;
+    }
+    &.tiny {
+        max-width: 400px;
     }
 }

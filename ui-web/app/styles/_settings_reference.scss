@@ -210,7 +210,7 @@ $info-color: $theme-info-color;
 // We use these to control header font sizes
 // $h1-font-size: rem-calc(44);
 // $h2-font-size: rem-calc(37);
-// $h3-font-size: rem-calc(27);
+$h3-font-size: rem-calc(22);
 $h4-font-size: rem-calc(18);
 // $h5-font-size: rem-calc(18);
 // $h6-font-size: 1rem;
@@ -237,7 +237,7 @@ $h4-font-size: rem-calc(18);
 // We use these to style paragraphs
 // $paragraph-font-family: inherit;
 // $paragraph-font-weight: $font-weight-normal;
-// $paragraph-font-size: 1rem;
+$paragraph-font-size: rem-calc(14);
 // $paragraph-line-height: 1.6;
 // $paragraph-margin-bottom: rem-calc(20);
 // $paragraph-aside-font-size: rem-calc(14);
@@ -625,11 +625,11 @@ $button-bg-hover: $anchor-font-color-hover;
 // $form-spacing: rem-calc(16);
 
 // We use these to style the labels in different ways
-// $form-label-pointer: pointer;
-// $form-label-font-size: rem-calc(14);
+$form-label-pointer: default;
+$form-label-font-size: rem-calc(13);
 // $form-label-font-weight: $font-weight-normal;
 // $form-label-line-height: 1.5;
-// $form-label-font-color: scale-color($black, $lightness: 30%);
+$form-label-font-color: $steel;
 // $form-label-small-transform: capitalize;
 // $form-label-bottom-margin: 0;
 // $input-font-family: inherit;
@@ -638,7 +638,7 @@ $button-bg-hover: $anchor-font-color-hover;
 // $input-bg-color: $white;
 // $input-focus-bg-color: scale-color($white, $lightness: -2%);
 // $input-border-color: scale-color($white, $lightness: -20%);
-// $input-focus-border-color: scale-color($white, $lightness: -40%);
+$input-focus-border-color: scale-color($white, $lightness: -40%);
 // $input-border-style: solid;
 // $input-border-width: 1px;
 // $input-border-radius: $global-radius;
@@ -1116,14 +1116,14 @@ $button-bg-hover: $anchor-font-color-hover;
 // $reveal-position-top: rem-calc(100);
 // $reveal-default-width: 80%;
 // $reveal-max-width: $row-width;
-// $reveal-modal-padding: rem-calc(20);
+$reveal-modal-padding: rem-calc(20 40);
 // $reveal-box-shadow: 0 0 10px rgba($black,.4);
 
 // We use these to style the reveal close button
-// $reveal-close-font-size: rem-calc(40);
-// $reveal-close-top: rem-calc(10);
-// $reveal-close-side: rem-calc(22);
-// $reveal-close-color: $base;
+$reveal-close-font-size: rem-calc(28);
+$reveal-close-top: rem-calc(20);
+$reveal-close-side: rem-calc(20);
+$reveal-close-color: $theme-anchor-font-color;
 // $reveal-close-weight: $font-weight-bold;
 
 // We use this to set the default radius used throughout the core.

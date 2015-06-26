@@ -1,5 +1,4 @@
 .input-with-valid {
-    display: inline-block;
     position: relative;
     margin-bottom: 1rem;
     &.input-partial {
@@ -108,12 +107,6 @@ body .input-emails {
 textarea {
     margin-bottom: 0;
 }
-
-input[type="text"]{
-    width: 200px;
-    display: inline;
-}
-
 
 
 .create-group {
