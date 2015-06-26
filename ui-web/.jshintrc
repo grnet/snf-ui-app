@@ -4,7 +4,8 @@
     "window",
     "-Promise",
     "WowENV",
-    "moment"
+    "moment",
+    "async"
   ],
   "browser" : true,
   "boss" : true,

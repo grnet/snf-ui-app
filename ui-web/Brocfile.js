@@ -27,6 +27,7 @@ app.import('bower_components/jquery-cookie/jquery.cookie.js');
 app.import('bower_components/jquery.iframe-transport/jquery.iframe-transport.js');
 app.import('bower_components/chartist/dist/chartist.min.js');
 app.import('bower_components/chartist/dist/chartist.min.css');
+app.import('bower_components/async/lib/async.js');
 
 var workers = pickFiles(mergeTrees(['bower_components/asmcrypto', 'workers']), {
   srcDir: '/',

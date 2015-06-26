@@ -20,7 +20,8 @@
     "asmcrypto": "~0.0.6",
     "jquery.iframe-transport": "~1.0.0",
     "chartist": "~0.7.3",
-    "jquery-cookie": "~1.4.1"
+    "jquery-cookie": "~1.4.1",
+    "async": "~1.2.1"
   },
   "resolutions": {
     "jquery": ">= 1.7.0 < 2.2.0"
