@@ -8,9 +8,23 @@ export default Ember.Mixin.create({
 
 		// Catches js errors
 		Ember.onerror = function(error) {
-			console.error('%c[Ember.onerror] Error Report\n', error.message, error.stack);
-			self.send('showActionFail', error);
-		};
+      if(error.stack) {
+        if(!error.stack.includes('RSVP')) {
+          console.error('[Ember.onerror] Error Report\n', error.message, error.stack);
+          self.send('showActionFail', error);
+        }
+      }
+      else {
+        self.send('showActionFail', error);
+      }
+    };
+
+    Ember.RSVP.on('error', function(error) {
+      console.error('[Ember.RSVP] Error Report\n', error.status, '\n', error);
+      if(error.status !== 0) {
+        self.send('showActionFail', error.errorThrown);
+      }
+    });
 	},
 
 	errorRendered: false,
@@ -20,24 +34,25 @@ export default Ember.Mixin.create({
 		 * when the server returns error and we want full page error msg
 		 * we override the action: error
 		 */
-		error: function(error, transition) {
-			console.log('error', error.stack || error);
-			switch(error.status) {
-				case 404:
-					this.render('errors/404', {
-						//  we use "into" to keep the header with the nav
-						// into: 'application', navigation doesn't work properly
-						model: error
-					});
-					break;
-
-				default:
-					this.render('errors/503', {
-						model: error
-					});
-					break;
-			}
-		},
+    error: function(error, transition) {
+      console.log('error', error.stack || error);
+      switch(error.status) {
+        case 404: //not found
+          this.render('errors/404', {
+            //  we use "into" to keep the header with the nav
+            // into: 'application', navigation doesn't work properly
+            model: error
+          });
+          break;
+        case 0: //network problem
+          break;
+        default: // service unavailable
+          this.render('errors/503', {
+            model: error
+          });
+          break;
+      }
+    },
 		showActionFail: function(error, controller) {
 			var timestamp = new Date().toString();
 			var errors = this.get('errors');
