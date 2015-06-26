@@ -120,7 +120,7 @@ export default Ember.ArrayController.extend(EmailsInputAuxMixin, {
 
 						group.save().then(function(){
 						}, function(error) {
-							self.send('showActionFail', error)
+							self.send('showErrorDialog', error)
 							console.log('ERROR!')
 						});
 					});

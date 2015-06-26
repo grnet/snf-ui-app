@@ -136,7 +136,7 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 
 	    var onFail = function(jqXHR, textStatus, error) {
 				console.log('feedback error:', textStatus, jqXHR)
-				self.send('showActionFail', jqXHR);
+				self.send('showErrorDialog', jqXHR);
 	    }
 
 	    $.ajax({

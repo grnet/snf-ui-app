@@ -156,7 +156,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
       };
 
       var onFail = function(reason){
-        self.send('showActionFail', reason);
+        self.send('showErrorDialog', reason);
       };
 
 
@@ -173,7 +173,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
       };
 
       var onFail = function(reason){
-        self.send('showActionFail', reason);
+        self.send('showErrorDialog', reason);
       };
 
       var sharing = this.shared_users_to_sharing([]);
@@ -201,7 +201,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
       };
 
       var onFail = function(reason){
-        self.send('showActionFail', reason);
+        self.send('showErrorDialog', reason);
       };
 
       var sharing = this.shared_users_to_sharing(shared_users);
@@ -223,7 +223,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
         };
 
         var onFail = function(reason){
-          self.send('showActionFail', reason);
+          self.send('showErrorDialog', reason);
         };
 
         self.store.filter('user', function(user) {
@@ -261,7 +261,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
       };
 
       var onFail = function(reason){
-        self.send('showActionFail', reason);
+        self.send('showErrorDialog', reason);
       };
 
       // if the object is already shared with this group return

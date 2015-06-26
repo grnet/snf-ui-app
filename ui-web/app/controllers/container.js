@@ -97,7 +97,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
       };
 
       var onFail = function(reason){
-        self.send('showActionFail', reason)
+        self.send('showErrorDialog', reason)
       };
       container.destroyRecord().then(onSuccess, onFail)
 
@@ -123,7 +123,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
         }
       };
       var onFail = function(reason){
-        self.send('showActionFail', reason)
+        self.send('showErrorDialog', reason)
       };
       this.store.emptyContainer('container', container).then(onSuccess, onFail);
     },
@@ -137,7 +137,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
       };
 
       var onFail = function(reason){
-        self.send('showActionFail', reason)
+        self.send('showErrorDialog', reason)
       };
       this.store.reassignContainer('container', container, project_id).then(onSuccess, onFail);
     }

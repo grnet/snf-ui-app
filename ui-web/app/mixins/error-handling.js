@@ -11,18 +11,18 @@ export default Ember.Mixin.create({
       if(error.stack) {
         if(!error.stack.includes('RSVP')) {
           console.error('[Ember.onerror] Error Report\n', error.message, error.stack);
-          self.send('showActionFail', error);
+          self.send('showErrorDialog', error);
         }
       }
       else {
-        self.send('showActionFail', error);
+        self.send('showErrorDialog', error);
       }
     };
 
     Ember.RSVP.on('error', function(error) {
       console.error('[Ember.RSVP] Error Report\n', error.status, '\n', error);
       if(error.status !== 0) {
-        self.send('showActionFail', error.errorThrown);
+        self.send('showErrorDialog', error.errorThrown);
       }
     });
 	},
@@ -53,7 +53,9 @@ export default Ember.Mixin.create({
           break;
       }
     },
-		showActionFail: function(error, controller) {
+
+    showErrorBox: function() {},
+		showErrorDialog: function(error, controller) {
 			var timestamp = new Date().toString();
 			var errors = this.get('errors');
 

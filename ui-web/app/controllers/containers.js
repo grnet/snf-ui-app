@@ -26,7 +26,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   //   var self = this;
   //   setInterval(function() {
   //     console.log('error....')
-  //     self.send('showActionFail', {message: 'hi', stack: 'bye'})
+  //     self.send('showErrorDialog', {message: 'hi', stack: 'bye'})
   //   }, 3000)
   // }.on('init'),
 
@@ -91,7 +91,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
 
       var onFail = function(reason){
         console.log('createContainer',reason);
-        self.send('showActionFail', reason);
+        self.send('showErrorDialog', reason);
       };
       this.set('newProject', this.get('systemProject'));
       container.save().then(onSuccess, onFail);

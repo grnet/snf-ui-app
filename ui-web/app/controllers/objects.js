@@ -239,7 +239,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       }.bind(this);
 
       var onFail = function(reason){
-        this.send('showActionFail', reason);
+        this.send('showErrorDialog', reason);
       }.bind(this);
 
       callback && callback();
@@ -276,7 +276,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       }.bind(this);
 
       var onFail = function(reason){
-        this.send('showActionFail', reason);
+        this.send('showErrorDialog', reason);
       }.bind(this);
       
       while (selected.get(0)) {

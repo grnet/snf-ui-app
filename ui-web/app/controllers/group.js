@@ -76,7 +76,7 @@ export default Ember.Controller.extend(EmailsInputAuxMixin, {
 
       var onFail = function(reason){
         console.log('reason:', reason);
-        self.send('showActionFail', reason);
+        self.send('showErrorDialog', reason);
       };
 
       group.destroyRecord().then(onSuccess, onFail);
@@ -92,7 +92,7 @@ export default Ember.Controller.extend(EmailsInputAuxMixin, {
 
       var onFail = function(reason){
         console.log('reason:', reason);
-        self.send('showActionFail', reason);
+        self.send('showErrorDialog', reason);
       };
 
       group.get('users').then(function(users){
@@ -126,7 +126,7 @@ export default Ember.Controller.extend(EmailsInputAuxMixin, {
               group.save().then(function(){
                 self.send('reset');
               }, function(error) {
-                self.send('showActionFail', error)
+                self.send('showErrorDialog', error)
                 console.log('ERROR!')
               });
             });
