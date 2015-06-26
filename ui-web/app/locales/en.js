@@ -113,10 +113,10 @@ export default {
   selected_path: 'Selected path:',
 
   error_report: {
-    title: 'Error report\n-------------------',
+    title: '\nError report\n-------------------',
     delimiter: '-'.repeat(72) + '\n',
     descr_label: 'Actions that triggered the error:' + '\n',
-    errors_label: 'Errors details:' + '\n',
+    errors_label: '\nErrors details:' + '\n',
     system_data_label: 'Additional data:' + '\n',
   }
 

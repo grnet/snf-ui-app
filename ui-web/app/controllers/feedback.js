@@ -19,16 +19,34 @@ export default Ember.Controller.extend({
 		var title = this.t('error_report.title');
 		var errors = this.t('error_report.errors_label') + this.get('errors');
 
-		var description = this.t('error_report.descr_label') + this.get('inputValue');
+		var description = this.t('error_report.descr_label') + this.get('inputValue') +'\n';
 
 		return title + errors + description;
 
 	}.property('errors'),
 
-	errorReportExtraData: function() {
-
-		return 'No system/browser data for now.';
-	}.property(),
+  errorReportExtraData: function() {
+    var w = window,
+    s = screen,
+    d = document,
+    n = navigator,
+    client = Ember.Object.create({
+      browser: {
+        appVersion: n.appVersion,
+        userAgent: n.userAgent,
+        platform: n.platform
+      },
+      screen: {
+        dolorDepth: s.colorDepth,
+        pixelDepth: s.pixelDepth,
+        contentHeight: w.innerHeight,
+        contentWidth: w.innerWidth,
+        availWidth: s.availWidth,
+        availHeight: s.availHeight
+      }
+    });
+    return JSON.stringify(client);
+  }.property('model.@each'),
 
 	// parsing errors data if there are any
 	errors: function() {
