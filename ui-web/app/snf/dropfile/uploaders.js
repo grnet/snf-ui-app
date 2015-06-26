@@ -37,7 +37,7 @@ var Uploader = Ember.Object.extend({
 
     this.set('transport', transportCls.create({uploader: this}));
   },
-    
+  
   /*
    * Upload a single file. Call uploadFiles with a single element array 
    * and change upload promise to resolve the single file instead of an array.
@@ -99,7 +99,7 @@ var Uploader = Ember.Object.extend({
       // reset xhr and progress
       files.setEach("xhr", null);
       files.setEach("progress", Ember.Object.create({}));
-    });;
+    }.bind(this));
   },
 
 });

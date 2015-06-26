@@ -295,7 +295,6 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           reject(error);
           return;
         }
-        console.error(error);
         // TODO: make this configurable
         reject("chunked-failed");
       }.bind(this)).then(resolve);
@@ -339,9 +338,9 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           }
           chunksTransports[k].abort();
           chunksTransports[k]._aborted = true;
-          reject("abort");
-          return;
         }
+        reject("abort");
+        return;
       }
       
       // initialize progress status

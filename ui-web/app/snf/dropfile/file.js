@@ -38,9 +38,25 @@ var DropFile = Ember.Object.extend({
     return !!this.get("xhr") && this.get("status") == "uploading";
   }.property('xhr', 'status'),
 
+  canCancel: function() {
+    return this.get("status") == "pending";
+  }.property('xhr', 'status'),
+
+  canReset: function() {
+    return this.get("status") == "canceled" || this.get("status") == "aborted";
+  }.property('status'),
+
   isUploading: function() {
     return this.get("status") == "uploading";
   }.property('status'),
+
+  cancel: function() {
+    this.set('status', 'canceled');
+  },
+
+  reset: function() {
+    this.set('status', 'pending');
+  },
 
   abort: function() {
     this.get("xhr").abort();

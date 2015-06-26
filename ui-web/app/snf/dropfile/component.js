@@ -18,6 +18,8 @@ export default Ember.Component.extend({
   // the param gets passed down to transport to notify that 
   // no chunk upload method should be used
   noChunked: false,
+  // how many parallel uploads to process
+  concurrentUploads: 2,
 
   addResolver: null,
   
@@ -25,10 +27,12 @@ export default Ember.Component.extend({
   filesPending: filterBy('files', 'status', 'pending'),
   filesUploading: filterBy('files', 'status', 'uploading'),
   filesFailed: filterBy('files', 'status', 'error'),
+  filesCanceled: filterBy('files', 'status', 'canceled'),
   filesUploaded: filterBy('files', 'status', 'uploaded'),
   filesAborted: filterBy('files', 'status', 'aborted'),
   filesToRemove: filterBy('files', 'canRemove', true),
   filesToUpload: filterBy('files', 'canUpload', true),
+  filesToReset: filterBy('files', 'canReset', true),
   
   // methods
   initUploader: function() {
@@ -58,36 +62,63 @@ export default Ember.Component.extend({
     });
   }.on("init"),
   
-  _triggerAddFile: function(file) {
+  _triggerAddFile: function(file, next) {
+    // file was removed from upload list, do not process
+    if (!this.get("filesPending").contains(file)) { 
+      next(); return; 
+    }
+
+    // resolve if file should remain in upload list or get removed.
     var addResolver = this.get("addResolver");
     if (addResolver) { 
       addResolver(file).catch(function(err) {
-        this.send("remove", file, err);
+        this.send("remove", file, err); next();
       }.bind(this)).then(function(file) {
         if (this.get("autoStartUpload")) {
-          this.send('upload', file);
+          this.send('upload', file, next);
         }
       }.bind(this));
+      return;
     }
-
+    
+    // no resolving method is set
     if (this.get("autoStartUpload")) {
-      this.send('upload', file);
+      this.send('upload', file, next);
     }
   },
+  
+  _initAddUploadQueues: function() {
+    var parallel = this.get('concurrentUploads') || 2;
+    this.set('addQueue', async.queue(this._handleFileAdded.bind(this), 1));
+    this.set('uploadQueue', async.queue(this._triggerAddFile.bind(this), 
+                                        parallel));
+  }.on('init'),
 
-  _handleFileAdded: function(file) {  
-    var handler, source = file._source;
+  _handleFileAdded: function(params, next) {
+    var file = params.file;
     
+    // the file was removed
+    if (!this.get("filesPending").contains(file)) { 
+      next(); return; 
+    }
+
+    var handler, source = file._source;
+    var uploadQueue = this.get('uploadQueue');
+
     if (source && source.dropFileAddHandler) {
       handler = source.dropFileAddHandler.bind(source);
       handler(file).then(function(file) {
-        this._triggerAddFile(file);
+        uploadQueue.push(file); next();
       }.bind(this)).catch(function(err) {
-        this.send("remove", file, err);
+        this.send("remove", file, err); next();
       }.bind(this));
     } else {
-      this._triggerAddFile(file);
+      uploadQueue.push(file); next();
     }
+  },
+
+  _queueAddFile: function(file) {
+    this.get('addQueue').push({file: file});
   }.on('fileAdd'),
 
   // Common helper to send actions for each file in `files` array. 
@@ -158,12 +189,13 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    'upload': function(file) {
+    'upload': function(file, cb) {
+      cb = cb || function() {};
       this._sendAction('uploadStarted', file);
       this.uploadFile(file).then(function(file) {
-        this._sendAction("uploadSuccess", file);
+        this._sendAction("uploadSuccess", file); cb();
       }.bind(this)).catch(function(err) { 
-        this._sendAction("uploadFailed", file, err) 
+        this._sendAction("uploadFailed", file, err); cb();
       }.bind(this));
     },
 
@@ -177,10 +209,33 @@ export default Ember.Component.extend({
     'abort': function(file) {
       file.abort();
     },
+
+    'cancel': function(file) {
+      file.cancel();
+    },
+
+    'queue': function(file) {
+      this.get('uploadQueue').push(file);
+    },
+
+    'reset': function(file) {
+      file.reset();
+    },
     
     // batch actions
     'abortAll': function() {
       this.batchAction('filesUploading', 'abort');
+    },
+
+    'cancelAll': function() {
+      this.batchAction('filesUploading', 'abort');
+      this.batchAction('filesPending', 'cancel');
+    },
+
+    'resetAll': function() {
+      this.batchAction('filesFailed', 'reset');
+      this.batchAction('filesAborted', 'reset');
+      this.batchAction('filesCanceled', 'reset');
     },
 
     'removeAll': function() {
@@ -189,7 +244,7 @@ export default Ember.Component.extend({
 
     'uploadAll': function() {
       if (!this.get("allowMultiUpload")) {
-        this.batchAction('filesToUpload', 'upload');
+        this.batchAction('filesToUpload', 'queue');
       } else {
         this.uploadFiles(this.get("filesToUpload"));
       }

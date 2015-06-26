@@ -4,7 +4,8 @@
             <div class="columns left small-4">
                 {{#if filesToRemove.length }}<a {{ action 'removeAll' }}>{{ fa-icon 'remove' }}</a>{{/if}}
                 {{#if filesToUpload.length }}<a {{ action 'uploadAll' }}>{{ fa-icon 'upload' }}</a>{{/if}}
-                {{#if filesUploading.length }}<a {{ action 'abortAll' }}>{{ fa-icon 'stop' }}</a>{{/if}}
+                {{#if filesUploading.length }}<a {{ action 'cancelAll' }}>{{ fa-icon 'stop' }}</a>{{/if}}
+                {{#if filesToReset.length }}<a {{ action 'resetAll' }}>{{ fa-icon 'refresh' }}</a>{{/if}}
             </div>
             <div class="columns right small-8">
                 <span></span>
