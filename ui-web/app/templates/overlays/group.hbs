@@ -1,48 +1,68 @@
-    <div class="main-info">
-        <div class="btn-line" {{action 'slide' controller view.id target='view.parentView'}}>
-            <span class="snf-font if-group group-icon"></span>
-            <strong class="group-name u-wrap">{{controller.model.name}}</strong>
-            <span>({{pluralize controller.model.users.length 'member'}})</span>
-            <span class="arrow-up fa fa-angle-up"></span>
-            <span class="arrow-down fa fa-angle-down"></span>
-        </div>
-        <button class="margin-zero right button alert tiny" data-popover-trigger='{{view.id}}'>{{t 'button.delete'}}</button>
-        {{view 'popover' innerTemplate='overlays/confirm-simple' actionToPerform='deleteGroup' position='pos-bottom' triggerBy=view.id cls='warning'}}
-    </div>
-    <div class="js-slide-me slide-me more-info">
-        {{#if controller.hasOneMember}}
-            <table>
-                <tbody>
-                    {{!-- Here we should have controller.sortedUsers but it seems that the something wierd happens with the popover. --}}
-                    {{!-- The popover doesn't get the click event. --}}
-                    {{#each u in controller.model.users}}
-                         <tr>
-                            <td>{{u.email}}</td>
-                            <td class="text-right">
-                                <a data-popover-trigger={{view.remove_last_user}}>{{t 'button.remove_user_from_group'}}</a>
-                            </td>
-                        </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-            {{view 'popover' innerTemplate='overlays/remove-last-member' actionToPerform='removeUserFromGroup' position='pos-bottom' triggerBy=view.remove_last_user}}
-        {{else}}
-            <table>
-                <tbody>
-                    {{#each u in controller.sortedUsers}}
-                         <tr>
-                            <td>{{u.email}}</td>
-                                <td class="text-right">
-                                <a {{action 'removeUserFromGroup' u}}>{{t 'button.remove_user_from_group'}}</a>
-                            </td>
-                        </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        {{/if}}
+<button class="right button alert tiny" data-popover-trigger='{{view.id}}'>
+    {{t 'button.delete'}}
+</button>
+<h5 {{action 'slide' controller view.id target='view.parentView'}}>
+    <strong class="u-wrap">{{controller.model.name}}</strong>
+    <em class="snf-tooltip snf-tooltip-n" aria-label="Manage members">({{pluralize controller.model.users.length 'member'}})</em>
+    {{fa-icon "fa-angle-up" classNames="arrow-up"}}
+    {{fa-icon "fa-angle-down" classNames="arrow-down"}}
+</h5>
+{{view 'popover' innerTemplate='overlays/confirm-simple' actionToPerform='deleteGroup' position='pos-bottom' triggerBy=view.id cls='warning'}}
+
+<div class="js-slide-me slide-me">
+    {{#if controller.hasOneMember}}
+        <table>
+            <thead>
+                <tr>
+                    <th>Members</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+ 
+            <tbody>
+                {{!-- Here we should have controller.sortedUsers but it seems that the something wierd happens with the popover. --}}
+                {{!-- The popover doesn't get the click event. --}}
+                {{#each u in controller.model.users}}
+                     <tr>
+                        <td>{{u.email}}</td>
+                        <td class="text-right">
+                            <a data-popover-trigger={{view.remove_last_user}} class="icon-a snf-tooltip snf-tooltip-n" aria-label="Remove member">
+                                {{fa-icon 'fa-remove' fixedWidth=true}}
+                            </a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{view 'popover' innerTemplate='overlays/remove-last-member' actionToPerform='removeUserFromGroup' position='pos-bottom' triggerBy=view.remove_last_user}}
+    {{else}}
+        <table>
+            <thead>
+                <tr>
+                    <th>Members</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+ 
+           <tbody>
+                {{#each u in controller.sortedUsers}}
+                     <tr>
+                        <td>{{u.email}}</td>
+                        <td class="text-right">
+                            <a {{action 'removeUserFromGroup' u}} class="icon-a snf-tooltip snf-tooltip-n" aria-label="Remove member">
+                                {{fa-icon "fa-remove" fixedWidth=true}}
+                            </a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/if}}
     {{view 'input-emails' placeholder="user1@example.com user2@example.com..." label="Add more users"}}
     <div class="buttons">
-        <button class="tiny right" {{action "addUsersToGroup"}} disabled={{controller.freezeCreation}}>{{fa-icon "fa-users"}} {{t 'button.add_users_to_group'}}</button>
+        <button class="tiny right" {{action "addUsersToGroup"}} disabled={{controller.freezeCreation}}>
+            {{fa-icon "fa-user-plus"}} 
+            {{t 'button.add_users_to_group'}}
+        </button>
     </div>
-    <hr>
 </div>

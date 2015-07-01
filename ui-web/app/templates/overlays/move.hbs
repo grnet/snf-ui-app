@@ -3,7 +3,7 @@
 <p>The object <strong class="u-wrap">{{model.name}}</strong> already exists in its destination location.</p>
 <p>Do you want to make a copy of it or create a new version?</p>
 
-<p>
-    <a class="button small js-btn-close-modal" {{action "version" this}}>Create new version</a>
-    <a class="button small secondary js-btn-close-modal right" {{action "copy" this}}>Create copy</a>
-</p>
+{{#view "buttons"}}
+    <button class="js-btn-close-modal info" {{action "version" this}}>Create new version</button>
+    <button class="js-btn-close-modal" {{action "copy" this}}>Create copy</button>
+{{/view}}

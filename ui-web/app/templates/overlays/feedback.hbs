@@ -12,8 +12,7 @@
 	<p>{{{t 'overlay.feedback.intro'}}}</p>
 	<label>Message</label>
 	{{view 'textarea-with-validation' autofocus=true}}
-	<p>
-		<a class="button small js-btn-close-modal btn-minor">{{t 'button.cancel'}}</a>
-		<a class="button small right" {{action 'validateAndSend'}}>{{t 'button.send_feedback'}}</a>
-	</p>
+    {{#view "buttons"}}
+		<button {{action 'validateAndSend'}}>{{t 'button.send_feedback'}}</button>
+	{{/view}}
 {{/if}}

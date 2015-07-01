@@ -22,6 +22,7 @@
 
 // This is the tooltip bubble
 .snf-tooltip:after {
+    @include box-shadow();
     background: $tooltip-bg;
     border-radius: $tooltip-radius;
     color: $tooltip-font-color;

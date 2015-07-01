@@ -83,9 +83,6 @@ body .input-emails {
     input, input:focus {
         border: none;
         box-shadow: none;
-        // padding: 0;
-        // height: inherit;
-        width: 406px;
     }
     .container-emails {
         border: 1px solid #ccc;
@@ -94,10 +91,10 @@ body .input-emails {
         margin-bottom: 1rem;
         // height: 2.3125rem;
         padding: 0.3rem;
-        width: 500px;
+        width: 100%;
         display: inline-block;
         button {
-            margin-bottom: 0;
+            margin: 1rem 0 0;
         }
     }
 }

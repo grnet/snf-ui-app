@@ -23,9 +23,11 @@ export default Ember.View.extend({
     var clsMap = {
       'overlays.create-dir': 'tiny',
       'overlays.confirm-simple': 'small', 
-      'overlays.feedback': 'medium',
+      'overlays.feedback': 'small',
       'overlays.restore': 'small',
+      'overlays.versions': 'small',
       'overlays.paste': 'small',
+      'overlays.move': 'small',
       'overlays.create-container': 'tiny',
       'overlays.groups': 'medium',
     }

@@ -35,11 +35,14 @@ export default {
       title: 'Error report',
       intro: 'Oups... Something went wrong.',
     },
+    groups: {
+      title: 'Manage groups',
+      intro: 'You can group users in order to easily manage files/folders sharing.'
+    },
     remove_last_group_member: {
       title: 'Remove last group member',
       info: 'If you delete the last member of the group, the group will be deleted, too.',
       intro: 'Are you sure you want to delete the group %@?'
-
     }
   },
 
@@ -49,8 +52,8 @@ export default {
     create_dir: 'Create',
     create_group: 'Create',
     create_container: 'Create',
-    'delete': 'delete',
-    empty: 'empty',
+    'delete': 'Delete',
+    empty: 'Empty',
     remove_private_sharing: 'remove everybody',
     remove_user_from_share: 'remove',
     share_with_users: 'add users',
@@ -58,7 +61,7 @@ export default {
     restore: 'restore',
     remove_user_from_group: 'remove',
     delete_group: 'Delete Group',
-    add_users_to_group: 'add users',
+    add_users_to_group: 'Add members',
     error_details: 'Details'
   },
   

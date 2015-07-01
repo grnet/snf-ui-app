@@ -5,7 +5,7 @@
 
 <p><span class="danger">{{fa-icon "fa-warning"}}{{t 'cannot_undo_action'}}</span></p>
 
-<p>
-    <a class="button small js-btn-close-modal">{{t 'button.cancel'}}</a>
-    <a class="button small alert right js-btn-close-modal" {{action view.actionToPerform controller.model.users.firstObject target='controller'}}>{{t 'button.delete_group'}}</a>
+<p class="btns">
+    <a class="abort" href="" {{action 'closePopover' target='view'}}>{{t 'button.cancel'}}</a>
+    <button class="alert" {{action view.actionToPerform controller.model.users.firstObject target='controller'}}>{{t 'button.delete_group'}}</button>
 </p>

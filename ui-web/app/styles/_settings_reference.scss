@@ -212,7 +212,7 @@ $info-color: $theme-info-color;
 // $h2-font-size: rem-calc(37);
 $h3-font-size: rem-calc(22);
 $h4-font-size: rem-calc(18);
-// $h5-font-size: rem-calc(18);
+$h5-font-size: rem-calc(16);
 // $h6-font-size: 1rem;
 
 // We use these to control header size reduction on small screens
@@ -426,7 +426,7 @@ $crumb-slash: ">";
 // $include-html-button-classes: $include-html-classes;
 
 // We use these to build padding for buttons.
-// $button-tny: rem-calc(10);
+$button-tny: rem-calc(5);
 $button-sml: rem-calc(10);
 $button-med: rem-calc(14);
 // $button-lrg: rem-calc(18);
@@ -1361,7 +1361,7 @@ $table-border-style: none;
 // $has-tip-cursor-type: help;
 
 $tooltip-padding: rem-calc(2 8 4);
-// $tooltip-bg: $oil;
+$tooltip-bg: $tuatara;
 $tooltip-font-size: rem-calc(12);
 // $tooltip-font-weight: $font-weight-normal;
 // $tooltip-font-color: $white;

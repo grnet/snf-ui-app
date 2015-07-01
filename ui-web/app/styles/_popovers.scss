@@ -9,9 +9,11 @@ $wrap-bg-color: $theme-primary-color-light;
         display: none;
     }
     .wrap {
+        @include box-shadow();
         background-color: $wrap-bg-color;
         display: block;
         max-height: 60vh;
+        max-width: 400px;
         padding: 1em;
         position: absolute;
         h5 {
@@ -36,7 +38,7 @@ $wrap-bg-color: $theme-primary-color-light;
             right: -40px;
             top: 10px;
             &:before {
-                border-color: transparent transparent $wrap-bg-color transparent;
+                border-color: transparent transparent $wrap-bg-color;
                 border-width: 0 10px 15px;
                 right: 44px;
                 top: -12px;
@@ -46,9 +48,9 @@ $wrap-bg-color: $theme-primary-color-light;
     }
     &.pos-right {
         .wrap {
+            @include box-shadow();
             border-radius: $wrap-radius;
             bottom: -23px;
-            box-shadow: 2px 2px 8px #888;
             left: 22px;
             width: 300px;
 

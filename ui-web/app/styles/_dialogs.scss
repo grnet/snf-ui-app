@@ -16,6 +16,10 @@
         button {
             @include button-size($padding:$button-sml); 
             margin-bottom: 0;
+            margin-left: 2rem;
+            &:first-letter {
+                text-transform: uppercase;
+            }
         }
         .abort {
             float: left;
@@ -28,9 +32,24 @@
     }
 
     // Groups dialog
+    .groups {
+        h5 {
+            cursor: pointer;
+            em {
+                font-size: rem-calc(13);
+                font-style: normal;
+                margin-left: 10px;
+            }
+        }
+        button {
+            margin: 0 0 0 1rem;
+        }
+        table {
+            margin: 2rem 0;
+        }
+    }
     .group-icon {
         bottom: 0.18rem;
-        color: $tuatara;
         font-size: 2.5rem;
         margin-right: 10px;
         position: relative;
@@ -42,40 +61,23 @@
     }
 
     .list-item {
+        background: $table-even-row-bg; 
+        border-bottom: 1px solid $gainsboro;
         padding: rem-calc(10 16);
-        &li:nth-child(2n) {
-            background: $table-even-row-bg;
+        &:first-child {
+            border-top: 1px solid $gainsboro;
         }
-        &:hover,
-        &:focus {
-            background-color: $theme-secondary-color-light;
+        &.open {
+            background: lighten($theme-primary-color-light, 8%); 
         }
         &.create-area {
             background-color: $theme-primary-color-light;
-            border: 1px solid #CDE0F2;
-            margin-bottom: 20px;
-            &:hover, 
-            &:focus {
-                border-color: darken(#CDE0F2, 20%);
-            }
-            .btn-line {
-                text-align: center;
+            margin: 2rem 0;
+            input {
+                display: inline-block;
             }
         }
     }
-    .btn-line {
-        cursor: pointer;
-        display: inline-block;
-        position: relative;
-    }
-    .main-info {
-        margin-bottom: rem-calc(10);
-        position: relative;
-	}
-    .group-name {
-        margin-right: 6px;
-        word-break: break-word;
-	}
     .guide {
         background-color: $theme-guide-bg-color;
         border-radius: (rem-calc(20) / 2);
@@ -86,9 +88,12 @@
         text-align: center;
         width: rem-calc(20);
         &:hover {
-		    background-color: darken($theme-guide-bg-color, 10%);
+            background-color: darken($theme-guide-bg-color, 10%);
         }
 	}
+    select {
+        margin-bottom: 0;
+    }
     .close-reveal-modal {
         &:hover {
             color: $theme-anchor-font-color-hover;

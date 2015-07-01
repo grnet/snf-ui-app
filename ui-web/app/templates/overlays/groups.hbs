@@ -1,19 +1,23 @@
-<h3>Groups</h3>
-<div class="list-item create-area js-slide-container slide-container" id="group-new">
-    <div class="js-btn-slide btn-line" {{action 'slide' controller 'group-new' target='view'}}>
-        <span class="snf-font if-group-add group-icon"></span>
-        <span>New Group</span>
-        <span class="arrow-up fa fa-angle-up"></span>
-        <span class="arrow-down fa fa-angle-down"></span>
+<h3>{{t 'overlay.groups.title'}}</h3>
+<p>{{t 'overlay.groups.intro'}}</p>
+<div class="groups">
+    {{#each group in controller.model itemController="group" itemView="group"}}{{/each}}
+    <div class="list-item create-area js-slide-container slide-container" id="group-new">
+        <h5 class="js-btn-slide" {{action 'slide' controller 'group-new' target='view'}}>
+            <span class="snf-font if-group-add group-icon"></span>
+            New Group
+            <span class="arrow-up fa fa-angle-up"></span>
+            <span class="arrow-down fa fa-angle-down"></span>
+        </h5>
+        <div class="create-group js-slide-me slide-me">
+            {{view 'input-partial' placeholder="Name..."}}
+            {{view 'input-emails' placeholder="user1@example.com user2@example.com..." label="Members"}}
+            <p class="btns">
+                <a class="abort" {{action 'slide' controller 'group-new' target='view'}}>{{t 'button.cancel'}}</a>
+                <button {{action 'slide' controller 'group-new' 'createGroup' target='view'}} disabled={{controller.freezeCreation}}>{{t 'button.create_group'}}</button>
+            </p>
+        </div>
     </div>
-    <div class="create-group js-slide-me slide-me">
-        {{view 'input-partial' placeholder="Name..."}}
-        {{view 'input-emails' placeholder="user1@example.com user2@example.com..." label="Members"}}
-        <p>
-            <button class="small" {{action 'slide' controller 'group-new' target='view'}}>{{t 'button.cancel'}}</button>
-            <button class="small right" {{action 'slide' controller 'group-new' 'createGroup' target='view'}} disabled={{controller.freezeCreation}}>{{t 'button.create_group'}}</button>
-        </p>
-    </div>
-</div>
 
-{{#each group in controller.model itemController="group" itemView="group"}}{{/each}}
+
+</div>
