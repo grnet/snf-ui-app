@@ -1,0 +1,10 @@
+<div  class='info'>
+	<span class='{{if view.warningVisible "warning" "invisible"}}'>
+        {{fa-icon "fa-warning"}}
+		<span class='info-msg'>{{view.warningMsg}}</span>
+	</span>
+	<span class='{{if view.errorVisible "error" "invisible"}}'>
+        {{fa-icon "fa-warning"}}
+		<span class='info-msg'>{{view.errorMsg}}</span>
+	</span>
+</div>

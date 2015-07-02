@@ -3,16 +3,6 @@
 <label>Group</label>
 <input class='{{if view.errorVisible "error"}} {{if view.warningVisible "warning"}}'  placeholder={{view.placeholder}} type='text' value={{view.value}}>
 
-<a data-popover-trigger={{view.id}} class="guide">?</a>
-{{view 'popover' innerTemplate='overlays/guides' position='pos-bottom' triggerBy=view.id cls='info' help_text='help_text.create_group_info'}}
+<a class="guide snf-tooltip snf-tooltip-n snf-tooltip-multiline" aria-label={{t 'help_text.create_group_info'}}>?</a>
 
-<div  class='info'>
-	<span class='{{if view.warningVisible "warning" "invisible"}}'>
-		<span class='fa fa-warning'></span>
-		<span class='info-msg'>{{view.warningMsg}}</span>
-	</span>
-	<span class='{{if view.errorVisible "error" "invisible"}}'>
-		<span class='fa fa-warning'></span>
-		<span class='info-msg'>{{view.errorMsg}}</span>
-	</span>
-</div>
+{{partial "error-info"}}
