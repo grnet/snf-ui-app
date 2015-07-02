@@ -18,7 +18,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
   // returns True if the object is privately shared with everyone
   isSharedAll: function(){
     return this.get('isShared') && this.get('model.sharing').indexOf('*') > 0;
-  }.property('model.sharing'),
+  }.property('model.sharing','isShared'),
 
   watchGroup: function(){
     var selectedGroup = this.get('selectedGroup');
@@ -167,15 +167,17 @@ export default ObjectController.extend(EmailsInputAuxMixin, {
     removePrivateSharing: function(){
       var self = this;
       var object = this.get('model');
+
       var onSuccess = function() {
-        object.set('shared_users', []);
-        object.set('sharing', null);
+        object.set('sharing', sharing);
       };
 
       var onFail = function(reason){
         self.send('showActionFail', reason);
       };
-      this.store.setSharing(object, '').then(onSuccess, onFail);
+
+      var sharing = this.shared_users_to_sharing([]);
+      this.store.setSharing(object, sharing).then(onSuccess, onFail);
     },
 
     shareWithAll: function(){
