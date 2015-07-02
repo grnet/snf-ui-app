@@ -121,6 +121,12 @@ export default {
     descr_label: 'Actions that triggered the error:' + '\n',
     errors_label: '\nErrors details:' + '\n',
     system_data_label: 'Additional data:' + '\n',
+  },
+  network_error: {
+    text: {
+      one: 'Network error',
+      other: 'Network errors'
+    }
   }
 
 };

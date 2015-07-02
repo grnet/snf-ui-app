@@ -1,0 +1,34 @@
+.error-box {
+    min-width: rem-calc(162px);
+    position: absolute;
+    right: 0.9375rem;
+    bottom: rem-calc(80px);
+    padding-right: rem-calc(40px);
+    z-index: 99;
+    background-color: pink;
+    padding: rem-calc(6px 12px);
+    &.danger-revert {
+        background-color: $danger-color;
+        color: #fff;
+    }
+    &.no-display {
+        display: none;
+    }
+    p {
+        margin-bottom: 0px;
+        display: inline-block;
+    }
+
+    .close {
+        vertical-align: middle;
+        color: #fff;
+        float: right;
+        margin-left: rem-calc(10px);
+    }
+    .counter {
+        float: right;
+        margin-left: rem-calc(4px);
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+}

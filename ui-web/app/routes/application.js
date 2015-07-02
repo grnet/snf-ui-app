@@ -22,6 +22,10 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
       outlet: 'shared-with-me',
       controller: 'account',
     });
+    // this.render('overlays/alert-box', {
+    //   into: 'application',
+    //   outlet: 'alertBox'
+    // });
 	},
 
   setupController: function(controller, model) {
@@ -58,7 +62,7 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 				var model = Ember.Object.create({});
 			}
 			else {
-				outlet = 'dialogs'
+				outlet = 'dialog'
 			}
 			this.render('overlays/'+dialogType, {
 				into: 'application',
@@ -78,10 +82,10 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 				}
 				else if(dialogType === 'error') {
 					this.set('errorRendered', false)
-					outlet = 'errorDialogs';
+					outlet = 'errorDialog';
 				}
 				else {
-					outlet = 'dialogs'
+					outlet = 'dialog'
 				}
 				this.disconnectOutlet({
 					outlet: outlet,
@@ -96,12 +100,12 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 				});
 
 				this.disconnectOutlet({
-					outlet: 'errorDialogs',
+					outlet: 'errorDialog',
 					parentView: 'application'
 				});
 
 				this.disconnectOutlet({
-					outlet: 'dialogs',
+					outlet: 'dialog',
 					parentView: 'application'
 				});
 
