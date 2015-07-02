@@ -1,20 +1,29 @@
 <h3>{{t 'action_verb.share'}} {{fa-icon "fa-share-alt"}} <span class="u-wrap">{{model.stripped_name}}</span></h3>
-
-{{#if model.is_dir}}
-    <p><span class="subtle">{{t 'disable_public_sharing_for_folders'}}</span></p>
-{{else}}
-    <label>
-        {{input type="checkbox" checked=controller.isPublic}} 
-       <strong>Public on the Internet </strong>{{t 'public_sharing_explain'}}
-    </label>
-    {{#if controller.isPublic}}
-        <strong>Public link</strong><br> <span class="label secondary">{{model.public_link}}</span>
-    {{/if}}
-{{/if}}
-<hr>
 <p>
-    <strong>Private sharing</strong> {{t 'private_sharing_explain'}} 
+    {{#if model.is_dir}}
+        <span class="subtle">{{t 'disable_public_sharing_for_folders'}}</span>
+    {{else}}
+        <label>
+            {{input type="checkbox" checked=controller.isPublic}} 
+           <strong>Public on the Internet </strong>{{t 'public_sharing_explain'}}
+        </label>
+        {{#if controller.isPublic}}
+            <a href={{model.public_link}} target="_blank">{{fa-icon "fa-link"}} {{model.public_link}}</a>
+        {{/if}}
+    {{/if}}
 </p>
+<hr>
+<p><strong>Private sharing</strong> {{t 'private_sharing_explain'}}</p>
+
+{{#unless controller.isSharedAll}}
+<p>
+    <button {{action 'shareWithAll'}} class="tiny warning">
+        {{fa-icon "fa-users"}}
+        {{t 'button.share_with_all'}}
+    </button>
+</p>
+{{/unless}}
+
 
 {{#if controller.isShared}}
     {{#if model.shared_users}}
@@ -22,8 +31,8 @@
             <thead>
                 <tr>
                     <th>Users/Groups</th>
-                    <th>Read Only</th>
-                    <th>Read/Write</th>
+                    <th>Can view</th>
+                    <th>Can edit</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -33,35 +42,41 @@
                         <td class="u-wrap">{{#if s.user}}{{s.user.email}}{{else}}{{s.display_name}}{{/if}}</td>
                         <td>{{radio-button name=s.id bindValue=s.permission value="read" action="togglePermission"}}</td>
                         <td>{{radio-button name=s.id bindValue=s.permission value="write" action="togglePermission"}}</td>
-                        <td><a {{action 'removeUserFromShare' s.id}}>{{t 'button.remove_user_from_share'}}</a></td>
+                        <td>
+                            <a {{action 'removeUserFromShare' s.id}} class="icon-a snf-tooltip snf-tooltip-n" aria-label="Remove from sharing">
+                                {{fa-icon "fa-remove" fixedWidth=true}}
+                            </a>
+                        </td>
                     </tr>
                 {{/each}}
-                <tr>
-                    <td colspan="4"><a {{action 'removePrivateSharing'}}>{{t 'button.remove_private_sharing'}}</a></td>
-                </tr>
             </tbody>
         </table>
-        <p></p>
+        <p>
+            <button class="tiny alert" {{action 'removePrivateSharing'}}>
+                {{fa-icon "fa-remove"}}
+                {{t 'button.remove_private_sharing'}}
+            </button>
+        </p>
+
     {{/if}}
 {{/if}}
 
-<div>
+{{#if groups}}
+<p>
     {{view "select" content=groups
            optionLabelPath="content.name"
            optionValuePath="content.id"
-           prompt="Select group"
+           prompt="Share with group"
            selection=selectedGroup}}
-</div>
+</p>
+{{/if}}
 
-<div>
+<p>
     {{view 'input-emails' placeholder="user1@example.com user2@example.com..." label="Add users" autofocus="autofocus"}}
-    <button {{action 'shareWithUsers'}} class="small button" {{bind-attr disabled='freezeCreation'}}>{{t 'button.share_with_users'}}</button>
-</div>
-
-{{#unless controller.isSharedAll}}
-<div>
-    <button {{action 'shareWithAll'}} class="small button alert">{{t 'button.share_with_all'}}</button>
-</div>
-{{/unless}}
+    <button {{action 'shareWithUsers'}} {{bind-attr disabled='freezeCreation'}} class="tiny right">
+        {{fa-icon "fa-user-plus"}} 
+        {{t 'button.share_with_users'}}
+    </button>
+</p>
 
 
