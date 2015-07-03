@@ -1,9 +1,9 @@
 import ObjectController from 'ui-web/controllers/object';
 import EmailsInputAuxMixin from 'ui-web/mixins/emails-input-aux';
+import NameMixin from 'ui-web/mixins/name';
 
-export default ObjectController.extend(EmailsInputAuxMixin, {
+export default ObjectController.extend(EmailsInputAuxMixin, NameMixin, {
 
-  name: 'sharing',
   isPublic: false,
 
   setPublic: function(){
