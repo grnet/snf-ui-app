@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import ObjectController from 'ui-web/controllers/object';
+import NameMixin from 'ui-web/mixins/name';
 
-export default ObjectController.extend({
+export default ObjectController.extend( NameMixin, {
 
   needs: ['objects'],
 

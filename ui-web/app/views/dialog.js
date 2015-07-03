@@ -54,10 +54,7 @@ export default Ember.View.extend({
 		var closeDialog = this.get('controller').get('closeDialog');
 
 		if(closeDialog && this.get('_state') === 'inDOM') {
-			this.$().foundation('reveal', 'close', {
-				animation: 'fade',
-				animation_speed: 100,
-			});
+			this.$().foundation('reveal', 'close');
 			this.get('controller').set('closeDialog', false)
 		}
 	}.observes('controller.closeDialog'),
@@ -74,31 +71,29 @@ export default Ember.View.extend({
 		// type is used to disconnect the dialog from the correct outlet
 		var type = templateName.replace('overlays.', '');
 
-		// for close btns that are not "x" like cancel
-		$('.js-btn-close-modal').on('click', function(e){
+    self.$().foundation('reveal', {
+      animation: 'fade',
+      animation_speed: 100,
+    });
+    // for close btns that are not "x" like cancel
+    $('.js-btn-close-modal').on('click', function(e){
       e.preventDefault();
-			if(self.get('controller').get('name') === 'groups') {
-				self.$('.open').find('.js-btn-slide').each(function(){
-					$(this).trigger('click');
-				});
-			}
-			self.$().foundation('reveal', 'close', {
-				animation: 'fade',
-				animation_speed: 100,
-			});
-	    });
+      self.$().foundation('reveal', 'close');
+      });
 
-		$(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-			if(self.get('_state') === 'inDOM') {
-				if(self.get('controller').get('name') === 'groups') {
-					self.$('.open').find('.js-btn-slide').each(function(){
-						$(this).trigger('click');
-					});
-				}
-				else if(self.get('controller').get('name') === 'sharing') {
-					self.get('controller').send('reset');
-				}
-
+    $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+      if(self.get('_state') === 'inDOM') {
+        if(self.get('controller').get('name_stripped') === 'groups') {
+          self.$('.open').find('.js-btn-slide').each(function(){
+            $(this).trigger('click');
+          });
+        }
+        else if(self.get('controller').get('name_stripped') === 'sharing') {
+          self.get('controller').send('reset');
+        }
+        else if(self.get('controller').get('name_stripped') === 'object/move') {
+          self.get('controller').get('controllers.objects').send('reset', self.get('controller'));
+        }
 			}
 		});
 
@@ -156,7 +151,7 @@ export default Ember.View.extend({
 			}
 			else {
 				$area.find('.js-slide-me').stop().slideUp('slow', function() {
-					if(controller.get('name') === 'groups') {
+					if(controller.get('name_stripped') === 'groups') {
 						controller.send('reset');
 					}
 				});
