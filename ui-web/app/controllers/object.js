@@ -36,6 +36,17 @@ export default Ember.Controller.extend({
     }
   }.on('init'),
 
+  removeLoader: function() {
+    this.set('loading', false);
+  },
+
+  bindToRemoveLoader: function() {
+    var context = this.parentController;
+    if(context) {
+      Ember.addListener(context, "RemoveLoader", this, this.removeLoader);
+    }
+  }.on('init'),
+
   destroy: function() {
     this._super();
     var context = this.get('selectAllContext') || this.parentController;

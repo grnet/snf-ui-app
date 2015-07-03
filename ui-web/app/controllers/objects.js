@@ -197,6 +197,9 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   }.observes('selectedItems.@each'),
 
   actions: {
+    reset: function() {
+      Ember.sendEvent(this, "RemoveLoader", [true]);
+    },
     
     uploadSuccess: function() {
       this.get('model').update();
