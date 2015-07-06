@@ -94,6 +94,10 @@ export default Ember.View.extend({
         else if(self.get('controller').get('name_stripped') === 'object/move') {
           self.get('controller').get('controllers.objects').send('reset', self.get('controller'));
         }
+        else if(self.get('controller').get('name_stripped') === 'object/copy' || self.get('controller').get('name_stripped') === 'object/restore' || self.get('controller').get('name_stripped') === 'object/cut') {
+            self.get('controller').send('unSelectDir');
+        }
+
 			}
 		});
 
