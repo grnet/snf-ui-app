@@ -127,7 +127,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 
     // hide on esc
     $(document).keyup(function(e) {
-      if (e.keyCode == 27 && self.$('.js-input-single').hasClass('open')) {
+      if (self.get('_state') === 'inDOM' && e.keyCode == 27 && self.$('.js-input-single').hasClass('open')) {
         self.send('reset');
       }
     });
