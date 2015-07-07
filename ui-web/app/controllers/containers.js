@@ -67,7 +67,8 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       * is already loaded.
       * In our case the id of a container it's its name.
       */
-      var isUnique = !this.get('store').hasRecordForId('container', this.get('newName'));
+      var uuid = this.get('settings.uuid');
+      var isUnique = !this.get('store').hasRecordForId('container', uuid + '/' +  this.get('newName'));
       this.set('isUnique', isUnique);
     }
   }.observes('newName'),
@@ -77,9 +78,11 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       var self = this;
       var name = this.get('newName');
       var project = this.get('newProject');
+
+      var uuid = this.get('settings.uuid');
       var container = this.store.createRecord('container', {
         name: name,
-        id: name,
+        id: uuid + '/' + name,
         project: project,
       });
 

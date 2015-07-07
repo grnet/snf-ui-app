@@ -13,7 +13,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   hasSelected: Ember.computed.bool('selectedItems.length'),
   selectedCount: Ember.computed.alias('selectedItems.length'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
-  trash: Ember.computed.equal('container_id', 'trash'),
+  trash: Ember.computed.equal('container_name', 'trash'),
 
   canDelete: true,
   canTrash: Ember.computed.not('trash'),
@@ -22,7 +22,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   canUpload: Ember.computed.not('trash'),
   canCreate: Ember.computed.not('trash'),
   canRestore: Ember.computed.bool('trash'),
-
 
   objectRoute: 'objects',
 
@@ -56,13 +55,14 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     return arr.join('/');
   }.property('model.current_path'),
 
+
   path: function(){
-    var url =  this.get('container_id')+'/';
+    var url =  this.get('container_name') + '/';
     if (this.get('current_path') !== '/') {
-      url = url + this.get('current_path')+ '/';
+      url = url + this.get('current_path') + '/';
     }
     return url;
-  }.property('current_path', 'container_id'),
+  }.property('current_path', 'container_name'),
 
   verb_for_action: function(){
     var action = this.get('actionToPerform');

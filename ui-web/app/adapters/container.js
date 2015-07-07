@@ -47,44 +47,40 @@ export default StorageAdapter.extend({
     delete query.account;
     var url = this.buildURL(type.typeKey, account);
     var headers = this.get('headers'); 
+    store.set('account',account);
     return this.ajax(url, 'GET', { data: query, headers: headers });
   },
 
   createRecord: function(store, type, snapshot) {
     var self = this;
-    var account = this.get('account');
     var project = snapshot.belongsTo('project');
     var headers = {};
 
     headers['X-Container-Policy-Project'] =  project.id;
     headers['Accept'] =  'text/plain';
 
-    return this.ajax(self.buildURL(snapshot.typeKey, account, snapshot.id, snapshot), "PUT", {
+    return this.ajax(self.buildURL(snapshot.typeKey, null, snapshot.id, snapshot), "PUT", {
       headers: headers
     });
   },
 
   deleteRecord: function(store, type, snapshot) {
     var timestamp = (new Date().getTime())/1000;
-    var account = this.get('account');
-
-    return this.ajax(this.buildURL(type.typeKey, account, snapshot.id)+'?until='+timestamp, "DELETE");
+    return this.ajax(this.buildURL(type.typeKey, null, snapshot.id)+'?until='+timestamp, "DELETE");
   },
 
   reassignContainer: function(type, snapshot, project_id){
     var headers = {};
-    var account = this.get('account');
     headers['X-Container-Policy-Project'] =  project_id;
     headers['Accept'] =  'text/plain';
 
-    return this.ajax(this.buildURL(type, account, snapshot.get('id')), "POST", {
+    return this.ajax(this.buildURL(type, null,  snapshot.get('id')), "POST", {
       headers: headers
     });
   },
 
   emptyContainer: function(type, snapshot) {
-    var account = this.get('account');
-    return this.ajax(this.buildURL(type, account, snapshot.get('id'))+'?delimiter=/', "DELETE");
+    return this.ajax(this.buildURL(type, null, snapshot.get('id'))+'?delimiter=/', "DELETE");
   },
 
 });

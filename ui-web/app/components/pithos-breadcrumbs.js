@@ -38,6 +38,10 @@ export default Ember.Component.extend({
     _.first(dirs).current = true;
 
     return dirs.reverse();
-  }.property('current_path')
+  }.property('current_path'),
+
+  container_name: function(){ 
+    return this.get('container_id').split('/')[1];
+  }.property('container_id')
 
 });

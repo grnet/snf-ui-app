@@ -3,16 +3,25 @@ import StorageAdapter from 'ui-web/snf/adapters/storage';
 
 export default StorageAdapter.extend({
 
-  buildURL: function(type, account, id, snapshot) {
-    var url = this._super(type, account, snapshot);
+  buildURL: function(type, container, id, snapshot) {
+    var url = [];
+    var prefix = this.urlPrefix();
+    url.push(prefix);
+    if (container) {
+      url.push(container);
+    }
+
+    url = url.join('/');
     if (id) { url = url + "/" + encodeURIComponent(id); }
-    url = url.replace(/([^:])\/\//g, "$1/");
+    //var url = this._super(type, container, snapshot);
+    //if (id) { url = url + "/" + encodeURIComponent(id); }
+
+    //url = url.replace(/([^:])\/\//g, "$1/");
     return url;
   },
 
   deleteRecord: function(store, type, snapshot) {
-    var account = this.get('account');
-    var url = this.buildURL(type.typeKey, account, snapshot.id, snapshot);
+    var url = this.buildURL(type.typeKey, null, snapshot.id, snapshot);
     var timestamp =(new Date().getTime())/1000;
     url = url+'?until='+timestamp;
     if (snapshot.record.get('is_dir')) {
@@ -31,13 +40,13 @@ export default StorageAdapter.extend({
         payload, account, parentURL, escapedPath;
     filterPath = null;
     pathQuery = query.pathQuery === false || true;
-    container = query.container || store.get('container_id') || '';
-    account = query.account || this.get('account');
-    url = this.buildURL(type.typeKey, account, container);
-    headers = this.get('headers');
+    container = query.container_id || store.get('container_id') || '';
+    url = this.buildURL(type.typeKey, container);
+    headers = this.get('headers'); 
+    
     delete query.account;
     delete query.pathQuery;
-    delete query.container;
+    delete query.container_id;
     
     if (!query.path) { query.path = '/'; }
     if (!pathQuery && query.path !== '/') {
@@ -138,7 +147,7 @@ export default StorageAdapter.extend({
     headers['Content-Type'] =  snapshot.attr('content_type');
 
     var account = this.get('account');
-    return this.ajax(this.buildURL('object', account, snapshot.id), "PUT", {
+    return this.ajax(this.buildURL('object', null,  snapshot.id), "PUT", {
       headers: headers,
     });
   },
