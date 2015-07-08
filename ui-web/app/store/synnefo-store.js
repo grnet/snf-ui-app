@@ -1,6 +1,12 @@
 import DS from 'ember-data';
 import {markRefresh} from 'ui-web/snf/refresh';
 
+
+// Permit model updates while model is in `inFlight` state.  May result in
+// weird side effects !!!
+DS.RootState.deleted.inFlight.pushedData = Ember.K;
+
+
 var SynnefoStore = DS.Store.extend({
   
   findQueryReloadable: function(type, query) {
