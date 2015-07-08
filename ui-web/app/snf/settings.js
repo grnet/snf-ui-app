@@ -109,13 +109,13 @@ export default Ember.Object.extend({
     expires.setDate(expires.getDate() + 1);
     value = JSON.stringify(this.getProperties.apply(this, props));
     value = encodeURIComponent(value);
-    document.cookie = name + "=" + value + "; path=" 
-      + (config.baseURL || '/') + ";" 
+    document.cookie = name + "=" + value + "; path=/" 
+      + (config.baseURL || '') + ";" 
       + expires.toUTCString();
   },
 
   invalidate: function(name) {
-    document.cookie = name + "=; path=" + (config.baseURL || '/') + ";-1";
+    document.cookie = name + "=; path=/" + (config.baseURL || '') + "; -1";
   },
 
   // aliases
