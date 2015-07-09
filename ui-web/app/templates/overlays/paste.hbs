@@ -3,12 +3,12 @@
 
 <ul class="dir-tree">
     {{#each container in containersNoTrash}}
-        {{dir-tree root=container.name resolver=resolveSubDirs role="select" action="selectDir"}}
+        {{dir-tree root=container.id resolver=resolveSubDirs role="select" action="selectDir"}}
     {{/each}}
 </ul>
 
 {{#if controller.selected}}
-    <p>{{t 'selected_path'}} <strong class="u-wrap">{{controller.selectedDir}}</strong></p>
+    <p>{{t 'selected_path'}} <strong class="u-wrap">{{controller.selectedPath}}</strong></p>
 {{/if}}
 
 {{#view "buttons"}}

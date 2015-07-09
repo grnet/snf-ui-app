@@ -6,6 +6,7 @@
 {{#if expanded}}
     <ul>
     {{#each dir in subdirs}}
+        {{dir.is_container}}
         {{dir-tree root=dir.id resolver=resolver role=role action="select" click="click"}}
     {{/each}}
     </ul>

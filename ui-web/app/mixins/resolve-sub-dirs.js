@@ -6,16 +6,18 @@ export default Ember.Mixin.create({
       if (root === '/'){
         return this.store.find('container');
       } else  {
-        var arr = root.split('/');
+        var parts = root.split('/');
+        var account = parts.shift();
+        var container_name = parts.shift();
         var path = '/';
-        var container_id = arr.shift();
-        if (arr.length>0){
-          path = arr.join('/');
+        var container_id = account + '/' + container_name;
+        if (parts.length>0){
+          path = parts.join('/');
         }
+        
+        var query = {'path': path, 'container_id': container_id};
 
-        var query = {'path': path, 'container': container_id};
-
-        var objects = this.store.find('object', query).then(function(data){
+        var objects = this.store.findQuery('object', query).then(function(data){
           return data.filter(function(d){
             return d.get('is_dir');
           }); 

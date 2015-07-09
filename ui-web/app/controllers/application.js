@@ -25,10 +25,11 @@ export default Ember.Controller.extend(DropFileActionsMixin, SnfAddHandlerMixin,
     'dropFileFailed': function() { console.log("upload failed APP", arguments); },
     'dropFileStarted': function() { console.log("upload started APP", arguments); },
     'handleDirClick': function(root, comp) {
-      var container, path;
-      root = root.split("/");
-      container = root[0];
-      path = root.splice(1).join("/");
+      var container, path, parts;
+      parts = root.split("/");
+      parts.shift();
+      container = parts[0];
+      path = parts.splice(1).join("/");
       if (!path) {
         this.transitionToRoute("container", container);
       } else {

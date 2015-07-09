@@ -26,7 +26,7 @@ export default Ember.Component.extend({
   }.property('root', 'is_user'),
 
   is_container: function(){
-    return this.get('root').indexOf('/') == -1;
+    return (this.get('root').match(/\//g) || [] ).length == 1 ;
   }.property('root'),
 
   is_user: function(){
@@ -60,11 +60,15 @@ export default Ember.Component.extend({
   }.property('role'),
 
   container_id: function(){
-    return this.get('root').split('/').shift();
+    var parts = this.get('root').split('/');
+    var account = parts.shift();
+    var container_name = parts.shift();
+    return account + '/' + container_name;
   }.property('root'),
 
   current_path: function(){
     var arr = this.get('root').split('/');
+    arr.shift();
     arr.shift();
     return arr.join('/');
   }.property('root'),
@@ -80,6 +84,12 @@ export default Ember.Component.extend({
     });
     return res;
   }.property('root', 'expanded'),
+
+  link: function(){
+    let path = this.get('root').split('/');
+    path.shift();
+    return path.join('/');
+  }.property('root'),
  
   actions: {
 

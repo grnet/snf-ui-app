@@ -23,6 +23,13 @@ export default Ember.Controller.extend(ResolveSubDirsMixin, {
     return this.t(trans);
   }.property(),
 
+  selectedPath: function(){
+    var dir = this.get('selectedDir');
+    if (dir) {
+      return dir.split('/').splice(1).join('/');
+    }
+  }.property('selectedDir'),
+
   actions: {
     selectDir: function(param){
       this.set('selected', true);
