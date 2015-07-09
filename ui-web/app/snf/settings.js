@@ -128,7 +128,7 @@ export default Ember.Object.extend({
     return this.get('storage_url') + '/' + this.get('uuid');
   }.property('storage_url', 'uuid'),
   storage_view_url: function() {
-    return this.get('services.pithosObjectStore.endpoints.uiURL') + '/view/' + this.get('uuid');
+    return this.get('services.pithosObjectStore.endpoints.uiURL') + '/view';
   }.property('services.pithosObjectStore.endpoints.uiURL'),
   account_url: serviceUrl('astakosAccount'),
 

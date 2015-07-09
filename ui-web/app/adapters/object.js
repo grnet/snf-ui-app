@@ -31,8 +31,7 @@ export default StorageAdapter.extend({
   },
     
   find: function(store, type, id, snapshot) {
-    var account = snapshot && snapshot.account || this.get('account');
-    return this.ajax(this.buildURL(type.typeKey, account, id), 'GET');
+    return this.ajax(this.buildURL(type.typeKey, null, id), 'GET');
   },
 
   findQuery: function(store, type, query) {
@@ -100,9 +99,10 @@ export default StorageAdapter.extend({
    */
 
   moveObject: function(snapshot, new_id, copy_flag, source_account) {
-    var oldPath = '/' + snapshot.id;
-    var account = this.get('account');
-    var url = this.buildURL('object', account, new_id, null);
+    var parts = snapshot.id.split('/');
+    parts.shift();
+    var oldPath = '/' + parts.join('/');
+    var url = this.buildURL('object', null, new_id, null);
 
     if (snapshot.record.get('is_dir')) {
       url = url+'?delimiter=/';
@@ -126,12 +126,14 @@ export default StorageAdapter.extend({
   },
 
   restoreObject: function(snapshot, version) {
-    var path = '/'+snapshot.id;
-    var account = this.get('account');
-    var url = this.buildURL('object', account, snapshot.id)+'?update=';
+    var parts = snapshot.id.split('/');
+    parts.shift();
+    var oldPath = '/' + parts.join('/');
+ 
+    var url = this.buildURL('object', null, snapshot.id)+'?update=';
     var headers = {};
 
-    headers['X-Source-Object'] = encodeURIComponent(path);
+    headers['X-Source-Object'] = encodeURIComponent(oldPath);
     headers['X-Source-Version'] = version;
     headers['Content-Range'] = 'bytes 0-/*';
     headers['Accept'] =  'text/plain';
@@ -146,7 +148,6 @@ export default StorageAdapter.extend({
     headers['Accept'] =  'text/plain';
     headers['Content-Type'] =  snapshot.attr('content_type');
 
-    var account = this.get('account');
     return this.ajax(this.buildURL('object', null,  snapshot.id), "PUT", {
       headers: headers,
     });
@@ -165,8 +166,7 @@ export default StorageAdapter.extend({
 
 
   setPublic: function(snapshot, flag) {
-    var account = this.get('account');
-    var url = this.buildURL('object', account, snapshot.id)+'?update=';
+    var url = this.buildURL('object', null, snapshot.id)+'?update=';
     var headers = this.get('headers');
     var self = this;
 
@@ -207,8 +207,7 @@ export default StorageAdapter.extend({
    */
   setSharing: function(snapshot, sharing) {
     var headers = {};
-    var account = this.get('account');
-    var url = this.buildURL('object', account, snapshot.id)+'?update=';
+    var url = this.buildURL('object', null, snapshot.id)+'?update=';
     // According to the API we should send an empty X-Object-Sharing header to 
     // un-share an object. However some browsers ignore completely empty headers
     // and that is the reason we had to use the "\t" workaround
@@ -230,8 +229,7 @@ export default StorageAdapter.extend({
    * @return {object} with key/value pairs of Response Headers
    */
   getRecordInfo: function(snapshot) {
-    var account = this.get('account');
-    var url = this.buildURL('object', account, snapshot.id);
+    var url = this.buildURL('object', null, snapshot.id);
     var headers = this.get('headers');
     var res = {};
  

@@ -310,7 +310,9 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       }
 
       var arr = selectedDir.split('/');
-      var container_id = arr.shift();
+      var account = arr.shift();
+      var container_name = arr.shift();
+      var container_id = account + '/' + container_name;
       var path = arr.join('/')+'/';
 
       this.store.find('object', {
@@ -323,7 +325,8 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
 
  
     moveObjectsToTrash: function(controller_list){
-      this.send('_moveObjects', 'trash', controller_list);
+      var selectedDir = this.get('settings.uuid') + '/trash';
+      this.send('_moveObjects', selectedDir, controller_list);
     },
 
     restoreObjectsFromTrash: function(params, controller_list){
