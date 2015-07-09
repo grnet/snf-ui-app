@@ -21,6 +21,30 @@ export default DS.Model.extend({
     return timeHuman(this.get('last_modified'));
   }.property('last_modified'),
 
+  shared_by: DS.attr('string'),
+
+  // sharing permissions of ancestor dir
+  ancestor_sharing: DS.attr('string'),
+
+  // if the parent dir is shared itself, the shared_by is null
+  // but the ancestor_sharing has its permissions
+  // if the parent dir has inherit the sharing prop,
+  // the shared_by prop has the path of the nearest ancestor the is shared
+  shared_ancestor_path: function() {
+    var path, shared_by, ancestor_sharing;
+    path = this.get('id'),
+    shared_by = this.get('shared_by'),
+    ancestor_sharing = this.get('ancestor_sharing');
+
+    if(!shared_by && ancestor_sharing) {
+      return path.substring(0, path.lastIndexOf('/'))
+    }
+    else {
+      return shared_by;
+    }
+
+  }.property('name', 'shared_by', 'ancestor_sharing'),
+
   public_link: DS.attr('string'),
   // model's `sharing` property contains `;` separated pairs of 
   // <permission>=<user-list> where <user-list> is a `,` separated list of 

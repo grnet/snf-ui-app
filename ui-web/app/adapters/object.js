@@ -27,14 +27,13 @@ export default StorageAdapter.extend({
   },
 
   findQuery: function(store, type, query) {
-    var filterPath, pathQuery, container, url, headers, payload, account;
+    var filterPath, pathQuery, container, url, headers, payload, account, parentURL;
     filterPath = null;
     pathQuery = query.pathQuery === false || true;
     container = query.container || store.get('container_id') || '';
     account = query.account || this.get('account');
     url = this.buildURL(type.typeKey, account, container);
-    headers = this.get('headers'); 
-    
+    headers = this.get('headers');
     delete query.account;
     delete query.pathQuery;
     delete query.container;
@@ -44,7 +43,7 @@ export default StorageAdapter.extend({
       filterPath = query.path;
     }
     payload = this.ajax(url, 'GET', { data: query, headers: headers });
-    if (filterPath) {
+    if (filterPath) { // use?
       return payload.then(function(payload) {
         payload = payload.filter(function(obj) {
           return obj.name.match(new RegExp("^" + filterPath));
@@ -53,10 +52,28 @@ export default StorageAdapter.extend({
         return payload;
       });
     }
+    parentURL = (query.path === '/' ? url : (url + '/' + query.path));
 
-    return payload.then(function(payload) {
-      payload.set('container_id', container);
-      return payload;
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      payload.then(function(payload) {
+        jQuery.ajax({
+          type: 'HEAD',
+          url: parentURL,
+          headers: headers,
+        }).then(function(jqXHR, jsonPayload, request) {
+          payload.forEach(function(obj) {
+            obj['x_object_shared_by'] = request.getResponseHeader('X-Object-Shared-By');
+            obj['ancestor_sharing'] = request.getResponseHeader('X-Object-Sharing');
+          })
+          payload.set('container_id', container);
+          Ember.run(null, resolve, payload);
+
+      }, function(jqXHR) {
+        var response = Ember.$.parseJSON(jqXHR.responseText);
+        jqXHR.then = null; // tame jQuery's ill mannered promises
+        Ember.run(null, reject, jqXHR);
+      });
+    });
     });
   },
 

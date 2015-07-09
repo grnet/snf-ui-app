@@ -43,6 +43,10 @@ export default {
       title: 'Remove last group member',
       info: 'If you delete the last member of the group, the group will be deleted, too.',
       intro: 'Are you sure you want to delete the group %@?'
+    },
+    sharing: {
+      inherited_share: 'This file is included in the shared directory %@.',
+      inherited_sharing_permissions: 'Inherited permissions: %@'
     }
   },
 
@@ -114,6 +118,7 @@ export default {
   public_sharing_explain: 'Anyone who has the public link can access. No sign-in required.',
   choose_folder_to_move: 'Choose a folder to %@ to:',
   selected_path: 'Selected path:',
+  included_in_shared_dir: 'Included in shared directory: %@',
 
   error_report: {
     title: '\nError report\n-------------------',

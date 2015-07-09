@@ -5,7 +5,9 @@ export default DS.RESTSerializer.extend({
     var mapping = {
       'public_link': 'x_object_public',
       'sharing': 'x_object_sharing',
-      'allowed_to': 'x_object_allowed_to'
+      'allowed_to': 'x_object_allowed_to',
+      'shared_by': 'x_object_shared_by',
+      'ancestor_sharing': 'ancestor_sharing'
     };
     return mapping[attr] || attr;
   },

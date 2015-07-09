@@ -18,6 +18,7 @@ export default Ember.Controller.extend({
   read_only: Ember.computed.equal('model.allowed_to', 'read'),
   shared_with_me: Ember.computed.bool('model.allowed_to'),
   mine: Ember.computed.not('shared_with_me'),
+  inherit_share: Ember.computed.alias('model.shared_ancestor_path'),
 
   // Allowed actions
 

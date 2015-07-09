@@ -1,4 +1,9 @@
 <h3>{{t 'action_verb.share'}} {{fa-icon "fa-share-alt"}} <span class="u-wrap">{{model.stripped_name}}</span></h3>
+{{#if controller.inherit_share}}
+<p class="panel callout"> {{t 'overlay.sharing.inherited_share' controller.model.shared_ancestor_path}}<br>
+     {{t 'overlay.sharing.inherited_sharing_permissions' controller.model.ancestor_sharing}}
+</p>
+{{/if}}
 <p>
     {{#if model.is_dir}}
         <span class="subtle">{{t 'disable_public_sharing_for_folders'}}</span>
@@ -12,6 +17,7 @@
         {{/if}}
     {{/if}}
 </p>
+<hr>
 <hr>
 <p><strong>Private sharing</strong> {{t 'private_sharing_explain'}}</p>
 
