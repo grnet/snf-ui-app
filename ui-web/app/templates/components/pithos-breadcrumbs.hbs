@@ -1,7 +1,7 @@
 <li {{bind-attr class="hasContainer::current"}}>{{link-to "Containers" "containers"}}</li>
 {{#if container_id}}
     <li {{bind-attr class="hasDirs::current"}}>
-        {{#link-to "container" (encode-path container_id)}}{{container_name}}{{/link-to}}
+        {{#link-to "container" (encode-path container_name)}}{{container_name}}{{/link-to}}
         {{#unless hasDirs}}{{cnt}}{{/unless}}
     </li>
     {{# each dir in dirs}}
