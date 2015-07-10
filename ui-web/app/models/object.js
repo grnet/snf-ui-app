@@ -74,6 +74,12 @@ export default DS.Model.extend({
     return !this.get('is_dir');
   }.property('is_dir'),
 
+  path: function(){
+    var parts = this.get('id').split('/');
+    parts.shift();
+    return parts.join('/');
+  }.property('id'),
+
   stripped_name: function(){
     return this.get('name').split('/').pop();
   }.property('name'),
