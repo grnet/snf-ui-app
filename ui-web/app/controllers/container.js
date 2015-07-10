@@ -5,7 +5,7 @@ import {tempSetProperty, bytesToHuman} from 'ui-web/snf/common';
 export default Ember.Controller.extend(ResolveSubDirsMixin,{
   itemType: 'container',
   container_view: true,
-  needs: ['containers'],
+  needs: ['containers', 'application'],
   loading: false,
   closeDialog: false,
 
