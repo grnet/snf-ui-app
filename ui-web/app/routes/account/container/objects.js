@@ -16,8 +16,7 @@ export default Ember.Route.extend({
     var account, container, query, contId;
     account = this.paramFor('account', 'account/container');
     query = {
-      'account': account.get('id'), 
-      'container': params.container_name,
+      'container_id': account.get('id') + '/' + params.container_name,
       'path': params.path,
       'pathQuery': this.get('pathQuery')
     };
