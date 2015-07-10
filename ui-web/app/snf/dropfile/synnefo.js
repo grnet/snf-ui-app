@@ -8,6 +8,14 @@ var fmt = Ember.String.fmt;
 var Promise = Ember.RSVP.Promise;
 var all = Ember.RSVP.all;
 var hash = Ember.RSVP.all;
+var _delay = 1;
+
+var XHRPromise = function(xhr, resolve, reject) {
+  this.xhr = xhr;
+  Promise.call(this, resolve, reject);
+}
+XHRPromise.prototype = new Promise(Ember.K);
+
 
 var trimBuffer = function(array, filter) {
   if (!filter) { filter = function(c) { return c === 0 }};
@@ -16,75 +24,6 @@ var trimBuffer = function(array, filter) {
   while (filter(view.getInt8(pos)) && pos > 0) {pos--;}
   if (pos === 0) { return new ArrayBuffer(0); }
   return array.slice(0, pos + 1);
-}
-
-/*
- * Helper to serialize a group of promises. Accepts a promise generator 
- * function, for each promise passed through generator the result gets stored
- * internally. Once the generator yields a null/false value instead of 
- * a promise the queue's returned promise gets either resolved or rejected.
- */
-var queue = function(generator, params, resolveCb=Ember.K, rejectCb=Ember.K) {
-  params = params || {};
-  var resolveInc, fulfilled = Ember.A([]), rejected = Ember.A([]),
-      parallel, slots, serialize, spawned, failfast, _rejected;
-  
-  parallel = params.parallel || 1;
-  serialize = params.serialize || true;
-  failfast = params.failfast;
-  slots = parallel;
-  spawned = 0;
-  _rejected = false;
-  
-  return new Promise(function(resolve, reject) {
-    var next;
-    next = function(promise, index) {
-      if (promise) { slots--; }
-      if ((slots == parallel) && (!promise)) {
-        if (_rejected) { return; }
-        if (rejected.length) { 
-          _rejected = true;
-          reject(rejected, fulfilled); 
-          return; 
-        }
-        resolve(fulfilled);
-        return;
-      }
-
-      if (!promise) { return; }
-
-      promise.then(function(res) {
-        if (serialize) {
-          fulfilled[index] = res;
-        } else {
-          fulfilled.pushObject(res);
-        }
-        resolveCb(promise, res, index);
-        slots++;
-      }, function(res) {
-        if (serialize) {
-          rejected[index] = res;
-        } else {
-          rejected.pushObject(res);
-        }
-        rejectCb(promise, res, index);
-        slots++;
-      }).finally(function() {
-        var n;
-        while (slots && (n = generator())) {
-          if (failfast && rejected.length) {
-            n = null;
-            break;
-          }
-          spawned++;
-          next(n, spawned);
-        }
-        if (!n) { next(false); }
-      });
-    }.bind(this);
-
-    next(generator(), spawned);
-  });
 }
 
 
@@ -131,13 +70,15 @@ var SnfUploaderTransport = ChunkedTransport.extend({
     to = position + bs;
     if (to > file.size) { to = file.size; }
     blob = file.slice(position, to);
-
+    
     return new Promise(function(resolve, reject) {
       var reader;
-      if (file._aborted) { reject("abort"); }
+      if (file._aborted) { reject("abort"); return; }
       reader = new FileReader();
       reader.onload = function(e) {
-        var buffer = trimBuffer(e.target.result);
+        try {
+          var buffer = trimBuffer(e.target.result);
+        } catch(err) { reject(err); }
         this.computeHash(buffer, params).then(function(hash) {
           resolve({
             'buffer': buffer,
@@ -166,28 +107,22 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       }); 
     }
 
-    index = 0;
-    return queue(function() {
-      var msg, promise;
-      if (computed == total) { return false; }
-      promise = new Promise(function(resolve, reject) {
-        if (file._aborted) { reject("abort"); return; }
-        var args = [file, cursor, params]
-        return this.chunkHash.apply(this, args).then(resolve, reject).then(function(res) {
+    return new Promise(function(resolve, reject) {
+      async.timesLimit(total, 3, function(n, next) {
+        cursor = n * bs;
+        if (file._aborted) { next("abort"); return; }
+        this.chunkHash(file, cursor, params).then(function(res) {
           var msg;
           finished++;
           msg = fmt('Computing hashes (%@/%@)', finished, total);
           progress({'message': msg});
-          return res;
-        });
-      }.bind(this));
-      computed += 1;
-      cursor += bs;
-      return promise;
-    }.bind(this), {failfast: true, parallel: 3, serialize: true}).catch(function(err) {
-      if (file._aborted) { throw "abort"; }
-      throw (err);
-    });
+          hashes[n] = res;
+          setTimeout(next, _delay);
+        }).catch(next);
+      }.bind(this), function(err) {
+        if (err) { reject(err) } else { resolve(hashes); }
+      });
+    }.bind(this));
   },
 
   resolveHashes: function(url, hashes, size, type, params) {
@@ -265,13 +200,17 @@ var SnfUploaderTransport = ChunkedTransport.extend({
   },
 
   uploadMissing: function(contURL, file, missing, progress) {
-    var index = 0;
-    return queue(function() {
-      var chunk = missing.get(index);
-      index++;
-      if (!chunk) { return false; }
-      if (file._aborted) { throw "abort"; }
-      return this.uploadChunk(contURL, this.getArrayBuffer(file, chunk), progress);
+    return new Promise(function(resolve, reject) {
+      async.timesLimit(missing.length, 3, function(n, next) {
+        if (file._aborted) { next("abort"); return; }
+        var chunk = missing.get(n);
+        this.uploadChunk(contURL, this.getArrayBuffer(file, chunk), progress)
+                         .then(function() { 
+                            setTimeout(next, _delay);
+                         }).catch(next);
+      }.bind(this), function(err) {
+        if (err) { reject(err); } else { resolve(); }
+      });
     }.bind(this));
   },
 
@@ -282,11 +221,11 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       return _super(url, files, paths, progress, options); 
     }
 
-    chunkedPromise = this.doUploadChunked(url, files, paths, progress)
-    promise = new Promise(function(resolve, reject) {
+    chunkedPromise = this.doUploadChunked(url, files, paths, progress);
+    return new XHRPromise(chunkedPromise.xhr, function(resolve, reject) {
       chunkedPromise.catch(function(error) {
         // distinguish between user requested abort and other server errors
-        if (error[0] && error[0].jqXHR && error[0].jqXHR.status === 0) { error= "abort"; }
+        if (error && error.jqXHR && error.jqXHR.status === 0) { error= "abort"; }
         if (error === "abort" || (error && error[0] === "abort")) {
           reject({jqXHR:{status:0}});
           return;
@@ -299,13 +238,11 @@ var SnfUploaderTransport = ChunkedTransport.extend({
         reject("chunked-failed");
       }.bind(this)).then(resolve);
     }.bind(this));
-    promise.xhr = chunkedPromise.xhr;
-    return promise;
   },
 
   doUploadChunked: function(url, files, paths, progress, retry, hashChunks) {
     var contURL, fileURL, cont, file, path, args,
-        hashmap, hashParams, promise, onabort, fileType;
+        hashmap, hashParams, promise, onabort, fileType, chunksTransports;
 
     // assert single file
     if (Ember.isArray(files) && files.length > 1) { 
@@ -325,12 +262,11 @@ var SnfUploaderTransport = ChunkedTransport.extend({
     contURL = url.split(path + "/" + file.name).splice(0, 1).join() + cont;
 
     hashParams = this.getHashParams();
-      
-    promise = new Promise(function(resolve, reject) {
-      var aborted = false;
-      var chunksTransports = {};
-
-      onabort = function() {
+    
+    var xhr = {
+      _id: 1,
+      reject: Ember.K,
+      abort: function() {
         file._aborted = true;
         for (var k in chunksTransports) {
           if (chunksTransports[k]._aborted) {
@@ -339,10 +275,16 @@ var SnfUploaderTransport = ChunkedTransport.extend({
           chunksTransports[k].abort();
           chunksTransports[k]._aborted = true;
         }
-        reject("abort");
+        this.reject("abort");
         return;
       }
-      
+    }
+
+    return new XHRPromise(xhr, function(resolve, reject) {
+      chunksTransports = {};
+      xhr.reject = reject;
+      xhr._id++;
+
       // initialize progress status
       if (!hashChunks) {
         progress({
@@ -355,11 +297,13 @@ var SnfUploaderTransport = ChunkedTransport.extend({
       args = [file, hashParams, hashChunks, progress];
       this.fileHashmap.apply(this, args).then(function(hashChunks) {
         args = [fileURL, hashChunks, file.size, fileType, hashParams];
-        progress({
-          'total': file.size,
-          'uploaded': 0,
-          'message': 'Resolving missing chunks'
-        });
+        if (!retry) {
+          progress({
+            'total': file.size,
+            'uploaded': 0,
+            'message': 'Resolving missing chunks'
+          });
+        }
 
         this.resolveHashes.apply(this, args).then(function(hashes) {
           var chunksProgress, chunkProgress;
@@ -400,9 +344,6 @@ var SnfUploaderTransport = ChunkedTransport.extend({
         }.bind(this), reject);
       }.bind(this), reject);
     }.bind(this));
-
-    promise.xhr = { abort: onabort };
-    return promise;
   }
 });
 
