@@ -14,7 +14,6 @@ export default Ember.Controller.extend({
   current_user: Ember.computed.alias('controllers.application.currentUser'),
   gridView: Ember.computed.alias("controllers.objects.gridView"),
   listView: Ember.computed.alias("controllers.objects.listView"),
-  selectedItems: Ember.computed.alias("controllers.objects.selectedItems"),
   trash: Ember.computed.equal('container_name', 'trash'),
   read_only: Ember.computed.equal('model.allowed_to', 'read'),
   shared_with_me: Ember.computed.bool('model.allowed_to'),
@@ -83,7 +82,7 @@ export default Ember.Controller.extend({
 
   watchSelected: function(){
     var self = this;
-    var o = this.get('selectedItems');
+    var o = this.get('parentController.selectedItems');
     if (this.get('isSelected')){
       o.pushObject(self);
     } else {
