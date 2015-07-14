@@ -8,6 +8,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin, {
   closeDialog: false,
 
   account: Ember.computed.alias('controllers.account/container/objects.account'),
+  accountCont: Ember.computed.alias('controllers.account/container/objects'),
  
   containersNoTrash: Ember.computed.filter('controllers.application.sortedContainers', function(c) {
     return c.get('name').toLowerCase() != 'trash';
@@ -43,10 +44,13 @@ export default Ember.Controller.extend(ResolveSubDirsMixin, {
     move: function(){
       var action = this.get('action');
       var params = {selectedDir: this.get('selectedDir')};
+      var cont = this.get('controllers.objects');
       if (this.get('account')) {
+        cont = this.get('accountCont');
         params.account = this.get('account.uuid');
       };
-      this.get('controllers.objects').send(action, params);
+
+      cont.send(action, params);
       this.send('unSelectDir');
     },
  

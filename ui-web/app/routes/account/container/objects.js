@@ -31,6 +31,7 @@ export default Ember.Route.extend({
     this._super(controller, model);
     controller.set('cont', this.get('cont'));
     controller.set('path', this.get('path'));
+    controller.set('selectedItems', []);
   },
 
   renderTemplate: function(){

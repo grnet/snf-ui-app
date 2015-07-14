@@ -4,7 +4,9 @@ import NameMixin from 'ui-web/mixins/name';
 
 export default ObjectController.extend( NameMixin, {
 
-  needs: ['objects'],
+  needs: ['objects', 'account/container/objects'],
+
+  accountCont: Ember.computed.alias('controllers.account/container/objects'),
 
   actions: {
     
@@ -33,10 +35,18 @@ export default ObjectController.extend( NameMixin, {
         next: next,
         source_account: source_account
       }
+      
+      var cont = this.get('controllers.objects');
+
+      if (this.get('source_account')) {
+        cont = this.get('accountCont');
+      };
+
+
 
       // Ugly: wait for the dialog to close before opening a new dialog
       Ember.run.later(p, function(){
-        self.get('controllers.objects').send('moveObject', object, p.ID, p.copyFlag, p.source_account,  p.callback, p.next); 
+        cont.send('moveObject', object, p.ID, p.copyFlag, p.source_account,  p.callback, p.next); 
       }, 200);
   
     },

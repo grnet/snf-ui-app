@@ -233,12 +233,12 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       var object = next.get('model');
 
       var onSuccess = function() {
-        this.get('model').update().then(function(){
-          next.set('loading', false);
-          if (!copyFlag) {
+        next.set('loading', false);
+        if (!copyFlag) {
+          this.get('model').update().then(function(){
             object.unloadRecord();
-          }
-        });
+          });
+        }
       }.bind(this);
 
       var onFail = function(reason){
@@ -315,11 +315,12 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       var container_id = account + '/' + container_name;
       var path = arr.join('/')+'/';
 
-      this.store.find('object', {
-        container: container_id,
+      this.store.findQuery('object', {
+        container_id: container_id,
         path: path
       }).then(function(){ 
         processNext();
+      }, function(){
       });
     },
 
