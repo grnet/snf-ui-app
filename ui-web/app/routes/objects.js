@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import ResetScrollMixin from 'ui-web/mixins/reset-scroll';
+import EscapedParamsMixin from 'ui-web/mixins/escaped-params';
 
-export default Ember.Route.extend(ResetScrollMixin,{
+export default Ember.Route.extend(EscapedParamsMixin, ResetScrollMixin, {
+  escapedParams: ['current_path'],
   model: function(params){
     var containerID = this.modelFor('container').get('name');
     var currentPath = params.current_path ? params.current_path : '/';

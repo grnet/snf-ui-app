@@ -7,7 +7,16 @@ if (window.navigator.userAgent.match(/MSIE [6789]/)) {
 }
 
 var Router = Ember.Router.extend({
-  location: config.locationType
+  location: config.locationType,
+  handleURL: function(url) {
+    // ember default url recognizer uses decodeURI to sanitize the current
+    // browser location. This happens only the first time the page gets loaded
+    // which causes an inconsistent behaviour on the way route parameters are
+    // handled, especially if they are allowed to include special url
+    // characters and thus need to be escaped.
+    url = encodeURI(url);
+    return this._super(url);
+  }
 });
 
 if (rootURL) {
