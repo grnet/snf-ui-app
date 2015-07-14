@@ -8,9 +8,9 @@ import Ember from 'ember';
  * url and decode them right before they are used in the corresponding route 
  * object.
  *
- * The `encode-url` helper can be used to construct escaped urls,
+ * The `encode-path` helper can be used to construct escaped path params urls,
  *
- * {{ link-to 'route-name' (encode-url param1) (encode-url param2) }}
+ * {{ link-to 'route-name' (encode-path param1) (encode-path param2) }}
  *
  * The `escaped-params` route mixin can be used for routes which handle 
  * escaped params.

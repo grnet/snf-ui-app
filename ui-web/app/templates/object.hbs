@@ -6,7 +6,7 @@
     <div class="col name-col">
         {{#if object.model.new}}<span class="label alert">new</span>{{/if}}
         {{#if object.model.is_dir}}
-            {{#link-to (encode-url object.dirLinkRoute) (encode-url object.model.name) }}
+            {{#link-to (encode-path object.dirLinkRoute) (encode-path object.model.name) }}
                 {{fa-icon view.iconCls}}
                 <span class="js-name ellipsis">
                     <span>
