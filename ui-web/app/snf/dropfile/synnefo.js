@@ -351,8 +351,10 @@ var SnfUploader = Uploader.extend({
   chunkedTransportCls: SnfUploaderTransport,
 
   getFileUrl: function(file) {
-    return this.get("storage_host") + "/" + file.get("location") + "/" + 
-      file.get("name");
+    var location = encodeURIComponent(file.get('location'))
+    location = location.replace(/\%2F/gi, '/');
+    var filename = encodeURIComponent(file.get('name'));
+    return this.get('storage_host') + '/' + location + '/' + filename;
   },
 
   processAjaxOptions: function(options) {

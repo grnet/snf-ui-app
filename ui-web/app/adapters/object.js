@@ -27,7 +27,8 @@ export default StorageAdapter.extend({
   },
 
   findQuery: function(store, type, query) {
-    var filterPath, pathQuery, container, url, headers, payload, account, parentURL;
+    var filterPath, pathQuery, container, url, headers, 
+        payload, account, parentURL, escapedPath;
     filterPath = null;
     pathQuery = query.pathQuery === false || true;
     container = query.container || store.get('container_id') || '';
@@ -52,8 +53,10 @@ export default StorageAdapter.extend({
         return payload;
       });
     }
-    parentURL = (query.path === '/' ? url : (url + '/' + query.path));
 
+    escapedPath = encodeURIComponent(query.path).replace(/\%2f/gi, '/');
+    parentURL = (escapedPath === '/' ? url : (url + '/' + escapedPath));
+    
     return new Ember.RSVP.Promise(function(resolve, reject) {
       payload.then(function(payload) {
         jQuery.ajax({
