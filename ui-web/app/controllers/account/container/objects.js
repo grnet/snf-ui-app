@@ -8,6 +8,8 @@ export default ObjectsController.extend(FilesListMixin, {
   needs: ['account/container'],
   account: alias('controllers.account/container.account'),
   cont: alias('controllers.account/container.cont'),
+  container_id: alias('cont.id'),
+  container_name: alias('cont.name'),
   rootPath: alias('cont.name'),
 
   canDelete: false,

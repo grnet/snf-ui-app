@@ -8,12 +8,12 @@ export default Ember.Controller.extend({
 
   closeDialog: false,
 
-  container_id: Ember.computed.alias('controllers.objects.container_id'),
-  container_name: Ember.computed.alias('controllers.objects.container_name'),
+  container_id: Ember.computed.alias('parentController.container_id'),
+  container_name: Ember.computed.alias('parentController.container_name'),
   groups: Ember.computed.alias('controllers.application.groups'),
   current_user: Ember.computed.alias('controllers.application.currentUser'),
-  gridView: Ember.computed.alias("controllers.objects.gridView"),
-  listView: Ember.computed.alias("controllers.objects.listView"),
+  gridView: Ember.computed.alias('parentController.gridView'),
+  listView: Ember.computed.alias('parentController.listView'),
   trash: Ember.computed.equal('container_name', 'trash'),
   read_only: Ember.computed.equal('model.allowed_to', 'read'),
   shared_with_me: Ember.computed.bool('model.allowed_to'),
@@ -198,7 +198,7 @@ export default Ember.Controller.extend({
 
   actions: {
     initAction: function(action){
-      this.get('controllers.objects').send('clearSelected');
+      this.get('parentController').send('clearSelected');
       this.set('isSelected', true);
       this.send(action);
     },
