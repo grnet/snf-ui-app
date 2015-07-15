@@ -1,11 +1,19 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
+  var subEnvironment;
+  
+  if (environment.indexOf('-') > -1) {
+    subEnvironment = environment.split('-')[1];
+    environment = environment.split('-')[0];
+  }
+
   var ENV = {
     djangoContext: true,
     appSettings: {},
     modulePrefix: 'ui-web',
     environment: environment,
+    subEnvironment: subEnvironment,
     baseURL: 'ui',
     locationType: 'auto',
     contentSecurityPolicy: {
@@ -35,6 +43,18 @@ module.exports = function(environment) {
     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
     ENV.APP.emberDevTools = {global: true};
+  }
+
+  if (subEnvironment === 'nw') {
+    ENV.djangoContext = false;
+    ENV.baseURL = '/';
+    ENV.locationType = 'hash';
+    ENV.assetsPrefix = './';
+
+    ENV.appSettings = {
+      localToken: true,
+      auth_url: 'https://accounts.okeanos.grnet.gr/identity/v2.0'
+    };
   }
 
   if (environment === 'test') {
