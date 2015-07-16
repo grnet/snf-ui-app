@@ -11,6 +11,7 @@ export default ObjectsController.extend(FilesListMixin, {
   container_id: alias('cont.id'),
   container_name: alias('cont.name'),
   rootPath: alias('cont.name'),
+  mine: false,
 
   canDelete: false,
   canTrash: false,

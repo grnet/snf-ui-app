@@ -16,15 +16,28 @@ export default Ember.Controller.extend({
   listView: Ember.computed.alias('parentController.listView'),
   trash: Ember.computed.equal('container_name', 'trash'),
   read_only: Ember.computed.equal('model.allowed_to', 'read'),
-  shared_with_me: Ember.computed.bool('model.allowed_to'),
-  mine: Ember.computed.not('shared_with_me'),
+  mine: Ember.computed.alias('parentController.mine'),
   inherit_share: Ember.computed.alias('model.shared_ancestor_path'),
 
   // Allowed actions
+  // Actions that can be applied to multiple objects inherit their permissions
+  // from parent controller
+  canDelete: Ember.computed.alias('parentController.canDelete'),
+  canMove: Ember.computed.alias('parentController.canMove'),
+  canTrash: Ember.computed.alias('parentController.canTrash'),
+  canRestore: Ember.computed.alias('parentController.canRestore'),
+  canCopy: Ember.computed.alias('parentController.canCopy'),
+  canDownload: Ember.computed.bool('model.is_file'),
 
+  // Object specific actions
   canRename: Ember.computed.alias('mine'),
-  canDelete: Ember.computed.alias('mine'),
-  canCopy: Ember.computed.not('trash'),
+  canShare: function(){
+    return !this.get('trash') && this.get('mine');
+  }.property('trash', 'mine'),
+
+  canVersions: function(){
+    return this.get('model.is_file') && !this.get('trash') && this.get('mine');
+  }.property('model.is_file', 'trash', 'mine'),
   
   handleSelect: function(selected) {
     this.set('isSelected', selected);
@@ -55,28 +68,6 @@ export default Ember.Controller.extend({
       Ember.removeListener(context, "selectAll", this, this.handleSelect);
     }
   }.on('destroy'),
-
-  canMove: function(){
-    return !this.get('trash') && this.get('mine');
-  }.property('trash', 'mine'),
-
-  canShare: function(){
-    return !this.get('trash') && this.get('mine');
-  }.property('trash', 'mine'),
-
-  canTrash: function(){
-    return !this.get('trash') && this.get('mine');
-  }.property('trash', 'mine'),
-
-  canDownload: Ember.computed.bool('model.is_file'),
-
-  canRestore: function(){
-    return this.get('trash');
-  }.property('trash'),
-
-  canVersions: function(){
-    return this.get('model.is_file') && !this.get('trash') && this.get('mine');
-  }.property('model.is_file', 'trash', 'mine'),
 
   isSelected: false,
 
