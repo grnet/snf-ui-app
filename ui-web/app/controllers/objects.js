@@ -172,6 +172,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   // unique id. If not, it returns the id.
   _verifyID: function(id){
     var self = this;
+    console.log('%c edw eimaste', 'background: yellow');
     return function(id){
       var obj = self.store.getById('object',id );
       if (obj) {
@@ -234,11 +235,11 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
 
       var onSuccess = function() {
         next.set('loading', false);
-        if (!copyFlag) {
-          this.get('model').update().then(function(){
-            object.unloadRecord();
-          });
-        }
+        this.get('model').update().then(function(){
+          if (!copyFlag) {
+              object.unloadRecord();
+          }
+        });
       }.bind(this);
 
       var onFail = function(reason){

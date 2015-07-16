@@ -38,11 +38,9 @@ export default ObjectController.extend( NameMixin, {
       
       var cont = this.get('controllers.objects');
 
-      if (this.get('source_account')) {
+      if (source_account) {
         cont = this.get('accountCont');
       };
-
-
 
       // Ugly: wait for the dialog to close before opening a new dialog
       Ember.run.later(p, function(){

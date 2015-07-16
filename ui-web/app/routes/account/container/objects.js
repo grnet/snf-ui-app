@@ -24,7 +24,8 @@ export default Ember.Route.extend({
     this.set('cont', this.store.findById('container', contId));
     this.set('containerName', params.container_name);
     this.set('path', params.path);
-    return this.store.findQuery('object', query);
+    this.store.set('container_id', contId);
+    return this.store.findQueryReloadable('object', query);
   },
 
   setupController: function(controller, model) {
