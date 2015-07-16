@@ -1,7 +1,7 @@
 module.exports = {
   contentFor: function(type, config) {
     var django = config.djangoContext;
-    var prefix = config.assetsPrefix || 'ui/';
+    var prefix = config.assetsPrefix === undefined ? 'ui/' : config.assetsPrefix;
     if (type === 'settings') {
       if (django) {
         return 'window.SETTINGS = {{ app_settings|safe }}';
@@ -14,7 +14,7 @@ module.exports = {
       if (django) {
         return '{{ MEDIA_URL }}' + prefix;
       } else {
-        return prefix || '/';
+        return prefix;
       }
     }
   }

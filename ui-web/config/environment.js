@@ -57,6 +57,23 @@ module.exports = function(environment) {
     };
   }
 
+  if (subEnvironment === 'demo') {
+    ENV.baseURL = '/newui',
+    ENV.appSettings = {
+      token: 'cookie:_pithos2_a',
+      auth_url: '/_astakos/identity',
+      proxy: {
+        'astakosAccount': '/_astakos/account'
+      },
+      'branding': {
+        STORAGE_LOGO_URL: 'https://storage.demo.synnefo.org/static/branding/images/storage_logo.png'
+      }
+    },
+    ENV.djangoContext = false;
+    ENV.assetsPrefix = '';
+  }
+
+
   if (environment === 'test') {
     // Testem prefers this...
     ENV.djangoContext = false;
