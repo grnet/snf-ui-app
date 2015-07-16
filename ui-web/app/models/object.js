@@ -30,20 +30,28 @@ export default DS.Model.extend({
   // but the ancestor_sharing has its permissions
   // if the parent dir has inherit the sharing prop,
   // the shared_by prop has the path of the nearest ancestor the is shared
-  shared_ancestor_path: function() {
-    var path, shared_by, ancestor_sharing;
-    path = this.get('id'),
+  shared_ancestor_id: function() {
+    var id, shared_by, ancestor_sharing;
+    id = this.get('id'),
     shared_by = this.get('shared_by'),
     ancestor_sharing = this.get('ancestor_sharing');
 
     if(!shared_by && ancestor_sharing) {
-      return path.substring(0, path.lastIndexOf('/'))
-    }
-    else {
+      return id.substring(0, id.lastIndexOf('/'))
+    } else {
       return shared_by;
     }
 
   }.property('name', 'shared_by', 'ancestor_sharing'),
+
+  shared_ancestor_path: function() {
+    var id = this.get('shared_ancestor_id');
+    if (id) {
+      var parts = id.split('/');
+      parts.shift();
+      return parts.join('/');
+    }
+  }.property('shared_ancestor_id'),
 
   public_link: DS.attr('string'),
   // model's `sharing` property contains `;` separated pairs of 

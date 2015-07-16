@@ -41,26 +41,14 @@
     .input-with-valid {
         margin: 0;
     }
-
-    .folder-user {
-        position: absolute;
-        bottom: rem-calc(30);
-        left: rem-calc(15);
-        line-height: rem-calc(21);
-        text-align: center;
-        width: rem-calc(21);
-        .fa-folder {
+    .fa-stack {
+        line-height: inherit;
+        .fa-stack-2x {
             font-size: rem-calc(21);
-        }
-        .fa-user {
-            font-size: rem-calc(11.2);
-            color: #fff;
-        }
-        &>* {
-            position: absolute;
-            width: 100%;
             line-height: inherit;
+        }
+        .fa-stack-1x {
+            font-size: rem-calc(12);
         }
     }
 }
-

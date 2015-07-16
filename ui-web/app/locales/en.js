@@ -45,7 +45,7 @@ export default {
       intro: 'Are you sure you want to delete the group %@?'
     },
     sharing: {
-      inherited_share: 'This file is included in the shared directory %@.',
+      inherited_share: 'This file is included in a shared directory. Changing permissions can only be done from the shared directory <strong>%@.</strong>',
       inherited_sharing_permissions: 'Inherited permissions: %@'
     }
   },

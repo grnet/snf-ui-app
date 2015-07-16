@@ -75,9 +75,9 @@
         {{/if}}
 
         {{#if object.inherit_share}}
-            <span class="snf-tooltip snf-tooltip-n folder-user" aria-label="{{ t 'included_in_shared_dir' object.model.shared_ancestor_path}}">
-                {{fa-icon "fa-folder"}}
-              {{fa-icon "fa-user"}}
+            <span class="snf-tooltip snf-tooltip-n fa-stack" aria-label="{{ t 'included_in_shared_dir' object.model.shared_ancestor_path}}">
+                {{fa-icon "fa-folder" classNames="fa-stack-2x"}}
+                {{fa-icon "fa-user" classNames="fa-stack-1x fa-inverse"}}
             </span>
         {{/if}}
 
