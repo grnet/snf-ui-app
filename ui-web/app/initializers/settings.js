@@ -33,7 +33,8 @@ var resolveAuth = function(settings, container, app, resp) {
 
 export var initialize = function(container, app) {
   app.deferReadiness();
- 
+  
+  settings.initToken();
   settings.loadFromCookie("ui_settings");
   settings.loadFromQS(window.location.hash.replace(/^#/, '') || '');
 

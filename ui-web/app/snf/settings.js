@@ -83,6 +83,20 @@ export default Ember.Object.extend({
       this.set('user', data.response.access.user);
     }.bind(this));
   },
+  
+  initToken: function() {
+    var token = this.get('token');
+    if (token && token.indexOf("cookie:") === 0) {
+      var cookieName = token.split("cookie:")[1];
+      var reg = new RegExp(cookieName+'=(.*?);|'+cookieName+'=(.*)$');
+      var matched = document.cookie.toString().match(reg);
+      matched = matched[1] || matched[2];
+      if (matched.indexOf('%7C')) {
+        matched = matched.split('%7C')[1];
+      }
+      this.set('token', matched);
+    }
+  },
 
   loadFromQS: function(qs) {
     try {
