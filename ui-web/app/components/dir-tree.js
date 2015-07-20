@@ -100,9 +100,13 @@ export default Ember.Component.extend({
         href = 'containers/'+parts.join('/');
         break;
     }
-    return href;
+
+    let path = href.split('/');
+    path.shift();
+    var escaped = encodeURIComponent(path.join('/')).replace(/\%2f/gi, '/');
+    return escaped;
   }.property('root', 'role'),
- 
+
   actions: {
 
     toggle: function(){
@@ -115,8 +119,8 @@ export default Ember.Component.extend({
     select: function(root){
       var param = root || this.get('root');
       this.sendAction('action', param);
-    },
+    }
 
-  },
+  }
 
 });

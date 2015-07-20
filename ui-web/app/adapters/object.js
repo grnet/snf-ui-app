@@ -8,6 +8,7 @@ export default StorageAdapter.extend({
     var prefix = this.urlPrefix();
     url.push(prefix);
     if (container) {
+      container = encodeURIComponent(container).replace(/\%2f/gi, '/');
       url.push(container);
     }
 
@@ -72,6 +73,7 @@ export default StorageAdapter.extend({
     }
 
     escapedPath = encodeURIComponent(query.path).replace(/\%2f/gi, '/');
+    delete query.path;
     parentURL = (escapedPath === '/' ? url : (url + '/' + escapedPath));
     
     return new Ember.RSVP.Promise(function(resolve, reject) {

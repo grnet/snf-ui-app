@@ -6,7 +6,7 @@ export default StorageAdapter.extend({
   buildURL: function(type, account, id, snapshot) {
     var url = this._super(type, account, snapshot);
 
-    if (id) { url = url + "/" + encodeURIComponent(id.replace(/^\//, '')); }
+    if (id) { url = url + "/" + encodeURIComponent(id).replace(/\%2f/gi, '/'); }
     url = url.replace(/([^:])\/\//g, "$1/");
     return url;
   },
