@@ -31,7 +31,7 @@ export default Ember.Route.extend({
   setupController: function(controller, model) {
     this._super(controller, model);
     controller.set('cont', this.get('cont'));
-    controller.set('path', this.get('path'));
+    controller.set('current_path', this.get('path'));
     controller.set('selectedItems', []);
     var id = this.get('cont.id') + '/' + this.get('path');
     this.store.find('object', id).then(function(el){
@@ -47,6 +47,20 @@ export default Ember.Route.extend({
       outlet: 'bar-rt',
       controller: 'account/container/objects',
     });
-  }
+    this.render('bar/lt-objects', {
+      into: 'application',
+      outlet: 'bar-lt',
+      controller: 'account/container/objects',
+    });
+
+  },
+
+  actions: {
+    refreshRoute: function(){
+      this.refresh();
+    }
+  },
+
+
 
 });

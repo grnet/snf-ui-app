@@ -145,7 +145,8 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         id: id,
         name: name,
         content_type: 'application/directory',
-        modified_by: self.get('current_user')
+        modified_by: self.get('current_user'),
+        allowed_to: self.get('allowed_to')
       });
 
       var onSuccess = function(object) {

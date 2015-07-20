@@ -17,14 +17,14 @@ export default ObjectsController.extend(FilesListMixin, {
   canTrash: false,
   canCopy: true,
   canMove: false,
-  canUpload: false,
-  canCreate: false,
+  canUpload: Ember.computed.equal('allowed_to', 'write'),
+  canCreate: Ember.computed.equal('allowed_to', 'write'),
   canRestore: false,
 
   parentPath: function() {
-    var path = this.get('path');
+    var path = this.get('current_path');
     if (!path) {
       return false;
     }
-  }.property('path')
+  }.property('current_path')
 });
