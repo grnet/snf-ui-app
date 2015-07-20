@@ -33,6 +33,11 @@ export default Ember.Route.extend({
     controller.set('cont', this.get('cont'));
     controller.set('path', this.get('path'));
     controller.set('selectedItems', []);
+    var id = this.get('cont.id') + '/' + this.get('path');
+    this.store.find('object', id).then(function(el){
+      controller.set('allowed_to', el.get('allowed_to') || 'read');
+    });
+
   },
 
   renderTemplate: function(){

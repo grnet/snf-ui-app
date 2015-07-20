@@ -30,5 +30,11 @@ export default DS.RESTSerializer.extend({
     return this._super(store, type, payload);
   },
 
+  extractSingle: function(store, typeClass, payload, id) {
+    payload.id = id;
+    payload.name =  id.split('/').splice(2).join('/');
+    payload = {'object': payload};
+    return this._super(store, typeClass, payload, id);
+  },
 
 });

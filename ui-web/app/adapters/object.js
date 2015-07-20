@@ -30,8 +30,17 @@ export default StorageAdapter.extend({
     return this.ajax(url, "DELETE");
   },
     
+  /**
+   * 
+   * find uses getRecordInfo to extract various properties of an object,
+   * The properties are not exhaustive and more can be extracted in 
+   * getRecordInfo.
+   *
+   */
   find: function(store, type, id, snapshot) {
-    return this.ajax(this.buildURL(type.typeKey, null, id), 'GET');
+    return this.getRecordInfo(snapshot).then(function(res){
+      return res;
+    });
   },
 
   findQuery: function(store, type, query) {
@@ -75,6 +84,7 @@ export default StorageAdapter.extend({
           payload.forEach(function(obj) {
             obj['x_object_shared_by'] = request.getResponseHeader('X-Object-Shared-By');
             obj['ancestor_sharing'] = request.getResponseHeader('X-Object-Sharing');
+            obj['allowed_to'] = request.getResponseHeader('X-Object-Allowed-To');
           })
           payload.set('container_id', container);
           Ember.run(null, resolve, payload);
@@ -228,7 +238,7 @@ export default StorageAdapter.extend({
    * @param record {Object}
    * @return {object} with key/value pairs of Response Headers
    */
-  getRecordInfo: function(snapshot) {
+  getRecordInfo: function(snapshot, id) {
     var url = this.buildURL('object', null, snapshot.id);
     var headers = this.get('headers');
     var res = {};
@@ -239,7 +249,14 @@ export default StorageAdapter.extend({
         url: url,
         headers: headers,
       }).then(function(jqXHR, jsonPayload, request) {
-        res.x_object_public = request.getResponseHeader('X-Object-Public');
+        res = {
+          x_object_public : request.getResponseHeader('X-Object-Public'),
+          x_object_version : request.getResponseHeader('X-Object-Version'),
+          x_object_shared_by : request.getResponseHeader('X-Object-Shared-By'), 
+          x_object_sharing : request.getResponseHeader('X-Object-Sharing'),
+          x_object_allowed_to : request.getResponseHeader('X-Object-Allowed-To'),
+          x_object_modified_by : request.getResponseHeader('X-Object-Modified_By')
+        }
         Ember.run(null, resolve, res);
       }, function(jqXHR) {
         var response = Ember.$.parseJSON(jqXHR.responseText);
