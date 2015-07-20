@@ -68,17 +68,21 @@
         </dl>
     {{/if}}
     <div class="col select-col">
-        {{#if object.model.sharing}}
-            <span class="snf-tooltip snf-tooltip-n" aria-label="Privately shared">
-                {{fa-icon "fa-user"}}
-            </span>
-        {{/if}}
+        {{#if object.mine}}
+            {{#if object.model.sharing}}
+                <span class="snf-tooltip snf-tooltip-n" aria-label="Privately shared">
+                    {{fa-icon "fa-user"}}
+                </span>
+            {{/if}}
 
-        {{#if object.inherit_share}}
-            <span class="snf-tooltip snf-tooltip-n fa-stack" aria-label="{{ t 'included_in_shared_dir' object.model.shared_ancestor_path}}">
-                {{fa-icon "fa-folder" classNames="fa-stack-2x"}}
-                {{fa-icon "fa-user" classNames="fa-stack-1x fa-inverse"}}
-            </span>
+            {{#if object.inherit_share}}
+                <span class="snf-tooltip snf-tooltip-n fa-stack" aria-label="{{ t 'included_in_shared_dir' object.model.shared_ancestor_path}}">
+                    {{fa-icon "fa-folder" classNames="fa-stack-2x"}}
+                    {{fa-icon "fa-user" classNames="fa-stack-1x fa-inverse"}}
+                </span>
+            {{/if}}
+        {{else}}
+            &nbsp;
         {{/if}}
 
         {{#if object.canShare}}
@@ -101,7 +105,9 @@
             <span aria-label={{object.model.last_modified_human}} class="snf-tooltip snf-tooltip-n">
                 {{time-from-now object.model.last_modified }}
             </span>
-            <span class="subtle">{{modified-by object.current_user.email object.model.modified_by.email}}</span>
+            {{#unless object.mine}}
+                <span class="subtle">{{modified-by object.current_user.email object.model.modified_by.email}}</span>
+            {{/unless}}
         </div>
         <div class="col data-col">
             <span aria-label={{object.model.extension}} class="snf-tooltip snf-tooltip-n">
