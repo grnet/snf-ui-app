@@ -39,8 +39,8 @@ export default Ember.Component.extend({
   }.property('is_root', 'is_container'),
 
   isTrash: function(){
-    return this.get('root') === 'trash' && this.get('is_container');  
-  }.property('root'),
+    return this.get('root').split('/')[1] === 'trash' && this.get('is_container');  
+  }.property('root', 'is_container'),
 
   iconCls: function(){
     var res = "fa-folder";
@@ -50,14 +50,6 @@ export default Ember.Component.extend({
     if (this.get('root') === 'shared') { res = "fa-share-alt"}
     return res;
   }.property('isTrash', 'expanded', 'is_user', 'root'),
-
-  textTemplateName: function(){
-    var role = this.get('role');
-    if (role) {
-      return "components/dir-tree/name-"+role;
-    }
-    return "components/dir-tree/name";
-  }.property('role'),
 
   container_id: function(){
     var parts = this.get('root').split('/');
@@ -85,11 +77,23 @@ export default Ember.Component.extend({
     return res;
   }.property('root', 'expanded'),
 
-  link: function(){
-    let path = this.get('root').split('/');
-    path.shift();
-    return path.join('/');
-  }.property('root'),
+  href: function(){
+    var href, parts;
+    switch (this.get('role') ) {
+      case 'shared':
+        parts = this.get('root').split('/');
+        parts.splice(3,1);
+        href = 'shared'+ parts.join('/');
+        break;
+      case 'nav':
+      case 'select':
+        parts = this.get('root').split('/');
+        parts.shift();
+        href = 'containers/'+parts.join('/');
+        break;
+    }
+    return href;
+  }.property('root', 'role'),
  
   actions: {
 
@@ -105,9 +109,6 @@ export default Ember.Component.extend({
       this.sendAction('action', param);
     },
 
-    click: function(root) {
-      this.sendAction('click', root, this);
-    }
   },
 
 });

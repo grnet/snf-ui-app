@@ -4,7 +4,7 @@
 {{/if}}
 <ul class="dir-tree">
    {{#each container in sortedContainers}}
-        {{dir-tree root=container.id resolver=resolveSubDirs role="nav" click='handleDirClick'}}
+        {{dir-tree root=container.id resolver=resolveSubDirs role="nav" action='handleDirClick'}}
     {{/each}}
 </ul>
 

@@ -9,10 +9,6 @@ export default Ember.Component.extend({
     select: function(param) {
       this.sendAction('action', param);
     },
-
-    click: function(root, component) {
-      this.sendAction('click', root, component);
-    }
   }
 
 });
