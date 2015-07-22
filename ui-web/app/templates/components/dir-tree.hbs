@@ -1,12 +1,12 @@
 <a {{action "toggle"}}>
-    {{fa-icon iconCls fixedWidth=true}}
+    {{fa-icon iconClsToggle classNames="toggle-icon"}}
 </a>
 
 {{#if notLink}}
-    <span>{{name}}</span>
+    {{fa-icon iconCls fixedWidth=true}} {{name}}
 {{else}}
     <a {{action 'select' root }} href="{{href}}">
-        <span>{{name}}</span>
+        {{fa-icon iconCls fixedWidth=true}} {{name}}
     </a>
 {{/if}}
 

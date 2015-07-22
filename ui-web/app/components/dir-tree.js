@@ -51,6 +51,14 @@ export default Ember.Component.extend({
     return res;
   }.property('isTrash', 'expanded', 'is_user', 'root'),
 
+  iconClsToggle: function(){
+    var res = "fa-plus";
+    if (this.get('expanded')){
+      res = "fa-minus";
+    }
+    return res;
+  }.property('expanded'),
+
   container_id: function(){
     var parts = this.get('root').split('/');
     var account = parts.shift();
