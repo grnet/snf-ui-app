@@ -2,8 +2,10 @@ import DS from 'ember-data';
 
 export default DS.RESTSerializer.extend({
   extractArray: function(store, type, payload) {
+    var account = payload.account;
+    delete payload.account;
     payload.forEach(function(el) {
-      el.id = store.account + '/'+ el.name;
+      el.id = account + '/'+ el.name;
     });
     payload = { containers: payload};
     return this._super(store, type, payload);

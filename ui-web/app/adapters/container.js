@@ -47,8 +47,11 @@ export default StorageAdapter.extend({
     delete query.account;
     var url = this.buildURL(type.typeKey, account);
     var headers = this.get('headers'); 
-    store.set('account',account);
-    return this.ajax(url, 'GET', { data: query, headers: headers });
+    var payload = this.ajax(url, 'GET', { data: query, headers: headers });
+    return payload.then(function(p){
+      p.account = account;
+      return p;
+    });
   },
 
   createRecord: function(store, type, snapshot) {
