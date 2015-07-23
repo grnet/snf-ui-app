@@ -86,8 +86,8 @@ export default Ember.Object.extend({
   
   initToken: function() {
     var token = this.get('token');
-    this.set('token', null);
     if (token && token.indexOf("cookie:") === 0) {
+      this.set('token', null);
       var cookieName = token.split("cookie:")[1];
       var reg = new RegExp(cookieName+'=(.*?);|'+cookieName+'=(.*)$');
       var matched = document.cookie.toString().match(reg);
