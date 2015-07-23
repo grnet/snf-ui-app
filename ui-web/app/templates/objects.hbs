@@ -2,7 +2,9 @@
     <li>
         <div class="wrap clearfix">
             <div class="col name-col" {{action "toggleSelectAll"}}>
-                {{fa-icon controller.checkSelectedCls fixedWidth=true}}
+                {{#if controller.hasObjects}}
+                    {{fa-icon controller.checkSelectedCls fixedWidth=true}}
+                {{/if}}
                  Name
             </div>
             <div class="col select-col">&nbsp;</div>

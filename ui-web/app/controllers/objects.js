@@ -8,6 +8,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   needs: ['application'],
   
   objectsCount: Ember.computed.alias('length'),
+  hasObjects: Ember.computed.bool('objectsCount'),
   selectedMany: Ember.computed.gt('selectedItems.length', 1),
   selectedOne: Ember.computed.equal('selectedItems.length', 1),
   hasSelected: Ember.computed.bool('selectedItems.length'),
