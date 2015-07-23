@@ -3,6 +3,12 @@ import ErrorHandlingMixin from 'ui-web/mixins/error-handling';
 
 export default Ember.Route.extend(ErrorHandlingMixin, {
 
+  activate: function(){
+    var theme = this.get('cookie').getCookie('theme') || 'ui-web';
+    var el = $("link[data-name='" + theme + "']").first().detach();
+    $('head').append(el);
+  },
+
 	renderTemplate: function() {
 		/*
 		* if you define an inner outlet and you don't
@@ -152,13 +158,12 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 	    }).then(onSuccess, onFail);
 		},
 
-    toggleTheme: function(theme){
-      var el = $('link[rel="stylesheet"]').eq(1);
-      var temp = el.attr('href').split('/');
-      temp.pop();
-      temp.push(theme+'.css');
-      var new_href = temp.join('/');
-      el.attr('href', new_href);
+    toggleTheme: function(theme) {
+      var cookie = this.get('cookie');
+      var el = $("link[data-name='" + theme + "']").first().detach();
+      $('head').append(el);
+      cookie.setCookie('theme', theme);
     }
+
 	}
 });
