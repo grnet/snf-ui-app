@@ -74,7 +74,7 @@ export default DS.Model.extend({
   }.property('bytes'),
   
   is_dir: function(){
-    var dirs = ['application/directory', 'application/folder'];
+    var dirs = ['application/directory', 'application/folder', 'application/directory; charset=UTF-8'];
     return (dirs.indexOf(this.get('content_type'))>-1);
   }.property('content_type'),
 
