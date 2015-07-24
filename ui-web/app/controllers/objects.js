@@ -17,6 +17,11 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   trash: Ember.computed.equal('container_name', 'trash'),
   mine: true,
 
+  versioning: function(){
+    var a =  this.store.getById('container', this.get('container_id'));
+    return a && a.get('versioning') === 'auto';
+  }.property(),
+
   canDelete: true,
   canTrash: Ember.computed.not('trash'),
   canCopy: Ember.computed.not('trash'),

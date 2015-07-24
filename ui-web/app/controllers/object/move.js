@@ -8,6 +8,13 @@ export default ObjectController.extend( NameMixin, {
 
   accountCont: Ember.computed.alias('controllers.account/container/objects'),
 
+  versioning: function(){
+    var parts = this.get('model').get('_newID').split('/');
+    var container_id = parts.slice(0,2).join('/');
+    var a =  this.store.getById('container', container_id);
+    return a && a.get('versioning') === 'auto';
+  }.property('model'),
+
   actions: {
     
     prepareMove: function(object, versionFlag){

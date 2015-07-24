@@ -36,9 +36,11 @@ export default Ember.Controller.extend({
   }.property('trash', 'mine'),
 
   canVersions: function(){
-    return this.get('model.is_file') && !this.get('trash') && this.get('mine');
-  }.property('model.is_file', 'trash', 'mine'),
+    return this.get('model.is_file') && !this.get('trash') && this.get('mine') && this.get('versioning');
+  }.property('model.is_file', 'trash', 'mine', 'versioning'),
   
+  versioning: Ember.computed.alias('parentController.versioning'),
+
   handleSelect: function(selected) {
     this.set('isSelected', selected);
   },

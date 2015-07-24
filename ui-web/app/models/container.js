@@ -8,6 +8,7 @@ export default DS.Model.extend({
   bytes: DS.attr('number', {defaultValue: 0}),
   count: DS.attr('number', {defaultValue: 0}),
   last_modified: DS.attr('date'),
+  versioning: DS.attr('string'),
 
   last_modified_human: function(){
     return timeHuman(this.get('last_modified'));

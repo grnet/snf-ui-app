@@ -84,6 +84,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
         name: name,
         id: uuid + '/' + name,
         project: project,
+        versioning: 'auto'
       });
 
       var onSuccess = function(container) {

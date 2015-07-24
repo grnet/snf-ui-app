@@ -1,9 +1,11 @@
 <h3>Object exists</h3>
 
 <p>The object <strong class="u-wrap">{{model.name}}</strong> already exists in its destination location.</p>
-<p>Do you want to make a copy of it or create a new version?</p>
+<p>How do you want to proceed?</p>
 
 {{#view "buttons"}}
-    <button class="js-btn-close-modal info" {{action "version" this}}>Create new version</button>
+    {{#if controller.versioning}}
+        <button class="js-btn-close-modal info" {{action "version" this}}>Create new version</button>
+    {{/if}}
     <button class="js-btn-close-modal" {{action "copy" this}}>Create copy</button>
 {{/view}}
