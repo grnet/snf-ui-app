@@ -379,7 +379,14 @@ var SnfAddHandlerMixin = Ember.Mixin.create({
   dropFileAddHandler: function(file) {
     return new Ember.RSVP.Promise(function(resolve, reject) {
       var store = this.get('store') || this.get('controller.store');
-      store.findById('object', file.get('path')).then(function() {
+      var account = this.get('settings.user.id');
+      if (!account) {
+        // a view ??
+        account = this.get('controller.settings.user.id');
+      }
+      var path = account + "/" + file.get('path');
+      
+      store.findById('object', path).then(function() {
         var msg = `File ${file.get('path')}'` +
                   " already exists. Do you want to overwrite ?";
         var overwrite = window.confirm(msg);
