@@ -116,13 +116,26 @@
         </div>
     {{/if}}
     <div class="col actions-col">
+
+        {{#if object.canReplace}}
+            {{# snf-dropfile-btn tagName="a" 
+                inputName="X-Object-Data"
+                multiple=false onclick="select" 
+                target=controllers.application
+                location=path
+                classNames="icon-a"
+                }}
+                {{fa-icon "fa-upload"}}
+            {{/snf-dropfile-btn}}
+        {{/if}}
+
         {{#if object.canDownload}}
             <a {{bind-attr href=object.view_src}} target="_blank" class="button small snf-tooltip {{iconTooltipDir}}" aria-label="Download">{{fa-icon "fa-download fa-fw"}}</a>
         {{/if}}
         {{#if object.canVersions}}
             <a {{action 'initAction' 'openVersions'}} class="icon-a snf-tooltip {{iconTooltipDir}}" aria-label="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
         {{/if}}
-       {{#if object.canMove}}
+        {{#if object.canMove}}
             <a {{action 'initAction' 'openCut'}} aria-label="Move" class="icon-a snf-tooltip {{iconTooltipDir}}">{{fa-icon "fa-share fa-fw"}}</a>
         {{/if}}
         {{#if object.canCopy}}

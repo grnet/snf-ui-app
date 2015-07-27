@@ -16,6 +16,7 @@ export default Ember.Controller.extend({
   listView: Ember.computed.alias('parentController.listView'),
   trash: Ember.computed.equal('container_name', 'trash'),
   read_only: Ember.computed.equal('model.allowed_to', 'read'),
+  write_only: Ember.computed.equal('model.allowed_to', 'write'),
   mine: Ember.computed.alias('parentController.mine'),
   inherit_share: Ember.computed.alias('model.shared_ancestor_path'),
 
@@ -38,6 +39,12 @@ export default Ember.Controller.extend({
   canVersions: function(){
     return this.get('model.is_file') && !this.get('trash') && this.get('mine') && this.get('versioning');
   }.property('model.is_file', 'trash', 'mine', 'versioning'),
+
+  canReplace: function(){
+    return this.get('model.is_file') && this.get('write_only');
+  }.property('model.is_file', 'write_only'),
+
+  
   
   versioning: Ember.computed.alias('parentController.versioning'),
 

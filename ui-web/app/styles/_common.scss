@@ -103,6 +103,9 @@ body {
         color: $theme-inactive-color;
         cursor: default;
     }
+    &.alert {
+        border-width: 0;
+    }
 }
 
 .arrow-down, 
