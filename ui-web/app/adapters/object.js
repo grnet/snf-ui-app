@@ -13,7 +13,9 @@ export default StorageAdapter.extend({
     }
 
     url = url.join('/');
-    if (id) { url = url + "/" + encodeURIComponent(id); }
+    if (id) { 
+      url = url + "/" + encodeURIComponent(id).replace(/\%2f/gi, '/'); 
+    }
     //var url = this._super(type, container, snapshot);
     //if (id) { url = url + "/" + encodeURIComponent(id); }
 
