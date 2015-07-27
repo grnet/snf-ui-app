@@ -263,7 +263,6 @@ export default StorageAdapter.extend({
         }
         Ember.run(null, resolve, res);
       }, function(jqXHR) {
-        var response = Ember.$.parseJSON(jqXHR.responseText);
         jqXHR.then = null; // tame jQuery's ill mannered promises
         Ember.run(null, reject, jqXHR);
       });
