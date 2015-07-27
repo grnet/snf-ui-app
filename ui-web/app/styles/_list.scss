@@ -1,4 +1,5 @@
 $list-line-height : 40px;
+$ellipsis-w: 265px;
 
 .list {
     font-size: rem-calc(14);
@@ -51,13 +52,17 @@ $list-line-height : 40px;
         .ellipsis {
             span {
                 display: inline-block;
-                max-width: 265px;
+                max-width: $ellipsis-w;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 vertical-align: top;
                 white-space: nowrap;
             }
             
+        }
+        .input-with-valid {
+            display: inline-block;
+            width: $ellipsis-w;
         }
     }
     .actions-col {
