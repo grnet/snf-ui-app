@@ -80,10 +80,12 @@ export default Ember.View.extend({
 			var notEmpty, noSlash, notTooLargeName, notTooLargePath;
 			var isModified = this.get('isModified');
 			this.set('errorVisible', false);
-			if(action === 'createContainer') {
-				notEmpty = this.get('notEmpty');
-				noSlash = this.get('noSlash');
-				notTooLargeName = this.get('notTooLargeName');
+
+      notEmpty = this.get('notEmpty');
+      noSlash = this.get('noSlash');
+      notTooLargeName = this.get('notTooLargeName');
+
+      if(action === 'createContainer') {
 				validForm = notEmpty && noSlash && notTooLargeName;
 
 				if(validForm) {
@@ -91,10 +93,8 @@ export default Ember.View.extend({
 				}
 			}
 			else if(action === 'createDir' || action === 'renameObject') {
-				notEmpty = this.get('notEmpty');
-				notTooLargeName = this.get('notTooLargeName');
 				notTooLargePath = this.get('notTooLargePath');
-				validForm = notEmpty && notTooLargeName && notTooLargePath;
+				validForm = notEmpty && noSlash && notTooLargeName && notTooLargePath;
 				if(!isModified) {
 					this.get('parentView').send('reset');
 				}
@@ -149,18 +149,16 @@ export default Ember.View.extend({
 			else {
 				var notEmpty = this.get('notEmpty');
 				var notTooLargeName = this.get('notTooLargeName');
+				var noSlash = this.get('noSlash');
 
-				if(!notEmpty) {
-					this.set('errorMsg', 'Empty input');
-				}
-				else if(!notTooLargeName) {
-					this.set('errorMsg', 'Too large name. Max: ' + this.get('controller').get('nameMaxLength') + ' bytes');
-				}
-				else if(action === 'createContainer') {
-					var noSlash = this.get('noSlash');
-					if(!noSlash) {
-						this.set('errorMsg', '"/" is not allowed');
-					}
+        if(!notEmpty) {
+          this.set('errorMsg', 'Empty input');
+        }
+        else if(!notTooLargeName) {
+          this.set('errorMsg', 'Too large name. Max: ' + this.get('controller').get('nameMaxLength') + ' bytes');
+        }
+				if(!noSlash) {
+					this.set('errorMsg', '"/" is not allowed');
 				}
 				else if(action === 'createDir') {
 					var notTooLargePath = this.get('notTooLargePath');
