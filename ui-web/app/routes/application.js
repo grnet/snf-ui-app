@@ -162,7 +162,7 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
       var cookie = this.get('cookie');
       var el = $("link[data-name='" + theme + "']").first().detach();
       $('head').append(el);
-      cookie.setCookie('theme', theme);
+      cookie.setCookie('theme', theme, { expires: 365 });
     }
 
 	}
