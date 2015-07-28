@@ -107,7 +107,10 @@ var DropFileViewMixin = Ember.Mixin.create({
   },
 
   drop: function(e) {
-    var location, dt, types, files, file, target, item, _files, excludeHidden;
+    var location, dt, types, files, file, target, item, _files, excludeHidden, 
+        account;
+    
+    account = this.get('account') || this.get('controller.settings.user.id');
     location = this.dropFileLocation(e);
     dt = e.dataTransfer;
 
@@ -126,11 +129,13 @@ var DropFileViewMixin = Ember.Mixin.create({
               return;
             }
             var loc = location + (f._location || '');
+            f.account = account;
             this.triggerDropFileAdd(f, loc, e);
           }.bind(this));
         } else {
           // TODO: propagate empty dir/file handling higher ??
           if (file.type == "" && file.size == 0) { continue; }
+          file.account = account;
           this.triggerDropFileAdd(file, location, e);
         }
       }

@@ -122,8 +122,11 @@
                 inputName="X-Object-Data"
                 multiple=false onclick="select" 
                 target=controllers.application
-                location=path
+                location=currentPathWithContainer
+                account=account.id
+                forceName=object.model.name
                 classNames="icon-a"
+                safeOverwrite=true
                 }}
                 {{fa-icon "fa-upload"}}
             {{/snf-dropfile-btn}}

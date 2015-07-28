@@ -31,10 +31,15 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   canRestore: Ember.computed.bool('trash'),
 
   objectRoute: 'objects',
+  account: Ember.computed.alias('settings.user'),
 
   hasUpPath: function(){
     return this.get('current_path') !== '/';
   }.property('current_path'),
+
+  currentPathWithContainer: function() {
+    return this.get('container_name') + '/' + this.get('current_path');
+  }.property('current_path', 'container_name'),
 
   view: 'list',
   sortBy: 'stripped_name:asc',

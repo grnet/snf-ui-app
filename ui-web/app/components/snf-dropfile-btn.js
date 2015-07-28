@@ -4,6 +4,7 @@ export default Ember.Component.extend({
   
   inputName: 'file',
   classNames: ['button', 'alert', 'small'],
+  safeOverwrite: false,
 
   _initInput: function() {
     var name = this.get("inputName");
@@ -26,6 +27,10 @@ export default Ember.Component.extend({
         // just in case we are forced to use IFrame transport in a modern 
         // browser
         files[i].input = this.input[0];
+        if (this.get("forceName")) { files[i].forceName = this.get("forceName"); }
+        if (this.get("account")) { files[i].account = this.get("account"); }
+        files[i].safeOverwrite = this.get('safeOverwrite');
+
         this.target.send("dropFileAdd", 
                          files[i], 
                          this.get("location").replace(/\/$/,""), e, 

@@ -81,7 +81,7 @@ DropFile.initFromFile = function(file, location, event, source) {
   }
 
   // required properties 
-  attrs.name = file.name;
+  attrs.name = file.forceName || file.name;
   attrs.size = file.size;
   attrs.type = file.type;
   attrs.lastModified = file.lastModified;

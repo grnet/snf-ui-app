@@ -140,7 +140,7 @@ export default Ember.Component.extend({
   
   // uploader proxy methods
   uploadFile: function(file) {
-    var url = this.get("url"), options ={noChunked: this.get("noChunked")};
+    var url = this.get("url"), options = {noChunked: this.get("noChunked")};
     return this.get("uploader").uploadFile(url, file, options).then(function() {
       if (this.get("autoRemoveOnSuccess")) {
         this.send('remove', file);

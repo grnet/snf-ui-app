@@ -24,6 +24,7 @@ export default Ember.Route.extend({
     this.set('cont', this.store.findById('container', contId));
     this.set('containerName', params.container_name);
     this.set('path', params.path);
+    this.set('account', account);
     this.store.set('container_id', contId);
     return this.store.findQueryReloadable('object', query);
   },
@@ -33,6 +34,7 @@ export default Ember.Route.extend({
     controller.set('cont', this.get('cont'));
     controller.set('current_path', this.get('path'));
     controller.set('selectedItems', []);
+    controller.set('account', this.get('account'));
     var id = this.get('cont.id') + '/' + this.get('path');
     this.store.find('object', id).then(function(el){
       controller.set('allowed_to', el.get('allowed_to') || 'read');

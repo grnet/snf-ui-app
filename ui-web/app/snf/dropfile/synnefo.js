@@ -354,7 +354,8 @@ var SnfUploader = Uploader.extend({
     var location = encodeURIComponent(file.get('location'))
     location = location.replace(/\%2F/gi, '/');
     var filename = encodeURIComponent(file.get('name'));
-    return this.get('storage_host') + '/' + location + '/' + filename;
+    var account = file.get('account');
+    return this.get('storage_host') + '/' + account + '/' + location + '/' + filename;
   },
 
   processAjaxOptions: function(options) {
@@ -379,18 +380,18 @@ var SnfAddHandlerMixin = Ember.Mixin.create({
   dropFileAddHandler: function(file) {
     return new Ember.RSVP.Promise(function(resolve, reject) {
       var store = this.get('store') || this.get('controller.store');
-      var account = this.get('settings.user.id');
-      if (!account) {
-        // a view ??
-        account = this.get('controller.settings.user.id');
-      }
-      var path = account + "/" + file.get('path');
+      var path = file.get('account') + "/" + file.get('path');
       
       store.findById('object', path).then(function() {
         var msg = `File ${file.get('path')}'` +
                   " already exists. Do you want to overwrite ?";
-        var overwrite = window.confirm(msg);
-        if (overwrite) { resolve(file); return; }
+        var safe = file.get('safeOverwrite');
+        if (!safe) {
+          var overwrite = window.confirm(msg);
+          if (overwrite) { resolve(file); return; }
+        } else {
+          resolve(file); return; 
+        }
         
         var newname = file.get('name').replace(/(\..*$)/, '_renamed_$1');
         var rename = window.prompt("Do you want to rename?", newname);

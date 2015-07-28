@@ -141,7 +141,7 @@ export default Ember.Object.extend({
 
   storage_url: serviceUrl('pithosObjectStore'),
   storage_host: function() {
-    return this.get('storage_url') + '/' + this.get('uuid');
+    return this.get('storage_url');
   }.property('storage_url', 'uuid'),
   storage_view_url: function() {
     return this.get('services.pithosObjectStore.endpoints.uiURL') + '/view';
