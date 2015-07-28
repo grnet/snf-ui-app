@@ -134,7 +134,8 @@ export default Ember.View.extend({
 			var escKey = 27;
 			event.stopPropagation();
 			if(event.keyCode == escKey) {
-				$('body .close-reveal-modal').trigger('click');
+        $('body .close-reveal-modal').trigger('click');
+				view.$().siblings('.js-cancel').trigger('click');
 			}
 		}
 	}),
