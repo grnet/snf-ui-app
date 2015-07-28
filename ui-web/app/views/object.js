@@ -53,7 +53,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
   },
 	/*
 	* type -> iconCls:
-	* - dir -> fa-folder
+	* - folder -> fa-folder
 	* - text -> fa-file-text-o
 	* - compressed -> fa-file-zip-o
 	* - image -> fa-file-image-o
@@ -69,8 +69,8 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 		var type = this.get('controller').get('model.type');
 		var iconCls = {};
 
-		iconCls['dir'] = 'fa-folder';
-		iconCls['dir-open'] = 'fa-folder-open';
+		iconCls['folder'] = 'fa-folder';
+		iconCls['folder-open'] = 'fa-folder-open';
 		iconCls['text'] = 'fa-file-text-o';
 		iconCls['compressed'] = 'fa-file-zip-o';
 		iconCls['image'] = 'fa-file-image-o';
@@ -84,8 +84,8 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
 		iconCls['stylesheet'] = 'fa-file-code-o';
 		iconCls['unknown'] = 'fa-file-o';
     
-    if (type == "dir") {
-      type = this.get("dragActive") ? "dir-open" : "dir";
+    if (type == "folder") {
+      type = this.get("dragActive") ? "folder-open" : "folder";
     }
 
 		return iconCls[type];

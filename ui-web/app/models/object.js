@@ -159,7 +159,7 @@ export default DS.Model.extend({
     * extension of each file.
     *
     * Possible types:
-    * - dir
+    * - folder
     * - text
     * - compressed
     * - image
@@ -175,7 +175,7 @@ export default DS.Model.extend({
     var type;
 
     if(isDir) {
-      type = 'dir';
+      type = 'folder';
     }
     else {
       var objName = this.get('name');

@@ -45,7 +45,7 @@ export default {
       intro: 'Are you sure you want to delete the group %@?'
     },
     sharing: {
-      inherited_share: 'This file is included in a shared directory. Changing permissions can only be done from the shared directory <strong>%@.</strong>',
+      inherited_share: 'This file is included in a shared directory. Remove sharing permissions can only be done from the shared directory <strong>%@.</strong>',
       inherited_sharing_permissions: 'Inherited permissions: %@'
     }
   },
@@ -60,12 +60,12 @@ export default {
     empty: 'Empty',
     remove_private_sharing: 'remove everybody',
     remove_user_from_share: 'remove',
-    share_with_users: 'add users',
+    share_with_users: 'Save users',
     share_with_all: 'privately share with everybody',
     restore: 'restore',
     remove_user_from_group: 'remove',
     delete_group: 'Delete Group',
-    add_users_to_group: 'Add members',
+    add_users_to_group: 'Save members',
     error_details: 'Details'
   },
   
