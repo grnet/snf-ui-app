@@ -1,16 +1,16 @@
 {{#if listView}}
     <li>
         <div class="wrap clearfix">
-            <div class="col name-col" {{action "toggleSelectAll"}}>
-                {{#if controller.hasObjects}}
+            {{#if controller.hasObjects}}
+                <div class="col checkbox-col" {{action "toggleSelectAll"}}>
                     {{fa-icon controller.checkSelectedCls fixedWidth=true}}
-                {{/if}}
-                 Name
-            </div>
+                </div>
+            {{/if}}
+            {{view "title-sortable" field="stripped_name" title="name" classNames="name-col"}}
             <div class="col select-col">&nbsp;</div>
-            <div class="col data-col">Size</div>
-            <div class="col date-col">Modified</div>
-            <div class="col data-col">Type</div>
+            {{view "title-sortable" field="size" classNames="data-col"}}
+            {{view "title-sortable" field="last_modified" title="modified" classNames="date-col"}}
+            {{view "title-sortable" field="type" classNames="data-col"}}
             <div class="col actions-col"></div>
         </div>
     </li>

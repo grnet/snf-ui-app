@@ -11,6 +11,12 @@ $ellipsis-w: 265px;
         .select-col {
             min-width: 260px;
         }
+        .sortable {
+            cursor: pointer;
+        }
+        .sortable::first-letter {
+            text-transform: capitalize;
+        }
     }
     .wrap {
         background: $items-bg-color;
@@ -64,6 +70,13 @@ $ellipsis-w: 265px;
             display: inline-block;
             width: $ellipsis-w;
         }
+    }
+    .checkbox-col {
+        width: 2%;
+    }
+    .checkbox-col + .name-col {
+        width: 30%;
+        padding-left: 0;
     }
     .actions-col {
         float: right;
