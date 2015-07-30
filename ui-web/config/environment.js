@@ -2,6 +2,7 @@
 
 module.exports = function(environment) {
   var subEnvironment;
+  environment = environment || '';
   
   if (environment.indexOf('-') > -1) {
     subEnvironment = environment.split('-')[1];
