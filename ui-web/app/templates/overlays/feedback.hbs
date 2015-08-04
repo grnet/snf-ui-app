@@ -4,7 +4,7 @@
 	<label>Please describe the actions that triggered the error:</label>
 	{{view 'textarea-with-validation' autofocus=true}}
 	<p>
-		<a class="button small js-btn-close-modal btn-minor">{{t 'button.cancel'}}</a>
+		<a class="abort js-btn-close-modal">{{t 'button.cancel'}}</a>
 		<a class="button small right js-btn-close-modal" {{action 'fwdErrorFeedback'}}>{{t 'button.send_feedback'}}</a>
 	</p>
 {{else}}
