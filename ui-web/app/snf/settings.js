@@ -155,11 +155,13 @@ export default Ember.Object.extend({
   themes: [{
     'name': 'ui-web',
     'color': '#00a551',
-    'icon': 'birthday-cake',
+    'icon-menu': 'coffee',
+    'icon-loader': 'refresh',
   }, {
     'name': 'theme-funky',
     'color': '#3aa6f4',
-    'icon': 'fa-life-ring',
+    'icon-menu': 'life-ring',
+    'icon-loader': 'life-ring'
   }] 
 
 });

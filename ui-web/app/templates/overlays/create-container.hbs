@@ -3,7 +3,7 @@
     {{view 'input-single' placeholder='Container name' autofocus=true controller=controller}}
 
     {{#if projectsLoading }}
-        <p>{{fa-icon "fa-refresh" spin=true}} Loading projects</p>
+        <p>{{partial "loader"}} Loading projects</p>
     {{else}}
         <p>
             <label>Assign to project

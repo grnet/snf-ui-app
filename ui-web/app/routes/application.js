@@ -5,8 +5,14 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 
   activate: function(){
     var theme = this.get('cookie').getCookie('theme') || 'ui-web';
+    this.initTheme(theme);
+  },
+
+  initTheme: function(theme){
     var el = $("link[data-name='" + theme + "']").first().detach();
     $('head').append(el);
+    let loader = _.findWhere(this.get('settings.themes'), {'name': theme})['icon-loader'];
+    this.set('settings.icon-loader', loader);
   },
 
 	renderTemplate: function() {
@@ -157,12 +163,10 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 				data: data
 	    }).then(onSuccess, onFail);
 		},
-
     toggleTheme: function(theme) {
       var cookie = this.get('cookie');
-      var el = $("link[data-name='" + theme + "']").first().detach();
-      $('head').append(el);
       cookie.setCookie('theme', theme, { expires: 365 });
+      this.initTheme(theme);
     }
 
 	}

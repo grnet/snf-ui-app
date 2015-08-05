@@ -66,8 +66,12 @@ body {
 }
 
 #loader {
-    padding: 3em;
+    padding: 3rem;
     text-align: center;
+    i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
     h4 {
         color: $theme-alert-color;
         margin: 1em;

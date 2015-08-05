@@ -9,6 +9,7 @@ var registerAndAdvance = function(settings, container, app, err) {
   app.inject('adapter', 'settings', 'settings:main');
   app.inject('model', 'settings', 'settings:main');
   app.inject('route', 'settings', 'settings:main');
+  app.inject('component', 'settings', 'settings:main');
   app.advanceReadiness();
   
   // cache settings to cookie
