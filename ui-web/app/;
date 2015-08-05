@@ -131,7 +131,7 @@
                 }}
                 {{fa-icon "fa-upload"}}
             {{/snf-dropfile-btn}}
-            </span>
+        </span>
         {{/if}}
 
         {{#if object.canDownload}}
