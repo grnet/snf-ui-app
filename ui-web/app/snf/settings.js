@@ -151,7 +151,8 @@ export default Ember.Object.extend({
   // Theme settings
   // `name` is the css file name (without the .css extension)
   // `color` is the primary color of the theme and
-  // `icon` is the icon that will be visible in the templates
+  // `icon-menu` is the icon that will be visible in the templates
+  // `icon-loader` is the icon that will be used as theme loader
   themes: [{
     'name': 'ui-web',
     'color': '#00a551',
@@ -162,6 +163,6 @@ export default Ember.Object.extend({
     'color': '#3aa6f4',
     'icon-menu': 'life-ring',
     'icon-loader': 'life-ring'
-  }] 
+  }]
 
 });
