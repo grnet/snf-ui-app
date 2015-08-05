@@ -8,16 +8,8 @@
         list-style: none outside none;
         word-break: break-word;
     }
-    .fa-trash {
-        font-size: rem-calc(18);
-        position: relative;
-        left: -3px;
-    }
     .fa-share-alt {
         font-size: rem-calc(16);
-    }
-    .is-trash {
-        background: $trash-bg-color; 
     }
     .toggle-icon {
         font-size: rem-calc(10);
