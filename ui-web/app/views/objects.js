@@ -10,6 +10,7 @@ export default Ember.View.extend(RefreshViewMixin, DropFileViewMixin, SnfAddHand
 
   // declare the actions target
   dropFileTarget: Ember.computed.alias('controller.controllers.application'),
+  canCreate: Ember.computed.alias('controller.canCreate'),
 
   dropFileLocation: function(event) {
     var controller = this.get("controller");
@@ -18,10 +19,13 @@ export default Ember.View.extend(RefreshViewMixin, DropFileViewMixin, SnfAddHand
 
   createNewOnKeyUp: function() {
     var self = this;
+    var c = this.get('controller');
     var newKey = 78; // "n"
     $(document).keyup(function(e) {
-      if(e.keyCode == newKey) {
-        self.get('controller').send('showDialog', 'create-dir', 'objects');
+      if (self.get('canCreate') ){
+        if(e.keyCode == newKey) {
+          c.send('showDialog', 'create-dir', c);
+        }
       }
     });
   }.on('didInsertElement'),

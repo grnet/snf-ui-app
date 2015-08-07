@@ -1,7 +1,6 @@
 import Ember from 'ember';
-import {ItemsViewMixin} from 'ui-web/mixins/items'; 
+import ObjectsView from 'ui-web/views/objects';
 
-export default Ember.View.extend(ItemsViewMixin,  {
-  classNames: ['objects'],
-  templateName: 'objects'
+export default ObjectsView.extend({
+  templateName: 'objects',
 });
