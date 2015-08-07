@@ -28,6 +28,7 @@ export default Ember.Controller.extend({
   canTrash: Ember.computed.alias('parentController.canTrash'),
   canRestore: Ember.computed.alias('parentController.canRestore'),
   canCopy: Ember.computed.alias('parentController.canCopy'),
+  canUpload: Ember.computed.alias('parentController.canUpload'),
   canDownload: Ember.computed.bool('model.is_file'),
 
   // Object specific actions
