@@ -14,7 +14,7 @@ export default Ember.View.extend(RefreshViewMixin, DropFileViewMixin, SnfAddHand
 
   dropFileLocation: function(event) {
     var controller = this.get("controller");
-    return controller.get("path").replace(/\/$/, "");
+    return controller.get("currentPathWithContainer").replace(/\/$/, "");
   },
 
   createNewOnKeyUp: function() {

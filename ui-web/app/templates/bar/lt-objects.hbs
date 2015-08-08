@@ -1,11 +1,11 @@
 {{#if canUpload}}
-        {{# snf-dropfile-btn tagName="a" 
-            inputName="X-Object-Data"
-            multiple=true onclick="select" 
-            target=controllers.application
-            location=path
-            account=account.id
-            }}
-            {{fa-icon "fa-upload"}} Upload
-        {{/snf-dropfile-btn}}
+    {{# snf-dropfile-btn tagName="a" 
+        inputName="X-Object-Data"
+        multiple=true onclick="select" 
+        target=controllers.application
+        location=currentPathWithContainer
+        account=account.id
+        }}
+        {{fa-icon "fa-upload"}} Upload
+    {{/snf-dropfile-btn}}
 {{/if}}

@@ -46,15 +46,15 @@ var DropFileViewMixin = Ember.Mixin.create({
   }.property(),
   
   dragEnter: function(e) {
-    if (this.get('dragDisabled')) { return }
     this._stopPropagation(e);
+    if (this.get('dragDisabled')) { return }
     this._pendingLeaves += 1;
     this.set("dragActive", true);
   },
 
   dragLeave: function(e) {
-    if (this.get('dragDisabled')) { return }
     this._stopPropagation(e);
+    if (this.get('dragDisabled')) { return }
     this._pendingLeaves -= 1;
     if (this._pendingLeaves === 0) {
       this.set("dragActive", false);
@@ -62,8 +62,8 @@ var DropFileViewMixin = Ember.Mixin.create({
   },
 
   dragOver: function(e) {
-    if (this.get('dragDisabled')) { return }
     this._stopPropagation(e);
+    if (this.get('dragDisabled')) { return }
     e.preventDefault();
   },
   
@@ -118,8 +118,9 @@ var DropFileViewMixin = Ember.Mixin.create({
     var location, dt, types, files, file, target, item, _files, excludeHidden, 
         account;
     
-    account = this.get('account') || this.get('controller.settings.user.id');
+    account = this.get('controller.account.id') || this.get('controller.settings.user.id');
     location = this.dropFileLocation(e);
+
     dt = e.dataTransfer;
 
     this.set("dragActive", false);

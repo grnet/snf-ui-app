@@ -38,6 +38,9 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   }.property('current_path'),
 
   currentPathWithContainer: function() {
+    if (this.get('current_path') === '/') {
+      return this.get('container_name') + '/';
+    }
     return this.get('container_name') + '/' + this.get('current_path');
   }.property('current_path', 'container_name'),
 
@@ -67,7 +70,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     return arr.join('/');
   }.property('model.current_path'),
 
-
+  // TODO: Where is this `path` property used?
   path: function(){
     var url =  this.get('container_name') + '/';
     if (this.get('current_path') !== '/') {
