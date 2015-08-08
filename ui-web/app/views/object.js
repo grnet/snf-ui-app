@@ -10,7 +10,7 @@ export default Ember.View.extend(DropFileViewMixin, SnfAddHandlerMixin, {
   dropFileTarget: Ember.computed.alias('controller.controllers.application'),
 
   dropFileLocation: function(event) {
-    return this.get("controller.controllers.objects.path").replace(/\/$/, "") + 
+    return this.get('controller').get('parentController').get('currentPathWithContainer').replace(/\/$/, "") + 
            "/" + 
            this.get("controller.model.stripped_name");
   },

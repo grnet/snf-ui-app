@@ -19,6 +19,7 @@ export default Ember.Controller.extend({
   write_only: Ember.computed.equal('model.allowed_to', 'write'),
   mine: Ember.computed.alias('parentController.mine'),
   inherit_share: Ember.computed.alias('model.shared_ancestor_path'),
+  account: Ember.computed.alias('parentController.account'),
 
   // Allowed actions
   // Actions that can be applied to multiple objects inherit their permissions
