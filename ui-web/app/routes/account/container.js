@@ -23,5 +23,14 @@ export default Ember.Route.extend({
   setupController: function(controller, model) {
     this._super(controller, model);
     controller.set('account', this.get('account'));
+  },
+  renderTemplate: function(){
+    this.render('objects-list');
+    this.render('global/breadcrumbs', {
+      into: 'application',
+      outlet: 'breadcrumbs',
+      controller: 'account/container/objects',
+    });
+
   }
 });

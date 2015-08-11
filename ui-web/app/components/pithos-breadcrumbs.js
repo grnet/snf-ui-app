@@ -9,7 +9,7 @@ export default Ember.Component.extend({
   }.property('container_id'),
 
   hasDirs: function(){
-    return this.get('dirs').length
+    return this.get('dirs');
   }.property('dirs'),
 
   cnt: function(){
@@ -20,13 +20,12 @@ export default Ember.Component.extend({
   
   dirs: function(){
     var dirs = [];
-    if (this.get('current_path') == undefined ) {
-      return dirs;
+    var p = this.get('current_path');
+
+    if ( (p == undefined) || p === '/' || p ==='' ) {
+      return;
     }
-    if (this.get('current_path') === '/') {
-      return dirs;
-    }
-    var path_arr = this.get('current_path').split('/');
+    var path_arr = p.split('/');
     while (path_arr.length>0) {
       var dir = {};
       dir.name = _.last(path_arr);
