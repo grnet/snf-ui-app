@@ -10,9 +10,15 @@
 {{else}}
 	<h3>{{t 'overlay.feedback.title'}}</h3>
 	<p>{{{t 'overlay.feedback.intro'}}}</p>
-	<label>Message</label>
-	{{view 'textarea-with-validation' autofocus=true}}
+    {{#if msg}}
+        <div class="alert-box info">{{fa-icon "smile-o"}}{{t 'overlay.feedback.thanks' }}</div>
+    {{else}}
+	    <label>Message</label>
+	    {{view 'textarea-with-validation' autofocus=true}}
+    {{/if}}
     {{#view "buttons"}}
-		<button {{action 'validateAndSend'}}>{{t 'button.send_feedback'}}</button>
+        {{#unless msg}}
+		    <button {{action 'validateAndSend'}}>{{t 'button.send_feedback'}}</button>
+        {{/unless}}
 	{{/view}}
 {{/if}}

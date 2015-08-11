@@ -3,6 +3,7 @@ export default {
     feedback: {
       intro: 'If you would like to contact us for any reason, please feel free to write your message in the following form. <br> Feedback and suggestions are also highly appreciated.',
       title: 'Contact us',
+      thanks: 'Thank you',
     },
     create_container: {
       title: 'Create container'

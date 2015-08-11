@@ -5,15 +5,28 @@ export default Ember.Controller.extend({
 	inputValue: undefined,
 	validInput: false,
 	closeDialog: false,
+  msg: false,
 
 	fwdFeedback: function() {
 		var inputValue = this.get('inputValue');
 		if(this.get('validInput')) {
 			this.send('sendFeedback', inputValue, '');
-			this.set('closeDialog', true);
-			this.set('validInput', false);
+      this.showMessage();
 		}
 	}.observes('validInput'),
+
+  showMessage: function(){
+    var self = this;
+    this.set('msg', true);
+    Ember.run.later(function(){
+      self.set('closeDialog', true);
+      self.set('validInput', false);
+    }, 1500);
+    Ember.run.later(function(){
+      self.set('msg', false);
+    }, 2000);
+
+  },
 
 	errorReportMsg: function() {
 		var title = this.t('error_report.title');
