@@ -85,6 +85,7 @@ export default Ember.Controller.extend({
 			var msg = this.get('errorReportMsg');
 			var data = this.get('errorReportExtraData');
 			this.send('sendFeedback', msg, data);
+      this.showMessage();
 		}
 	}
 });

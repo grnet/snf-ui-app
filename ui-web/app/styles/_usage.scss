@@ -13,7 +13,8 @@ $wrap-radius: 6px;
     }
 
     ul {
-        height: 50vh;
+        max-height: 50vh;
+        padding: 0 1rem 0 0.5rem;
         list-style-type: none;
         margin: 0;
         overflow-y: scroll;
