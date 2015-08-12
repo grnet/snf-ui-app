@@ -1,0 +1,32 @@
+// okeanos colors
+
+$o-blue: #3582AC;
+$o-orange: #F89A1C;
+$o-red: #F24E53;
+$o-pink: #FF80A6;
+$o-purple: #7B499C;
+$o-fistiki: #74CA97;
+$o-green: #55B577;
+$o-tirkouaz: #00A2B1;
+$o-brown: #BC742B;
+
+
+// theme_settings
+$theme-primary-color: $o-blue;
+$theme-secondary-color: $o-orange;
+$theme-alert-color: $o-red;
+$theme-success-color: $o-green;
+$theme-info-color: $o-orange;
+
+
+$theme-anchor-font-color: $o-blue;
+$theme-anchor-font-color-hover: $o-tirkouaz;
+
+$theme-inactive-color: #838282;
+$theme-primary-color-light: #9FC0D2;
+$theme-secondary-color-light: #bbd2df;
+
+$theme-header-background: $theme-primary-color;
+
+$theme-guide-bg-color: $o-purple;
+$theme-drag-bg-color: $theme-secondary-color-light;

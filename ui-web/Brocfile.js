@@ -8,6 +8,7 @@ var app = new EmberApp({
       css: {
         'app': 'assets/ui-web.css',
         'themes/theme-funky': 'assets/theme-funky.css',
+        'themes/theme-okeanos': 'assets/theme-okeanos.css',
       }
     }
   },

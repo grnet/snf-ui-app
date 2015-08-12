@@ -160,7 +160,12 @@ export default Ember.Object.extend({
     'icon-loader': 'refresh',
   }, {
     'name': 'theme-funky',
-    'color': '#3aa6f4',
+    'color': '#ffa500',
+    'icon-menu': 'star-o',
+    'icon-loader': 'star-o'
+  },{
+    'name': 'theme-okeanos',
+    'color': '#3582AC',
     'icon-menu': 'life-ring',
     'icon-loader': 'life-ring'
   }]
