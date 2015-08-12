@@ -4,7 +4,7 @@ import ErrorHandlingMixin from 'ui-web/mixins/error-handling';
 export default Ember.Route.extend(ErrorHandlingMixin, {
 
   activate: function(){
-    var theme = this.get('cookie').getCookie('theme') || 'ui-web';
+    var theme = this.get('cookie').getCookie('theme') || this.get('settings.main_theme');
     this.initTheme(theme);
   },
 

@@ -168,6 +168,8 @@ export default Ember.Object.extend({
     'color': '#3582AC',
     'icon-menu': 'life-ring',
     'icon-loader': 'life-ring'
-  }]
+  }],
+
+  main_theme: 'ui-web',
 
 });
