@@ -102,7 +102,6 @@ export default Ember.Component.extend({
     }
 
     let path = href.split('/');
-    path.shift();
     var escaped = encodeURIComponent(path.join('/')).replace(/\%2f/gi, '/');
     return escaped;
   }.property('root', 'role'),
