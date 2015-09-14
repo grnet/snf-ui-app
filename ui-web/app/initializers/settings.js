@@ -35,8 +35,15 @@ var resolveAuth = function(settings, container, app, resp) {
 export var initialize = function(container, app) {
   app.deferReadiness();
   
+  // handle special token types (e.g. cookie:)
   settings.initToken();
-  settings.loadFromCookie("ui_settings");
+
+  // cache lookup
+  if (!settings.get('token')) {
+    settings.loadFromCookie("ui_settings");
+  }
+
+  // url fragment lookup (useful for debugging)
   settings.loadFromQS(window.location.hash.replace(/^#/, '') || '');
 
   var authUrl = settings.get("authUrl");
