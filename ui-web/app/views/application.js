@@ -1,8 +1,10 @@
 import Ember from 'ember';
+import {RefreshViewMixin} from 'ui-web/snf/refresh';
 
-export default Ember.View.extend({
+export default Ember.View.extend(RefreshViewMixin, {
   classNames: ['app'],
-
+  refreshInterval: Ember.computed.alias('controller.settings.modelRefreshInterval'),
+  refreshTasks: ['controller.groups'],
 showUsageOnKeyUp: function() {
   var quotasKey = 85; // "u"
   $(document).keyup(function(e) {

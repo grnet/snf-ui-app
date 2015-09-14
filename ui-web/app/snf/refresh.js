@@ -113,16 +113,17 @@ var Refresher = Ember.Object.extend({
     _spec = spec;
     spec = spec.split(":");
     name = spec[0];
+    interval = '';
     if (spec.length > 1) { interval = spec[1]; }
     
     // resolve context and param|method
     parts = name.split(".");
     lastpart = name;
-    contextName = name;
 
     context = this.get('context');
 
     if (parts.length > 1) {
+      contextName = name;
       context = this.get('context').get(
         parts.slice(0, parts.length-1).join('.'));
       lastpart = parts[parts.length-1];
@@ -181,7 +182,8 @@ var Refresher = Ember.Object.extend({
       var callee = spec.callee, query;
       
       if (!callee) { debugger }
-      Ember.assert(taskSpec + " is invalid task spec", callee);
+      Ember.assert(taskSpec + " is invalid task spec", !!callee);
+
       if ((callee instanceof DS.PromiseArray) ||
           (callee instanceof DS.PromiseObject) ||
           (callee instanceof Ember.RSVP.Promise)) {
