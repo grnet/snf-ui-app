@@ -1,8 +1,17 @@
+$cloudbar-height: rem-calc(35px);
+
 body {
     background: url("../assets/images/fabric_of_squares_gray.png");
     // background: url('http://subtlepatterns.com/patterns/symphony.png');
     label {
         color: #222;
+    }
+
+    &.cloudbar-active {
+      .app .header { top: $cloudbar-height; }
+      .top-bar {
+        top: $header-height + $cloudbar-height;
+      }
     }
 }
 

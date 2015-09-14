@@ -14,13 +14,14 @@
     <link rel="stylesheet" href="{{ MEDIA_URL }}ui/assets/theme-funky.css" data-name="theme-funky">
     
   </head>
-  <body>
+  <body class="{% if CLOUDBAR_ACTIVE %}cloudbar-active{% endif %}">
     
     <script>window.SETTINGS = {{ app_settings|safe }}</script>
     <script src="{{ MEDIA_URL }}ui/assets/vendor.js"></script>
     <script src="{{ MEDIA_URL }}ui/assets/ui-web.js"></script>
     
   </body>
+  {{ CLOUDBAR_CODE }}
   <script>
     $(document).foundation({
       animation_speed: 400
