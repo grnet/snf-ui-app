@@ -91,6 +91,8 @@ export default Ember.Route.extend(EscapedParamsMixin, ResetScrollMixin, {
               error['status'] = 404;
               self.send('error', error);
               return undefined;
+            } else {
+              return objects;
             }
           });
         }
