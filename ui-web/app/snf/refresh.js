@@ -190,12 +190,21 @@ var Refresher = Ember.Object.extend({
         }
       }
 
+      if (callee instanceof Ember.ComputedProperty) {
+        callee = callee.get(spec.context);
+      }
+
       if (callee instanceof DS.RecordArray) {
         callee.update();
       } else if(callee instanceof DS.Model) {
         callee.reload();
       } else {
-        spec.callee();
+        if (callee instanceof Function) {
+          callee();
+        } else {
+            console.error("Inavlid callee for ", spec.spec, callee);
+        }
+
       }
     }
 
