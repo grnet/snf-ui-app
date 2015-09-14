@@ -55,6 +55,7 @@ export default StorageAdapter.extend({
     url = this.buildURL(type.typeKey, container);
     headers = this.get('headers'); 
     
+    query = _.extend({}, query);
     delete query.account;
     delete query.pathQuery;
     delete query.container_id;
