@@ -37,6 +37,7 @@ export default Ember.Component.extend({
                          this.target);
       }
     }
+    this.input.val('');
   },
     
   _setMultiple: function() {
