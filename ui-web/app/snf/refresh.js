@@ -104,7 +104,9 @@ var Refresher = Ember.Object.extend({
     this.set('timeouts', []);
     this.set('specs', specs || []);
     this.set('context', context || {});
-    this.set('interval', interval || 2000);
+    let defaultInterval = context && 
+                          context.get('settings.modelRefreshInterval');
+    this.set('interval', interval || defaultInterval || 2000);
     this.set('paused', false);
   },
 

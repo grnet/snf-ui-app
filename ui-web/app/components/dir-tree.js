@@ -1,10 +1,37 @@
 import Ember from 'ember';
+import {RefreshViewMixin} from 'ui-web/snf/refresh';
 
-export default Ember.Component.extend({
+
+function mergeArrayContents(base, arr) {
+  base.forEach(function(el) {
+    if (!arr.contains(el)) {
+      base.removeObject(el);
+    }
+  });
+
+  arr.forEach(function(el, index) {
+    if (!base.contains(el)) {
+      base.insertAt(index, el);
+    }
+  });
+}
+
+export default Ember.Component.extend(RefreshViewMixin, {
   tagName: 'li',
   expanded: false,
   loading: false,
   classNameBindings: ['isTrash'],
+  refreshTasks: ['refreshSubDirs'],
+  refreshSubDirs: function() {
+    if (this.get('expanded')) {
+      var current = this.get('subdirs');
+      if (!current.content == null) { return }
+      var res = this.get('resolver')(this.get('root'));
+      res.then(function(){
+        mergeArrayContents(current, res);
+      });
+    }
+  },
   
   name: function(){
     var root = this.get('root');
