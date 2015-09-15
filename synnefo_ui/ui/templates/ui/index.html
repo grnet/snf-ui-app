@@ -19,6 +19,10 @@
     <script>window.SETTINGS = {{ app_settings|safe }}</script>
     <script src="{{ MEDIA_URL }}ui/assets/vendor.js"></script>
     <script src="{{ MEDIA_URL }}ui/assets/ui-web.js"></script>
+    <script>
+      // cloudbar backwards compat
+      $.fn.live = $.fn.on;
+    </script>
     
   </body>
   {{ CLOUDBAR_CODE }}
