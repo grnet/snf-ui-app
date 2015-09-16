@@ -14,13 +14,18 @@
     <link rel="stylesheet" href="{{content-for 'mediaURL'}}assets/ui-web.css" data-name="ui-web">
     {{content-for 'head-footer'}}
   </head>
-  <body>
+  <body class="{% if CLOUDBAR_ACTIVE %}cloudbar-active{% endif %}">
     {{content-for 'body'}}
     <script>{{content-for 'settings'}}</script>
     <script src="{{content-for 'mediaURL'}}assets/vendor.js"></script>
     <script src="{{content-for 'mediaURL'}}assets/ui-web.js"></script>
+    <script>
+      // cloudbar backwards compat
+      $.fn.live = $.fn.on;
+    </script>
     {{content-for 'body-footer'}}
   </body>
+  {{ CLOUDBAR_CODE }}
   <script>
     $(document).foundation({
       animation_speed: 400
