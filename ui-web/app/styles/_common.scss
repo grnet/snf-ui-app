@@ -2,16 +2,34 @@ $cloudbar-height: rem-calc(35px);
 
 body {
     background: url("../assets/images/fabric_of_squares_gray.png");
-    // background: url('http://subtlepatterns.com/patterns/symphony.png');
     label {
         color: #222;
     }
 
     &.cloudbar-active {
-      .app .header { top: $cloudbar-height; }
-      .top-bar {
-        top: $header-height + $cloudbar-height;
-      }
+        .cloudbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: $cloudbar-height;
+            background: $jet;
+            .services a:hover {
+                color: inherit;
+            }
+            .profile {
+                background: darken($theme-header-background, 8%);
+                ul li a:hover  {
+                    color: $theme-anchor-font-color;
+                }
+            }
+        }
+        .app .header { top: $cloudbar-height; }
+        .top-bar {
+            top: $header-height + $cloudbar-height;
+        }
+        .main {
+            padding: ($topbar-height + $header-height + $cloudbar-height) 0 $topbar-height;
+        }
     }
 }
 
