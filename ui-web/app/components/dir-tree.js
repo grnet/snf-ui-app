@@ -4,15 +4,17 @@ import {RefreshViewMixin} from 'ui-web/snf/refresh';
 
 function mergeArrayContents(base, arr) {
   base.forEach(function(el) {
-    if (!arr.contains(el)) {
-      base.removeObject(el);
-    }
+    let isModel = el instanceof DS.Model;
+    let remove = (isModel && !arr.contains(el)) || 
+                 !!(!isModel && arr.filterBy('id', el.get('id')).length == 0);
+    if (remove) { base.removeObject(el); }
   });
 
   arr.forEach(function(el, index) {
-    if (!base.contains(el)) {
-      base.insertAt(index, el);
-    }
+    let isModel = el instanceof DS.Model;
+    let add = (isModel && !base.contains(el)) || 
+              !!(!isModel && base.filterBy('id', el.get('id')).length == 0);
+    if (add) { base.insertAt(index, el); }
   });
 }
 
