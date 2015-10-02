@@ -37,11 +37,8 @@ export default StorageAdapter.extend({
 					groups.push(group);
 				}
 			});
-
-			jsonPayload.groups = groups;
 		}
-
-		return jsonPayload;
+    return groups;
 	},
 
 	updateRecord: function(store, type, snapshot) {
