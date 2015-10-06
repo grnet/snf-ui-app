@@ -57,6 +57,37 @@ function _bind(fn) {
   };
 }
 
+function _findAll(adapter, store, type, sinceToken) {
+  var promise = adapter.findAll(store, type, sinceToken);
+  var serializer = serializerForAdapter(adapter, type);
+  var label = "DS: Handle Adapter#findAll of " + type;
+
+  promise = Promise.cast(promise, label);
+  promise = _guard(promise, _bind(_objectIsAlive, store));
+
+  return promise.then(function(adapterPayload) {
+    var recordArray = store.all(type);
+    store._adapterRun(function() {
+      var payload = serializer.extract(store, type, adapterPayload, null, 'findAll');
+      var records = store.pushMany(type, payload);
+      var ids = payload.getEach("id");
+
+      var removed = recordArray.filter(function(m) {
+        return ids.indexOf(m.get('id')) === -1;
+      });
+      var existingIds = recordArray.getEach("id");
+      var added = records.filter(function(m) {
+        return existingIds.indexOf(m.get('id')) === -1;
+      });
+      removed.forEach(function(record) {
+        record.unloadRecord();
+      });
+    });
+    store.didUpdateAll(type);
+    return recordArray;
+  }, null, "DS: Extract payload of findQuery " + type);
+}
+
 function _findQuery(adapter, store, type, query, recordArray) {
   var promise = adapter.findQuery(store, type, query, recordArray);
   var serializer = serializerForAdapter(adapter, type);
@@ -279,6 +310,9 @@ function reloadRecordArray(arr) {
   var type = arr.get('type');
   var query = arr.get('query');
   var adapter = store.adapterFor(type);
+  if (query == undefined) { // findAll()
+    return _findAll(adapter, store, type);
+  }
   return _findQuery(adapter, store, type, query, arr); 
 }
 

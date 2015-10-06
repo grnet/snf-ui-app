@@ -10,7 +10,11 @@ DS.RootState.deleted.inFlight.pushedData = Ember.K;
 var SynnefoStore = DS.Store.extend({
   
   findQueryReloadable: function(type, query) {
-    return markRefresh(this, 'findQuery', type, query)
+    return markRefresh(this, 'findQuery', type, query);
+  },
+
+  findAllReloadable: function(type) {
+    return markRefresh(this, 'findAll', type);
   },
 
   reassignContainer: function(type, record, project_id){
