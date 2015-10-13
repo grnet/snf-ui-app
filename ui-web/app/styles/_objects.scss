@@ -51,4 +51,7 @@
             font-size: rem-calc(12);
         }
     }
+    .label.read {
+        background: $theme-alert-color;
+    }
 }

@@ -11,7 +11,13 @@
             {{view "title-sortable" field="size" classNames="data-col"}}
             {{view "title-sortable" field="last_modified" title="modified" classNames="date-col"}}
             {{view "title-sortable" field="type" classNames="data-col"}}
-            <div class="col actions-col"></div>
+            <div class="col actions-col">
+                {{#if controller.allowed_to}}
+                    <span class="label {{controller.allowed_to}}">
+                        {{controller.allowed_to}} permissions
+                    </span>
+                {{/if}}
+            </div>
         </div>
     </li>
 {{/if}}
