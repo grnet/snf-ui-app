@@ -13,12 +13,12 @@ export default {
     },
     confirm_simple: {
       intro: {
-        one: 'Are you sure you want to %@2 the %@3 <strong class="u-wrap">%@4</strong> ?',
+        one: 'Are you sure you want to %@2 the %@3 %@4 ?',
         other: 'Are you sure you want to %@2 the following:'
       }
     },
     versions: {
-      title: 'Versions for <strong class="u-wrap">%@</strong>'
+      title: 'Versions for %@'
     },
     paste: {
       
@@ -46,7 +46,7 @@ export default {
       intro: 'Are you sure you want to delete the group %@?'
     },
     sharing: {
-      inherited_share: 'This file is included in a shared directory. Remove sharing permissions can only be done from the shared directory <strong>%@.</strong>',
+      inherited_share: 'This file is included in a shared directory. Remove sharing permissions can only be done from the shared directory %@.',
       inherited_sharing_permissions: 'Inherited permissions: %@'
     }
   },

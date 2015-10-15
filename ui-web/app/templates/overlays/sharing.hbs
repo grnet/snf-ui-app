@@ -1,7 +1,7 @@
 <h3>{{t 'action_verb.share'}} {{fa-icon "fa-share-alt"}} <span class="u-wrap">{{model.stripped_name}}</span></h3>
 {{#if controller.inherit_share}}
     <p class="alert-box alert">
-    {{{t 'overlay.sharing.inherited_share' controller.model.shared_ancestor_path}}}<br>
+    {{t 'overlay.sharing.inherited_share' controller.model.shared_ancestor_path}}<br>
     </p>
 {{/if}}
 <p>
