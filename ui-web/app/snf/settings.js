@@ -172,4 +172,8 @@ export default Ember.Object.extend({
 
   main_theme: 'ui-web',
 
+  // The default containers that will be created if they are not found when the
+  // application starts
+  default_containers: ['pithos', 'trash']
+
 });
