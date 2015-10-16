@@ -1,5 +1,7 @@
 .reveal-modal {
-    max-width: 900px;
+    @media #{$medium-up} {
+        max-width: 900px;
+    } 
     &:focus {
         outline: 0 none;
     }
@@ -100,13 +102,19 @@
         }
     }
     &.medium {
-        max-width: 880px;
+        @media #{$medium-up} {
+            max-width: 800px;
+        } 
     }
     &.small {
-        max-width: 600px;
+        @media #{$medium-up} {
+            max-width: 600px;
+        } 
     }
     &.tiny {
-        max-width: 400px;
+        @media #{$medium-up} {
+            max-width: 400px;
+        } 
     }
 
     .alert-box {

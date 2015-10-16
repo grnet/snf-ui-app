@@ -84,9 +84,14 @@ body {
 
 .sidebar {
     background: $topbar-bg-color;
-    height: 100%;
+    @media #{$medium-up} {
+        height: 100%;
+    }
     overflow-y: auto;
     padding-top: $default-padding;
+    h4 {
+        font-size: rem-calc(18);
+    }
     h4 .active {
         color: $body-font-color;
     }

@@ -11,6 +11,13 @@
                 <span>{{container.model.name}}</span>
                 {{fa-icon "fa-external-link"}}
             {{/link-to}}
+            {{view "select" content=container.availableProjects
+                        optionLabelPath="content.select_label"
+                        optionValuePath="content.id"
+                        selection=container.selectedProject
+                        classNames="hide-for-large-up"
+                        }}
+
         </h4>
         {{else}}
         <h4>
@@ -37,7 +44,7 @@
             </dd>
         </dl>
     {{/if}}
-    <div class="col select-col">
+    <div class="col select-col show-for-large-up">
         <label>Reassign project</label>
         {{view "select" content=container.availableProjects
                         optionLabelPath="content.select_label"

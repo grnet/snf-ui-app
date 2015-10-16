@@ -2,6 +2,11 @@
     color: inherit;
 }
 
-.breadcrumbs a {
-    color: $theme-anchor-font-color;
+.breadcrumbs {
+    li {
+        line-height: 1rem;
+    }
+    a {
+        color: $theme-anchor-font-color;
+    }
 } 

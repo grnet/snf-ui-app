@@ -4,8 +4,18 @@
             padding: rem-calc(14 8);
         }
         .actions-col {
-            width: 10%;
+            width: 16%;
+            @media #{$large-up} {
+                width: 11%;
+            }
         }
+        .name-col {
+            width: 50%;
+            @media #{$large-up} {
+                width: 32%;
+            }
+        }
+
 
     }
     .name-col {
