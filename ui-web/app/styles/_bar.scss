@@ -1,13 +1,12 @@
 .top-bar {
     @include bar-style();
-    height: $topbar-height;
+    height: auto;
     left: 0;
     padding: 0 0 0 $default-padding; 
     position: absolute;
     right: 0;
     top: $header-height;
     z-index: 1;
-
     .button {
         height: auto;
         padding: 0.5rem 1rem;
@@ -19,9 +18,18 @@
 
     .top-bar-section {
         .right {
+            @media #{$small-up} {
+                width: auto;
+            }
             li {
                 border-left: 1px solid $gainsboro;
                 text-align: center;
+
+                @media #{$small-up} { 
+                    float: left;
+                }
+
+
                 a {
                     height: $topbar-height;
                     line-height: inherit;
