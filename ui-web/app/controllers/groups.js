@@ -20,13 +20,9 @@ export default Ember.ArrayController.extend(EmailsInputAuxMixin, NameMixin, {
 	isUnique: undefined,
 	cleanUserInput: true,
 
-	isNameValid: function() {
-		/*
-		* name is valid if it is unique because all other checks
-		* have been executed from the input view, before the checkUnique function
-		*/
-		return this.get('isUnique');
-	}.property('isUnique'),
+
+  // updated from inputPartialView
+	isNameValid: false,
 
 
 	resetInputs: false,
@@ -52,7 +48,7 @@ export default Ember.ArrayController.extend(EmailsInputAuxMixin, NameMixin, {
 		var isNameValid = this.get('isNameValid');
 		var allUsersValid = this.get('allUsersValid');
 		var cleanUserInput = this.get('cleanUserInput');
-
+console.log('%c freezeCreation: ', 'color:red',isNameValid, notEmptyName )
 		return !(notEmptyName && isNameValid && allUsersValid && cleanUserInput);
 	}.property('notEmptyName', 'isNameValid', 'allUsersValid', 'cleanUserInput'),
 

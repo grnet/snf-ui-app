@@ -52,7 +52,6 @@ export default Ember.View.extend({
 
 	adjustSize: function() {
 		var self = this;
-
 		return function() {
 			var maxSize = self.get('controller').get('nameMaxLength');
 			var valueEncoded = self.get('valueEncoded');
@@ -87,20 +86,65 @@ export default Ember.View.extend({
 			}
 		}
 	}.property(),
+  currentErrors: {
+    'isUnique': false,
+    'hasHyphen': false,
+    'hasColon': false
+  },
 
 	isUnique: function() {
 		var self = this;
 		return function() {
+      var errors = self.get('currentErrors');
 			self.get('controller').set('newName', self.get('value'))
 			if(self.get('controller').get('isUnique')) {
-				console.log('IS UNIQUE')
-			}
-			else {
-				self.send('showInfo', 'Already exists', true)
-			}
-		};
-	}.property(),
+        errors.isUnique = false;
+      }
+      else {
+        self.get('controller').set('isNameValid', false);
+        errors.isUnique = true;
+        self.send('showInfo', 'Already exists', true);
+      }
+    };
+  }.property(),
 
+  hasHyphen: function() {
+    var self = this;
+    return function() {
+      var hasHyphen = false;
+      if(self.get('value')) {
+        hasHyphen = self.get('value').indexOf('-') !== -1;
+      }
+      var errors = self.get('currentErrors');
+      if(hasHyphen) {
+        self.get('controller').set('isNameValid', false);
+        errors.hasHyphen = true;
+        self.send('showInfo', '"-" is not allowed', true);
+      }
+      else {
+        errors.hasHyphen = false;
+      }
+    };
+  }.property(),
+
+  hasColon: function() {
+    var self = this;
+    return function() {
+      var hasColon = false;
+      if(self.get('value')) {
+        hasColon = self.get('value').indexOf(':') !== -1;
+      }
+      var errors = self.get('currentErrors')
+      if(hasColon) {
+        self.get('controller').set('isNameValid', false);
+        errors.hasColon = true;
+        self.send('showInfo', '":" is not allowed', true);
+      }
+      else {
+        errors.hasColon = false;
+      }
+    };
+  }.property(),
 
 	eventManager: Ember.Object.create({
 		keyUp: function(event, view) {
@@ -111,19 +155,21 @@ export default Ember.View.extend({
 				$('body .close-reveal-modal').trigger('click');
 			}
 			else {
-				view.send('hideInfo', true)
 				var value = view.$('input').val();
 				view.set('value', value);
 				if(view.get('notEmpty')) {
 					view.get('controller').set('notEmptyName', true);
 					Ember.run.debounce(view, function() {
-						console.log(view.get('value'))
 						view.get('toLowerCase')();
 						view.get('adjustSize')();
+            view.get('hasHyphen')();
+            view.get('hasColon')();
 						view.get('isUnique')();
+				    view.send('hideInfo', true);
 					}, 300);
 				}
 				else {
+          view.get('controller').set('isNameValid', false);
 					view.get('controller').set('notEmptyName', false);
 				}
 			}
@@ -156,12 +202,30 @@ export default Ember.View.extend({
 		},
 		hideInfo: function(isError) {
 			var self = this;
-			if(isError) {
+      // Error message should disappear only if there is no kind
+      // of error, but should check if we want to hide them on
+      // every key press.
+			if(isError && this.get('errorVisible')) {
+        var errors = this.get('currentErrors');
+        var hasError = false;
+        for(var error in errors) {
+          hasError = hasError || errors[error];
+        }
+        if(!hasError){
+          // all errors have been corrected
 					this.set('errorVisible', false);
+          if(!self.get('warningVisible')) {
+            // enable action if there is no warning either
+            self.get('controller').set('isNameValid', true);
+          }
+        }
 			}
 			else {
 				setTimeout(function() {
 					self.set('warningVisible', false);
+          if(!self.get('errorVisible')) {
+            self.get('controller').set('isNameValid', true);
+          }
 				}, 5000);
 			}
 		}
