@@ -5,123 +5,123 @@ import NameMixin from 'ui-web/mixins/name';
 
 export default Ember.ArrayController.extend(EmailsInputAuxMixin, NameMixin, {
 
-	sortProperties: ['name'],
-	sortAscending: true,
+
+  sortProperties: ['name'],
+  sortAscending: true,
 
 
-	/*
-	* Pithos API allows the name of groups to have at most 256 chars
-	* When a new group is created the length of the name is checked
-	*/
-	nameMaxLength: 256,
+  /*
+  * Pithos API allows the name of groups to have at most 256 chars
+  * When a new group is created the length of the name is checked
+  */
+  nameMaxLength: 256,
 
-	newName: undefined,
-	notEmptyName: undefined,
-	isUnique: undefined,
-	cleanUserInput: true,
-
-
-  // updated from inputPartialView
-	isNameValid: false,
+  newName: undefined,
+  notEmptyName: undefined,
+  isUnique: undefined,
+  cleanUserInput: true,
 
 
-	resetInputs: false,
-	resetedInputs: 0,
-	completeReset: false,
-	checkReset: function() {
-		var inputsNum = 2;
-		var resetedInputsNum = this.get('resetedInputs');
-		if(inputsNum === resetedInputsNum) {
-			this.set('resetedInputs', 0);
-			this.set('completeReset', true);
-			this.set('resetInputs', false);
-		}
-		else {
-			this.set('completeReset', false);
-		}
-
-	}.observes('resetedInputs'),
-
-	// overrides the freezeCreation of EmailsInputAuxMixin
-	freezeCreation: function() {
-		var notEmptyName = this.get('notEmptyName');
-		var isNameValid = this.get('isNameValid');
-		var allUsersValid = this.get('allUsersValid');
-		var cleanUserInput = this.get('cleanUserInput');
-console.log('%c freezeCreation: ', 'color:red',isNameValid, notEmptyName )
-		return !(notEmptyName && isNameValid && allUsersValid && cleanUserInput);
-	}.property('notEmptyName', 'isNameValid', 'allUsersValid', 'cleanUserInput'),
+  // updated from InputPartialView
+  isNameValid: false,
 
 
-	checkUnique: function() {
-		if(this.get('newName')) {
+  resetInputs: false,
+  resetedInputs: 0,
+  completeReset: false,
+  checkReset: function() {
+    var inputsNum = 2;
+    var resetedInputsNum = this.get('resetedInputs');
+    if(inputsNum === resetedInputsNum) {
+      this.set('resetedInputs', 0);
+      this.set('completeReset', true);
+      this.set('resetInputs', false);
+    }
+    else {
+      this.set('completeReset', false);
+    }
 
-			var temp = [];
-			var name = this.get('newName');
+  }.observes('resetedInputs'),
 
-			/*
-			* hasRecordForId: Returns true if a record for a given type and ID
-			* is already loaded.
-			* In our case the id of a container it's its name.
-			*/
-			var isUnique = !this.get('store').hasRecordForId('group', name);
-			this.set('isUnique', isUnique);
-		}
-	}.observes('newName'),
+  // overrides the freezeCreation of EmailsInputAuxMixin
+  freezeCreation: function() {
+    var notEmptyName = this.get('notEmptyName');
+    var isNameValid = this.get('isNameValid');
+    var allUsersValid = this.get('allUsersValid');
+    var cleanUserInput = this.get('cleanUserInput');
+    return !(notEmptyName && isNameValid && allUsersValid && cleanUserInput);
+  }.property('notEmptyName', 'isNameValid', 'allUsersValid', 'cleanUserInput'),
 
-	actions: {
 
-		addUser: function(user) {
+  checkUnique: function() {
+    if(this.get('newName')) {
 
-			var usersExtended = this.get('usersExtended');
+      var temp = [];
+      var name = this.get('newName');
 
-			if(usersExtended.filterBy('email', user.email).get('length') === 0) {
+      /*
+      * hasRecordForId: Returns true if a record for a given type and ID
+      * is already loaded.
+      * In our case the id of a container it's its name.
+      */
+      var isUnique = !this.get('store').hasRecordForId('group', name);
+      this.set('isUnique', isUnique);
+    }
+  }.observes('newName'),
 
-				var userExtended = Ember.Object.create({
-					email: user.email,
-					status: user.status,
-					errorMsg: user.errorMsg,
-				});
+  actions: {
 
-				this.get('usersExtended').pushObject(userExtended);
+    addUser: function(user) {
 
-				if(user.status !== 'error') {
-					this.send('findUser', user.email);
-				}
-			}
-		},
+      var usersExtended = this.get('usersExtended');
 
-		createGroup: function(){
+      if(usersExtended.filterBy('email', user.email).get('length') === 0) {
 
-			if(!this.get('freezeCreation')) {
+        var userExtended = Ember.Object.create({
+          email: user.email,
+          status: user.status,
+          errorMsg: user.errorMsg,
+        });
 
-				var self = this;
-				var uuids = this.get('usersExtended').mapBy('uuid');
-				var name = this.get('newName');
-				self.store.filter('user', function(user) {
-					var id = user.get('id');
-					if(uuids.indexOf(id) !== -1) {
-						return user;
-					}
-				}).then(function(groupUsers) {
+        this.get('usersExtended').pushObject(userExtended);
 
-					var group = self.store.createRecord('group', {
-						name: name,
-						id: name
-					});
-					group.get('users').then(function(users){
-						groupUsers.forEach(function(user) {
-							users.pushObject(user)
-						});
+        if(user.status !== 'error') {
+          this.send('findUser', user.email);
+        }
+      }
+    },
 
-						group.save().then(function(){
-						}, function(error) {
-							self.send('showErrorDialog', error)
-							console.log('ERROR!')
-						});
-					});
-				});
-			}
-		}
-	}
+    createGroup: function(){
+
+      if(!this.get('freezeCreation')) {
+
+        var self = this;
+        var uuids = this.get('usersExtended').mapBy('uuid');
+        var name = this.get('newName');
+        self.store.filter('user', function(user) {
+          var id = user.get('id');
+          if(uuids.indexOf(id) !== -1) {
+            return user;
+          }
+        }).then(function(groupUsers) {
+
+          var group = self.store.createRecord('group', {
+            name: name,
+            id: name
+          });
+          group.get('users').then(function(users){
+            groupUsers.forEach(function(user) {
+              users.pushObject(user)
+            });
+
+            group.save().then(function(){
+            }, function(error) {
+              self.send('showErrorDialog', error)
+              console.log('ERROR!')
+            });
+          });
+        });
+      }
+    }
+  }
 });
