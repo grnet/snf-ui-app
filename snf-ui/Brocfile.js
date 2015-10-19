@@ -5,6 +5,7 @@ var mergeTrees = require('broccoli-merge-trees');
 var app = new EmberApp({
   outputPaths: {
     app: {
+      html: 'snf_ui_index.html',
       css: {
         'app': 'assets/snf-ui.css',
         'themes/theme-funky': 'assets/theme-funky.css',

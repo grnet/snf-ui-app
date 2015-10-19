@@ -1,7 +1,7 @@
 module.exports = {
   contentFor: function(type, config) {
     var django = config.djangoContext;
-    var prefix = config.assetsPrefix === undefined ? 'ui/' : config.assetsPrefix;
+    var prefix = config.assetsPrefix === undefined ? '' : config.assetsPrefix;
     if (type === 'settings') {
       if (django) {
         return 'window.SETTINGS = {{ app_settings|safe }}';
@@ -12,10 +12,15 @@ module.exports = {
 
     if (type === 'mediaURL') {
       if (django) {
-        return '{{ MEDIA_URL }}' + prefix;
+        return '{{ UI_MEDIA_URL }}' + prefix;
       } else {
         return prefix;
       }
+    }
+
+    if (type === 'title') {
+      if (django) { return '{{ BRANDING_SERVICE_NAME }}'; }
+      return 'Synnefo UI';
     }
   }
 };

@@ -19,6 +19,7 @@ distribute_setup.use_setuptools()
 
 import os
 import sys
+import site
 
 from setuptools import setup, find_packages
 from fnmatch import fnmatchcase
@@ -33,7 +34,6 @@ VERSION = __version__
 SHORT_DESCRIPTION = 'Synnefo UI component'
 
 PACKAGES_ROOT = '.'
-PACKAGES = find_packages(PACKAGES_ROOT)
 
 # Package meta
 CLASSIFIERS = []
@@ -42,6 +42,7 @@ CLASSIFIERS = []
 INSTALL_REQUIRES = [
     'Django>=1.4, <1.5',
     'snf-django-lib',
+    'snf-branding'
 ]
 
 # Provided as an attribute, so you can append to these instead
@@ -134,6 +135,66 @@ def find_package_data(
                 out.setdefault(package, []).append(prefix+name)
     return out
 
+
+
+def build_ember_project():
+    import subprocess as sp
+    from distutils.spawn import find_executable as find
+    project_dir = os.path.join(".", "snf-ui")
+    if not os.path.exists(project_dir):
+        os.mkdir(project_dir)
+    setupdir = os.getcwd()
+    os.chdir(project_dir)
+    env = os.environ.get('SNFUI_AUTO_BUILD_ENV', 'development')
+    cache_args = ["--cache-min", "99999999"]
+
+    if not find("npm"):
+        raise Exception("NPM not found please install nodejs and npm")
+
+    if not os.path.exists("./node_modules"):
+        print "Install npm dependencies"
+        ret = sp.call(["npm", "install", "--silent"] + cache_args)
+        if ret == 1:
+            raise Exception("ember install failed")
+
+    ember_bin = "./node_modules/ember-cli/bin/ember"
+    if not os.path.exists(ember_bin):
+        print "Installing ember-cli..."
+        sp.call(["npm", "install", "ember-cli"])
+
+    bower_bin = "bower"
+    if find("bower") is None:
+        bower_bin = "./node_modules/bower/bin/bower"
+        if not os.path.exists(bower_bin):
+            print "Installing bower..."
+            sp.call(["npm", "install", "bower"] + cache_args)
+
+    if not os.path.exists("./bower_components"):
+        print "Install bower dependencies"
+        ret = sp.call([bower_bin, "install",
+                       "--allow-root", "--quiet"])
+        if ret == 1:
+            raise Exception("bower install failed")
+
+    ret = sp.call([ember_bin, "build", "--environment", env,
+                   "--output-path", "../synnefo_ui/static/snf-ui"])
+    if ret == 1:
+        raise Exception("ember build failed")
+    os.chdir(setupdir)
+
+
+trigger_build = ["sdist", "build", "develop", "install"]
+cmd = ''.join(sys.argv)
+if any(x in cmd for x in trigger_build):
+    if os.path.exists("./synnefo_ui/static/snf-ui"):
+        print "Ember.js project already built in synnefo_ui/static/snf-ui"
+    else:
+        if os.environ.get('SNFUI_AUTO_BUILD', True) not in \
+                ['False', 'false', '0']:
+            build_ember_project()
+
+PACKAGES = find_packages(PACKAGES_ROOT)
+package_data = find_package_data('.')
 setup(
     name='snf-ui-app',
     version=VERSION,
@@ -149,7 +210,7 @@ setup(
 
     packages=PACKAGES,
     package_dir={'': PACKAGES_ROOT},
-    package_data=find_package_data('.'),
+    package_data=package_data,
     include_package_data=True,
     zip_safe=False,
 
@@ -159,10 +220,9 @@ setup(
 
     entry_points={
         'synnefo': [
-            'default_settings = synnefo_ui.app_settings.default',
-            'web_apps = synnefo_ui.app_settings:installed_apps',
-            'urls = synnefo_ui.urls:urlpatterns',
-            'web_static = synnefo_ui.app_settings:static_files'
+            'web_apps = synnefo_ui.synnefo_settings:installed_apps',
+            'web_static = synnefo_ui.synnefo_settings:static_files',
+            'urls = synnefo_ui.urls:urlpatterns'
         ]
     },
 )
