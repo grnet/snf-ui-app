@@ -10,7 +10,7 @@
             <div class="col select-col">&nbsp;</div>
             {{view "title-sortable" field="size" classNames="data-col"}}
             {{view "title-sortable" field="last_modified" title="modified" classNames="date-col"}}
-            {{view "title-sortable" field="type" classNames="data-col"}}
+            {{view "title-sortable" field="type" classNames="data-col show-for-large-up"}}
             <div class="col actions-col">
                 {{#if controller.allowed_to}}
                     <span class="label {{controller.allowed_to}}">

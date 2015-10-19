@@ -55,6 +55,7 @@ $ellipsis-w: 265px;
     }
     .name-col {
         width: 32%;
+        min-width: 370px;
         .ellipsis {
             span {
                 display: inline-block;
@@ -72,7 +73,10 @@ $ellipsis-w: 265px;
         }
     }
     .checkbox-col {
-        width: 2%;
+        width: 20px;
+        @media #{$large-up} {
+            width: 2%;
+        }
     }
     .checkbox-col + .name-col {
         width: 30%;

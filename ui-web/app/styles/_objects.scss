@@ -1,4 +1,5 @@
 .objects {
+    min-width: 690px;
     li:first-child {
         .select-col {
             min-width: 100px;
@@ -11,7 +12,11 @@
             width: auto;
         }
         .actions-col {
-            min-width: 25%;
+            float: none;
+            display: inline-table;
+            @media #{$large-up} {
+                float: right;
+            }
         }
         .label {
             top: 10px;
