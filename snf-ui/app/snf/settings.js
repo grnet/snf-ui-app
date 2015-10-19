@@ -170,6 +170,6 @@ export default Ember.Object.extend({
     'icon-loader': 'life-ring'
   }],
 
-  main_theme: 'ui-web',
+  main_theme: 'snf-ui',
 
 });

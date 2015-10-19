@@ -18,6 +18,17 @@ var app = new EmberApp({
 });
 app.project.addons.push(require('./ember-cli-synnefo'));
 
+// hacky workaround to carry out dynamic base url via django
+var contentForHead = EmberApp.prototype._contentForHead;
+app._contentForHead = function(content, config) {
+  contentForHead.call(this, content, config);
+  if (!config.djangoContext) { return; }
+  content.forEach(function(c, i) {
+    content[i] = content[i].replace('/__BASE_URL__/', '{{ UI_BASE_URL }}');
+    content[i] = content[i].replace('__BASE_URL__', '{{ UI_BASE_URL }}');
+  });
+}
+
 app.import('bower_components/moment/moment.js');
 app.import('bower_components/foundation/js/foundation/foundation.js');
 app.import('bower_components/foundation/js/foundation/foundation.reveal.js');

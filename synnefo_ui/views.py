@@ -40,7 +40,8 @@ def app(request):
 
     context = {
         'app_settings': json.dumps(app_settings),
-        'UI_MEDIA_URL': ui_settings.UI_MEDIA_URL
+        'UI_MEDIA_URL': ui_settings.UI_MEDIA_URL,
+        'UI_BASE_URL': ui_settings.BASE_PATH
     }
     return direct_to_template(request, "snf_ui_index.html",
                               extra_context=context)

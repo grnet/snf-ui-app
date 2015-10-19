@@ -15,7 +15,7 @@ module.exports = function(environment) {
     modulePrefix: 'snf-ui',
     environment: environment,
     subEnvironment: subEnvironment,
-    baseURL: 'ui',
+    baseURL: '__BASE_URL__', // this will be replaced to {{ UI_BASE_URL }}
     locationType: 'auto',
     contentSecurityPolicy: {
       'style-src': "'self' 'unsafe-inline' fonts.gstatic.com *.googleapis.com",

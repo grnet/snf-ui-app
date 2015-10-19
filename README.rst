@@ -19,8 +19,7 @@ to your deployment needs.
 Project status
 ==============
 
-As of version `0.17` of Synnefo stack only Pithos UI views are implemented 
-within the package.
+The package only includes the Pithos UI webapp.
 
 
 Packaging

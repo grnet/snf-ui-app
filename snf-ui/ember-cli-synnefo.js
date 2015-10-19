@@ -1,4 +1,5 @@
 module.exports = {
+
   contentFor: function(type, config) {
     var django = config.djangoContext;
     var prefix = config.assetsPrefix === undefined ? '' : config.assetsPrefix;
