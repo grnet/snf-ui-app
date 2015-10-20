@@ -146,6 +146,15 @@ body {
         border-width: 0;
     }
 }
+button.icon-a {
+    background-color: transparent;
+    color: $theme-anchor-font-color;
+    font-size: inherit;
+    &:hover {
+        background-color: transparent;
+        color: $theme-anchor-font-color-hover;
+    }
+}
 
 .arrow-down, 
 .arrow-up {

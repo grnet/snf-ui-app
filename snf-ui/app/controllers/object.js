@@ -129,20 +129,16 @@ export default Ember.Controller.extend({
   */
   nameMaxLength: 1024,
 
-  validInput: undefined,
-  validationOnProgress: undefined,
   resetInput: undefined,
 
   newName: undefined,
-  actionToExec: undefined,
-  isUnique: undefined,
   oldPath: undefined,
   newID: undefined,
   isImg: function() {
     return this.get('model.type') === 'image';
   }.property('model.type'),
 
-  checkUnique: function() {
+  isUnique: function() {
     if(this.get('newName')) {
       var type = this.get('parentController').get('model').get('type');
 
@@ -165,38 +161,14 @@ export default Ember.Controller.extend({
 
       this.set('newID', newID);
       this.set('oldPath', oldPath)
-      this.set('isUnique', isUnique);
+      return isUnique;
     }
-  }.observes('newName'),
-
-
-  renameObject: function(){
-    if(this.get('validInput')) {
-      var oldPath = this.get('oldPath');
-      var newID = this.get('newID');
-      var object = this.get('model');
-      var self = this;
-      var onSuccess = function() {
-        var parent = this.get("parentController");
-        parent && parent.get("model").update().then(function() {
-          object.unloadRecord();
-        });
-      }.bind(this);
-
-      var onFail = function(reason){
-        self.send('showActionFail', reason);
-      };
-
-      this.store.moveObject(object, newID).then(onSuccess, onFail);
-
-      // reset
-      this.set('newName', undefined);
-      this.set('validInput', undefined);
-      this.set('isUnique', undefined);
-      this.set('oldPath', undefined);
-      this.set('newID', undefined)
+    else {
+      return true;
     }
-  }.observes('validInput'),
+  }.property('newName'),
+
+  freezeRenameObject: true,
 
   actions: {
     initAction: function(action){
@@ -230,15 +202,38 @@ export default Ember.Controller.extend({
       this.set('closeDialog', true);
     },
 
-    validateRename: function(action) {
-      var flag = 'validationOnProgress';
-      this.set('actionToExec', action);
-      this.set(flag, true);
-    },
+  renameObject: function(){
+    if(!this.get('freezeRenameObject')) {
+      var oldPath = this.get('oldPath');
+      var newID = this.get('newID');
+      var object = this.get('model');
+      var self = this;
+      var onSuccess = function() {
+        var parent = this.get("parentController");
+        parent && parent.get("model").update().then(function() {
+          object.unloadRecord();
+        });
+      }.bind(this);
+
+      var onFail = function(reason){
+        self.send('showActionFail', reason);
+      };
+
+      this.store.moveObject(object, newID).then(onSuccess, onFail);
+
+      // reset
+      this.set('newName', undefined);
+      this.set('oldPath', undefined);
+      this.set('newID', undefined)
+    }
+  },
+
+
+
+
 
     moveToTrash: function(){
       this.send('moveObjectsToTrash');
     },
   }
 });
-
