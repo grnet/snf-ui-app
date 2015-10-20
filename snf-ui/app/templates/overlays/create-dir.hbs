@@ -1,7 +1,7 @@
 <h3>{{t 'overlay.create_dir.title'}}</h3>
-<form {{action 'validateCreation' 'createDir' on="enter"}}>
-    {{view "input-single" placeholder="Folder name" autofocus=true controller=controller}}
-    {{#view "buttons"}}
-        <button {{action 'validateCreation' 'createDir'}}>{{t 'button.create_dir'}}</button>
+<form {{action 'createDir' on='enter'}}>
+    {{view 'input-single' placeholder='Folder name' autofocus=true controller=controller actionFlag='freezeCreateDir'}}
+    {{#view 'buttons'}}
+    <button {{action 'createDir'}} disabled={{controller.freezeCreateDir}}>{{t 'button.create_dir'}}</button>
     {{/view}}
 </form>
