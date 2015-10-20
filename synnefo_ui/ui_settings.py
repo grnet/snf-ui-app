@@ -19,18 +19,18 @@ from django.conf import settings
 from synnefo.lib import parse_base_url
 
 
-BASE_PATH = getattr(settings, 'UI_BASE_PATH', '/ui/')
+BASE_URL = getattr(settings, 'UI_BASE_URL', '/ui/')
 
 AUTH_METHOD = getattr(settings, 'UI_AUTH_METHOD', 'cookie:_pithos2_a')
 
 PROXY_PATH = getattr(settings, 'UI_ASTAKOS_PROXY_PATH', '_astakos')
 ASTAKOS_IDENTITY_PROXY_PATH = getattr(settings,
                                 'UI_ASTAKOS_IDENTITY_PROXY_PATH',
-                                '%s%s/identity' % (BASE_PATH, PROXY_PATH))
+                                '%s%s/identity' % (BASE_URL, PROXY_PATH))
 
 ASTAKOS_ACCOUNT_PROXY_PATH = getattr(settings,
                                 'UI_ASTAKOS_ACCOUNT_PROXY_PATH',
-                                '%s%s/account' % (BASE_PATH, PROXY_PATH))
+                                '%s%s/account' % (BASE_URL, PROXY_PATH))
 
 COMMON_AUTH_URL = getattr(settings, 'ASTAKOS_AUTH_URL', None)
 ASTAKOS_ACCOUNT_BASE_URL = getattr(settings,

@@ -23,7 +23,7 @@ from snf_django.lib.api.urls import api_patterns
 from snf_django.lib.api import api_endpoint_not_found
 from snf_django.utils.urls import extend_path_with_slash
 
-from synnefo_ui.ui_settings import BASE_PATH, ASTAKOS_IDENTITY_PROXY_PATH, \
+from synnefo_ui.ui_settings import BASE_URL, ASTAKOS_IDENTITY_PROXY_PATH, \
     ASTAKOS_IDENTITY_BASE_URL, ASTAKOS_ACCOUNT_PROXY_PATH, \
     ASTAKOS_ACCOUNT_BASE_URL
 
@@ -54,7 +54,7 @@ ui_patterns = patterns(
 urlpatterns = proxy_patterns
 urlpatterns += patterns(
     '',
-    (prefix_pattern(BASE_PATH), include(ui_patterns)))
+    (prefix_pattern(BASE_URL), include(ui_patterns)))
 
 
-extend_path_with_slash(urlpatterns, BASE_PATH);
+extend_path_with_slash(urlpatterns, BASE_URL);
