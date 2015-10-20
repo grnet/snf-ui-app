@@ -1,8 +1,11 @@
 import Ember from 'ember';
 import {tempSetProperty} from 'snf-ui/snf/common';
 import {ItemsControllerMixin} from 'snf-ui/mixins/items'; 
+import NameMixin from 'snf-ui/mixins/name';
 
-export default Ember.ArrayController.extend(ItemsControllerMixin, {
+
+
+export default Ember.ArrayController.extend(ItemsControllerMixin, NameMixin, {
   needs: ['application'],
   projectsLoading: true,
 
@@ -42,8 +45,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
     });
     return DS.PromiseArray.create({promise: projects});
   }.property(),
-  
-  
+
   newProject: function(){
     return this.get('systemProject');
   }.property('systemProject'),
@@ -54,13 +56,9 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   */
   nameMaxLength: 256,
 
-  validInput: undefined,
-  validationOnProgress: undefined,
   newName: undefined,
-  actionToExec: undefined, // needs to be set when input is used (for the view)
-  isUnique: undefined,
 
-  checkUnique: function() {
+  isUnique: function() {
     if(this.get('newName')) {
       /*
       * hasRecordForId: Returns true if a record for a given type and ID
@@ -69,12 +67,24 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       */
       var uuid = this.get('settings.uuid');
       var isUnique = !this.get('store').hasRecordForId('container', uuid + '/' +  this.get('newName'));
-      this.set('isUnique', isUnique);
+      return isUnique;
     }
-  }.observes('newName'),
+    else {
+      return true;
+    }
+  }.property('newName'),
+
+  freezeCreateContainer: true,
+
+  actions: {
+    refresh: function(){
+      this.set('sortBy', 'name:asc');
+      this.send('refreshRoute');
+    },
+
 
   createContainer: function(){
-    if(this.get('validInput')) {
+    if(!this.get('freezeCreateContainer')) {
       var self = this;
       var name = this.get('newName');
       var project = this.get('newProject');
@@ -90,7 +100,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       var onSuccess = function(container) {
         self.get('model').pushObject(container);
         tempSetProperty(container, 'new');
-     };
+      };
 
 
       var onFail = function(reason){
@@ -102,24 +112,10 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
 
       // reset
       this.set('newName', undefined);
-      this.set('validInput', undefined);
-      this.set('isUnique', undefined);
       this.set('closeDialog', true);
     }
-  }.observes('validInput'),
+  },
 
-  actions: {
-    refresh: function(){
-      this.set('sortBy', 'name:asc');
-      this.send('refreshRoute');
-    },
-
-
-    validateCreation: function(action) {
-      var flag = 'validationOnProgress';
-      this.set('actionToExec', action);
-      this.set(flag, true);
-    },
     sortBy: function(property){
       this.set('sortBy', property);
     },

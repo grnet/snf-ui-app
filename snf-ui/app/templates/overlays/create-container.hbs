@@ -1,6 +1,6 @@
 <h3>{{t 'overlay.create_container.title'}}</h3>
-<form {{action 'validateCreation' 'createContainer' on="enter" }}>
-    {{view 'input-single' placeholder='Container name' autofocus=true controller=controller}}
+<form {{action 'createContainer' on="enter" }}>
+    {{view 'input-single' placeholder='Container name' autofocus=true controller=controller actionFlag='freezeCreateContainer'}}
 
     {{#if projectsLoading }}
         <p>{{partial "loader"}} Loading projects</p>
@@ -15,6 +15,6 @@
         </p>
     {{/if}}
     {{#view "buttons"}}
-        <button {{action 'validateCreation' 'createContainer' }}>{{t 'button.create_container'}}</button>
+    <button disabled={{controller.freezeCreateContainer}} {{action 'createContainer' }}>{{t 'button.create_container'}}</button>
     {{/view}}
 </form>

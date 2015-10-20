@@ -17,6 +17,7 @@
         margin-bottom: 1rem;
         margin-top: -1px;
         position: absolute;
+        width: 100%;
         z-index: 1;
         .invisible {
             display: none;
@@ -36,7 +37,6 @@
             font-style: italic;
             font-weight: normal;
             padding: 0.375rem 0.5625rem 0.5625rem;
-            width: 200px;
         }
     }
     input {
