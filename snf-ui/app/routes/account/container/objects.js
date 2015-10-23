@@ -1,10 +1,12 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import EscapedParamsMixin from 'snf-ui/mixins/escaped-params';
 
 var Promise = Ember.RSVP.Promise;
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(EscapedParamsMixin, {
   
+  escapedParams: ['path'],
   pathQuery: false,
 
   paramFor: function(param, name) {
