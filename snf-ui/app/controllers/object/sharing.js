@@ -1,6 +1,7 @@
 import ObjectController from 'snf-ui/controllers/object';
 import EmailsInputAuxMixin from 'snf-ui/mixins/emails-input-aux';
 import NameMixin from 'snf-ui/mixins/name';
+import App from 'snf-ui/app';
 
 export default ObjectController.extend(EmailsInputAuxMixin, NameMixin, {
 
@@ -188,7 +189,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, NameMixin, {
         return el.permission === 'read';
       });
       
-      var shared = SnfUi.Shared.create({
+      var shared = App.Shared.create({
           'permission': 'read',
           'id': '*', 
           'type': 'all',
@@ -234,7 +235,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, NameMixin, {
         }).then(function(newUsers) {
           newUsers.forEach(function(user){
 
-            var shared = SnfUi.Shared.create({
+            var shared = App.Shared.create({
                 'permission': 'read',
                 'id': user.get('id'), 
                 'type': 'user',
@@ -270,7 +271,7 @@ export default ObjectController.extend(EmailsInputAuxMixin, NameMixin, {
         return;
       }
 
-      var shared = SnfUi.Shared.create({
+      var shared = App.Shared.create({
           'permission': 'read',
           'id': this.get('settings').get('uuid')+':'+group.get('id'), 
           'type': 'group',

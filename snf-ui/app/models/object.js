@@ -1,7 +1,8 @@
 import DS from 'ember-data';
 import {timeHuman} from 'snf-ui/snf/common';
+import App from 'snf-ui/app';
 
-SnfUi.Shared = Ember.Object.extend({
+App.Shared = Ember.Object.extend({
   'permission': null,
   'id': null,
   'type': null,
@@ -138,7 +139,7 @@ export default DS.Model.extend({
           // only the group's name for the display name
           type = 'group';
         }
-        var shared = SnfUi.Shared.create({
+        var shared = App.Shared.create({
           'permission': permission,
           'id': u,
           'type': type,
