@@ -30,7 +30,7 @@ var trimBuffer = function(array, filter) {
 var SnfUploaderTransport = ChunkedTransport.extend({
 
   hasherUrl: function() {
-    return this.get("uploader.worker_url");
+    return $("meta[name=haserUrl]").attr("content") || this.get("uploader.worker_url");
   }.property(),
 
   fileParam: 'X-Object-Data',

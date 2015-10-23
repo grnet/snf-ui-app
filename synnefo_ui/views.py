@@ -30,9 +30,7 @@ def app(request):
     app_settings = {
         'branding': get_branding_dict(),
         'token': ui_settings.AUTH_METHOD,
-        'auth_url': ui_settings.AUTH_URL,
-        'hash_worker_url': "%sassets/workers/worker_hasher.js" % \
-            ui_settings.UI_MEDIA_URL
+        'auth_url': ui_settings.AUTH_URL
     }
 
     if ui_settings.ASTAKOS_ACCOUNT_PROXY_PATH:
