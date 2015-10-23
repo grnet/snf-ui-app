@@ -145,7 +145,7 @@ def build_ember_project():
         os.mkdir(project_dir)
     setupdir = os.getcwd()
     os.chdir(project_dir)
-    env = os.environ.get('SNFUI_AUTO_BUILD_ENV', 'development')
+    env = os.environ.get('SNFUI_AUTO_BUILD_ENV', 'production')
     cache_args = ["--cache-min", "99999999"]
 
     if not find("npm"):
