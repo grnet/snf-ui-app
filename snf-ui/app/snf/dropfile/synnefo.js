@@ -30,7 +30,7 @@ var trimBuffer = function(array, filter) {
 var SnfUploaderTransport = ChunkedTransport.extend({
 
   hasherUrl: function() {
-    return $("meta[name=haserUrl]").attr("content") || this.get("uploader.worker_url");
+    return $("meta[name=hasherUrl]").attr("content") || this.get("uploader.worker_url");
   }.property(),
 
   fileParam: 'X-Object-Data',
@@ -218,7 +218,7 @@ var SnfUploaderTransport = ChunkedTransport.extend({
 
   uploadMissing: function(contURL, file, missing, progress) {
     return new Promise(function(resolve, reject) {
-      async.timesLimit(missing.length, 3, function(n, next) {
+      async.timesLimit(missing.length, 5, function(n, next) {
         if (file._aborted) { next("abort"); return; }
         var chunk = missing.get(n);
         this.uploadChunk(contURL, this.getArrayBuffer(file, chunk), progress)
