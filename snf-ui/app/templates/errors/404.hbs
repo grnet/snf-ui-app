@@ -1,6 +1,8 @@
-<a class="error-page" href="/">
-	<h1>Error 404</h1>
-{{#if model.responseJSON.itemNotFound}}
-	<h2>{{model.responseJSON.itemNotFound.message}}</h2>
-{{/if}}
-</a>
+<div class="main error-page">
+    <h2>Error 404</h2>
+    {{#if model.responseJSON.itemNotFound}}
+        <h3>{{model.responseJSON.itemNotFound.message}}.</h3>
+    {{else}}
+        <h3> What you are looking for is not here.</h3>
+    {{/if}}
+</div>
