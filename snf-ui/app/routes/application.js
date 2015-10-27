@@ -6,6 +6,25 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
   activate: function(){
     var theme = this.get('cookie').getCookie('theme') || this.get('settings.main_theme');
     this.initTheme(theme);
+    var self = this;
+    var uuid = this.get('settings.uuid');
+    var containers = this.get('settings.default_containers');
+
+    this.store.findQuery('container', {'account': uuid}).then(function(){
+      containers.forEach(function(c){
+        if (!(self.store.hasRecordForId('container', uuid +'/'+c))) {
+          self.store.find('project', uuid).then(function(p) {
+            var container = self.store.createRecord('container', {
+              name: c,
+              id: uuid + '/' + c,
+              project: p,
+              versioning: 'auto'
+            });
+            container.save();
+          });
+        }
+      });
+    });
   },
 
   initTheme: function(theme){
