@@ -34,7 +34,7 @@ export default {
     },
     error: {
       title: 'Error report',
-      intro: 'Oups... Something went wrong.',
+      intro: 'Oops... Something went wrong.',
     },
     groups: {
       title: 'Manage groups',
