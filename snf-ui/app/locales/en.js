@@ -98,7 +98,7 @@ export default {
   global: {
     choose_theme: 'Choose theme: ',
     prompt_feedback: 'Contact us',
-    prompt_quotas: 'File Storage Usage',
+    prompt_quotas: 'Usage',
   },
 
   icon_label: {

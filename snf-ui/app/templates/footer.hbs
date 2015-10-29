@@ -1,7 +1,18 @@
 <footer class="footer">
-	{{partial "overlays/usage-info"}}
-    {{partial "overlays/shortcuts-info"}}
-    <a class="right footer-item" {{action 'showDialog' 'feedback' 'feedback'}}>{{t 'global.prompt_feedback'}}</a>
+    <ul class="left icon-list">
+        <li>
+	        {{partial "overlays/usage-info"}}
+        </li>
+        <li>
+            {{partial "overlays/shortcuts-info"}}
+        </li>
+        <li>
+            <a {{action 'showDialog' 'feedback' 'feedback'}}>
+                {{fa-icon "envelope-o"}}
+                <label>{{t 'global.prompt_feedback'}}</label>
+            </a>
+        </li>
+    </ul>
     <span class="right themes">
         {{t 'global.choose_theme'}} 
         {{#each theme in settings.themes}}

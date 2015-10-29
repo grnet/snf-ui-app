@@ -1,7 +1,7 @@
 .icon-list {
     margin: 0;
     padding: 0;
-    li {
+    &>li {
         border-left: 1px solid $gainsboro;
         text-align: center;
         list-style: none;
@@ -11,7 +11,7 @@
         }
 
         a {
-            color: $body-font-color;
+            color: $topbar-link-color;
             display: block;
             height: $topbar-height;
             line-height: inherit !important;

@@ -3,9 +3,13 @@
     font-size: rem-calc(12);
     height: $topbar-height;
     margin-top: - $topbar-height;
-    padding: $default-padding;
     position: relative;
     z-index: 99;
+    .icon-list {
+        li:last-child {
+            border-right: 1px solid $gainsboro;
+        }
+    }
     .footer-item {
         margin-left: $default-padding;
     }
@@ -16,7 +20,11 @@
         margin-left: $default-padding/2;
     }
     .themes {
+        padding: $default-padding;
         margin-right: $default-padding;
+        line-height: inherit;
+        position: relative;
+        top: 5px;
         i {
             margin: rem-calc(0 4);
         }
