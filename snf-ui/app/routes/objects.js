@@ -14,6 +14,7 @@ export default Ember.Route.extend(EscapedParamsMixin, ResetScrollMixin, {
     this.store.set('container_name', containerName);
     this.set('current_path', currentPath);
     var self = this;
+          console.log('%c!', 'color:red', currentPath, containerID)
 
     window.scrollTo(0,0);
 
@@ -21,6 +22,7 @@ export default Ember.Route.extend(EscapedParamsMixin, ResetScrollMixin, {
       path: currentPath,
       container_id: containerID
     }).then(function(objects) {
+
       // If the server returns an emtpy array should check if the url is valid.
       if (objects.get('length') === 0) {
 
@@ -99,6 +101,11 @@ export default Ember.Route.extend(EscapedParamsMixin, ResetScrollMixin, {
       }
       
       return objects;
+    }, function() {
+      var error = {};
+      error['status'] = 404;
+      self.send('error', error);
+      return undefined;
     });
   },
   setupController: function(controller,model){

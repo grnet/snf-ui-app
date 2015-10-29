@@ -92,7 +92,7 @@ export default Ember.Mixin.create({
 			var errors = this.get('errors');
 
 			// handling of server errors
-			if(error.status) {
+			if(error && error.status) {
 				let msg = 'message:' + error.status + ' ' + error.statusText + '\n';
 				let stack = 'stack:' + error.responseText + '\n';
 				let time = 'timestamp:' + timestamp + '\n';
@@ -105,7 +105,7 @@ export default Ember.Mixin.create({
 
 			}
 			// handling of js errors
-			else if(error.stack) {
+			else if(error && error.stack) {
 				let msg = 'message:' + error.message + '\n';
 				let stack = 'stack:' + error.stack + '\n';
 				let time = 'timestamp:' + timestamp + '\n';
