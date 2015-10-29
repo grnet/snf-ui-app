@@ -1,0 +1,60 @@
+.icon-list {
+    margin: 0;
+    padding: 0;
+    li {
+        border-left: 1px solid $gainsboro;
+        text-align: center;
+        list-style: none;
+
+        @media #{$small-up} { 
+            float: left;
+        }
+
+        a {
+            color: $body-font-color;
+            display: block;
+            height: $topbar-height;
+            line-height: inherit !important;
+            padding: 15px 15px 0 !important;
+            &:hover {
+                text-decoration: none;
+                color: white;
+                background: $primary-color;
+            }
+        }
+        &:hover {
+            label {
+                color: $topbar-link-color-hover;
+            }
+        }
+        &.disabled {
+            opacity: 0.5;
+            a:hover {
+                background: inherit !important;
+                color: inherit !important;
+                cursor: default;
+            }
+            &:hover label {
+                color: $body-font-color;
+            }
+        }
+    }
+    label {
+        display: block;
+        font-size: rem-calc(12);
+    }
+    .fa {
+        font-size: rem-calc(18);
+    }
+    span[data-view="list"] {
+        .fa-th {
+            display: none;
+        }
+    }
+    span[data-view="grid"] {
+        .fa-list {
+            display: none;
+        }
+    }
+
+}
