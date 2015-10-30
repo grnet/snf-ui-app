@@ -126,4 +126,18 @@
             font-size: rem-calc(18);
         }
     }
+    .add-users-share {
+        padding: 1rem;
+        border: 1px solid $iron;
+        label {
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+        button {
+            margin-bottom: 0;
+        }
+    }
+    #error-details .btn-line * {
+        color: $jet;
+    }
 }

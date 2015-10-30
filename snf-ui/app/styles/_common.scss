@@ -163,10 +163,12 @@ button.icon-a {
 }
 
 .arrow-down {
-    display: initial;
+    display: inline-block;
+    margin-bottom: rem-calc(3);
 }
 .arrow-up {
     display: none;
+    margin-bottom: rem-calc(3);
 }
 
 .slide-container.open {
@@ -174,7 +176,7 @@ button.icon-a {
         display: none;
     }
     .arrow-up {
-        display: initial;
+        display: inline-block;
     }
 }
 

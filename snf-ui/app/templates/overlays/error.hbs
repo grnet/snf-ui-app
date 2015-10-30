@@ -1,11 +1,11 @@
 <h3>{{t 'overlay.error.title'}}</h3>
 <p>{{t 'overlay.error.intro'}}</p>
-<div class="js-slide-container" id="error-details">
-	<div class="js-btn-slide btn-line" {{action 'slide' controller 'error-details' target='view'}}>
+<div class="slide-container" id="error-details">
+	<a class="js-btn-slide btn-line" href='' {{action 'slide' controller 'error-details' target='view'}}>
 		<span>{{t 'button.error_details'}}</span>
         <span class="arrow-up fa fa-angle-up"></span>
         <span class="arrow-down fa fa-angle-down"></span>
-	</div>
+	</a>
 	<div class="js-slide-me slide-me">
 		{{#each error in model}}
 				<p><strong>{{error.timestamp}}</strong></p>

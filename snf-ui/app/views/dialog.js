@@ -138,7 +138,7 @@ export default Ember.View.extend({
 		*/
 		slide: function(controller, areaID, action) {
 			var self = this;
-			var $area = this.$('.js-slide-container#'+areaID);
+			var $area = this.$('.slide-container#'+areaID);
 			$area.toggleClass('open');
 			var toOpen = $area.hasClass('open');
 
