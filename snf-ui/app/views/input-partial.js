@@ -222,9 +222,11 @@ export default Ember.View.extend({
       }
       else {
         setTimeout(function() {
-          self.set('warningVisible', false);
-          if(!self.get('errorVisible')) {
-            self.get('controller').set('isNameValid', true);
+          if(self.get('state') === 'inDOM') {
+            self.set('warningVisible', false);
+            if(!self.get('errorVisible')) {
+              self.get('controller').set('isNameValid', true);
+            }
           }
         }, 5000);
       }
