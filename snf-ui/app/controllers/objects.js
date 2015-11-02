@@ -206,17 +206,13 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       });
 
       var onSuccess = function(object) {
+        console.log('%conSuccess', 'color:green')
         let model = self.get('model') || Ember.A();
         model.pushObject(object);
         tempSetProperty(object, 'new');
       };
 
-      var onFail = function(reason){
-        console.log('onFail');
-        console.log(reason);
-      };
-
-      object.save().then(onSuccess, onFail);
+      object.save().then(onSuccess);
       this.set('newName', undefined);
       this.set('newID', undefined);
       this.set('closeDialog', true);

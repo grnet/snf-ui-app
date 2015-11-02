@@ -14,7 +14,8 @@ export default Ember.Mixin.create({
     // Catches js errors
     Ember.onerror = function(error) {
       if(error.stack) {
-        if(!error.stack.includes('RSVP')) {
+        console.log(error.stack)
+        if(!error.stack.includes('RSVP') && !error.stack.includes('ajaxError')) {
           console.error('[Ember.onerror] Error Report\n', error.message, error.stack);
           self.send('showErrorDialog', error);
         }

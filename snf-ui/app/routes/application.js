@@ -48,15 +48,11 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 			into: 'application',
 			outlet: 'overlays/total-quotas',
 		});
-    this.render('shared-with-me', {
-      into: 'application',
-      outlet: 'shared-with-me',
-      controller: 'account',
-    });
-    // this.render('overlays/alert-box', {
-    //   into: 'application',
-    //   outlet: 'alertBox'
-    // });
+        this.render('shared-with-me', {
+            into: 'application',
+            outlet: 'shared-with-me',
+            controller: 'account',
+        });
 	},
 
   setupController: function(controller, model) {
@@ -141,6 +137,7 @@ export default Ember.Route.extend(ErrorHandlingMixin, {
 				});
 
 			}
+			this.set('errorDialogRendered', false);
 		},
 		willTransition: function(transition) {
 			this.send('removeDialog');
