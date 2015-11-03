@@ -17,8 +17,8 @@ export default ObjectsController.extend(FilesListMixin, {
   canTrash: false,
   canCopy: true,
   canMove: false,
-  canUpload: Ember.computed.equal('allowed_to', 'write'),
-  canCreate: Ember.computed.equal('allowed_to', 'write'),
+  canUpload: Ember.computed.equal('parent_dir.allowed_to', 'write'),
+  canCreate: Ember.computed.equal('parent_dir.allowed_to', 'write'),
   canRestore: false,
 
   parentPath: function() {

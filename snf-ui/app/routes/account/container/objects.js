@@ -39,7 +39,7 @@ export default Ember.Route.extend(EscapedParamsMixin, {
     controller.set('account', this.get('account'));
     var id = this.get('cont.id') + '/' + this.get('path');
     this.store.find('object', id).then(function(el){
-      controller.set('allowed_to', el.get('allowed_to') || 'read');
+      controller.set('parent_dir', el);
     });
 
   },
