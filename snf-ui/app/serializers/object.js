@@ -24,9 +24,20 @@ export default DS.RESTSerializer.extend({
     delete payload.container_id;
     var payload_list = payload;
     payload_list.forEach(function(el){
+      if(el.subdir) {
+        el.name = el.subdir.slice(0, -1);
+        if(payload_list.filterBy('name', el.name).length > 1) {
+          el.remove = true;
+        }
+        else {
+          el.content_type = "application/directory";
+        }
+      }
       el.id = container_id+'/'+el.name;
     });
-    payload = { objects: payload_list};
+
+    payload = { objects: payload_list.rejectBy('remove', true)};
+
     return this._super(store, type, payload);
   },
 

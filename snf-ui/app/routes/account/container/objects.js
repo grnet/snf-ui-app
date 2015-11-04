@@ -20,7 +20,8 @@ export default Ember.Route.extend(EscapedParamsMixin, {
     query = {
       'container_id': account.get('id') + '/' + params.container_name,
       'path': params.path,
-      'pathQuery': this.get('pathQuery')
+      'pathQuery': this.get('pathQuery'),
+      'delimiter': '/'
     };
     contId = account.get('id') + "/" + params.container_name;
     this.set('cont', this.store.findById('container', contId));

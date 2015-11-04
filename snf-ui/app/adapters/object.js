@@ -48,19 +48,34 @@ export default StorageAdapter.extend({
 
   findQuery: function(store, type, query) {
     var filterPath, pathQuery, container, url, headers, 
-        payload, account, parentURL, escapedPath;
+        payload, parentURL, escapedPath, user_id, owner_id;
     filterPath = null;
     pathQuery = query.pathQuery === false || true;
     container = query.container_id || store.get('container_id') || '';
     url = this.buildURL(type.typeKey, container);
-    headers = this.get('headers'); 
-    
+    headers = this.get('headers');
+    user_id = this.get('settings.user.id');
+    owner_id = container.split("/")[0];
+
+
     query = _.extend({}, query);
     delete query.account;
     delete query.pathQuery;
     delete query.container_id;
-    
-    if (!query.path) { query.path = '/'; }
+    if (!query.path) {
+      if(user_id !== owner_id) {
+        /**
+         * This query targets objects that are shared with the user
+         * by another user (here owner). In that case we change the
+         * request in order to set visible the directories that are
+         * not shared but have shared objects in them
+         *
+         */
+        query.path = '';
+      } else {
+        query.path = '/';
+      }
+    }
     if (!pathQuery && query.path !== '/') {
       filterPath = query.path;
     }
@@ -78,7 +93,7 @@ export default StorageAdapter.extend({
     escapedPath = encodeURIComponent(query.path).replace(/\%2f/gi, '/');
     delete query.path;
     parentURL = (escapedPath === '/' ? url : (url + '/' + escapedPath));
-    
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
       payload.then(function(payload) {
         jQuery.ajax({
@@ -90,13 +105,19 @@ export default StorageAdapter.extend({
             obj['x_object_shared_by'] = request.getResponseHeader('X-Object-Shared-By');
             obj['ancestor_sharing'] = request.getResponseHeader('X-Object-Sharing');
             obj['allowed_to'] = request.getResponseHeader('X-Object-Allowed-To');
-          })
+          });
           payload.set('container_id', container);
           Ember.run(null, resolve, payload);
 
       }, function(jqXHR) {
         jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
+        if(user_id !== owner_id) {
+          payload.set('container_id', container);
+          Ember.run(null, resolve, payload);
+        }
+        else {
+          Ember.run(null, reject, jqXHR);
+        }
       });
     });
     });
@@ -246,7 +267,9 @@ export default StorageAdapter.extend({
     var url = this.buildURL('object', null, snapshot.id);
     var headers = this.get('headers');
     var res = {};
- 
+    var user_id = this.get('settings.user.id');
+    var owner_id = snapshot.id.split("/")[0];
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
       jQuery.ajax({
         type: 'HEAD',
@@ -264,7 +287,13 @@ export default StorageAdapter.extend({
         Ember.run(null, resolve, res);
       }, function(jqXHR) {
         jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
+        if(user_id !== owner_id) {
+          payload.set('container_id', container);
+          Ember.run(null, resolve, payload);
+        }
+        else {
+          Ember.run(null, reject, jqXHR);
+        }
       });
     });
   }
