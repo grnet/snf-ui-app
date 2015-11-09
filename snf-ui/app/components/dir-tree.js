@@ -4,10 +4,13 @@ import {RefreshViewMixin} from 'snf-ui/snf/refresh';
 
 function mergeArrayContents(base, arr) {
   base.forEach(function(el) {
-    let isModel = el instanceof DS.Model;
-    let remove = (isModel && !arr.contains(el)) || 
-                 !!(!isModel && arr.filterBy('id', el.get('id')).length == 0);
-    if (remove) { base.removeObject(el); }
+    if(el) {
+      let isModel = el instanceof DS.Model;
+      let remove = (isModel && !arr.contains(el)) ||
+                   !!(!isModel && arr.filterBy('id', el.get('id')).length == 0);
+      if (remove) { base.removeObject(el); }
+
+    }
   });
 
   arr.forEach(function(el, index) {
@@ -27,7 +30,7 @@ export default Ember.Component.extend(RefreshViewMixin, {
   refreshSubDirs: function() {
     if (this.get('expanded')) {
       var current = this.get('subdirs');
-      if (!current.content == null) { return }
+      if (!current.content == null) { return; }
       var res = this.get('resolver')(this.get('root'));
       res.then(function(){
         mergeArrayContents(current, res);

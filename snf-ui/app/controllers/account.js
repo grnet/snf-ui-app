@@ -8,6 +8,8 @@ export default Ember.ArrayController.extend({
   _resolveSubDirs: function(root) {
     var parts = root.split("/"), account, container, path, containers, query, user_email, folders;
     var uuid = this.get('settings.uuid'), other_users;
+
+    // get all the users that share something with me
     if (parts.length === 1) {
       var accounts = new Ember.RSVP.Promise(function(resolve, reject) {
         this.store.find('account').then(function(accounts) {
@@ -25,6 +27,7 @@ export default Ember.ArrayController.extend({
       return DS.PromiseArray.create({'promise': accounts});
     }
 
+    // get all the containers of the user that have a shared object with me
     if (parts.length === 3) {
       account = parts[2];
       containers = new Ember.RSVP.Promise(function(resolve, reject) {
@@ -46,11 +49,14 @@ export default Ember.ArrayController.extend({
     user_email = parts[2];
     path = parts.splice(5).join('/');
 
+    // get the objects in the container
     folders = new Ember.RSVP.Promise(function(resolve, reject) {
       query = {
         'container_id': container,
-        'path': path || null
+        'path': path || null,
+        'delimiter': '/'
       };
+
       this.store.findQuery('object', query).then(function(objects) {
         resolve(objects.filter(function(o) {
           return o.get("is_dir")
