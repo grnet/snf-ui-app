@@ -24,7 +24,12 @@
             <div class="row">
                 <span class="name columns small-5 u-wrap">{{ file.name }}</span>
                 <span class="status columns small-2">{{ convert-bytes file.size }}</span>
-                <span class="status columns small-2">{{ file.status }} {{#if file.uploadError }}({{ file.uploadError }}){{/if}}</span>
+                <span class="status columns small-2">
+                    {{ file.status }}
+                    {{#if file.uploadError}}
+                        <a href="" class="snf-tooltip snf-tooltip-n snf-multiline" aria-label={{file.uploadError}}>{{fa-icon "fa-question-circle"}}</a>
+                    {{/if}}
+                </span>
                 {{# if file.isUploading }}
                     <span class="progress columns small-3">
 

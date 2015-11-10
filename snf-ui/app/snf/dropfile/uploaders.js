@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import {XHRTransport, ChunkedTransport, IFRAMETransport} from './transports';
+import {bytesToHuman} from 'snf-ui/snf/common';
 
 
 var Uploader = Ember.Object.extend({
@@ -91,7 +92,15 @@ var Uploader = Ember.Object.extend({
         files.setEach("status", status);
         files.setEach("uploadError", null);
         if (status === "error") {
-          files.setEach("uploadError", ajaxError && ajaxError.errorThrown);
+          if (error.jqXHR.status === 413) {// entity too large
+            let txt = error.jqXHR.responseText;
+            var available = txt.match(/Available: \d+/)[0].replace("Available: ","");
+            var requested = txt.match(/Requested: \d+/)[0].replace("Requested: ","");
+            var msg = 'Unsufficient quota: You tried to upload '+ bytesToHuman(requested) + ', \nwhile the project has ' + bytesToHuman(available)+ ' free space';
+            files.setEach("uploadError", msg);
+          } else {
+            files.setEach("uploadError", ajaxError && ajaxError.errorThrown);
+          }
         }
         reject(files, error);
       }.bind(this));
