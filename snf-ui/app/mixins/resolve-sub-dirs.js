@@ -21,6 +21,8 @@ export default Ember.Mixin.create({
           return data.filter(function(d){
             return d.get('is_dir');
           }); 
+        }, function(err){
+          console.log(err);
         });
 
         return DS.PromiseArray.create({promise: objects});
