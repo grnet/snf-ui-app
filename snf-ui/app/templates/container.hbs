@@ -9,7 +9,6 @@
             {{#link-to 'container' (encode-path container.model.name)}}
                 {{fa-icon "fa-trash trash-icon"}}
                 <span>{{container.model.name}}</span>
-                {{fa-icon "fa-external-link"}}
             {{/link-to}}
             {{view "select" content=container.availableProjects
                         optionLabelPath="content.select_label"
@@ -24,7 +23,6 @@
             {{#link-to 'container' (encode-path container.model.name)}}
                 {{fa-icon "fa-trash trash-icon"}}
                 <span>{{container.model.name}}</span>
-                {{fa-icon "fa-external-link"}}
             {{/link-to}}
         </h4>
 

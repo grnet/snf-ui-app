@@ -197,16 +197,3 @@ table {
     border-spacing: 0;
     width: 100%;
 }
-
-.fa-external-link {
-    font-size: rem-calc(14);
-    font-weight: bold;
-    margin-left: rem-calc(4);
-    visibility: hidden;
-}
-a:hover {
-    .fa-external-link {
-        visibility: visible;
-    }
-}
-
