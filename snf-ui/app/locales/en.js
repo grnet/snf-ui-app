@@ -113,7 +113,8 @@ export default {
     view: 'view',
   },
 
-  cannot_undo_action: 'The action cannot be undone',
+  cannot_undo_action: 'The action cannot be undone.',
+  cannot_rename_container: 'Once the container has been created, you cannot edit its name.',
   disable_public_sharing_for_folders: 'Public sharing is currently disabled for folders',
   private_sharing_explain: 'Only people explicitly granted permission can access. Sign-in required.',
   public_sharing_explain: 'Anyone who has the public link can access. No sign-in required.',

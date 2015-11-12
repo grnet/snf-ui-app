@@ -14,6 +14,10 @@
             </label>
         </p>
     {{/if}}
+<p>
+    <span class="info">{{fa-icon "fa-warning"}}{{t 'cannot_rename_container'}}</span>
+</p>
+
     {{#view "buttons"}}
     <button disabled={{controller.freezeCreateContainer}} {{action 'createContainer' }}>{{t 'button.create_container'}}</button>
     {{/view}}

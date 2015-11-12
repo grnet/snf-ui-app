@@ -76,6 +76,11 @@ body {
     color: $danger-color;
 }
 
+.info {
+    color: $theme-info-color;
+}
+
+
 .subtle {
     color: $theme-inactive-color;
     font-size: rem-calc(13px);
