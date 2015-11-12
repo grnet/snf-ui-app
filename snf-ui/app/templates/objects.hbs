@@ -1,12 +1,13 @@
 {{#if listView}}
     <li>
         <div class="wrap clearfix">
-            {{#if controller.hasObjects}}
-                <div class="col checkbox-col" {{action "toggleSelectAll"}}>
-                    {{fa-icon controller.checkSelectedCls fixedWidth=true}}
-                </div>
-            {{/if}}
-            {{view "title-sortable" field="stripped_name" title="name" classNames="name-col"}}
+            {{#view "title-sortable" field="stripped_name" title="name" classNames="name-col"}}
+                {{#if controller.hasObjects}}
+                    <a {{action "toggleSelectAll" bubbles=false}}>
+                        {{fa-icon controller.checkSelectedCls fixedWidth=true}}
+                    </a>
+                {{/if}}
+            {{/view}}
             <div class="col select-col">&nbsp;</div>
             {{view "title-sortable" field="size" classNames="data-col"}}
             {{view "title-sortable" field="last_modified" title="modified" classNames="date-col"}}

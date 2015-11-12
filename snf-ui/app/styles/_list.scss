@@ -4,6 +4,7 @@ $ellipsis-w: 265px;
 .list {
     font-size: rem-calc(14);
     li:first-child {
+        text-transform: capitalize;
         .wrap {
             background: darken($table-even-row-bg, 5%); 
             font-weight: bold;
@@ -13,9 +14,6 @@ $ellipsis-w: 265px;
         }
         .sortable {
             cursor: pointer;
-        }
-        .sortable::first-letter {
-            text-transform: capitalize;
         }
     }
     .wrap {

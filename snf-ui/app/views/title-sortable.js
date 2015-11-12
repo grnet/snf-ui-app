@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.View.extend({
-  templateName: 'title-sortable',
+  layoutName: 'title-sortable',
   classNames: ['col', 'sortable'],
 
   title: function(){
