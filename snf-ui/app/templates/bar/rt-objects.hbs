@@ -1,3 +1,12 @@
+{{#if canCreate}}
+    <li>
+        <a {{action 'showDialog' 'create-dir' controller}}>
+            {{fa-icon "fa-folder"}}
+            <label>{{t 'icon_label.create_dir'}}</label>
+        </a>
+    </li>
+{{/if}}
+
 {{#if canRestore}}
     <li class={{unless hasSelected 'disabled'}}>
         <a {{action 'openRestore'}}>
@@ -7,6 +16,23 @@
     </li>
 {{/if}}
 
+{{#if canMove}}
+    <li class={{unless hasSelected 'disabled'}}>
+        <a {{action 'openCut'}}>
+            {{fa-icon "fa-share"}}
+            <label>{{t 'icon_label.move'}}</label>
+        </a>
+    </li>
+{{/if}}
+
+{{#if canCopy}}
+    <li class={{unless hasSelected 'disabled'}}>
+        <a {{action 'openCopy'}}>
+            {{fa-icon "fa-copy"}}
+            <label>{{t 'icon_label.copy'}}</label>
+        </a>
+    </li>
+{{/if}}
 
 {{#if canTrash}}
     <li class={{unless hasSelected 'disabled'}}>
@@ -26,32 +52,6 @@
     </li>
 {{/if}}
 
-{{#if canCopy}}
-    <li class={{unless hasSelected 'disabled'}}>
-        <a {{action 'openCopy'}}>
-            {{fa-icon "fa-copy"}}
-            <label>{{t 'icon_label.copy'}}</label>
-        </a>
-    </li>
-{{/if}}
-
-{{#if canMove}}
-    <li class={{unless hasSelected 'disabled'}}>
-        <a {{action 'openCut'}}>
-            {{fa-icon "fa-share"}}
-            <label>{{t 'icon_label.move'}}</label>
-        </a>
-    </li>
-{{/if}}
-
-{{#if canCreate}}
-    <li>
-        <a {{action 'showDialog' 'create-dir' controller}}>
-            {{fa-icon "fa-folder"}}
-            <label>{{t 'icon_label.create_dir'}}</label>
-        </a>
-    </li>
-{{/if}}
 
 <li class="show-for-medium-up">{{partial "items/sort-select"}}</li>
 <li>{{partial "global/refresh"}}</li>
