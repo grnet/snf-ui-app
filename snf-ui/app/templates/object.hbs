@@ -87,12 +87,12 @@
 
         {{#if object.canShare}}
             <a {{action 'openShare'}} class="button small snf-tooltip snf-tooltip-n" aria-label="Share">
-                {{fa-icon "fa-share-alt"}}
+                {{fa-icon "fa-share-alt" fixedWidth=true}}
             </a>
         {{/if}}
         {{#if object.canRestore}}
-            <a {{action 'initAction' 'openRestore'}} class="button small">
-                Restore
+            <a {{action 'initAction' 'openRestore'}} class="button small snf-tooltip snf-tooltip-n" aria-label="Restore">
+                {{fa-icon "fa-reply" fixedWidth=true}}
             </a>
         {{/if}}
     </div>

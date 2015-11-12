@@ -52,8 +52,9 @@
         }
     }
     .button {
-        margin: 0;
-        padding: rem-calc(4 8); 
+        border-radius: 50%;
+        margin: rem-calc(0 2);
+        padding: rem-calc(4); 
     }
 
 }

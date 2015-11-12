@@ -22,11 +22,17 @@
                 background: $primary-color;
             }
         }
+        &.important {
+            a, label {
+                color: $theme-alert-color;
+            }
+        }
         &:hover {
             label {
                 color: $topbar-link-color-hover;
             }
         }
+ 
         &.disabled {
             opacity: 0.5;
             a:hover {

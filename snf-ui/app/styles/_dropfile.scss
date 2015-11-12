@@ -73,11 +73,13 @@ li.drag-active {
         margin: auto;
         color: $theme-alert-color;
         background: transparent;
+        font-size: inherit;
         font-style: normal;
         em {
             color: $theme-alert-color;
             cursor: pointer;
             font-style: normal;
+            margin-left: rem-calc(8);
             &:hover {
                 color: darken($theme-alert-color, 10%);
             }
