@@ -124,3 +124,7 @@ textarea {
 input[type="radio"] {
     margin: 0;
 }
+
+input::placeholder {
+    color: $theme-inactive-color;
+}
