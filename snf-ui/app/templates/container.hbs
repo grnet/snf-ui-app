@@ -30,14 +30,14 @@
     </div>
     {{#if gridView}}
         <dl>
-            <dt>Items</dt>
-            <dd>{{container.model.count}}</dd>
             <dt>Modified</dt>
             <dd>
                 <span aria-label={{container.model.last_modified_human}} class="snf-tooltip snf-tooltip-n">
                     {{time-from-now container.model.last_modified }}
                 </span>
             </dd>
+            <dt>Items</dt>
+            <dd>{{container.model.count}}</dd>
             <dt>Size</dt>
             <dd>{{convert-bytes container.model.bytes}}</dd>
         </dl>

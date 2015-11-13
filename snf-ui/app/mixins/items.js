@@ -28,9 +28,7 @@ var ItemsControllerMixin = Ember.Mixin.create({
     return this.get('view') == 'list';
   }.property('view'),
 
-  iconTooltipDir: function(){
-    return this.get('view') == 'list'? 'snf-tooltip-nw': 'snf-tooltip-ne';
-  }.property('view'),
+  iconTooltipDir: 'snf-tooltip-nw',
 
   actions: {
     toggleSort: function(params) {

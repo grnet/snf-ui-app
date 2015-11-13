@@ -80,6 +80,10 @@ body {
     color: $theme-info-color;
 }
 
+.danger, .info {
+    font-size: rem-calc(13);
+}
+
 
 .subtle {
     color: $theme-inactive-color;
