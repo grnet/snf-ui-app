@@ -58,7 +58,11 @@ export default Ember.Component.extend(RefreshViewMixin, {
   }.property('root', 'is_user'),
 
   is_container: function(){
-    return (this.get('root').match(/\//g) || [] ).length == 1 ;
+    var a = (this.get('root').match(/\//g) || [] ).length == 1 ;
+    var b = this.get('root').indexOf('\/accounts\/') == 0 &&
+            (this.get('root').match(/\//g) || [] ).length == 4 ;
+    console.log(b);
+    return a || b;
   }.property('root'),
 
   is_user: function(){
@@ -77,11 +81,12 @@ export default Ember.Component.extend(RefreshViewMixin, {
   iconCls: function(){
     var res = "fa-folder";
     if (this.get('expanded')) { res = "fa-folder-open";}
+    if (this.get('is_container')) { res = "archive";}
     if (this.get('isTrash')) { res = "fa-trash";}
     if (this.get('is_user')) { res = "fa-user";}
     if (this.get('root') === 'shared') { res = "fa-share-alt"}
     return res;
-  }.property('isTrash', 'expanded', 'is_user', 'root'),
+  }.property('isTrash', 'expanded', 'is_user', 'root', 'is_container'),
 
   iconClsToggle: function(){
     var res = "fa-plus";
