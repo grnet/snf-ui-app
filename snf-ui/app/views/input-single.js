@@ -83,7 +83,13 @@ export default Ember.View.extend({
     var maxLength = this.get('controller').get('nameMaxLength');
     // current_path is a prop of ObjectsController
     var currentPath = this.get('controller').get('current_path') || this.get('controller').get('parentController').get('current_path');
-    currentPath = currentPath + this.get('inputValue');
+    // if the created object is the root directory should check only the length of the name
+    if(currentPath === '/') {
+      return 0;
+    }
+    else {
+      currentPath = currentPath + '/' +this.get('inputValue');
+    }
     return currentPath.length > maxLength;
   }.property('inputValue'),
 
@@ -97,8 +103,7 @@ export default Ember.View.extend({
     else if(this.get('isLargePath')) {
       // current_path is a prop of ObjectsController
       currentPath = this.get('controller').get('current_path') || this.get('controller').get('parentController').get('current_path');
-      currentPath = currentPath + this.get('inputValue');
-
+      currentPath = currentPath + '/' + this.get('inputValue');
       return currentPath.length - maxLength;
 
     }
@@ -244,6 +249,7 @@ export default Ember.View.extend({
     if(this.get('controller').get('resetInput')) {
       this.send('hideInfo', true);
       this.send('hideInfo');
+      this.get('controller').set(this.get('actionFlag'), true)
       this.get('controller').set('resetInput', false)
     }
   }.observes('controller.resetInput'),
@@ -254,10 +260,12 @@ export default Ember.View.extend({
       if(isError) {
         this.set('errorVisible', false);
       }
-      else {
+      else if(this.get('warningVisible') === true) {
         var self = this;
         setTimeout(function() {
-          self.set('warningVisible', false);
+          if(self.get('_state') === 'inDOM') {
+            self.set('warningVisible', false);
+          }
         }, 3000);
       }
     },

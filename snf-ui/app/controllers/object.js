@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import NameMixin from 'snf-ui/mixins/name';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(NameMixin, {
   itemType: 'object',
   object_view: true,
   needs: ['objects', 'application'],

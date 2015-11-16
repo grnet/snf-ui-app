@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import {tempSetProperty} from 'snf-ui/snf/common';
-import {ItemsControllerMixin} from 'snf-ui/mixins/items'; 
+import {ItemsControllerMixin} from 'snf-ui/mixins/items';
+import NameMixin from 'snf-ui/mixins/name';
 
 
-export default Ember.ArrayController.extend(ItemsControllerMixin, {
+export default Ember.ArrayController.extend(ItemsControllerMixin, NameMixin, {
   itemType: 'objects',
   needs: ['application'],
   
@@ -109,8 +110,8 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
   copyFlag: false,
 
  /*
- * Pithos API allows the name of objects to have at most 1024 chars
- * When a new object is created the length of the name is checked
+ * Pithos API allows the name (path) of objects to have at most 1024 chars.
+ * When a new object is created the length of the name is checked.
  */
 
   nameMaxLength: 1024,

@@ -151,7 +151,6 @@ export default Ember.View.extend({
 			* action -> actions[0]
 			* params -> actions[1]
 			*/
-
       if(!this.get('wait')) {
         this.set('wait', true);
         if(actions) {
@@ -161,6 +160,7 @@ export default Ember.View.extend({
         else {
           this.$('input').val(this.get('controller').get('model').get('stripped_name'));
           this.send('toggleEdit');
+          this.get('controller').set('resetInput', true);
         }
       }
     },
@@ -172,7 +172,6 @@ export default Ember.View.extend({
       this.$('.js-hide-edit').toggleClass('hidden');
       this.$('.js-name').toggleClass('hidden');
       this.$(".input-with-valid").find('input')[0].focus();
-      this.get('controller').set('resetInput', true);
       this.set('wait', false);
     }
   }
