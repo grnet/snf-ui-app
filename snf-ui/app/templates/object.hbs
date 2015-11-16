@@ -135,7 +135,7 @@
         {{/if}}
 
         {{#if object.canDownload}}
-            <a {{bind-attr href=object.view_src}} target="_blank" class="button small snf-tooltip {{iconTooltipDir}}" aria-label="Download">{{fa-icon "fa-download fa-fw"}}</a>
+            <a {{bind-attr href=object.view_src}} target="_blank" class="button small snf-tooltip {{iconTooltipDir}}" aria-label="Download" download>{{fa-icon "fa-download fa-fw"}}</a>
         {{/if}}
         {{#if object.canVersions}}
             <a {{action 'initAction' 'openVersions'}} class="icon-a snf-tooltip {{iconTooltipDir}}" aria-label="Manage object versions">{{fa-icon "fa-database fa-fw"}}</a>
