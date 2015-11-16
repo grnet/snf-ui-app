@@ -325,7 +325,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, {
       var account = arr.shift();
       var container_name = arr.shift();
       var container_id = account + '/' + container_name;
-      var path = arr.join('/')+'/';
+      var path = arr.join('/');
 
       this.store.findQuery('object', {
         container_id: container_id,
