@@ -26,7 +26,7 @@ from synnefo_branding.utils import get_branding_dict
 from synnefo_ui import ui_settings
 
 
-def app(request):
+def app(request, path):
     app_settings = {
         'branding': get_branding_dict(),
         'token': ui_settings.AUTH_METHOD,
