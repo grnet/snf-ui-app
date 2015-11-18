@@ -146,38 +146,41 @@ def build_ember_project():
     setupdir = os.getcwd()
     os.chdir(project_dir)
     env = os.environ.get('SNFUI_AUTO_BUILD_ENV', 'production')
-    cache_args = ["--cache-min", "99999999"]
+    cache_args = "--cache-min 99999999"
 
     if not find("npm"):
         raise Exception("NPM not found please install nodejs and npm")
 
     if not os.path.exists("./node_modules"):
-        print "Install npm dependencies"
-        ret = sp.call(["npm", "install", "--silent"] + cache_args)
+        print "Install np[m dependencies"
+        cmd = "npm install --silent " + cache_args
+        ret = sp.call(cmd, shell=True)
         if ret == 1:
             raise Exception("ember install failed")
 
     ember_bin = "./node_modules/ember-cli/bin/ember"
     if not os.path.exists(ember_bin):
         print "Installing ember-cli..."
-        sp.call(["npm", "install", "ember-cli"])
+        cmd = "npm install ember-cli --silent " + cache_args
+        sp.call(cmd, shell=True)
 
     bower_bin = "bower"
     if find("bower") is None:
         bower_bin = "./node_modules/bower/bin/bower"
         if not os.path.exists(bower_bin):
             print "Installing bower..."
-            sp.call(["npm", "install", "bower"] + cache_args)
+            cmd = "npm install bower --silent " + cache_args
+            sp.call(cmd, shell=True)
 
     if not os.path.exists("./bower_components"):
         print "Install bower dependencies"
-        ret = sp.call([bower_bin, "install",
-                       "--allow-root", "--quiet"])
+        cmd = "%s install --allow-root --quiet" % bower_bin
+        ret = sp.call(cmd, shell=True)
         if ret == 1:
             raise Exception("bower install failed")
-
-    ret = sp.call([ember_bin, "build", "--environment", env,
-                   "--output-path", "../synnefo_ui/static/snf-ui"])
+    cmd = "%s build --environment %s --output-path %s" % \
+        (ember_bin, env, "../synnefo_ui/static/snf-ui/")
+    ret = sp.call(cmd, shell=True)
     if ret == 1:
         raise Exception("ember build failed")
     os.chdir(setupdir)
