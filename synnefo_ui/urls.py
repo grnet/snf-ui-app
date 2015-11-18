@@ -48,7 +48,7 @@ if ASTAKOS_ACCOUNT_PROXY_PATH:
 
 ui_patterns = patterns(
     'synnefo_ui.views',
-    url(r'^.*$', 'app', name='ui-app'),
+    url(r'^(?!view).*$', 'app', name='ui-app'),
 )
 
 urlpatterns = proxy_patterns
