@@ -1,0 +1,40 @@
+$welcome-box-bg-color: lighten(yellow, 35%);
+$welcome-box-border-color: #ccc;
+
+.welcome-box {
+  position: fixed;
+  width: auto;
+  left: 2px;
+  right: 2px;
+  bottom: 64px;
+  @media #{$medium-up} { 
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    left: auto;
+  }
+
+  .message {
+    .close {
+      cursor: pointer;
+      position: absolute;
+      top: 5px;
+      right: 6px;
+    }
+    position: relative;
+
+    h3 { margin: 0; padding: 0; }
+
+    padding: 15px 20px;
+    background-color: $welcome-box-bg-color;
+    border: 1px solid $welcome-box-border-color;
+    margin-bottom: 20px;
+    p {
+      margin-bottom: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

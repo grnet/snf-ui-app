@@ -30,7 +30,8 @@ def app(request, path):
     app_settings = {
         'branding': get_branding_dict(),
         'token': ui_settings.AUTH_METHOD,
-        'auth_url': ui_settings.AUTH_URL
+        'auth_url': ui_settings.AUTH_URL,
+        'messages': ui_settings.USER_NOTIFICATIONS
     }
 
     if ui_settings.ASTAKOS_ACCOUNT_PROXY_PATH:

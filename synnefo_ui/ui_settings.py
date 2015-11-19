@@ -58,3 +58,5 @@ TEMPLATE_DIRS = list(getattr(settings, 'TEMPLATE_DIRS', []))
 if not WEB_DIST_DIR in getattr(settings, 'TEMPLATE_DIRS'):
     TEMPLATE_DIRS.append(WEB_DIST_DIR)
     setattr(settings, 'TEMPLATE_DIRS', TEMPLATE_DIRS)
+
+USER_NOTIFICATIONS = getattr(settings, 'UI_USER_NOTIFICATIONS', []);

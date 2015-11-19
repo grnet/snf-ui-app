@@ -1,0 +1,9 @@
+{{# each msg in messages}}
+{{# if msg.visible }}
+<div class="message" data-id="{{ msg.id }}" style="{{ msg.style }}">
+    <i {{ action 'dismiss' msg.id }} class="fa-icon fa fa-close close" />
+    <h4>{{ msg.title }}</h4>
+    <p>{{{ msg.content }}}</p>
+</div>
+{{/if}}
+{{/each}}
