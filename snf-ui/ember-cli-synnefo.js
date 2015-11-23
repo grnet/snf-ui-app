@@ -20,7 +20,7 @@ module.exports = {
     }
 
     if (type === 'title') {
-      if (django) { return '{{ BRANDING_SERVICE_NAME }}'; }
+      if (django) { return 'Pithos+ | {{ BRANDING_SERVICE_NAME }}'; }
       return 'Synnefo UI';
     }
   }
