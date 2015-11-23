@@ -1,13 +1,20 @@
 .footer {
     @include bar-style();
     font-size: rem-calc(12);
-    height: $topbar-height;
     margin-top: - $topbar-height;
     position: relative;
     z-index: 99;
+    @media #{$medium-up} {
+        height: $topbar-height;
+    }
     .icon-list {
         li:last-child {
             border-right: 1px solid $gainsboro;
+        }
+        @media #{$small-only} {
+            li, li:last-child {
+                border: 0 none;
+            }
         }
     }
     .footer-item {
@@ -34,5 +41,19 @@
             float: left;
         }
     }
+    .copyright {
+        clear: both;
+        color: $theme-inactive-color;
+        font-size: rem-calc(12);
+        margin: 0;
+        padding: $default-padding;
+        text-align: center;
+        @media #{$medium-up} {
+            clear: none;
+            span {
+                display: block;
+            }
+        }
+     }
 }
 

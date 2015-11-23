@@ -19,5 +19,14 @@
             <a class="icon" {{action 'toggleTheme' theme.name}} style="color:{{theme.color}}">{{fa-icon theme.icon-menu}}</a>
         {{/each}}
     </span>
+    <p class="copyright">
+        {{settings.branding.COPYRIGHT_MESSAGE}}
+        <span>Powered by
+            <a href="{{settings.branding.SERVICE_URL}}">
+                {{settings.branding.SERVICE_NAME}}
+            </a>
+            : {{settings.branding.SYNNEFO_VERSION}}
+        </span>
+    </p>
 </footer>
 
