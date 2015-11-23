@@ -222,6 +222,7 @@ setup(
         'synnefo': [
             'web_apps = synnefo_ui.synnefo_settings:installed_apps',
             'web_static = synnefo_ui.synnefo_settings:static_files',
+            'web_context_processors = synnefo_ui.synnefo_settings:synnefo_web_context_processors',
             'urls = synnefo_ui.urls:urlpatterns'
         ]
     },

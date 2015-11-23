@@ -20,3 +20,5 @@ Django settings metadata. To be used in setup.py snf-webproject entry points.
 
 installed_apps = ['synnefo_ui']
 static_files = {'synnefo_ui': ''}
+synnefo_web_context_processors = \
+    ['synnefo.webproject.context_processors.cloudbar']
