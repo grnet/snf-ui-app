@@ -8,12 +8,9 @@
         height: $topbar-height;
     }
     .icon-list {
-        li:last-child {
-            border-right: 1px solid $gainsboro;
-        }
-        @media #{$small-only} {
-            li, li:last-child {
-                border: 0 none;
+        @media #{$medium-up} {
+            li:last-child {
+                border-right: 1px solid $gainsboro;
             }
         }
     }

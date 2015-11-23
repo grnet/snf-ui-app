@@ -1,0 +1,15 @@
+@media #{$small-only}{
+    .header,
+    .top-bar,
+    .bar.fixed,
+    .main {
+        position: static;
+    }
+    .main {
+        padding: $default-padding 0 3*$topbar-height!important;
+    }
+    .cloudbar-active {
+        padding-top: $cloudbar-height;
+    }
+}
+

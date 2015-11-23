@@ -11,13 +11,6 @@
             text-align: right;
             width: auto;
         }
-        .actions-col {
-            float: none;
-            display: inline-table;
-            @media #{$large-up} {
-                float: right;
-            }
-        }
         .label {
             top: 10px;
         }

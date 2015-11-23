@@ -4,7 +4,6 @@
             padding: rem-calc(14 8);
         }
         .actions-col {
-            width: 16%;
             @media #{$large-up} {
                 width: 11%;
             }
@@ -20,6 +19,9 @@
             @media #{$large-up} {
                 display: block;
             }
+        }
+        .label {
+            top: 10px;
         }
     }
     .name-col {

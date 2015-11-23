@@ -2,14 +2,14 @@
     margin: 0;
     padding: 0;
     &>li {
-        border-left: 1px solid $gainsboro;
         text-align: center;
         list-style: none;
-
         @media #{$small-up} { 
             float: left;
         }
-
+        @media #{$medium-up} {
+            border-left: 1px solid $gainsboro;
+        }
         a {
             color: $topbar-link-color;
             display: block;

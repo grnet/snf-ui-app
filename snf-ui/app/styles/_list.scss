@@ -81,10 +81,15 @@ $ellipsis-w: 265px;
         padding-left: 0;
     }
     .actions-col {
-        float: right;
-        text-align: right;
+        float: none;
+        clear: both;
+        @media #{$large-up} {
+            display: inline-table;
+            float: right;
+            clear: none;
+            text-align: right;
+        }
     }
-
     .data-col {
         min-width: 8%;
         text-align: right;
