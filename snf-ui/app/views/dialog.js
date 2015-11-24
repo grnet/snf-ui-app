@@ -96,7 +96,7 @@ export default Ember.View.extend({
         else if(self.get('controller').get('name_stripped') === 'object/copy' || self.get('controller').get('name_stripped') === 'object/restore' || self.get('controller').get('name_stripped') === 'object/cut') {
             self.get('controller').send('unSelectDir');
         }
-        else if(self.get('controller').get('name_stripped') === 'objects') {
+        else if(self.get('controller').get('name_stripped') === 'objects' || self.get('controller').get('name_stripped') === 'containers') {
           self.get('controller').set('newName', undefined);
           self.get('controller').set('resetInput', true);
         }
