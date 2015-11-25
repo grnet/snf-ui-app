@@ -260,7 +260,8 @@ var SnfUploaderTransport = ChunkedTransport.extend({
 
   doUploadChunked: function(url, files, paths, progress, retry, hashChunks) {
     var contURL, fileURL, cont, file, path, args,
-        hashmap, hashParams, promise, onabort, fileType, chunksTransports;
+        hashmap, hashParams, promise, onabort, fileType, chunksTransports,
+        encodedPath;
 
     // assert single file
     if (Ember.isArray(files) && files.length > 1) { 
@@ -277,7 +278,8 @@ var SnfUploaderTransport = ChunkedTransport.extend({
     // resolve container/path parts
     fileURL = url;
     cont = path.split("/").splice(0, 1).join();
-    contURL = url.split(escape(path + "/" + file.name)).splice(0, 1).join() + cont;
+    encodedPath = encodeURIComponent(path + "/" + file.name).replace(/%2f/gi, "/");
+    contURL = url.split(encodedPath).splice(0, 1).join() + cont;
 
     hashParams = this.getHashParams();
     
