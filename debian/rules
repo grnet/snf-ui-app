@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE=1
+BUILDDIR := debian
+DESTDIR := ${CURDIR}/${BUILDDIR}
+package = snf-ui-app
+
+%:
+	dh $@ --with python2
+
+override_dh_auto_install:
+	cd $(package); do \
+		python setup.py install --root=$(DESTDIR)/$(package) --install-layout=deb; \
+		cd -; \
+	done
+	dh_install
+
+override_dh_fixperms:
+	dh_fixperms
+	chmod 0640 debian/$(package)/etc/synnefo/*
+	chmod 0750 debian/$(package)/etc/synnefo
+	chown -R root:www-data debian/$(package)/etc/synnefo
