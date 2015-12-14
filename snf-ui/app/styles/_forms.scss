@@ -4,12 +4,9 @@
     &.input-partial {
         display: block;
         margin-bottom: 50px;
-        input {
-            width: 500px;
-        }
-
-        .info > span {
-            width: 500px;
+        input,
+        .info > span{
+            width: 92%;
         }
     }
 
