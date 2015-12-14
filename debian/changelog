@@ -1,5 +1,12 @@
+snf-ui-app (0.17~rc1-1~wheezy) wheezy; urgency=low
+
+  * 0.17rc1 release
+
+ -- Kostas Papadimitriou <kpap@grnet.gr>  Mon, 14 Dec 2015 14:57:30 +0200
+
 snf-ui-app (0.16-1~wheezy) wheezy; urgency=low
 
   * New upstream version
 
  -- Kostas Papadimitriou <kpap@grnet.gr>  Fri, 14 Oct 2015 12:05:58 +0200
+
