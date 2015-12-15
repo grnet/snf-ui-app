@@ -16,6 +16,7 @@ export default Ember.View.extend({
     return 'input-partial-'+this.get('_uuid');
   }.property(),
 
+
   errorVisible: false,
   errorMsg: undefined,
   warningVisible: false,
@@ -74,7 +75,6 @@ export default Ember.View.extend({
 
   toLowerCase: function() {
     var self = this;
-
     return function() {
       var value = self.get('value');
       var valueLower;
@@ -146,40 +146,65 @@ export default Ember.View.extend({
     };
   }.property(),
 
-  eventManager: Ember.Object.create({
-    keyUp: function(event, view) {
-      // when esc is preesed the parent dialog should close
-      var escKey = 27;
-      event.stopPropagation();
-      if(event.keyCode == escKey) {
-        $('body .close-reveal-modal').trigger('click');
+  handleInput: function() {
+    var self = this;
+
+    function closeParentdialog(e) {
+      if(e.type === 'keyup') {
+        var escKey = 27;
+        e.stopPropagation();
+        if(e.keyCode == escKey) {
+          $('body .close-reveal-modal').trigger('click');
+        }
+      }
+    };
+
+    function checkInputValue(e) {
+
+      // if the browser supports the input event we unbind the keyup
+      // handler
+
+      if(e.type === 'input') {
+        self.$().off('keyup', 'input' , checkInputValue);
+      }
+      let value = self.$('input').val();
+      console.log('val:', value)
+      self.set('value', value);
+      if(self.get('notEmpty')) {
+        self.get('controller').set('notEmptyName', true);
+        Ember.run.debounce(self, function() {
+          self.get('toLowerCase')();
+          self.get('adjustSize')();
+          self.get('hasHyphen')();
+          self.get('hasColon')();
+          self.get('isUnique')();
+        }, 300);
       }
       else {
-        var value = view.$('input').val();
-        view.set('value', value);
-        if(view.get('notEmpty')) {
-          view.get('controller').set('notEmptyName', true);
-          Ember.run.debounce(view, function() {
-            view.get('toLowerCase')();
-            view.get('adjustSize')();
-            view.get('hasHyphen')();
-            view.get('hasColon')();
-            view.get('isUnique')();
-            view.send('hideInfo', true);
-          }, 300);
+        self.get('controller').set('isNameValid', false);
+        self.get('controller').set('notEmptyName', false);
+        let errors = self.get('currentErrors');
+        for(var error in errors) {
+          errors[error] = false;
         }
-        else {
-          view.get('controller').set('isNameValid', false);
-          view.get('controller').set('notEmptyName', false);
-        }
+        self.send('hideInfo', true);
       }
-    },
-    focusOut: function(event, view) {
-      if(!view.get('notEmpty')) {
-        view.send('showInfo', 'This can\'t be empty.', true);
+    }
+
+    function isInputEmpty() {
+      if(!self.get('notEmpty')) {
+        self.send('showInfo', 'This can\'t be empty.', true);
       }
-    },
-  }),
+    };
+
+    this.$('input').on('keyup', closeParentdialog);
+    this.$('input').on('input', checkInputValue);
+    // use if the browser doesn't support input event
+    this.$().on('keyup', 'input', checkInputValue);
+    this.$('input').on('input', checkInputValue);
+    this.$('input').on('focusout', isInputEmpty);
+  }.on('didInsertElement'),
+
   reset: function() {
     if(this.get('controller').get('resetInputs')) {
       this.set('value', undefined);
