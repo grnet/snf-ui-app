@@ -17,7 +17,7 @@
     "foundation": "~5.5.0",
     "is_js": "~0.3.0",
     "underscore": "~1.7.0",
-    "asmcrypto": "~0.0.6",
+    "asmcrypto": "0.0.6",
     "jquery.iframe-transport": "~1.0.0",
     "chartist": "~0.7.3",
     "jquery-cookie": "~1.4.1",
