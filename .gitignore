@@ -17,6 +17,7 @@ _sass/
 .idea
 .DS_Store
 .project
+.ropeproject
 .pydevproject
 .settings/
 *.egg-info
