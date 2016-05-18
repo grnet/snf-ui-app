@@ -61,12 +61,11 @@ export default Ember.Controller.extend({
     return JSON.stringify(client);
   }.property('model.@each'),
 
-	// parsing errors data if there are any
+	// parsing errors data, if there are any
 	errors: function() {
 		var errors = this.get('model');
 		var str = '';
 		if(errors.get('length') > 0) {
-			console.log('errors!', errors.get('length'));
 			let delimiter = this.t('error_report.delimiter');
 			errors.forEach(function(error) {
 				str += error.get('string') + '\n' + delimiter + '\n';
@@ -85,7 +84,7 @@ export default Ember.Controller.extend({
 			var msg = this.get('errorReportMsg');
 			var data = this.get('errorReportExtraData');
 			this.send('sendFeedback', msg, data);
-      this.showMessage();
+			this.showMessage();
 		}
 	}
 });
