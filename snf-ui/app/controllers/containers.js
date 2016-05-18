@@ -104,7 +104,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, NameMixin, {
 
 
       var onFail = function(reason){
-        console.log('createContainer',reason);
         self.send('showErrorDialog', reason);
       };
       this.set('newProject', this.get('systemProject'));
