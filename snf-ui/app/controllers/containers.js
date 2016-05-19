@@ -1,16 +1,15 @@
 import Ember from 'ember';
 import {tempSetProperty} from 'snf-ui/snf/common';
-import {ItemsControllerMixin} from 'snf-ui/mixins/items'; 
+import {ItemsControllerMixin} from 'snf-ui/mixins/items';
 import NameMixin from 'snf-ui/mixins/name';
 
 
 
 export default Ember.ArrayController.extend(ItemsControllerMixin, NameMixin, {
   needs: ['application'],
-  projectsLoading: true,
 
   systemProject: Ember.computed.alias("controllers.application.systemProject"),
-  
+
   view: 'grid',
   sortBy: 'name:asc',
 
@@ -40,7 +39,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, NameMixin, {
   projects: function(){
     var self = this;
     var projects = this.store.find('project', {mode: 'member'}).then(function(p){
-      self.set('projectsLoading', false);
       return p;
     });
     return DS.PromiseArray.create({promise: projects});
