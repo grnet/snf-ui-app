@@ -19,9 +19,12 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
 
   availableProjects: function(){
     var self = this;
-    // show only projects whose free space is enough for the container
+    // show only projects whose free space is enough for the container or
+    // that the container is already assigned to
     return this.get('projects').filter(function(p){
-      return self.get('model').get('bytes')<= p.get('diskspace_free_space');
+      return self.get('model').get('bytes')<= p.get('diskspace_free_space') ||
+        self.get('model').get('project').get('id') == p.get('id');
+      ;
     });
   }.property('projects.@each'),
 
@@ -40,7 +43,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     };
     return dict[action];
   }.property('actionToPerform'),
-  
+
   confirm_intro: function(){
     if (this.get('verb_for_action')) {
       var verb =  this.t('action_verb.'+this.get('verb_for_action'));
@@ -80,7 +83,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
   isTrash: function(){
     if (this.get('model.isTrash')){
       return 'is-trash';
-    }; 
+    };
   }.property('model.isTrash'),
 
   actions: {
@@ -93,7 +96,6 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
       var containersModel = this.get('containersModel');
       var onSuccess = function(container) {
         containersModel.removeObject(container);
-        console.log('deleteContainer: onSuccess');
       };
 
       var onFail = function(reason){
