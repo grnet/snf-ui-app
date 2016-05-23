@@ -41,8 +41,23 @@ export default DS.Model.extend({
 
 	diskspace_free_space: function() {
 		var limit = this.get('diskspace_effective_limit');
-		var usage = this.get('diskspace_user_usage')
+		var usage = this.get('diskspace_user_usage');
+
+		if(usage > limit) {
+			return 0;
+		}
 
 		return limit - usage;
-	}.property('diskspace_effective_limit')
+	}.property('diskspace_user_usage', 'diskspace_effective_limit'),
+
+	diskspace_overquota_space: function () {
+		var usage = this.get('diskspace_user_usage');
+		var limit = this.get('diskspace_effective_limit');
+
+		if(usage > limit) {
+			return usage - limit;
+		}
+
+		return 0;
+	}.property('diskspace_user_usage', 'diskspace_effective_limit'),
 });

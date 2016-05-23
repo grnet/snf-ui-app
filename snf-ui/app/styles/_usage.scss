@@ -8,8 +8,15 @@ $wrap-radius: 6px;
         height: 100%;
     }
 
-    .meter {
+    .progress.usage-bar .meter {
         float: left;
+        background-color: $green-2;
+        &.warning {
+            background-color: $theme-info-color;
+        }
+        &.alert {
+            background-color: $theme-alert-color;
+        }
     }
 
     ul {

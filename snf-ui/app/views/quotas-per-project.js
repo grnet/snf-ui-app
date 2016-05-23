@@ -4,21 +4,30 @@ export default Ember.View.extend({
 	templateName: 'overlays/quotas-per-project',
 	tagName: 'li',
 	minWidth: 2, //percent
-	warningFull: function() {
-		if(this.get('usage_percentage')> this.get('project').get('diskspace_user_limit')*0.8 ) {
+	// If the diskspace usage is more then 80% but not more then 100% returns true
+	isNearFull: function() {
+		if((this.get('usage_percentage') > 80) && (this.get('usage_percentage') <= 100)) {
 			return true;
 		}
 		return false;
 	}.property('usage_percentage'),
 
+	// If the the usage is more then the available quotas returns true
+	isOverquota: function() {
+		if(this.get('project').get('diskspace_overquota_space') > 0) {
+			return true;
+		}
+		return false;
+	}.property('diskspace_overquota_space'),
+
 	usage_percentage: function() {
 		var usage = this.get('project').get('diskspace_user_usage');
 		var limit = this.get('project').get('diskspace_effective_limit');
-		if(limit) {
+		if(limit > usage) {
 			return ((usage/limit)*100).toFixed(2);
 		}
 		return 100;
-	}.property('usage_percentage', 'diskspace_effective_limit'),
+	}.property('diskspace_user_usage', 'diskspace_effective_limit'),
 
 	width_usage: function(){
 		var usage_percentage = this.get('usage_percentage');
