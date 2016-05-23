@@ -166,6 +166,11 @@ export default Ember.Object.extend({
     'icon-menu': 'star-o',
     'icon-loader': 'star-o'
   },{
+    'name': 'theme-orange',
+    'color': '#ff6347',
+    'icon-menu': 'fa-rocket',
+    'icon-loader': 'fa-rocket'
+  },{
     'name': 'theme-okeanos',
     'color': '#3582AC',
     'icon-menu': 'life-ring',
