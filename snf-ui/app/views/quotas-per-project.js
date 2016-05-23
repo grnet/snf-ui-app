@@ -26,7 +26,12 @@ export default Ember.View.extend({
 		if(usage_percentage < min_width && usage_percentage) {
 			return 'width:' + min_width + '%';
 		}
-		return 'width:' + usage_percentage + '%';
+		else if(usage_percentage > 100){
+			return 'width:100%';
+		}
+		else {
+			return 'width:' + usage_percentage + '%';
+		}
 	}.property('usage_percentage'),
 
 	width_free: function() {
@@ -35,7 +40,12 @@ export default Ember.View.extend({
 		if(usage_percentage < min_width) {
 			return 'width:' + (100 - min_width) + '%';
 		}
+		else if(usage_percentage > 100){
+			return 'width:0%';
+		}
+		else {
 			return 'width:' + (100 - usage_percentage) + '%';
+		}
 	}.property('usage_percentage'),
 	posLabel: function() {
 		if(!this.get('parentView').get('no-display')) {
