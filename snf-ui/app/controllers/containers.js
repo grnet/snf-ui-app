@@ -9,6 +9,7 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, NameMixin, {
   needs: ['application'],
 
   systemProject: Ember.computed.alias("controllers.application.systemProject"),
+  projects: Ember.computed.alias("controllers.application.projects"),
 
   view: 'grid',
   sortBy: 'name:asc',
@@ -35,14 +36,6 @@ export default Ember.ArrayController.extend(ItemsControllerMixin, NameMixin, {
   sortProperties: function(){
     return ['order:asc', this.get('sortBy')];
   }.property('sortBy'),
-
-  projects: function(){
-    var self = this;
-    var projects = this.store.find('project', {mode: 'member'}).then(function(p){
-      return p;
-    });
-    return DS.PromiseArray.create({promise: projects});
-  }.property(),
 
   newProject: function(){
     return this.get('systemProject');
