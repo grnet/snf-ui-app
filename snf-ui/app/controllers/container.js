@@ -33,6 +33,17 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     return this.get('availableProjects').findBy('id', project_id) ;
   }.property('availableProjects', 'model.project'),
 
+  isSelectedProjectOverquota: function() {
+    var proj = this.get('model').get('project');
+    var overquotaAmount = proj.get('diskspace_overquota_space');
+    if(overquotaAmount) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }.property('model.project'),
+
   actionToPerform: undefined,
 
   verb_for_action: function(){
