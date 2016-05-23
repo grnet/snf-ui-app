@@ -211,6 +211,7 @@ export default Ember.Controller.extend(NameMixin, {
       var self = this;
       var onSuccess = function() {
         var parent = this.get("parentController");
+        parent.get('selectedItems').removeObject(this);
         parent && parent.get("model").update().then(function() {
           object.unloadRecord();
         });
