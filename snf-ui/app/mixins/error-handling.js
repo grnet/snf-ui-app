@@ -13,6 +13,7 @@ export default Ember.Mixin.create({
 
     // Catches js errors
     Ember.onerror = function(error) {
+      console.error(error);
       if(error.stack) {
         if(!error.stack.includes('RSVP') && !error.stack.includes('ajaxError')) {
           self.send('showErrorDialog', error);
@@ -24,6 +25,7 @@ export default Ember.Mixin.create({
     };
 
     Ember.RSVP.on('error', function(error) {
+      console.error(error);
       if(error.status == 0) {
         self.send('showErrorBox');
       }
@@ -37,12 +39,13 @@ export default Ember.Mixin.create({
   },
 
 
-	actions: {
-		/*
-		 * when the server returns error and we want full page error msg
-		 * we override the action: error
-		 */
+  actions: {
+    /*
+     * when the server returns error and we want full page error msg
+     * we override the action: error
+     */
     error: function(error, transition) {
+      console.error(error, transition);
       switch(error.status) {
         case 404: //not found
           this.render('errors/404', {
