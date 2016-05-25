@@ -15,8 +15,8 @@ export default DS.Model.extend({
 
 
 	select_label: function(){
-		return this.get('human_name')+'  (' + bytesToHuman(this.get('diskspace_free_space'))+ ' free)';
-	}.property('human_name', 'diskspace_free_space'),
+		return this.get('human_name')+'  (' + bytesToHuman(this.get('disk_free_space'))+ ' free)';
+	}.property('human_name', 'disk_free_space'),
 
 	// quotas info
 	diskspace_user_usage: DS.attr('number'),
@@ -39,7 +39,7 @@ export default DS.Model.extend({
 		return Math.min(limit, project_limit - taken_by_others);
 	}.property('diskspace_user_limit', 'diskspace_project_limit', 'diskspace_taken_by_others'),
 
-	diskspace_free_space: function() {
+	disk_free_space: function() {
 		var limit = this.get('diskspace_effective_limit');
 		var usage = this.get('diskspace_user_usage');
 
@@ -50,7 +50,7 @@ export default DS.Model.extend({
 		return limit - usage;
 	}.property('diskspace_user_usage', 'diskspace_effective_limit'),
 
-	diskspace_overquota_space: function () {
+	disk_overquota_space: function () {
 		var usage = this.get('diskspace_user_usage');
 		var limit = this.get('diskspace_effective_limit');
 

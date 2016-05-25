@@ -22,7 +22,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     // show only projects whose free space is enough for the container or
     // that the container is already assigned to
     return this.get('projects').filter(function(p){
-      return self.get('model').get('bytes')<= p.get('diskspace_free_space') ||
+      return self.get('model').get('bytes')<= p.get('disk_free_space') ||
         self.get('model').get('project').get('id') == p.get('id');
       ;
     });
@@ -35,7 +35,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
 
   isSelectedProjectOverquota: function() {
     var proj = this.get('model').get('project');
-    var overquotaAmount = proj.get('diskspace_overquota_space');
+    var overquotaAmount = proj.get('disk_overquota_space');
     if(overquotaAmount) {
       return true;
     }

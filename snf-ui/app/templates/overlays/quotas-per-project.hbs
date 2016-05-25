@@ -4,10 +4,10 @@
 		{{convert-bytes project.diskspace_user_usage}} out of {{convert-bytes project.diskspace_effective_limit}} used
 		{{#if view.isOverquota}}
 			<span class="danger">
-				({{convert-bytes project.diskspace_overquota_space}} over the limit)
+				({{convert-bytes project.disk_overquota_space}} over the limit)
 			</span>
 		{{else}}
-			({{convert-bytes project.diskspace_free_space}} left)
+			({{convert-bytes project.disk_free_space}} left)
 		{{/if}}
 	</p>
 
