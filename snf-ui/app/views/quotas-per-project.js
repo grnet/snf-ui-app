@@ -14,11 +14,11 @@ export default Ember.View.extend({
 
 	// If the the usage is more then the available quotas returns true
 	isOverquota: function() {
-		if(this.get('project').get('diskspace_overquota_space') > 0) {
+		if(this.get('project').get('disk_overquota_space') > 0) {
 			return true;
 		}
 		return false;
-	}.property('diskspace_overquota_space'),
+	}.property('disk_overquota_space'),
 
 	usage_percentage: function() {
 		var usage = this.get('project').get('diskspace_user_usage');
