@@ -48,9 +48,9 @@
                         optionLabelPath="content.select_label"
                         optionValuePath="content.id"
                         selection=container.selectedProject}}
-            {{#if container.isSelectedProjectOverquota}}
-                <div class="label alert overquota"> {{fa-icon " fa-exclamation-triangle"}}Over limit diskspace usage</div>
-            {{/if}}
+        {{#if container.isSelectedProjectOverquota}}
+            <div class="label alert overquota"> {{fa-icon " fa-exclamation-triangle"}}Over limit diskspace usage</div>
+        {{/if}}
     </div>
 
     {{#if listView}}
