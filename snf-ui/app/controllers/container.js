@@ -42,7 +42,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     else {
       return false;
     }
-  }.property('model.project'),
+  }.property('model.project', 'model.project.disk_overquota_space'),
 
   actionToPerform: undefined,
 
