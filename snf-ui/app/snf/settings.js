@@ -162,9 +162,9 @@ export default Ember.Object.extend({
     'icon-loader': 'refresh',
   }, {
     'name': 'theme-funky',
-    'color': '#ffa500',
-    'icon-menu': 'star-o',
-    'icon-loader': 'star-o'
+    'color': '#b9aea8',
+    'icon-menu': 'fa-cogs',
+    'icon-loader': 'fa-cogs'
   },{
     'name': 'theme-orange',
     'color': '#ff6347',

@@ -1,29 +1,28 @@
 // palette
-$ciel: #3aa6f4;
-$blue-1: #b5defc;
-$blue-2: #60ace2;
-$blue-3: #1a82cb;
-$blue-4: #0764a6;
-$fuchsia: #c95273;
 $lime: #97b314;
-$bordeaux: #b31475;
+$petrol: #43504F;
+$light-brown: #DA8758;
+$light-brown2: #D8CCC6;
+$green-1: #2B646B;
+$green-2: #629DA5;
+$mint: #4EB9B1;
 
 // theme_settings
-$theme-primary-color: $ciel;
+$theme-primary-color: $petrol;
 $theme-secondary-color: $lime;
-$theme-alert-color: $fuchsia;
+$theme-alert-color: $mint;
 $theme-success-color: $lime;
-$theme-info-color: $orange;
+$theme-info-color: $light-brown;
 
 
-$theme-anchor-font-color: $blue-4;
-$theme-anchor-font-color-hover: $ciel;
+$theme-anchor-font-color: $green-1;
+$theme-anchor-font-color-hover: $green-2;
 
 $theme-inactive-color: #838282;
-$theme-primary-color-light: $blue-1;
+$theme-primary-color-light: $light-brown2;
 $theme-secondary-color-light: #f9cd82;
 
 $theme-header-background: $theme-primary-color;
 
-$theme-guide-bg-color: $bordeaux;
+$theme-guide-bg-color: $green-1;
 $theme-drag-bg-color: $theme-secondary-color-light;
