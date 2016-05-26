@@ -1,12 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
-	errors: undefined,
-  netErrorsCount: Ember.Object.create({
-    counter: 0
-  }),
+  errors: undefined,
   errorDialogRendered: false,
-	errorBoxRendered: false,
+  errorBoxRendered: false,
   init: function() {
     var self = this;
     this.set('errors', []);
@@ -65,17 +62,10 @@ export default Ember.Mixin.create({
     },
 
     showErrorBox: function() {
-      var netErrorsCount = this.get('netErrorsCount');
-      netErrorsCount.set('counter', netErrorsCount.get('counter') + 1);
-      var netErrors = Ember.Object.create({
-        counter: this.get('netErrorsCount')
-      });
-
       if(!this.get('errorBoxRendered')) {
         this.render('overlays/alert-box', {
           into: 'application',
           outlet: 'alertBox',
-          model: netErrorsCount,
           view: 'alertBox',
         });
         this.set('errorBoxRendered', true);

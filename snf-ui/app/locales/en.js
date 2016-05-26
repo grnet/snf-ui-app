@@ -129,11 +129,6 @@ export default {
     errors_label: '\nErrors details:' + '\n',
     system_data_label: 'Additional data:' + '\n',
   },
-  network_error: {
-    text: {
-      one: 'Network error',
-      other: 'Network errors'
-    }
-  }
+  network_error: 'Network error',
 
 };
