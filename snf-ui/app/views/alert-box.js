@@ -18,7 +18,6 @@ export default Ember.View.extend({
       var self = this;
       this.$().fadeOut(function() {
         self.set('no-display', true);
-        self.get('controller').get('model').set('counter', 0);
         self.get('controller').send('removeErrorBox');
       });
     },
