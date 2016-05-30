@@ -26,6 +26,7 @@ export default Ember.Component.extend(RefreshViewMixin, {
   expanded: false,
   loading: false,
   classNameBindings: ['isTrash'],
+  refreshAutoStart: false,
   refreshTasks: ['refreshSubDirs'],
   refreshSubDirs: function() {
     if (this.get('expanded')) {

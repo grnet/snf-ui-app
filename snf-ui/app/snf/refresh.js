@@ -130,8 +130,10 @@ var Refresher = Ember.Object.extend({
   tasks: [],
   specs: {},
   context: Ember.Object.create(),
+  running: false,
+  autoStart: true,
   
-  init: function(specs, context, interval) {
+  init: function(specs, context, interval, autostart) {
     this.set('timeouts', []);
     this.set('specs', specs || []);
     this.set('context', context || {});
@@ -139,6 +141,7 @@ var Refresher = Ember.Object.extend({
                           context.get('settings.modelRefreshInterval');
     this.set('interval', interval || defaultInterval || 2000);
     this.set('paused', false);
+    this.set('autoStart', autostart === undefined ? true : false);
   },
 
   parseSpec: function(spec) {
@@ -292,7 +295,8 @@ var Refresher = Ember.Object.extend({
 var RefreshMixin = Ember.Mixin.create({
   initRefresher: function() {
     var refresher = new Refresher(this.get('refreshTasks'), this, 
-                                  this.get('refreshInterval'));
+                                  this.get('refreshInterval'),
+                                  this.get('refreshAutoStart'));
     this.set('_refresher', refresher);
   }.on('init')
 
@@ -300,8 +304,14 @@ var RefreshMixin = Ember.Mixin.create({
 
 
 var RefreshViewMixin = Ember.Mixin.create(RefreshMixin, {
-  startRefresh: function() { this.get('_refresher').start(); }.on('didInsertElement'),
-  stopRefresh: function() { this.get('_refresher').stop(); }.on('willDestroyElement'),
+  startRefresh: function() { 
+    if (this.get('_refresher.autoStart')) {
+      this.get('_refresher').start(); 
+    }
+  }.on('didInsertElement'),
+  stopRefresh: function() { 
+    this.get('_refresher').stop(); 
+  }.on('willDestroyElement'),
 });
 
 
