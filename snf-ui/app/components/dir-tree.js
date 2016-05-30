@@ -38,6 +38,15 @@ export default Ember.Component.extend(RefreshViewMixin, {
       });
     }
   },
+
+  startStopRefresh: function() {
+    var refresh = this.get('_refresher');
+    if (this.get('expanded')) {
+      refresh.start();
+    } else {
+      refresh.stop();
+    }
+  }.observes('expanded'),
   
   name: function(){
     var root = this.get('root');
