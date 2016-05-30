@@ -71,7 +71,6 @@ export default Ember.Component.extend(RefreshViewMixin, {
     var a = (this.get('root').match(/\//g) || [] ).length == 1 ;
     var b = this.get('root').indexOf('\/accounts\/') == 0 &&
             (this.get('root').match(/\//g) || [] ).length == 4 ;
-    console.log(b);
     return a || b;
   }.property('root'),
 
