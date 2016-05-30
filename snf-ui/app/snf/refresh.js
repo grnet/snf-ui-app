@@ -80,7 +80,9 @@ function _findAll(adapter, store, type, sinceToken) {
         return existingIds.indexOf(m.get('id')) === -1;
       });
       removed.forEach(function(record) {
-        record.unloadRecord();
+        if (!record.get("isDirty")) {
+          record.unloadRecord();
+        }
       });
     });
     store.didUpdateAll(type);
