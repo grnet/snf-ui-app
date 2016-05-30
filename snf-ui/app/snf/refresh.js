@@ -248,14 +248,14 @@ var Refresher = Ember.Object.extend({
       }
 
       if (callee instanceof DS.RecordArray) {
-        callee.update();
+        return callee.update();
       } else if(callee instanceof DS.Model) {
-        callee.reload();
+        return callee.reload();
       } else {
         if (callee instanceof Function) {
-          callee();
+          return callee();
         } else {
-            console.error("Inavlid callee for ", spec.spec, callee);
+            console.error("Inavlid callee for ", meta.spec, callee);
         }
 
       }

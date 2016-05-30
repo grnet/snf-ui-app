@@ -33,7 +33,7 @@ export default Ember.Component.extend(RefreshViewMixin, {
       var current = this.get('subdirs');
       if (!current.content == null) { return; }
       var res = this.get('resolver')(this.get('root'));
-      res.then(function(){
+      return res.then(function(){
         mergeArrayContents(current, res);
       });
     }
