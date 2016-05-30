@@ -188,26 +188,40 @@ var Refresher = Ember.Object.extend({
     }
     interval = parseInt(interval);
     
+    var key = context.toString() + "::" + lastpart;
     return {
       name: name,
       interval: interval || this.get('interval'),
       context: context,
       source: this.get('context').toString(),
       callee: callee,
-      spec: _spec
+      spec: _spec,
+      key: key
     }
   },
 
   startTask: function(taskSpec, context) {
     var spec = this.parseSpec(taskSpec);
-    var meta = spec.context.__refresh_meta || {deps: 0, specs: []};
+    var contextMeta = spec.context.__refresh_meta || Ember.Object.create();
+    var newMeta = {deps: 0, specs: []};
+    var meta = contextMeta.get(spec.key) || newMeta;
+    
+    // existing meta but callee changed. This is the case of changed path 
+    // in objects controller. The meta object is preserved to the objects view 
+    // but callee (view model) has changed.
+    if (meta.specs.length > 0 && 
+        !Object.is(spec.callee, meta.specs[0].callee)) {
+      meta.disabled = true;
+      meta = newMeta;
+    }
+    contextMeta.set(spec.key, meta);
+    spec.context.__refresh_meta = contextMeta;
     meta.specs.push(spec);
     var ids = this.get('timeouts');
 
     meta.deps++;
-    meta.name = context.toString();
+    meta.name = spec.key;
     meta.interval = meta.interval || spec.interval || this.get('interval');
-    context.__refresh_meta = meta;
 
     // FIXME: recreate timeout if interval is less than the one already set to 
     // satisfy the shortest interval possible.
@@ -215,7 +229,8 @@ var Refresher = Ember.Object.extend({
 
     var self = this;
     var task = function() {
-      var callee = spec.callee, query;
+      if (window.NO_TASKS) { return; }
+      var callee = spec.callee;
       
       if (!callee) { debugger }
       Ember.assert(taskSpec + " is invalid task spec", !!callee);
@@ -247,6 +262,7 @@ var Refresher = Ember.Object.extend({
     }
 
     var tick = function() {
+      if (meta.disabled) { return }
       meta.id = setTimeout(function() {
         var res;
         ids.removeObject(meta.id);
@@ -265,12 +281,14 @@ var Refresher = Ember.Object.extend({
 
   stopTask: function(task, context) {
     var spec = this.parseSpec(task);
-    var meta = context.__refresh_meta;
+    var contextMeta = context.__refresh_meta;
+    if (!contextMeta) { return } // stop before start???
+    var meta = contextMeta.get(spec.key);
+    if (!meta) { debugger; } // wtf ??
     meta.deps--;
     if (meta.deps === 0) {
       clearTimeout(meta.id);
     }
-    context.__refresh_meta = meta;
   },
 
   start: function(spec) {
@@ -279,14 +297,17 @@ var Refresher = Ember.Object.extend({
     specs.forEach(function(spec) {
       this.startTask(spec, context);
     }.bind(this));
+    this.set("running", true);
   },
 
   stop: function(spec) {
+    if (!this.get("running")) { return; }
     var context = this.get('context');
     var specs = spec ? [spec] : this.get('specs');
     specs.forEach(function(spec) {
       this.stopTask(spec, context);
     }.bind(this));
+    this.set("running", false);
   }
 
 });
