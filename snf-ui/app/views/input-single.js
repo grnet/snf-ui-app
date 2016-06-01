@@ -276,7 +276,7 @@ export default Ember.View.extend({
       }
       else if(this.get('warningVisible') === true) {
         var self = this;
-        setTimeout(function() {
+        Ember.run.debounce(self, function() {
           if(self.get('_state') === 'inDOM') {
             self.set('warningVisible', false);
           }
