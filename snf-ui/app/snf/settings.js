@@ -162,6 +162,16 @@ export default Ember.Object.extend({
     'icon-loader': 'refresh',
   }, {
     'name': 'theme-funky',
+    'color': '#ffa500',
+    'icon-menu': 'star-o',
+    'icon-loader': 'star-o'
+  },{
+    'name': 'theme-okeanos',
+    'color': '#3582AC',
+    'icon-menu': 'life-ring',
+    'icon-loader': 'life-ring'
+  },{
+    'name': 'theme-brut',
     'color': '#b9aea8',
     'icon-menu': 'fa-cogs',
     'icon-loader': 'fa-cogs'
@@ -170,11 +180,6 @@ export default Ember.Object.extend({
     'color': '#ff6347',
     'icon-menu': 'fa-rocket',
     'icon-loader': 'fa-rocket'
-  },{
-    'name': 'theme-okeanos',
-    'color': '#3582AC',
-    'icon-menu': 'life-ring',
-    'icon-loader': 'life-ring'
   }],
 
   main_theme: 'snf-ui',
