@@ -3,9 +3,9 @@ import ResetScrollMixin from 'snf-ui/mixins/reset-scroll';
 
 export default Ember.Route.extend(ResetScrollMixin, {
 
+  needs: ['application'],
   model: function() {
-    var query = {'account': this.get('settings.uuid')};
-    var model = this.store.findQueryReloadable('container', query);
+    var model = this.container.lookup('controller:application').get('containers');
     return model;
   },
 
