@@ -3,6 +3,8 @@ import StorageAdapter from 'snf-ui/snf/adapters/storage';
 
 export default StorageAdapter.extend({
 
+  setIfModifiedSince: true,
+
   buildURL: function(type, container, id, snapshot) {
     var url = [];
     var prefix = this.urlPrefix();
@@ -46,14 +48,14 @@ export default StorageAdapter.extend({
     });
   },
 
-  findQuery: function(store, type, query) {
+  findQuery: function(store, type, query, recordArray, update) {
     var filterPath, pathQuery, container, url, headers, 
         payload, parentURL, escapedPath, user_id, owner_id;
     filterPath = null;
     pathQuery = query.pathQuery === false || true;
     container = query.container_id || store.get('container_id') || '';
     url = this.buildURL(type.typeKey, container);
-    headers = this.get('headers');
+    headers = _.extend({}, this.get('headers'));
     user_id = this.get('settings.user.id');
     owner_id = container.split("/")[0];
 
@@ -79,7 +81,9 @@ export default StorageAdapter.extend({
     if (!pathQuery && query.path !== '/') {
       filterPath = query.path;
     }
-    payload = this.ajax(url, 'GET', { data: query, headers: headers });
+    let ajaxParams = { data: query, headers: headers };
+    if (update) { ajaxParams['setIfModifiedSince'] = false; }
+    payload = this.ajax(url, 'GET', ajaxParams);
     if (filterPath) { // use?
       return payload.then(function(payload) {
         payload = payload.filter(function(obj) {
@@ -96,6 +100,9 @@ export default StorageAdapter.extend({
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       payload.then(function(payload) {
+        if (headers['If-Modified-Since']) {
+          delete headers['If-Modified-Since'];
+        }
         jQuery.ajax({
           type: 'HEAD',
           url: parentURL,
@@ -108,18 +115,16 @@ export default StorageAdapter.extend({
           });
           payload.set('container_id', container);
           Ember.run(null, resolve, payload);
-
-      }, function(jqXHR) {
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        if(user_id !== owner_id) {
-          payload.set('container_id', container);
-          Ember.run(null, resolve, payload);
-        }
-        else {
-          Ember.run(null, reject, jqXHR);
-        }
-      });
-    });
+        }, function(jqXHR) {
+          jqXHR.then = null; // tame jQuery's ill mannered promises
+          if(user_id !== owner_id) {
+            payload.set('container_id', container);
+            Ember.run(null, resolve, payload);
+          } else {
+            Ember.run(null, reject, jqXHR);
+          }
+        });
+      }, reject);
     });
   },
 

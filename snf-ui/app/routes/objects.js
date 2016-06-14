@@ -99,7 +99,6 @@ export default Ember.Route.extend(EscapedParamsMixin, ResetScrollMixin, {
           });
         }
       }
-      
       return objects;
     }, function() {
       var error = {};
@@ -108,6 +107,7 @@ export default Ember.Route.extend(EscapedParamsMixin, ResetScrollMixin, {
       return undefined;
     });
   },
+
   setupController: function(controller,model){
     controller.set('model', model);
     controller.set('container_id', this.store.get('container_id'));
