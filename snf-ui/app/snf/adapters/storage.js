@@ -104,14 +104,23 @@ export default SnfRestAdapter.extend({
     var sinceCache = this.get('sinceCache');
     var adapter = this;
     var sinceDate = (new Date()).toUTCString();
-    var setIfModifiedSince = false;
+    var setIfModifiedSince = this.setIfModifiedSince;
+    if (options && options.setIfModifiedSince != undefined) {
+      setIfModifiedSince = options.setIfModifiedSince;
+      delete options.setIfModifiedSince;
+    }
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
       var hash = adapter.ajaxOptions(url, type, options);
       var rType = hash.type || "GET";
       var urlKey = rType + ":" + url;
 
-      if (sinceCache[urlKey]) {
+      var lastResponseDate = sinceCache[urlKey];
+      if (hash.headers && hash.headers['If-Modified-Since']) {
+        delete hash.headers['If-Modified-Since'];
+      }
+
+      if (lastResponseDate) {
         hash.headers = hash.headers || {};
         if (setIfModifiedSince) {
           hash.headers['If-Modified-Since'] = sinceCache[urlKey];
@@ -120,7 +129,7 @@ export default SnfRestAdapter.extend({
 
       hash.success = function(json, textStatus, jqXHR) {
         
-        if (hash.type == "GET") {
+        if (hash.type == "GET" && setIfModifiedSince) {
           sinceCache[urlKey] = sinceDate;
         }
 
@@ -140,35 +149,13 @@ export default SnfRestAdapter.extend({
         Ember.run(null, reject, adapter.ajaxError(jqXHR, jqXHR.responseText, errorThrown));
       };
 
+      if (hash.data && hash.data.since) { debugger; }
       Ember.$.ajax(hash);
     }, 'DS: RESTAdapter#ajax ' + type + ' to ' + url);
   },
 
-  _fetchAll: function(type, array) {
-    var adapter = this.adapterFor(type);
-    var sinceToken = this.typeMapFor(type).metadata.since;
-
-    Ember.set(array, 'isUpdating', true);
-
-    Ember.assert("You tried to load all records but you have no adapter (for " + type + ")", adapter);
-    Ember.assert("You tried to load all records but your adapter does not implement `findAll`", typeof adapter.findAll === 'function');
-
-    return this._finder_findAll(adapter, this, type, sinceToken);
-  },
-
-  fetchRecord: function(record) {
-    var type = record.constructor;
-    var id = get(record, 'id');
-    var adapter = this.adapterFor(type);
-
-    Ember.assert("You tried to find a record but you have no adapter (for " + type + ")", adapter);
-    Ember.assert("You tried to find a record but your adapter (for " + type + ") does not implement 'find'", typeof adapter.find === 'function');
-
-    return this._finder_find(adapter, this, type, id, record);
-  },
-
-  _finder_findAll: function(adapter, store, type, sinceToken) {
-      var promise = adapter.findAll(store, type, sinceToken);
+  _finder_findAll: function(adapter, store, type, sinceToken, update) {
+      var promise = adapter.findAll(store, type, sinceToken, update);
       var serializer = serializerForAdapter(store, adapter, type);
       var label = "DS: Handle Adapter#findAll of " + type;
 
@@ -176,19 +163,39 @@ export default SnfRestAdapter.extend({
       promise = _guard(promise, _bind(_objectIsAlive, store));
 
       return promise.then(function(adapterPayload) {
+        var payload = [];
         store._adapterRun(function() {
-          var payload = serializer.extract(store, type, adapterPayload, null, 'findAll');
+          payload = serializer.extract(store, type, adapterPayload, null, 'findAll');
           Ember.assert("The response from a findAll must be an Array, not " + Ember.inspect(payload), Ember.typeOf(payload) === 'array');
           store.pushMany(type, payload);
         });
 
+        let all = store.all(type).sortBy('id');
+        let updateIndex = function(el, i) {
+          var newId = el['id'];
+          var prevId = all[i].get('id');
+          if (newId != prevId) {
+            all[i].unloadRecord();
+            updateIndex(el, i);
+          }
+        }
+
+        if (payload.length < all.length) {
+          for (var i=payload.length; i<all.length; i++) {
+            all[i].unloadRecord();
+          }
+        }
+        payload.sortBy('id').forEach(updateIndex);
         store.didUpdateAll(type);
         return store.all(type);
-      }, null, "DS: Extract payload of findAll " + type);
+      }, null, "DS: Extract payload of findAll " + type).catch(function(err) {
+        if (err == "notmodified") { return store.all(type); }
+        throw err;
+      });
   },
 
-  _finder_findQuery: function(adapter, store, type, query, recordArray) {
-    var promise = adapter.findQuery(store, type, query, recordArray);
+  _finder_findQuery: function(adapter, store, type, query, recordArray, update) {
+    var promise = adapter.findQuery(store, type, query, recordArray, update);
     var serializer = serializerForAdapter(store, adapter, type);
     var label = "DS: Handle Adapter#findQuery of " + type;
 
@@ -203,15 +210,15 @@ export default SnfRestAdapter.extend({
       });
       payload = payload.sortBy('id');
       
-      var len = recordArray.get('length');
+      let len = recordArray.get('length');
       if (recordArray.get('length') > 0) {
-        var records = store.pushMany(type, payload).sortBy('id');
-        var previous = recordArray.content.sortBy('id');
+        let records = store.pushMany(type, payload).sortBy('id');
+        let previous = recordArray.content.sortBy('id');
 
-        var index = 0;
-        var updateIndex = function(el, i) {
-          var newId = el.get('id');
-          var prevId = previous[i] && previous[i].get('id') || null;
+        let index = 0;
+        let updateIndex = function(el, i) {
+          let newId = el.get('id');
+          let prevId = previous[i] && previous[i].get('id') || null;
 
           if (prevId == newId) { return }
           if (prevId === null || newId < prevId) {
@@ -240,7 +247,10 @@ export default SnfRestAdapter.extend({
       //recordArray.set('_payload', payload.sortBy('id'));
       return recordArray;
 
-    }, null, "DS: Extract payload of findQuery " + type);
+    }, null, "DS: Extract payload of findQuery " + type).catch(function(err) {
+      if (err == "notmodified") { return recordArray; }
+      throw err;
+    });
   },
 
   _finder_find: function(adapter, store, type, id, record) {

@@ -120,7 +120,7 @@ var Refresher = Ember.Object.extend({
       if ((callee instanceof DS.PromiseArray) ||
           (callee instanceof DS.PromiseObject) ||
           (callee instanceof Ember.RSVP.Promise)) {
-        if (callee.get('content') instanceof DS.RecordArray) {
+        if (callee.get && callee.get('content') instanceof DS.RecordArray) {
           callee = callee.get('content');
         }
       }
@@ -163,8 +163,8 @@ var Refresher = Ember.Object.extend({
 
   stopTask: function(task, context) {
     var spec = this.parseSpec(task);
-    var contextMeta = context.__refresh_meta;
-    if (!contextMeta) { return } // stop before start???
+    var contextMeta = spec.context.__refresh_meta;
+    if (contextMeta === undefined) { return } // stop before start???
     var meta = contextMeta.get(spec.key);
     if (!meta) { debugger; } // wtf ??
     meta.deps--;

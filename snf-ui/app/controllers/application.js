@@ -71,6 +71,4 @@ export default Ember.Controller.extend(DropFileActionsMixin, SnfAddHandlerMixin,
     return this.get('store').findAllReloadable('group');
   }.property(),
 
-
-
 });
