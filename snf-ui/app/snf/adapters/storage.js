@@ -234,11 +234,13 @@ export default SnfRestAdapter.extend({
         records.forEach(updateIndex);
 
         if (previous.get("length") > records.get("length")) {
-          for (var i=records.get("length")-1; i<previous.get("length") - 1; i++) {
+          var prevLen = previous.get("length");
+          for (var i=records.get("length"); i<prevLen; i++) {
             let removed = previous.pop();
             recordArray.removeObject(removed);
           }
         }
+
       } else {
         recordArray.load(payload);
       }
