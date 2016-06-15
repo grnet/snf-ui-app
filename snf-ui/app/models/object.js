@@ -194,6 +194,9 @@ export default DS.Model.extend({
       var extMSPPT = ['ppt', 'pptx'];
       var extBook = ['mobi', 'epub'];
       var extCSS = ['scss', 'sass', 'css'];
+      var extCode = ['html', 'xhtml', 'py', 'java', 'json', 'htm', 'xml',
+          'cpp', 'js', 'c', 'sh', 'jsp', 'php', 'asp'];
+      var extApp = ['exe', 'app', 'bat', 'com', 'cgi', 'jar'];
 
       switch(true) {
         case(extTxt.indexOf(objExtension) > -1):
@@ -228,6 +231,12 @@ export default DS.Model.extend({
           break;
         case(extCSS.indexOf(objExtension) > -1):
           type = 'stylesheet';
+          break;
+        case(extCode.indexOf(objExtension) > -1):
+          type = 'source code';
+          break;
+        case(extApp.indexOf(objExtension) > -1):
+          type = 'application';
           break;
         default:
           type = 'unknown';

@@ -102,14 +102,14 @@ export default {
   },
 
   icon_label: {
-    move_to_trash: 'trash',
-    restore_from_trash: 'restore',
-    'delete': 'delete',
-    copy: 'copy',
-    move: 'move',
+    move_to_trash: 'Trash',
+    restore_from_trash: 'Restore',
+    'delete': 'Delete',
+    copy: 'Copy',
+    move: 'Move',
     create_dir: 'New folder',
-    reload_model: 'refresh',
-    groups: 'groups',
+    reload_model: 'Refresh',
+    groups: 'Groups',
     view: 'view',
   },
 
