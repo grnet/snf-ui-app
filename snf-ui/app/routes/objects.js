@@ -40,7 +40,7 @@ export default Ember.Route.extend(EscapedParamsMixin, ResetScrollMixin, {
             return self.store.findQuery('object', {
               path: parentPath, 
               container_id:containerID
-            }).then(function(objList) {
+            }, true).then(function(objList) {
               var ObjListLength = objList.get('length');
               exists = false;
               if(ObjListLength) {
@@ -76,7 +76,7 @@ export default Ember.Route.extend(EscapedParamsMixin, ResetScrollMixin, {
           return self.store.findQuery('object', {
             container_id:containerID,
             path: '/'
-          }).then(function(objList) {
+          }, true).then(function(objList) {
             isEmptyDir = false;
             objList.forEach(function(object) {
               var objPath = object.get('path');
