@@ -149,7 +149,6 @@ export default SnfRestAdapter.extend({
         Ember.run(null, reject, adapter.ajaxError(jqXHR, jqXHR.responseText, errorThrown));
       };
 
-      if (hash.data && hash.data.since) { debugger; }
       Ember.$.ajax(hash);
     }, 'DS: RESTAdapter#ajax ' + type + ' to ' + url);
   },
