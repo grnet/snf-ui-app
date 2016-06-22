@@ -21,12 +21,17 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     var self = this;
     // show only projects whose free space is enough for the container or
     // that the container is already assigned to
-    return this.get('projects').filter(function(p){
+    var projects = this.get('projects').filter(function(p){
       return self.get('model').get('bytes')<= p.get('disk_free_space') ||
         self.get('model').get('project').get('id') == p.get('id');
       ;
     });
-  }.property('projects.@each'),
+
+    if (!projects.findBy('id', this.get('model.project.id'))) {
+      projects.addObject(this.get('model.project'));
+    }
+    return projects;
+  }.property('projects.@each.disk_free_space'),
 
   selectedProject: function(){
     var project_id = this.get('model').get('project').get('id');
@@ -35,6 +40,8 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
 
   isSelectedProjectOverquota: function() {
     var proj = this.get('model').get('project');
+    if (!proj.get('is_member')) { return true; }
+    if (!proj.get('is_active')) { return true; }
     var overquotaAmount = proj.get('disk_overquota_space');
     if(overquotaAmount) {
       return true;
@@ -42,7 +49,10 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     else {
       return false;
     }
-  }.property('model.project', 'model.project.disk_overquota_space'),
+  }.property('model.project',
+             'model.project.disk_overquota_space',
+             'model.project.is_member',
+             'model.project.is_active'),
 
   actionToPerform: undefined,
 

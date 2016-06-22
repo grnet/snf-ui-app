@@ -5,6 +5,8 @@ export default DS.Model.extend({
 	name: DS.attr('string'),
 	homepage: DS.attr('string'),
 	system_project: DS.attr('boolean', {defaultValue: false}),
+  is_member: DS.attr('boolean', {defaultValue: true}),
+  state: DS.attr('string'),
 
   human_name: function(){
     if (this.get('system_project')){
@@ -77,6 +79,10 @@ export default DS.Model.extend({
 		return false;
 	}.property('usage_percentage'),
 
+
+  is_active: function() {
+    return this.get('state') == "active";
+  }.property('state'),
 
 	usage_percentage: function() {
 		var usage = this.get('diskspace_user_usage');
