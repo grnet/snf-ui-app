@@ -22,13 +22,13 @@
             z-index: 1;
         }
         .warning {
-            background-color: #f0a024;
+            background-color: $theme-info-color;
         }
         .info-msg {
             margin-left: 10px;
         }
         > span {
-            color: #FFFFFF;
+            color: $white;
             display: block;
             font-size: 0.75rem;
             font-style: italic;
@@ -40,10 +40,10 @@
         margin-bottom: 0;
     }
     input.error {
-        border-color: #f04124;
+        border-color: $theme-alert-color;
     }
     input.warning {
-        border-color: #f0a024;
+        border-color: $theme-info-color;
     }
 }
 
