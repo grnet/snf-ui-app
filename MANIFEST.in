@@ -1,5 +1,4 @@
 include README Changelog
-include distribute_setup.py
 recursive-include synnefo_ui/static/snf-ui *.js *.css *.html *.png *.gif *.jpg
 recursive-include synnefo_ui/static/snf-ui/fonts *.*
 recursive-include synnefo_ui/static/snf-ui/assets/fonts *.*
