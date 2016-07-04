@@ -5,7 +5,6 @@ body {
     label {
         color: #222;
     }
-
     &.cloudbar-active {
         .cloudbar {
             position: absolute;
@@ -74,6 +73,20 @@ body {
 
 .danger {
     color: $danger-color;
+}
+
+.danger-revert {
+    background-color: $danger-color;
+    color: $white;
+}
+
+.success {
+    color: $success-color;
+}
+
+.success-revert {
+    background-color: $success-color;
+    color: $white;
 }
 
 .info {
