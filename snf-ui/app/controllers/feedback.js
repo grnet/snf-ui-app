@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
 	inputValue: undefined,
 	validInput: false,
 	closeDialog: false,
-  msg: false,
+	msg: false,
 
 	fwdFeedback: function() {
 		var inputValue = this.get('inputValue');
@@ -31,7 +31,6 @@ export default Ember.Controller.extend({
 	errorReportMsg: function() {
 		var title = this.t('error_report.title');
 		var errors = this.t('error_report.errors_label') + this.get('errors');
-
 		var description = this.t('error_report.descr_label') + this.get('inputValue') +'\n';
 
 		return title + errors + description;
@@ -40,9 +39,10 @@ export default Ember.Controller.extend({
 
   errorReportExtraData: function() {
     var w = window,
-    s = screen,
-    d = document,
-    n = navigator,
+        s = screen,
+        d = document,
+        n = navigator,
+
     client = Ember.Object.create({
       browser: {
         appVersion: n.appVersion,
