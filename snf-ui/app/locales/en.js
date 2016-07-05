@@ -129,6 +129,7 @@ export default {
     errors_label: '\nErrors details:' + '\n',
     system_data_label: 'Additional data:' + '\n',
   },
-  network_error: 'Network error',
+  network_error_header: 'Network error',
+  network_error_body: 'Please refresh the page in a few moments.',
 
 };
