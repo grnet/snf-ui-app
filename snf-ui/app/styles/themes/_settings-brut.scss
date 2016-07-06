@@ -1,0 +1,36 @@
+// palette
+$lime: #97b314;
+$petrol: #43504F;
+$light-brown: #DA8758;
+$light-brown2: #D8CCC6;
+$green-1: #2B646B;
+$green-2: #629DA5;
+$mint: #4EB9B1;
+$fuchsia: #c95273;
+
+// theme_settings
+$theme-primary-color: $petrol;
+$theme-secondary-color: $lime;
+$theme-alert-color: $fuchsia;
+$theme-success-color: $lime;
+$theme-info-color: $light-brown;
+
+
+$theme-anchor-font-color: $green-1;
+$theme-anchor-font-color-hover: $green-2;
+
+$theme-inactive-color: #838282;
+$theme-primary-color-light: $light-brown2;
+$theme-secondary-color-light: #f9cd82;
+
+$theme-header-background: $theme-primary-color;
+
+$theme-guide-bg-color: $green-1;
+$theme-drag-bg-color: $theme-secondary-color-light;
+
+
+// use for "upload" button
+$theme-standout-color-1: $mint;
+
+// use for "create container" button
+$theme-standout-color-2: $light-brown;

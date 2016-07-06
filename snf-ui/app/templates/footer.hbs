@@ -14,18 +14,16 @@
         </li>
     </ul>
     <span class="right themes">
-        {{t 'global.choose_theme'}} 
+        {{t 'global.choose_theme'}}
         {{#each theme in settings.themes}}
             <a class="icon" {{action 'toggleTheme' theme.name}} style="color:{{theme.color}}">{{fa-icon theme.icon-menu}}</a>
         {{/each}}
     </span>
     <p class="copyright">
-        {{settings.branding.COPYRIGHT_MESSAGE}}
-        <span>Powered by
-            <a href="{{settings.branding.SERVICE_URL}}">
-                {{settings.branding.SERVICE_NAME}}
-            </a>
-            : {{settings.branding.SYNNEFO_VERSION}}
+        {{{settings.branding.COPYRIGHT_MESSAGE}}}
+        <span>
+            Powered by
+            <a href="https://www.synnefo.org/">Synnefo</a> v{{settings.branding.SYNNEFO_VERSION}}
         </span>
     </p>
 </footer>

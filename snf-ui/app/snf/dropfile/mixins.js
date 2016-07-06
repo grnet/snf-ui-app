@@ -143,13 +143,20 @@ var DropFileViewMixin = Ember.Mixin.create({
           }.bind(this));
         } else {
           // TODO: propagate empty dir/file handling higher ??
-          if (file.type == "" && file.size == 0) { continue; }
+          if (file.type == "" && file.size == 0) {
+            alert("Your browser doesn't support directory drop upload.");
+            continue;
+          }
           file.account = account;
           this.triggerDropFileAdd(file, location, e);
         }
       }
     } else {
-      alert("Your browser doesn't seem to support file drop uploading.");
+      if (types.length) {
+        alert("Drop of '" + types[0] + "' is not supported.");
+      } else {
+        alert("Your browser doesn't seem to support file drop uploading.");
+      }
     }
     return false;
   }

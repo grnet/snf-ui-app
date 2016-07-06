@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   
   inputName: 'file',
-  classNames: ['button', 'alert', 'small'],
+  classNames: ['button', 'upload', 'small'],
   safeOverwrite: false,
 
   _initInput: function() {

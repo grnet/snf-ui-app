@@ -14,6 +14,13 @@
         i {
             margin-right: 4px;
         }
+        &.upload {
+            background-color: $theme-standout-color-1;
+        }
+        &.create-container {
+            background-color: $theme-standout-color-2;
+
+        }
     }
 
     .top-bar-section {

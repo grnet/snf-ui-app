@@ -4,7 +4,7 @@ import {RefreshViewMixin} from 'snf-ui/snf/refresh';
 export default Ember.View.extend(RefreshViewMixin, {
   classNames: ['app'],
   refreshInterval: Ember.computed.alias('controller.settings.modelRefreshInterval'),
-  refreshTasks: ['controller.groups', 'controller.containers'],
+  refreshTasks: ['controller.groups', 'controller.containers', 'controller.projects'],
   showUsageOnKeyUp: function() {
     var quotasKey = 85; // "u"
     $(document).keyup(function(e) {
@@ -33,7 +33,7 @@ export default Ember.View.extend(RefreshViewMixin, {
     $(window).scroll(function(){
       var sticky = $('.sticky'),
           scroll = $(window).scrollTop();
-            
+
       if (scroll >= stickyOffset) {
         sticky.addClass('fixed');
       } else {

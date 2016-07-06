@@ -9,14 +9,20 @@
 
 export function bytesToHuman(bytes){
   var sizes = ['bytes', 'KB', 'MB', 'GB', 'TB'];
+  var i, NumForSize;
   if (bytes === null) {
     return '--';
   }
   if (bytes === 0) { 
     return '0';
   }
-  var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-  return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+
+  i = parseInt(Math.floor(Math.log(Math.abs(bytes)) / Math.log(1024)));
+
+  // If the size is in bytes return the original value
+  NumForSize = (i === 0) ? bytes :  (bytes / Math.pow(1024, i)).toFixed(1);
+
+  return NumForSize + ' ' + sizes[i];
 }
 
 

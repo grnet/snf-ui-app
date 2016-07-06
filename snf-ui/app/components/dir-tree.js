@@ -26,17 +26,27 @@ export default Ember.Component.extend(RefreshViewMixin, {
   expanded: false,
   loading: false,
   classNameBindings: ['isTrash'],
+  refreshAutoStart: false,
   refreshTasks: ['refreshSubDirs'],
   refreshSubDirs: function() {
     if (this.get('expanded')) {
       var current = this.get('subdirs');
       if (!current.content == null) { return; }
       var res = this.get('resolver')(this.get('root'));
-      res.then(function(){
+      return res.then(function(){
         mergeArrayContents(current, res);
       });
     }
   },
+
+  startStopRefresh: function() {
+    var refresh = this.get('_refresher');
+    if (this.get('expanded')) {
+      refresh.start();
+    } else {
+      refresh.stop();
+    }
+  }.observes('expanded'),
   
   name: function(){
     var root = this.get('root');
@@ -61,7 +71,6 @@ export default Ember.Component.extend(RefreshViewMixin, {
     var a = (this.get('root').match(/\//g) || [] ).length == 1 ;
     var b = this.get('root').indexOf('\/accounts\/') == 0 &&
             (this.get('root').match(/\//g) || [] ).length == 4 ;
-    console.log(b);
     return a || b;
   }.property('root'),
 

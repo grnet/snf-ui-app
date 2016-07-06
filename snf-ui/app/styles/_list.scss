@@ -68,6 +68,9 @@ $ellipsis-w: 265px;
         .input-with-valid {
             display: inline-block;
             width: $ellipsis-w;
+            .info > span {
+                padding: 0 0.5625rem;
+            }
         }
     }
     .checkbox-col {

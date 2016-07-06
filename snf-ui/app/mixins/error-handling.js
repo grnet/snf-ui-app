@@ -1,22 +1,18 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
-	errors: undefined,
-  netErrorsCount: Ember.Object.create({
-    counter: 0
-  }),
+  errors: undefined,
   errorDialogRendered: false,
-	errorBoxRendered: false,
+  errorBoxRendered: false,
   init: function() {
     var self = this;
     this.set('errors', []);
 
     // Catches js errors
     Ember.onerror = function(error) {
+      console.error(error);
       if(error.stack) {
-        console.log(error.stack)
         if(!error.stack.includes('RSVP') && !error.stack.includes('ajaxError')) {
-          console.error('[Ember.onerror] Error Report\n', error.message, error.stack);
           self.send('showErrorDialog', error);
         }
       }
@@ -26,24 +22,27 @@ export default Ember.Mixin.create({
     };
 
     Ember.RSVP.on('error', function(error) {
-      console.error('[Ember.RSVP] Error Report\n', error.status, '\n', error);
+      console.error(error);
       if(error.status == 0) {
         self.send('showErrorBox');
       }
-      else {
+      else if (error.errorThrown) {
         self.send('showErrorDialog', error.errorThrown);
+      }
+      else {
+        self.send('showErrorDialog', error);
       }
     });
   },
 
 
-	actions: {
-		/*
-		 * when the server returns error and we want full page error msg
-		 * we override the action: error
-		 */
+  actions: {
+    /*
+     * when the server returns error and we want full page error msg
+     * we override the action: error
+     */
     error: function(error, transition) {
-      console.log('error', error.stack || error);
+      console.error(error, transition);
       switch(error.status) {
         case 404: //not found
           this.render('errors/404', {
@@ -63,17 +62,10 @@ export default Ember.Mixin.create({
     },
 
     showErrorBox: function() {
-      var netErrorsCount = this.get('netErrorsCount');
-      netErrorsCount.set('counter', netErrorsCount.get('counter') + 1);
-      var netErrors = Ember.Object.create({
-        counter: this.get('netErrorsCount')
-      });
-
       if(!this.get('errorBoxRendered')) {
         this.render('overlays/alert-box', {
           into: 'application',
           outlet: 'alertBox',
-          model: netErrorsCount,
           view: 'alertBox',
         });
         this.set('errorBoxRendered', true);
@@ -90,13 +82,13 @@ export default Ember.Mixin.create({
 
 		showErrorDialog: function(error, controller) {
 			var timestamp = new Date().toString();
+			var time = 'timestamp:' + timestamp + '\n';
 			var errors = this.get('errors');
 
 			// handling of server errors
 			if(error && error.status) {
 				let msg = 'message:' + error.status + ' ' + error.statusText + '\n';
 				let stack = 'stack:' + error.responseText + '\n';
-				let time = 'timestamp:' + timestamp + '\n';
 				var error = Ember.Object.create({
 					message: error.status + ' ' + error.statusText,
 					stack: error.responseText,
@@ -109,7 +101,6 @@ export default Ember.Mixin.create({
 			else if(error && error.stack) {
 				let msg = 'message:' + error.message + '\n';
 				let stack = 'stack:' + error.stack + '\n';
-				let time = 'timestamp:' + timestamp + '\n';
 				var error = Ember.Object.create({
 					message: error.message,
 					stack: error.stack,
@@ -118,13 +109,18 @@ export default Ember.Mixin.create({
 				});
 			}
 			else if(typeof error === 'object') {
-				error['timestamp'] = timestamp;
-				var str = '';
+				let str = '';
+				let stack = error.stack;
 				for (var prop in error) {
-					str += str + prop + ': ' + error.prop + '\n';
+					str += str + prop + ': ' + error[prop] + '\n';
 				}
 				error['string'] = str;
-				console.log('%The error has no stack. But it is an object.\n Do you want to make it ember object?', error.string);
+				var error = Ember.Object.create({
+					message: str,
+					stack: error.stack,
+					timestamp: timestamp,
+					string: time + str + stack
+				});
 			}
 			errors.pushObject(error)
 			if(!this.get('errorDialogRendered')) {

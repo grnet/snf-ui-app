@@ -8,8 +8,15 @@ $wrap-radius: 6px;
         height: 100%;
     }
 
-    .meter {
+    .progress.usage-bar .meter {
         float: left;
+        background-color: $green-2;
+        &.warning {
+            background-color: $theme-info-color;
+        }
+        &.alert {
+            background-color: $theme-alert-color;
+        }
     }
 
     ul {
@@ -23,6 +30,10 @@ $wrap-radius: 6px;
             p {
                 font-size: 0.8rem;
                 margin: 0.4rem 0 0.2rem;
+            }
+            .more-info {
+                text-align: right;
+                font-size: 0.8rem;
             }
         }
     }

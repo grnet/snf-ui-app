@@ -19,16 +19,40 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
 
   availableProjects: function(){
     var self = this;
-    // show only projects whose free space is enough for the container
-    return this.get('projects').filter(function(p){
-      return self.get('model').get('bytes')<= p.get('diskspace_free_space');
+    // show only projects whose free space is enough for the container or
+    // that the container is already assigned to
+    var projects = this.get('projects').filter(function(p){
+      return self.get('model').get('bytes')<= p.get('disk_free_space') ||
+        self.get('model').get('project').get('id') == p.get('id');
+      ;
     });
-  }.property('projects.@each'),
+
+    if (!projects.findBy('id', this.get('model.project.id'))) {
+      projects.addObject(this.get('model.project'));
+    }
+    return projects;
+  }.property('projects.@each.disk_free_space'),
 
   selectedProject: function(){
     var project_id = this.get('model').get('project').get('id');
     return this.get('availableProjects').findBy('id', project_id) ;
   }.property('availableProjects', 'model.project'),
+
+  isSelectedProjectOverquota: function() {
+    var proj = this.get('model').get('project');
+    if (!proj.get('is_member')) { return true; }
+    if (!proj.get('is_active')) { return true; }
+    var overquotaAmount = proj.get('disk_overquota_space');
+    if(overquotaAmount) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }.property('model.project',
+             'model.project.disk_overquota_space',
+             'model.project.is_member',
+             'model.project.is_active'),
 
   actionToPerform: undefined,
 
@@ -40,7 +64,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
     };
     return dict[action];
   }.property('actionToPerform'),
-  
+
   confirm_intro: function(){
     if (this.get('verb_for_action')) {
       var verb =  this.t('action_verb.'+this.get('verb_for_action'));
@@ -80,7 +104,7 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
   isTrash: function(){
     if (this.get('model.isTrash')){
       return 'is-trash';
-    }; 
+    };
   }.property('model.isTrash'),
 
   actions: {
@@ -93,7 +117,6 @@ export default Ember.Controller.extend(ResolveSubDirsMixin,{
       var containersModel = this.get('containersModel');
       var onSuccess = function(container) {
         containersModel.removeObject(container);
-        console.log('deleteContainer: onSuccess');
       };
 
       var onFail = function(reason){

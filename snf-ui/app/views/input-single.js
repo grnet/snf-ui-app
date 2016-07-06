@@ -205,45 +205,59 @@ export default Ember.View.extend({
   warningMsg: '',
 
 
-  eventManager: Ember.Object.create({
-    keyUp: function(event, view) {
-      var escKey = 27;
-      event.stopPropagation();
-      if(event.keyCode == escKey) {
-        $('body .close-reveal-modal').trigger('click');
-        view.$().siblings('.js-cancel').trigger('click');
+  handleInput: function() {
+    var self = this;
+
+    function closeParent(e) {
+      if(e.type === 'keyup') {
+        e.stopPropagation();
+        var escKey = 27;
+        if(e.keyCode == escKey) {
+          $('body .close-reveal-modal').trigger('click');
+          self.$().siblings('.js-cancel').trigger('click');
+        }
+      }
+    };
+
+    function checkInputValue(e) {
+      /*
+       * if the browser supports the input event we unbind the keyup
+       * handler
+       */
+
+      if(e.type === 'input') {
+        self.$().off('keyup', 'input' , checkInputValue);
       }
 
-      else {
+      self.send('hideInfo', true);
+      var value = self.$('input').val();
+      self.set('inputValue', value);
+
+      if(self.get('notEmpty')) {
+        self.get('controller').set('notEmptyInput', true);
+
         /*
-         * should concern to disable the action button at the start
-         * and then after 300 check if the input is valid and enable/disable
-         * the action button. Do this in order to avoid to submit action before
-         * the examination of the input and the multiple instant submitions.
-         * (think double enter, click, click, click the button)
-         */
-        view.send('hideInfo', true);
-        var value = view.$('input').val();
-        view.set('inputValue', value);
+        * Each function checks the trimmed value of the input only if
+        * the function before it, hasn't detect an error. We do this
+        * because we display one error at the time.
+        */
 
-        if(view.get('notEmpty')) {
-            view.get('controller').set('notEmptyInput', true);
-            /*
-            * Each function checks the trimmed value of the input only if
-            * the function before it, hasn't detect an error. We do this
-            * because we display one error at the time.
-            */
-            view.get('checkSlash')();
-            view.get('manipulateSize')();
-            view.get('isUnique')();
-            view.get('allowAction')();
-        }
-        else {
-          view.get('controller').set(view.get('actionFlag'), true);
-        }
+        self.get('checkSlash')();
+        self.get('manipulateSize')();
+        self.get('isUnique')();
+        self.get('allowAction')();
       }
-    }
-  }),
+      else {
+        self.get('controller').set(self.get('actionFlag'), true);
+      }
+    };
+
+    this.$('input').on('keyup', closeParent);
+    this.$('input').on('input', checkInputValue);
+    // use if the browser doesn't support input event
+    this.$().on('keyup', 'input', checkInputValue);
+    this.$('input').on('input', checkInputValue);
+  }.on('didInsertElement'),
 
   hideInfoOnReset: function() {
     if(this.get('controller').get('resetInput')) {
@@ -262,7 +276,7 @@ export default Ember.View.extend({
       }
       else if(this.get('warningVisible') === true) {
         var self = this;
-        setTimeout(function() {
+        Ember.run.debounce(self, function() {
           if(self.get('_state') === 'inDOM') {
             self.set('warningVisible', false);
           }

@@ -82,6 +82,8 @@ export default Ember.View.extend({
 		iconCls['powerpoint'] = 'fa-file-powerpoint-o';
 		iconCls['ebook'] = 'fa-book';
 		iconCls['stylesheet'] = 'fa-file-code-o';
+		iconCls['source code'] = 'fa-file-code-o';
+		iconCls['application'] = 'fa-cog';
 		iconCls['unknown'] = 'fa-file-o';
     
     if (type == "folder") {
