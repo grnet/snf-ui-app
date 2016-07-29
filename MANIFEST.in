@@ -1,6 +1,3 @@
-include README Changelog
-recursive-include synnefo_ui/static/snf-ui *.js *.css *.html *.png *.gif *.jpg
-recursive-include synnefo_ui/static/snf-ui/fonts *.*
-recursive-include synnefo_ui/static/snf-ui/assets/fonts *.*
-prune docs
-prune other
+include README.rst
+recursive-include snf-ui *
+recursive-include synnefo_ui/static *
