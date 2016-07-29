@@ -18,16 +18,16 @@ import os
 import sys
 import site
 
+from imp import load_source
 from setuptools import setup, find_packages
 from fnmatch import fnmatchcase
 from distutils.util import convert_path
 
 HERE = os.path.abspath(os.path.normpath(os.path.dirname(__file__)))
-
-from synnefo_ui.version import __version__
+VERSION_PY = os.path.join(HERE, 'synnefo_ui', 'version.py')
 
 # Package info
-VERSION = __version__
+VERSION = getattr(load_source('version', VERSION_PY), '__version__')
 SHORT_DESCRIPTION = 'Synnefo UI component'
 
 PACKAGES_ROOT = '.'
