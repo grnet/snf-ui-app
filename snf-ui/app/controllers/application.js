@@ -19,7 +19,7 @@ export default Ember.Controller.extend(DropFileActionsMixin, SnfAddHandlerMixin,
       worker_url: this.get("settings").get("hash_worker_url") || defaultWorkerUrl
     });
   }.property(),
- 
+
   'actions': {
     'dropFileSuccess': function() { console.log("upload success APP"); },
     'dropFileFailed': function() { console.log("upload failed APP", arguments); },
@@ -50,7 +50,7 @@ export default Ember.Controller.extend(DropFileActionsMixin, SnfAddHandlerMixin,
 	}.property(),
 
 	projects: function() {
-		return this.get('store').find('project', {mode: 'member'});
+		return this.get('store').findQueryReloadable('project', {mode: 'member'});
 	}.property(),
 
   sortByContainers: ['order:asc', 'name:asc'],
@@ -70,7 +70,5 @@ export default Ember.Controller.extend(DropFileActionsMixin, SnfAddHandlerMixin,
   groups: function() {
     return this.get('store').findAllReloadable('group');
   }.property(),
-
-
 
 });

@@ -1,20 +1,49 @@
 import DS from 'ember-data';
-import {markRefresh} from 'snf-ui/snf/refresh';
+import StorageAdapter from 'snf-ui/snf/adapters/storage';
 
 
 // Permit model updates while model is in `inFlight` state.  May result in
 // weird side effects !!!
 DS.RootState.deleted.inFlight.pushedData = Ember.K;
 
+var set = Ember.set;
+var get = Ember.get;
+
 
 var SynnefoStore = DS.Store.extend({
   
   findQueryReloadable: function(type, query) {
-    return markRefresh(this, 'findQuery', type, query);
+    return this.markRefresh(this, 'findQuery', type, query);
   },
 
   findAllReloadable: function(type) {
-    return markRefresh(this, 'findAll', type);
+    return this.markRefresh(this, 'findAll', type);
+  },
+
+  reloadRecordArray: function(arr) {
+    var store = arr.get('store');
+    var type = arr.get('type');
+    var query = arr.get('query');
+    var adapter = store.adapterFor(type);
+
+    var ctx = StorageAdapter.prototype;
+    if (query == undefined) {
+      return ctx._finder_findAll.call(adapter, adapter, store, type, false);
+    }
+    return ctx._finder_findQuery.call(adapter, adapter, store, type, query, arr, false); 
+  },
+
+  // Mark a store promise result as reloadable.
+  markRefresh: function(context, method, type, query, ...args) {
+    var promise, params;
+    var self = this;
+    promise = context[method](type, query, true); // TODO: introspect return value
+    promise.then(function(res) {
+      res.set('query', query);
+      res.update = function() { return self.reloadRecordArray(res); }
+      return res;
+    });
+    return promise;
   },
 
   reassignContainer: function(type, record, project_id){
@@ -25,6 +54,48 @@ var SynnefoStore = DS.Store.extend({
   emptyContainer: function(type, record){
     var adapter = this.adapterFor(record.constructor);
     return adapter.emptyContainer(type, record);
+  },
+
+  findQuery: function(typeName, query, update) {
+    var type = this.modelFor(typeName);
+    var array = this.recordArrayManager
+      .createAdapterPopulatedRecordArray(type, query);
+
+    var adapter = this.adapterFor(type);
+
+    Ember.assert("You tried to load a query but you have no adapter (for " + type + ")", adapter);
+    Ember.assert("You tried to load a query but your adapter does not implement `findQuery`", typeof adapter.findQuery === 'function');
+    
+    return DS.PromiseArray.create({
+      promise: StorageAdapter.prototype._finder_findQuery.call(adapter, adapter, this, type, query, array, update)
+    });
+  },
+
+  _fetchAll: function(type, array) {
+    var adapter = this.adapterFor(type);
+    var sinceToken = this.typeMapFor(type).metadata.since;
+
+    Ember.set(array, 'isUpdating', true);
+
+    Ember.assert("You tried to load all records but you have no adapter (for " + type + ")", adapter);
+    Ember.assert("You tried to load all records but your adapter does not implement `findAll`", typeof adapter.findAll === 'function');
+
+    var ctx = StorageAdapter.prototype;
+    return DS.PromiseArray.create({
+      promise: ctx._finder_findAll.call(adapter, adapter, this, type)
+    });
+  },
+
+  fetchRecord: function(record) {
+    var type = record.constructor;
+    var id = get(record, 'id');
+    var adapter = this.adapterFor(type);
+
+    Ember.assert("You tried to find a record but you have no adapter (for " + type + ")", adapter);
+    Ember.assert("You tried to find a record but your adapter (for " + type + ") does not implement 'find'", typeof adapter.find === 'function');
+
+    var ctx = StorageAdapter.prototype;
+    return ctx._finder_find.call(adapter, adapter, this, type, id, record);
   },
 
 
