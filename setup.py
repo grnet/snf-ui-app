@@ -14,6 +14,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""Packaging module for synnefo-ui-app"""
+
 import os
 import sys
 
@@ -39,9 +41,16 @@ INSTALL_REQUIRES = [
     'snf-branding'
 ]
 
+# Minimum Node.js version
+MIN_NODEJS_VER = '0.12'
+
+
 def build_ember_project():
+    """Downloads and builds the ember and bower dependencies"""
     import subprocess as sp
     from distutils.spawn import find_executable as find
+    from pkg_resources import parse_version
+
     project_dir = os.path.join(".", "snf-ui")
     if not os.path.exists(project_dir):
         os.mkdir(project_dir)
@@ -50,11 +59,19 @@ def build_ember_project():
     env = os.environ.get('SNFUI_AUTO_BUILD_ENV', 'production')
     cache_args = "--cache-min 99999999"
 
+    assert find('node'), "node executable not found. Please install Node.js."
+    version = sp.check_output(['node', '--version']).strip()
+    assert version[0] == 'v', "Unknown Node.js version format"
+
+    assert parse_version(version[1:]) >= parse_version(MIN_NODEJS_VER), \
+        'Node.js version (%s) is lower than the required: %s' % \
+        (version[1:], MIN_NODEJS_VER)
+
     if not find("npm"):
         raise Exception("NPM not found please install nodejs and npm")
 
     if not os.path.exists("./node_modules"):
-        print "Install np[m dependencies"
+        print "Install npm dependencies"
         cmd = "npm install --silent " + cache_args
         ret = sp.call(cmd, shell=True)
         if ret == 1:
@@ -88,9 +105,9 @@ def build_ember_project():
     os.chdir(setupdir)
 
 
-trigger_build = ["sdist", "build", "develop", "install"]
-cmd = ''.join(sys.argv)
-if any(x in cmd for x in trigger_build):
+# build_*, install_* and sdist_* are also commands that trigger a build
+BUILD_TRIGGERING_COMMANDS = ("sdist", "build", "develop", "install")
+if any(arg.startswith(BUILD_TRIGGERING_COMMANDS) for arg in sys.argv):
     if os.path.exists("./synnefo_ui/static/snf-ui"):
         print "Ember.js project already built in synnefo_ui/static/snf-ui"
     else:
