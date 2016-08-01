@@ -3,7 +3,7 @@ Section: python
 Priority: optional
 Maintainer: Kostas Papadimitriou <kpap@grnet.gr>
 Build-Depends: debhelper (>= 8), python-all (>= 2.5), nodejs (>= 0.12), npm
-Standards-Version: 3.9.2
+Standards-Version: 3.9.6
 X-Python-Version: >= 2.7
 Homepage: https://github.com/grnet/snf-ui-app
 
@@ -13,4 +13,4 @@ Depends: ${misc:Depends}, ${python:Depends}
 Provides: ${python:Provides}
 Recommends: snf-webproject
 Description: Synnefo UI app
-
+ UI component of Synnefo IaaS platform.
