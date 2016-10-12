@@ -1,5 +1,5 @@
 .error-box {
-    min-width: rem-calc(162px);
+    min-width: rem-calc(135px);
     position: absolute;
     right: 0.9375rem;
     bottom: rem-calc(80px);
@@ -14,14 +14,20 @@
     &.no-display {
         display: none;
     }
+    h5 {
+        margin-bottom: rem-calc(6px);
+        .fa {
+            margin-right: rem-calc(4px);
+        }
+    }
     p {
-        margin-bottom: 0px;
+        margin-bottom: rem-calc(8px);
         display: inline-block;
     }
 
     .close {
         vertical-align: middle;
-        color: #fff;
+        // color: #fff;
         float: right;
         margin-left: rem-calc(10px);
     }
@@ -30,5 +36,8 @@
         margin-left: rem-calc(4px);
         font-size: 0.875rem;
         line-height: 1.6;
+    }
+    * {
+        color: $white;
     }
 }

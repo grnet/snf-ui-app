@@ -1,11 +1,26 @@
 <h5 class="u-wrap">{{project.human_name}}</h5>
 {{#if project.diskspace_effective_limit}}
-	<p><strong>{{convert-bytes project.diskspace_user_usage}}</strong> out of {{convert-bytes project.diskspace_effective_limit}} used ({{convert-bytes project.diskspace_free_space}} left)</p>
+	<p>
+		{{convert-bytes project.diskspace_user_usage}} out of {{convert-bytes project.diskspace_effective_limit}} used
+	</p>
+
 	<div class="progress usage-bar large-12 secondary radius">
-		<span class="meter" style={{view.width_usage}}></span>
+		<span class="meter {{if project.is_overquota 'alert'}} {{if project.is_almost_full 'warning'}}" style={{view.width_usage}}></span>
 		<span class="rest" style={{view.width_free}}></span>
-		<span class="size">{{view.usage_percentage}} %</span>
+		<span class="size">{{project.usage_percentage}} %</span>
 	</div>
+
+	{{#if project.is_overquota}}
+		<p class="danger more-info">
+			({{convert-bytes project.disk_overquota_space}} over the limit)
+
+		</p>
+	{{else}}
+		<p class="more-info">
+			({{convert-bytes project.disk_free_space}} left)
+		</p>
+	{{/if}}
+
 {{else}}
 	<p>No quotas for storage</p>
 {{/if}}

@@ -9,7 +9,7 @@
     }
     .icon-list {
         @media #{$medium-up} {
-            li:last-child {
+            &>li:last-child {
                 border-right: 1px solid $gainsboro;
             }
         }

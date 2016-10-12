@@ -5,7 +5,6 @@ body {
     label {
         color: #222;
     }
-
     &.cloudbar-active {
         .cloudbar {
             position: absolute;
@@ -74,6 +73,20 @@ body {
 
 .danger {
     color: $danger-color;
+}
+
+.danger-revert {
+    background-color: $danger-color;
+    color: $white;
+}
+
+.success {
+    color: $success-color;
+}
+
+.success-revert {
+    background-color: $success-color;
+    color: $white;
 }
 
 .info {
@@ -200,4 +213,14 @@ button.icon-a {
 table {
     border-spacing: 0;
     width: 100%;
+}
+
+body .label.overquota {
+    position: initial;
+    display: block;
+    margin:0 0 1rem 0;
+    .fa {
+        margin-right: 6px;
+        font-size: 0.8rem;
+    }
 }

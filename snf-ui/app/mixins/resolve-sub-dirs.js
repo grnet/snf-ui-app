@@ -17,7 +17,7 @@ export default Ember.Mixin.create({
         
         var query = {'path': path, 'container_id': container_id};
 
-        var objects = this.store.findQuery('object', query).then(function(data){
+        var objects = this.store.findQuery('object', query, true).then(function(data){
           return data.filter(function(d){
             return d.get('is_dir');
           }); 

@@ -1,3 +1,5 @@
+$tile-height: 1.6rem;
+
 .input-with-valid {
     margin-bottom: 1rem;
     position: relative;
@@ -22,13 +24,13 @@
             z-index: 1;
         }
         .warning {
-            background-color: #f0a024;
+            background-color: $theme-info-color;
         }
         .info-msg {
             margin-left: 10px;
         }
         > span {
-            color: #FFFFFF;
+            color: $white;
             display: block;
             font-size: 0.75rem;
             font-style: italic;
@@ -40,42 +42,44 @@
         margin-bottom: 0;
     }
     input.error {
-        border-color: #f04124;
+        border-color: $theme-alert-color;
     }
     input.warning {
-        border-color: #f0a024;
+        border-color: $theme-info-color;
     }
 }
 
 body .input-emails {
     .tile {
         display: inline-block;
-        height: 1.3rem;
-        margin: 2px 4px;
-        padding: 0 0 0 4px;
-        font-size: 14px;
+        height: $tile-height;
+        margin: rem-calc(2px 4px);
+        padding: rem-calc(0 4px 0 4px);
+        font-size: rem-calc(14px);
         .email {
             color: white;
             font-style: normal;
+            bottom: rem-calc(-2px);
         }
         &.loading {
-            background-color: antiquewhite;
-        }
-        &.error {
-            background-color: #C73737;
-        }
-        &.success {
-            background-color: #44BD4F;
+            background-color: $base;
         }
         .sign {
             margin-left: 6px;
-            padding: 2px;
-            background: #A9A1B6;
-            color: white;
-            font-size: 17px;
-            height: 100%;
-            vertical-align: top;
-
+            i {
+                padding: rem-calc(1px 4px);
+                background: white;
+                height: 80%;
+                vertical-align: middle;
+                color: $danger-color;
+                font-size: rem-calc(15px);
+                border: 2px solid $iron;
+                border-radius: $tile-height*0.8/2;
+                &:hover {
+                    color: darken($danger-color, 10%);
+                    border-color: darken($iron, 10%);
+                }
+            }
         }
     }
     input, input:focus {

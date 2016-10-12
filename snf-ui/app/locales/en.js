@@ -59,12 +59,12 @@ export default {
     create_container: 'Create',
     'delete': 'Delete',
     empty: 'Empty',
-    remove_private_sharing: 'remove everybody',
-    remove_user_from_share: 'remove',
+    remove_private_sharing: 'Remove everybody',
+    remove_user_from_share: 'Remove',
     share_with_users: 'Save users',
-    share_with_all: 'privately share with everybody',
-    restore: 'restore',
-    remove_user_from_group: 'remove',
+    share_with_all: 'Privately share with everybody',
+    restore: 'Restore',
+    remove_user_from_group: 'Remove',
     delete_group: 'Delete Group',
     add_users_to_group: 'Save members',
     error_details: 'Details'
@@ -102,14 +102,14 @@ export default {
   },
 
   icon_label: {
-    move_to_trash: 'trash',
-    restore_from_trash: 'restore',
-    'delete': 'delete',
-    copy: 'copy',
-    move: 'move',
+    move_to_trash: 'Trash',
+    restore_from_trash: 'Restore',
+    'delete': 'Delete',
+    copy: 'Copy',
+    move: 'Move',
     create_dir: 'New folder',
-    reload_model: 'refresh',
-    groups: 'groups',
+    reload_model: 'Refresh',
+    groups: 'Groups',
     view: 'view',
   },
 
@@ -129,11 +129,7 @@ export default {
     errors_label: '\nErrors details:' + '\n',
     system_data_label: 'Additional data:' + '\n',
   },
-  network_error: {
-    text: {
-      one: 'Network error',
-      other: 'Network errors'
-    }
-  }
+  network_error_header: 'Network error',
+  network_error_body: 'Please refresh the page in a few moments.',
 
 };
