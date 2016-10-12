@@ -1,0 +1,20 @@
+v0.18
+=====
+
+Released: Wed Oct 12 13:17:31 EEST 2016
+
+
+* Prevent renamed objects update from failing during route model refresh.
+* Improved refresh mechanism
+    - Mux call to refresh task to avoid duplicate refresh requests.
+    - Queue refresh requests using promises.
+    - Refresh containers from application route only.
+    - Take advantage of If-Modified-Since headers to reduce refresh requests 
+      overhead.
+* Error reporting fixes and improvements
+* Show 'Powered by Synnefo' in footer
+* Corrections in project reassign list
+* Usage data display improvements in overlay and containers view
+* New themes `orange`, `brut`
+* Include JS polyfills for improved browser support
+* Styling fixes/improvements

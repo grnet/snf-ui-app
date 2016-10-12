@@ -1,123 +1,5 @@
 import Ember from 'ember';
 
-var Promise = Ember.RSVP.Promise;
-
-// helpers copy of internal ember-data store methods
-// The methods below cannot be imported from ember-data and are required 
-// for _findQuery to work.
-function serializerFor(container, type, defaultSerializer) {
-  return container.lookup('serializer:'+type) ||
-                 container.lookup('serializer:application') ||
-                 container.lookup('serializer:' + defaultSerializer) ||
-                 container.lookup('serializer:-default');
-}
-
-function defaultSerializer(container) {
-  return container.lookup('serializer:application') ||
-         container.lookup('serializer:-default');
-}
-
-function serializerForAdapter(adapter, type) {
-  var serializer = adapter.serializer;
-  var defaultSerializer = adapter.defaultSerializer;
-  var container = adapter.container;
-
-  if (container && serializer === undefined) {
-    serializer = serializerFor(container, type.typeKey, defaultSerializer);
-  }
-
-  if (serializer === null || serializer === undefined) {
-    serializer = {
-      extract: function(store, type, payload) { return payload; }
-    };
-  }
-
-  return serializer;
-}
-
-function _guard(promise, test) {
-  var guarded = promise['finally'](function() {
-    if (!test()) {
-      guarded._subscribers.length = 0;
-    }
-  });
-
-  return guarded;
-}
-
-function _objectIsAlive(object) {
-  return !(Ember.get(object, "isDestroyed") || Ember.get(object, "isDestroying"));
-}
-
-function _bind(fn) {
-  var args = Array.prototype.slice.call(arguments, 1);
-
-  return function() {
-    return fn.apply(undefined, args);
-  };
-}
-
-function _findAll(adapter, store, type, sinceToken) {
-  var promise = adapter.findAll(store, type, sinceToken);
-  var serializer = serializerForAdapter(adapter, type);
-  var label = "DS: Handle Adapter#findAll of " + type;
-
-  promise = Promise.cast(promise, label);
-  promise = _guard(promise, _bind(_objectIsAlive, store));
-
-  return promise.then(function(adapterPayload) {
-    var recordArray = store.all(type);
-    store._adapterRun(function() {
-      var payload = serializer.extract(store, type, adapterPayload, null, 'findAll');
-      var records = store.pushMany(type, payload);
-      var ids = payload.getEach("id");
-
-      var removed = recordArray.filter(function(m) {
-        return ids.indexOf(m.get('id')) === -1;
-      });
-      var existingIds = recordArray.getEach("id");
-      var added = records.filter(function(m) {
-        return existingIds.indexOf(m.get('id')) === -1;
-      });
-      removed.forEach(function(record) {
-        record.unloadRecord();
-      });
-    });
-    store.didUpdateAll(type);
-    return recordArray;
-  }, null, "DS: Extract payload of findQuery " + type);
-}
-
-function _findQuery(adapter, store, type, query, recordArray) {
-  var promise = adapter.findQuery(store, type, query, recordArray);
-  var serializer = serializerForAdapter(adapter, type);
-  var label = "DS: Handle Adapter#findQuery of " + type;
-
-  promise = Promise.cast(promise, label);
-  promise = _guard(promise, _bind(_objectIsAlive, store));
-
-  return promise.then(function(adapterPayload) {
-    var payload = serializer.extract(store, type, adapterPayload, null, 'findQuery');
-
-    Ember.assert("The response from a findQuery must be an Array, not " + Ember.inspect(payload), Ember.typeOf(payload) === 'array');
-    
-    var records = store.pushMany(type, payload);
-    var ids = payload.getEach("id");
-    var removed = recordArray.filter(function(m) {
-      return ids.indexOf(m.get('id')) === -1;
-    });
-    var existingIds = recordArray.getEach("id");
-    var added = records.filter(function(m) {
-      return existingIds.indexOf(m.get('id')) === -1;
-    });
-    recordArray.removeObjects(removed);
-    recordArray.pushObjects(added);
-    return recordArray;
-  }, null, "DS: Extract payload of findQuery " + type);
-}
-// end of shared methods
-
-
 /*
  * A simple class which handles spawning and stopping of a list of provided 
  * task specifications in specific intervals. Task specifications are used 
@@ -130,8 +12,10 @@ var Refresher = Ember.Object.extend({
   tasks: [],
   specs: {},
   context: Ember.Object.create(),
+  running: false,
+  autoStart: true,
   
-  init: function(specs, context, interval) {
+  init: function(specs, context, interval, autostart) {
     this.set('timeouts', []);
     this.set('specs', specs || []);
     this.set('context', context || {});
@@ -139,6 +23,7 @@ var Refresher = Ember.Object.extend({
                           context.get('settings.modelRefreshInterval');
     this.set('interval', interval || defaultInterval || 2000);
     this.set('paused', false);
+    this.set('autoStart', autostart === undefined ? true : false);
   },
 
   parseSpec: function(spec) {
@@ -185,26 +70,40 @@ var Refresher = Ember.Object.extend({
     }
     interval = parseInt(interval);
     
+    var key = context.toString() + "::" + lastpart;
     return {
       name: name,
       interval: interval || this.get('interval'),
       context: context,
       source: this.get('context').toString(),
       callee: callee,
-      spec: _spec
+      spec: _spec,
+      key: key
     }
   },
 
   startTask: function(taskSpec, context) {
     var spec = this.parseSpec(taskSpec);
-    var meta = spec.context.__refresh_meta || {deps: 0, specs: []};
+    var contextMeta = spec.context.__refresh_meta || Ember.Object.create();
+    var newMeta = {deps: 0, specs: []};
+    var meta = contextMeta.get(spec.key) || newMeta;
+    
+    // existing meta but callee changed. This is the case of changed path 
+    // in objects controller. The meta object is preserved to the objects view 
+    // but callee (view model) has changed.
+    if (meta.specs.length > 0 && 
+        !Object.is(spec.callee, meta.specs[0].callee)) {
+      meta.disabled = true;
+      meta = newMeta;
+    }
+    contextMeta.set(spec.key, meta);
+    spec.context.__refresh_meta = contextMeta;
     meta.specs.push(spec);
     var ids = this.get('timeouts');
 
     meta.deps++;
-    meta.name = context.toString();
+    meta.name = spec.key;
     meta.interval = meta.interval || spec.interval || this.get('interval');
-    context.__refresh_meta = meta;
 
     // FIXME: recreate timeout if interval is less than the one already set to 
     // satisfy the shortest interval possible.
@@ -212,7 +111,8 @@ var Refresher = Ember.Object.extend({
 
     var self = this;
     var task = function() {
-      var callee = spec.callee, query;
+      if (window.NO_TASKS) { return; }
+      var callee = spec.callee;
       
       if (!callee) { debugger }
       Ember.assert(taskSpec + " is invalid task spec", !!callee);
@@ -220,7 +120,7 @@ var Refresher = Ember.Object.extend({
       if ((callee instanceof DS.PromiseArray) ||
           (callee instanceof DS.PromiseObject) ||
           (callee instanceof Ember.RSVP.Promise)) {
-        if (callee.get('content') instanceof DS.RecordArray) {
+        if (callee.get && callee.get('content') instanceof DS.RecordArray) {
           callee = callee.get('content');
         }
       }
@@ -230,20 +130,21 @@ var Refresher = Ember.Object.extend({
       }
 
       if (callee instanceof DS.RecordArray) {
-        callee.update();
+        return callee.update();
       } else if(callee instanceof DS.Model) {
-        callee.reload();
+        return callee.reload();
       } else {
         if (callee instanceof Function) {
-          callee();
+          return callee();
         } else {
-            console.error("Inavlid callee for ", spec.spec, callee);
+            console.error("Inavlid callee for ", meta.spec, callee);
         }
 
       }
     }
 
     var tick = function() {
+      if (meta.disabled) { return }
       meta.id = setTimeout(function() {
         var res;
         ids.removeObject(meta.id);
@@ -262,12 +163,14 @@ var Refresher = Ember.Object.extend({
 
   stopTask: function(task, context) {
     var spec = this.parseSpec(task);
-    var meta = context.__refresh_meta;
+    var contextMeta = spec.context.__refresh_meta;
+    if (contextMeta === undefined) { return } // stop before start???
+    var meta = contextMeta.get(spec.key);
+    if (!meta) { debugger; } // wtf ??
     meta.deps--;
     if (meta.deps === 0) {
       clearTimeout(meta.id);
     }
-    context.__refresh_meta = meta;
   },
 
   start: function(spec) {
@@ -276,14 +179,17 @@ var Refresher = Ember.Object.extend({
     specs.forEach(function(spec) {
       this.startTask(spec, context);
     }.bind(this));
+    this.set("running", true);
   },
 
   stop: function(spec) {
+    if (!this.get("running")) { return; }
     var context = this.get('context');
     var specs = spec ? [spec] : this.get('specs');
     specs.forEach(function(spec) {
       this.stopTask(spec, context);
     }.bind(this));
+    this.set("running", false);
   }
 
 });
@@ -292,7 +198,8 @@ var Refresher = Ember.Object.extend({
 var RefreshMixin = Ember.Mixin.create({
   initRefresher: function() {
     var refresher = new Refresher(this.get('refreshTasks'), this, 
-                                  this.get('refreshInterval'));
+                                  this.get('refreshInterval'),
+                                  this.get('refreshAutoStart'));
     this.set('_refresher', refresher);
   }.on('init')
 
@@ -300,33 +207,14 @@ var RefreshMixin = Ember.Mixin.create({
 
 
 var RefreshViewMixin = Ember.Mixin.create(RefreshMixin, {
-  startRefresh: function() { this.get('_refresher').start(); }.on('didInsertElement'),
-  stopRefresh: function() { this.get('_refresher').stop(); }.on('willDestroyElement'),
+  startRefresh: function() { 
+    if (this.get('_refresher.autoStart')) {
+      this.get('_refresher').start(); 
+    }
+  }.on('didInsertElement'),
+  stopRefresh: function() { 
+    this.get('_refresher').stop(); 
+  }.on('willDestroyElement'),
 });
 
-
-function reloadRecordArray(arr) {
-  var store = arr.get('store');
-  var type = arr.get('type');
-  var query = arr.get('query');
-  var adapter = store.adapterFor(type);
-  if (query == undefined) { // findAll()
-    return _findAll(adapter, store, type);
-  }
-  return _findQuery(adapter, store, type, query, arr); 
-}
-
-
-// Mark a store promise result as reloadable.
-var markRefresh = function(context, method, type, query, ...args) {
-  var promise, params;
-  promise = context[method](type, query); // TODO: introspect return value
-  promise.then(function(res) {
-    res.set('query', query);
-    res.update = function() { return reloadRecordArray(res); }
-    return res;
-  });
-  return promise;
-}
-
-export {RefreshMixin, RefreshViewMixin, markRefresh}
+export {RefreshMixin, RefreshViewMixin}

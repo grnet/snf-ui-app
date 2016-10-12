@@ -9,6 +9,8 @@ var app = new EmberApp({
       css: {
         'app': 'assets/snf-ui.css',
         'themes/theme-funky': 'assets/theme-funky.css',
+        'themes/theme-orange': 'assets/theme-orange.css',
+        'themes/theme-brut': 'assets/theme-brut.css',
         'themes/theme-okeanos': 'assets/theme-okeanos.css',
       }
     }

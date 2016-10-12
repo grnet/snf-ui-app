@@ -2,9 +2,7 @@
 <form {{action 'createContainer' on="enter" }}>
     {{view 'input-single' placeholder='Container name' autofocus=true controller=controller actionFlag='freezeCreateContainer'}}
 
-    {{#if projectsLoading }}
-        <p>{{partial "loader"}} Loading projects</p>
-    {{else}}
+    {{#if projects}}
         <p>
             <label>Assign to project
                 {{view "select" content=projects
@@ -13,6 +11,8 @@
                         selection=newProject}}
             </label>
         </p>
+    {{else}}
+        <p>{{partial "loader"}} Loading projects</p>
     {{/if}}
 <p>
     <span class="info">{{fa-icon "fa-warning"}} {{t 'cannot_rename_container'}}</span>

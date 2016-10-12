@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
 	inputValue: undefined,
 	validInput: false,
 	closeDialog: false,
-  msg: false,
+	msg: false,
 
 	fwdFeedback: function() {
 		var inputValue = this.get('inputValue');
@@ -31,7 +31,6 @@ export default Ember.Controller.extend({
 	errorReportMsg: function() {
 		var title = this.t('error_report.title');
 		var errors = this.t('error_report.errors_label') + this.get('errors');
-
 		var description = this.t('error_report.descr_label') + this.get('inputValue') +'\n';
 
 		return title + errors + description;
@@ -40,9 +39,10 @@ export default Ember.Controller.extend({
 
   errorReportExtraData: function() {
     var w = window,
-    s = screen,
-    d = document,
-    n = navigator,
+        s = screen,
+        d = document,
+        n = navigator,
+
     client = Ember.Object.create({
       browser: {
         appVersion: n.appVersion,
@@ -61,12 +61,11 @@ export default Ember.Controller.extend({
     return JSON.stringify(client);
   }.property('model.@each'),
 
-	// parsing errors data if there are any
+	// parsing errors data, if there are any
 	errors: function() {
 		var errors = this.get('model');
 		var str = '';
 		if(errors.get('length') > 0) {
-			console.log('errors!', errors.get('length'));
 			let delimiter = this.t('error_report.delimiter');
 			errors.forEach(function(error) {
 				str += error.get('string') + '\n' + delimiter + '\n';
@@ -85,7 +84,7 @@ export default Ember.Controller.extend({
 			var msg = this.get('errorReportMsg');
 			var data = this.get('errorReportExtraData');
 			this.send('sendFeedback', msg, data);
-      this.showMessage();
+			this.showMessage();
 		}
 	}
 });

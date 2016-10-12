@@ -3,6 +3,12 @@ import Ember from 'ember';
 
 export default StorageAdapter.extend({
   
+  // backend won't return updated container list in case a container gets
+  // deleted, a 304 response is returned instead and thus the container 
+  // remains in list in UI. Until this get fixed at the pithos API we 
+  // cannot make use of if-modified-since headers in UI.
+  setIfModifiedSince: false, 
+
   buildURL: function(type, account, id, snapshot) {
     var url = this._super(type, account, snapshot);
 
