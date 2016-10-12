@@ -1,7 +1,7 @@
-v0.18rc1
-========
+v0.18
+=====
 
-Released: Mon Jul 11 17:54:33 EEST 2016
+Released: Wed Oct 12 13:17:31 EEST 2016
 
 
 * Prevent renamed objects update from failing during route model refresh.
