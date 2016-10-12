@@ -1,3 +1,9 @@
+snf-ui-app (0.18-1~wheezy) wheezy; urgency=low
+
+  * New upstream release
+
+ -- Giorgos Korfiatis <gkorf@grnet.gr>  Wed, 12 Oct 2016 14:06:16 +0300
+
 snf-ui-app (0.18~rc1-1~wheezy) wheezy; urgency=low
 
   * New upstream version
@@ -21,6 +27,7 @@ snf-ui-app (0.16-1~wheezy) wheezy; urgency=low
   * New upstream version
 
  -- Kostas Papadimitriou <kpap@grnet.gr>  Fri, 14 Oct 2015 12:05:58 +0200
+
 
 
 
