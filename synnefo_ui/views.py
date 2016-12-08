@@ -21,7 +21,7 @@ from urllib import unquote
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from synnefo_branding.utils import get_branding_dict
-from snf_django.utils.views import TemplateViewExtra
+from synnefo.webproject.views import TemplateViewExtra
 
 from synnefo_ui import ui_settings
 
