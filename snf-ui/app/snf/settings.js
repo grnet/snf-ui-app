@@ -117,18 +117,24 @@ export default Ember.Object.extend({
       value = decodeURIComponent(matched[1]);
       value = JSON.parse(value);
       this.setProperties(value);
+      return value;
     }
   },
 
   persist: function(name, data, props) {
-    var expires, value;
+    var expires, value, cookiePath;
     props = props || ['auth_url', 'token'];
     expires = (new Date())
     expires.setDate(expires.getDate() + 1);
     value = JSON.stringify(this.getProperties.apply(this, props));
     value = encodeURIComponent(value);
+
+    cookiePath = config.baseURL || '';
+    if (cookiePath.indexOf('/') === 0) {
+      cookiePath = cookiePath.slice(1);
+    }
     document.cookie = name + "=" + value + "; path=/" 
-      + (config.baseURL || '') + ";" 
+      + cookiePath + ";" 
       + expires.toUTCString();
   },
 

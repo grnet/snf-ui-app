@@ -21,8 +21,12 @@ var resolveAuth = function(settings, container, app, resp) {
 
   if (!token || (resp && resp.errorThrown)) {
     if (settings.localToken) {
-      token = window.prompt("Gimme your token");
-      settings.set('token', token);
+      let localCookie = settings.loadFromCookie("ui_local_settings");
+      if (!settings.get('token')) {
+        token = window.prompt("Gimme your token");
+        settings.set('token', token);
+        settings.persist("ui_local_settings");
+      }
     } else {
       if (!loginUrl) { throw "Invalid login url"; }
       window.location = loginUrl;
