@@ -44,6 +44,13 @@ app.import('bower_components/chartist/dist/chartist.min.js');
 app.import('bower_components/chartist/dist/chartist.min.css');
 app.import('bower_components/async/lib/async.js');
 
+
+// quill related imports
+app.import('bower_components/quill/quill.core.js');
+app.import('bower_components/quill/quill.js');
+app.import('bower_components/quill/quill.core.css');
+app.import('bower_components/quill/quill.bubble.css');
+
 var workers = pickFiles(mergeTrees(['bower_components/asmcrypto', 'workers']), {
   srcDir: '/',
   files: ['asmcrypto.js', 'worker_*.js'],
