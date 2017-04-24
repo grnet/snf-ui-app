@@ -9,7 +9,7 @@
     "ember-qunit": "0.3.1",
     "ember-qunit-notifications": "0.0.7",
     "ember-resolver": "~0.1.15",
-    "jquery": "^1.11.1",
+    "jquery": "~1.11.1",
     "loader.js": "ember-cli/loader.js#3.2.0",
     "qunit": "~1.17.1",
     "lightbox": "2.7.1",
@@ -24,6 +24,6 @@
     "async": "~1.2.1"
   },
   "resolutions": {
-    "jquery": ">= 1.7.0 < 2.2.0"
+    "jquery": ">= 1.7.0 < 1.12.0"
   }
 }

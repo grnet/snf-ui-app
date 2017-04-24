@@ -96,5 +96,27 @@ module.exports = function(environment) {
 
   }
 
+  if (environment === 'okeanos') {
+    ENV.djangoContext = false;
+    ENV.baseURL = '/ui/';
+    ENV.appSettings = {
+      token: process.env.SNF_UI_TOKEN,
+      localToken: true,
+      auth_url: 'https://pithos.okeanos.grnet.gr/ui/_astakos/identity',
+      'branding': {
+        STORAGE_LOGO_URL: 'https://pithos.okeanos.grnet.gr/static/custom-branding/storage_logo.png'
+      }
+    },
+    ENV.djangoContext = false;
+    ENV.assetsPrefix = '';
+    ENV.contentSecurityPolicy = {
+      'style-src': "* 'unsafe-inline'",
+      'font-src': "'self' data: fonts.gstatic.com",
+      'img-src': "* data:",
+      'script-src': "* 'unsafe-inline'",
+      'connect-src': "*"
+    }
+  }
+
   return ENV;
 };

@@ -18,7 +18,7 @@
     <link rel="icon" type="image/png" href="{{content-for 'mediaURL'}}assets/images/pithos-favicon.png">
     {{content-for 'head-footer'}}
   </head>
-  <body class="{% if CLOUDBAR_ACTIVE %}cloudbar-active{% endif %}">
+  <body class="{{content-for 'body-cls'}}">
     {{content-for 'body'}}
     <script>{{content-for 'settings'}}</script>
     <script src="{{content-for 'mediaURL'}}assets/vendor.js"></script>
@@ -28,7 +28,6 @@
       $.fn.live = $.fn.on;
     </script>
     {{content-for 'body-footer'}}
-    {{ CLOUDBAR_CODE }}
     <script>
       $(document).foundation({
         animation_speed: 400
