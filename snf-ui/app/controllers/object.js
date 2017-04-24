@@ -39,6 +39,11 @@ export default Ember.Controller.extend(NameMixin, {
     return !this.get('trash') && this.get('mine');
   }.property('trash', 'mine'),
 
+  canEdit: function() {
+    let EDIT_TYPES = ['source code', /* ... additional editable file types ... */];
+    return EDIT_TYPES.indexOf(this.get('model.type')) > -1
+  }.property('type'),
+
   canVersions: function(){
     return this.get('model.is_file') && !this.get('trash') && this.get('mine') && this.get('versioning');
   }.property('model.is_file', 'trash', 'mine', 'versioning'),
@@ -176,6 +181,10 @@ export default Ember.Controller.extend(NameMixin, {
       this.get('parentController').send('clearSelected');
       this.set('isSelected', true);
       this.send(action);
+    },
+
+    openEditor: function(){
+      this.send('showDialog', 'editor', this, this.get('model'));
     },
 
     openDelete: function(){

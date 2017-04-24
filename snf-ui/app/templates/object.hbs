@@ -134,6 +134,9 @@
             </span>
         {{/if}}
 
+        {{#if object.canEdit}}
+            <a {{action 'initAction' 'openEditor'}} class="icon-a snf-tooltip {{iconTooltipDir}}" aria-label="Edit file">{{fa-icon "fa-edit fa-fw"}}</a>
+        {{/if}}
         {{#if object.canDownload}}
             <a {{bind-attr href=object.view_src}} target="_blank" class="button small snf-tooltip {{iconTooltipDir}}" aria-label="Download" download>{{fa-icon "fa-download fa-fw"}}</a>
         {{/if}}
