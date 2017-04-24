@@ -3,6 +3,7 @@ module.exports = {
   contentFor: function(type, config) {
     var django = config.djangoContext;
     var prefix = config.assetsPrefix === undefined ? '' : config.assetsPrefix;
+
     if (type === 'settings') {
       if (django) {
         return 'window.SETTINGS = {{ app_settings|safe }}';
@@ -22,6 +23,16 @@ module.exports = {
     if (type === 'title') {
       if (django) { return 'Pithos+ | {{ BRANDING_SERVICE_NAME }}'; }
       return 'Synnefo UI';
+    }
+
+    if (type === 'body-footer') {
+      if (django) { return '{{ CLOUDBAR_CODE }}'; }
+      return '';
+    }
+
+    if (type === 'body-cls') {
+      if (django) { return '{% if CLOUDBAR_ACTIVE %}cloudbar-active{% endif %}'; }
+      return '';
     }
   }
 };
