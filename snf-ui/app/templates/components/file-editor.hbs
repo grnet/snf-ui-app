@@ -1,0 +1,15 @@
+<h2>{{#if readOnly }}Preview{{else}}Edit{{/if}} {{ model.name }}</h2>
+
+{{#if isLoading }}
+<p>Loading......................</p>
+{{/if}}
+
+<pre id="file-editor"></pre>
+
+{{#unless readOnly }}
+<div id="statusBar">unchanged</div>
+<div class="buttons">
+<div class="button alert cancel" {{ action "cancel" target=this }}><span>Cancel</span></div>
+<div id="save" class="button" {{ action "save" target=this }}><span>Save</span></div>
+</div>
+{{/unless}}

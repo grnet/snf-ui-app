@@ -44,6 +44,11 @@ export default Ember.Controller.extend(NameMixin, {
     return EDIT_TYPES.indexOf(this.get('model.type')) > -1 && !this.get('trash') && (this.get('mine') || this.get('write_only'))
   }.property('type', 'trash', 'mine', 'write_only'),
 
+  canPreview: function() {
+    let EDIT_TYPES = ['source code', 'text', /* ... additional editable file types ... */];
+    return EDIT_TYPES.indexOf(this.get('model.type')) > -1
+  }.property('type'),
+
   canVersions: function(){
     return this.get('model.is_file') && !this.get('trash') && this.get('mine') && this.get('versioning');
   }.property('model.is_file', 'trash', 'mine', 'versioning'),
@@ -195,6 +200,22 @@ export default Ember.Controller.extend(NameMixin, {
       }
       if (isBigger === false) {
         this.get('model').set('readOnly', false);
+        this.send('showDialog', 'editor', this, this.get('model'));
+      }
+    },
+
+    openPreviewer: function(){
+      var size = this.get('model.size');
+      var default_limit = 1000;
+      var OPEN_FILE_LIMIT = this.get('settings').get('open_file_limit') || default_limit;
+      var isBigger = false;
+      if (size >= OPEN_FILE_LIMIT) {
+        if (!confirm('The size of the file is too big. Are you sure you want to continue?')) {
+          isBigger = true;
+        }
+      }
+      if (isBigger === false) {
+        this.get('model').set('readOnly', true);
         this.send('showDialog', 'editor', this, this.get('model'));
       }
     },

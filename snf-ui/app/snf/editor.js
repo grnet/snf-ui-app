@@ -1,4 +1,4 @@
-export function editFile(element, filename, contents) {
+export function editFile(element, filename, contents, readOnly) {
   
     var editor = ace.edit(element);
 
@@ -17,6 +17,12 @@ export function editFile(element, filename, contents) {
     var modelist = ace.require("ace/ext/modelist");
     var mode = modelist.getModeForPath(filename).mode;
     editor.session.setMode(mode);
+
+    if (readOnly) {
+      // preview mode
+      editor.setHighlightActiveLine(false);
+      editor.setReadOnly(true);
+    }
     
     // for debug
     window.editor = editor;
