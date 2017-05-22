@@ -13,12 +13,15 @@ import {editFile} from 'snf-ui/snf/editor';
     editor = this.$("#file-editor")[0];
     filename = this.get('model.name');
     readOnly = this.get('readOnly');
+
+    this.set('contentChanged', false);
  
     if (!readOnly) {
       $(".reveal-modal").attr('data-options', 'close_on_background_click:false;close_on_esc:false');
     }
 
     var onSave = () => { this.send('save'); }
+    var onChanged = (changed) => { this.set('contentChanged', changed); }
 
     // reading file requires http request, thus editor  
     this.set('isLoading', true);
@@ -30,11 +33,23 @@ import {editFile} from 'snf-ui/snf/editor';
  
   actions: {
     save() {
-      let contents = editor.getValue();
-      this.sendAction('onSave', this.get('model'), contents);
+      if (this.get('contentChanged')) {
+        let contents = editor.getValue();
+        this.sendAction('onSave', this.get('model'), contents);
+        this.set('contentChanged', false);
+        $("#statusBar").text("saved");
+      } else {
+        $("#statusBar").text("No changes have been made!");
+      }
     },
     cancel() {
-      this.sendAction('onCancel');
+      if (this.get('contentChanged')) {
+        if (confirm('There are unsaved changes. Are you sure you want to exit')) {
+           this.sendAction('onCancel');
+        }
+      } else {
+        this.sendAction('onCancel');
+      }
     },
   },
  

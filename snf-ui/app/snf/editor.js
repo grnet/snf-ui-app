@@ -1,4 +1,4 @@
-export function editFile(element, filename, contents, readOnly, onSave) {
+export function editFile(element, filename, contents, readOnly, onSave, onChange) {
   
     var editor = ace.edit(element);
 
@@ -32,6 +32,11 @@ export function editFile(element, filename, contents, readOnly, onSave) {
         }
       })
     }
+
+    editor.on("change", function() {
+      onChanged(true);
+      $("#statusBar").text("changed");
+    }); 
     
     // for debug
     window.editor = editor;
