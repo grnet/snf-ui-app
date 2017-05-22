@@ -1,4 +1,4 @@
-export function editFile(element, filename, contents, readOnly) {
+export function editFile(element, filename, contents, readOnly, onSave) {
   
     var editor = ace.edit(element);
 
@@ -22,6 +22,15 @@ export function editFile(element, filename, contents, readOnly) {
       // preview mode
       editor.setHighlightActiveLine(false);
       editor.setReadOnly(true);
+    } else {
+      // Save shortcut
+      editor.commands.addCommand({
+        name: "saveChanges",
+        bindKey: {win: "Ctrl-S", mac: "Command-S"},
+        exec: function(editor) {
+            onSave();
+        }
+      })
     }
     
     // for debug

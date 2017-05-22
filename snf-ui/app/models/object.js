@@ -246,8 +246,12 @@ export default DS.Model.extend({
     return type;
   }.property('name'),
 
- read() {
+  read() {
     return this.get('store').readFile(this);
+  },
+
+  update(content) {
+    return this.get('store').updateFile(this, content);
   },
 
 });

@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import NameMixin from 'snf-ui/mixins/name';
 
+// TODO helper function to check file size
+
 export default Ember.Controller.extend(NameMixin, {
   itemType: 'object',
   object_view: true,
@@ -43,7 +45,7 @@ export default Ember.Controller.extend(NameMixin, {
     let EDIT_TYPES = ['source code', 'text', /* ... additional editable file types ... */];
     return EDIT_TYPES.indexOf(this.get('model.type')) > -1 && !this.get('trash') && (this.get('mine') || this.get('write_only'))
   }.property('type', 'trash', 'mine', 'write_only'),
-
+  
   canPreview: function() {
     let EDIT_TYPES = ['source code', 'text', /* ... additional editable file types ... */];
     return EDIT_TYPES.indexOf(this.get('model.type')) > -1
@@ -182,6 +184,10 @@ export default Ember.Controller.extend(NameMixin, {
   freezeRenameObject: true,
 
   actions: {
+    saveFile: function(file, content) {
+      file.update(content);
+    },
+
     initAction: function(action){
       this.get('parentController').send('clearSelected');
       this.set('isSelected', true);
@@ -203,7 +209,7 @@ export default Ember.Controller.extend(NameMixin, {
         this.send('showDialog', 'editor', this, this.get('model'));
       }
     },
-
+    
     openPreviewer: function(){
       var size = this.get('model.size');
       var default_limit = 1000;
