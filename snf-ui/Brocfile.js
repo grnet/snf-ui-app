@@ -2,6 +2,7 @@
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var pickFiles = require('broccoli-static-compiler');
 var mergeTrees = require('broccoli-merge-trees');
+var Funnel = require('broccoli-funnel');
 var app = new EmberApp({
   outputPaths: {
     app: {
@@ -51,10 +52,22 @@ app.import('bower_components/quill/quill.js');
 app.import('bower_components/quill/quill.core.css');
 app.import('bower_components/quill/quill.bubble.css');
 
+
 var workers = pickFiles(mergeTrees(['bower_components/asmcrypto', 'workers']), {
   srcDir: '/',
   files: ['asmcrypto.js', 'worker_*.js'],
   destDir: '/assets/workers'
 });
 
-module.exports = app.toTree(workers);
+app.import('bower_components/ace-builds/src-noconflict/ace.js');
+app.import('bower_components/ace-builds/src-noconflict/ext-modelist.js');
+app.import('bower_components/ace-builds/src-noconflict/ext-statusbar.js');
+app.import('bower_components/ace-builds/src-noconflict/ext-keybinding_menu.js');
+var aceTree = pickFiles(mergeTrees(['bower_components/ace-builds/src-noconflict']), {
+  srcDir: '/',
+  files: ['*'],
+  destDir: '/assets/ace'
+});
+
+
+module.exports = app.toTree([workers, aceTree]);
