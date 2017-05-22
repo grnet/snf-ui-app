@@ -1,8 +1,19 @@
+#file-preview {
+  min-height: 300px;
+}
+
 #file-editor {
   min-height: 300px;
   border: 1px solid lightgray;
 }
 
-#file-preview {
-  min-height: 300px;
+#statusBar {
+  margin-bottom: 30px;
+  padding: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+  background-color: rgb(245, 245, 245);
+  color: gray;
 }

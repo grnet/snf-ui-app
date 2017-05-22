@@ -1,4 +1,4 @@
-export function editFile(element, filename, contents, readOnly, onSave, onChange) {
+export function editFile(element, filename, contents, readOnly, onSave, onChanged) {
   
     var editor = ace.edit(element);
 
@@ -17,7 +17,7 @@ export function editFile(element, filename, contents, readOnly, onSave, onChange
     var modelist = ace.require("ace/ext/modelist");
     var mode = modelist.getModeForPath(filename).mode;
     editor.session.setMode(mode);
-
+    
     if (readOnly) {
       // preview mode
       editor.setHighlightActiveLine(false);
@@ -36,7 +36,7 @@ export function editFile(element, filename, contents, readOnly, onSave, onChange
     editor.on("change", function() {
       onChanged(true);
       $("#statusBar").text("changed");
-    }); 
+    });  
     
     // for debug
     window.editor = editor;

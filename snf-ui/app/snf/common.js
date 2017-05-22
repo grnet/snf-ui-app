@@ -35,7 +35,6 @@ export function tempSetProperty(object, prop){
 
 }
 
-
 export function timeHuman(value, short=false) {
   if (short) {
     return moment(value).format("DD-MM-YYYY");
@@ -48,6 +47,47 @@ export function timestampHuman(value, short=false) {
     return moment.unix(value).format("DD-MM-YYYY");
   } 
   return moment.unix(value).format("DD-MM-YYYY HH:mm");
+}
+
+// helper methods for bind and unbind shortcuts
+function showUsageOnKeyUp(e) {
+  var quotasKey = 85; // "u"
+  if(e.keyCode == quotasKey) {
+    $('.footer').find('[data-popover-trigger="usage-btn"]').trigger('click');
+  }
+}
+
+function showGroupsOnKeyUp(e) {
+  var groupKey = 71; // "g"
+  if(e.keyCode == groupKey) {
+    if ($("a#groups-link").length > 0) {
+      $("a#groups-link").click();
+    }
+  }
+}
+
+function showNewDirOrContainerOnKeyUp(e) {
+  var groupKey = 78; // "g"
+  if(e.keyCode == groupKey) {
+    if ($(".create-container").length > 0) {
+      $(".create-container").click();
+    }
+    if ($("a#create-dir").length > 0) {
+      $("a#create-dir").click();
+    }
+  }
+}
+
+export function bindKeyboardShortcuts() {
+  $(document).keyup(showUsageOnKeyUp);
+  $(document).keyup(showGroupsOnKeyUp);
+  $(document).keyup(showNewDirOrContainerOnKeyUp);
+}
+
+export function unbindKeyboardShortcuts() {
+  $(document).unbind("keyup", showUsageOnKeyUp);
+  $(document).unbind("keyup", showGroupsOnKeyUp);
+  $(document).unbind("keyup", showNewDirOrContainerOnKeyUp);
 }
 
 

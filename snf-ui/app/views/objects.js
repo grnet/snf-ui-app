@@ -17,16 +17,4 @@ export default Ember.View.extend(RefreshViewMixin, DropFileViewMixin, SnfAddHand
     return controller.get("currentPathWithContainer").replace(/\/$/, "");
   },
 
-  createNewOnKeyUp: function() {
-    var self = this;
-    var c = this.get('controller');
-    var newKey = 78; // "n"
-    $(document).keyup(function(e) {
-      if (self.get('canCreate') ){
-        if(e.keyCode == newKey) {
-          c.send('showDialog', 'create-dir', c);
-        }
-      }
-    });
-  }.on('didInsertElement'),
 });
