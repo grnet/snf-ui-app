@@ -130,6 +130,12 @@ var SynnefoStore = DS.Store.extend({
     return adapter.setSharing(snapshot, sharing);
   },
 
+  readFile: function(record, sharing){
+    var snapshot = record._createSnapshot();
+    var adapter = this.adapterFor(snapshot.type);
+    return adapter.readFile(snapshot, sharing);
+  },
+
   user_catalogs: function(uuids, emails) {
     var adapter = this.container.lookup('adapter:group');
     return adapter.user_catalogs(uuids, emails);

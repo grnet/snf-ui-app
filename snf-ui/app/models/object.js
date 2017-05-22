@@ -246,7 +246,9 @@ export default DS.Model.extend({
     return type;
   }.property('name'),
 
-
+ read() {
+    return this.get('store').readFile(this);
+  },
 
 });
 
