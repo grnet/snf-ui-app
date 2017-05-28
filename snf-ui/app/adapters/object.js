@@ -318,9 +318,7 @@ export default StorageAdapter.extend({
        type: 'GET',
        url: url,
        headers: headers,
-     }).then(function(data) {
-       return data;
-     });
+     })
    },
 
    /**
@@ -330,7 +328,7 @@ export default StorageAdapter.extend({
    * @method updateFile
    * @param snapshot {Object}
    */
-   updateFile(snapshot, content) {
+   updateFile(snapshot, content, callback) {
      var url = this.buildURL('object', null, snapshot.id);
      var headers = this.get('headers');
  
@@ -354,7 +352,13 @@ export default StorageAdapter.extend({
        headers: headers,
        data: formData,
        processData: false,
-       contentType: false
+       contentType: false,
+       error: function() {
+         callback(false);
+       },
+       success: function() {
+         callback(true);
+       }
      });
    }
 

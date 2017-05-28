@@ -38,7 +38,6 @@ export function editFile(element, filename, contents, readOnly, onSave, onChange
       $("#statusBar").text("changed");
     });  
     
-    // for debug
     window.editor = editor;
 }
   

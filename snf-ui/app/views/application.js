@@ -7,18 +7,6 @@ export default Ember.View.extend(RefreshViewMixin, {
   refreshInterval: Ember.computed.alias('controller.settings.modelRefreshInterval'),
   refreshTasks: ['controller.groups', 'controller.containers', 'controller.projects'],
   
-  /*showGroupsOnKeyUp: function() {
-    var self = this;
-    var groups = this.get('controller').get('groups');
-    var groupKey = 71; // "g"
-    $(document).keyup(function(e) {
-      if(e.keyCode == groupKey) {
-        self.get('controller').send('showDialog', 'groups', 'groups', groups)
-      }
-    });
-  }.on('didInsertElement'),*/
-
-
   didInsertElement: function(){
     
     bindKeyboardShortcuts();    

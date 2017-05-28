@@ -1,7 +1,6 @@
 import {editFile} from 'snf-ui/snf/editor';
 import {showGroupsOnKeyUp} from 'snf-ui/views/application';
-import {unbindKeyboardShortcuts} from 'snf-ui/snf/common';
-import {bindKeyboardShortcuts} from 'snf-ui/snf/common';
+import {unbindKeyboardShortcuts, bindKeyboardShortcuts} from 'snf-ui/snf/common';
 
 export default Ember.Component.extend({
 
@@ -43,9 +42,14 @@ export default Ember.Component.extend({
     save() {
       if (this.get('contentChanged')) {
         let contents = editor.getValue();
-        this.sendAction('onSave', this.get('model'), contents);
-        this.set('contentChanged', false);
-        $("#statusBar").text("saved");
+        this.sendAction('onSave', this.get('model'), contents, function(isTrue){
+          if (isTrue) {
+            this.set('contentChanged', false);
+            $("#statusBar").text("saved");
+          } else {
+            $("#statusBar").text("An internal server error (500) occured.");
+          }
+        });
       } else {
         $("#statusBar").text("No changes have been made!");
       }

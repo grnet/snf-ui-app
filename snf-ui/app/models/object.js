@@ -250,8 +250,8 @@ export default DS.Model.extend({
     return this.get('store').readFile(this);
   },
 
-  update(content) {
-    return this.get('store').updateFile(this, content);
+  update(content, callback) {
+    return this.get('store').updateFile(this, content, callback);
   },
 
 });

@@ -7,9 +7,9 @@
 <pre id="file-editor"></pre>
 
 {{#unless readOnly }}
-<div id="statusBar">unchanged</div>
+<div id="statusBar">No changes have been made!</div>
 <div class="buttons">
-<div class="button alert cancel" {{ action "cancel" target=this }}><span>Cancel</span></div>
+<div class="button alert cancel" {{ action "cancel" target=this }}><span>Close</span></div>
 <div id="save" class="button" {{ action "save" target=this }}><span>Save</span></div>
 </div>
 {{/unless}}
