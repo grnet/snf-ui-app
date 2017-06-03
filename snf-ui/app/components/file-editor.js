@@ -40,20 +40,24 @@ export default Ember.Component.extend({
 
   actions: {
     save() {
-      if (this.get('contentChanged')) {
-        let contents = editor.getValue();
-        this.sendAction('onSave', this.get('model'), contents, function(isTrue){
-          if (isTrue) {
+        if (this.get('contentChanged')) {
+          let contents = editor.getValue();
+          var error500 = false;
+          this.sendAction('onSave', this.get('model'), contents, function(isTrue){
+            if (isTrue === false) {
+              error500 = true;
+            }
+          });
+          if (error500) {
+            $("#statusBar").text("An internal server error (500) occured.");
+          } else {
             this.set('contentChanged', false);
             $("#statusBar").text("saved");
-          } else {
-            $("#statusBar").text("An internal server error (500) occured.");
           }
-        });
-      } else {
-        $("#statusBar").text("No changes have been made!");
-      }
-    },
+        } else {
+          $("#statusBar").text("No changes have been made!");
+        } 
+      },
     cancel() {
       if (this.get('contentChanged')) {
         if (confirm('There are unsaved changes. Are you sure you want to exit')) {
