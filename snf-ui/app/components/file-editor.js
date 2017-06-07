@@ -49,6 +49,7 @@ export default Ember.Component.extend({
             $("#statusBar").text("An error " + errorType + " occured.");
           }
         });
+        this.set('contentChanged', false);
       } else {
         $("#statusBar").text("No changes have been made!");
       }
