@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import {bindKeyboardShortcuts} from 'snf-ui/snf/common';
 
 export default Ember.View.extend({
   classNames: ['reveal-modal'],

@@ -20,7 +20,7 @@
   </head>
   <body class="{{content-for 'body-cls'}}">
     {{content-for 'body'}}
-    <script src="assets/ace/ace.js"></script>
+    <script src="{{content-for 'mediaURL'}}assets/ace/ace.js"></script>
     <script>{{content-for 'settings'}}</script>
     <script src="{{content-for 'mediaURL'}}assets/vendor.js"></script>
     <script src="{{content-for 'mediaURL'}}assets/snf-ui.js"></script>

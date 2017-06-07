@@ -2,7 +2,7 @@ import Ember from 'ember';
 import NameMixin from 'snf-ui/mixins/name';
 
 function check_size(size, file_limit) {
-  var default_limit = 1000;
+  var default_limit = 1000000;
   var OPEN_FILE_LIMIT = file_limit || default_limit;
   if (size >= OPEN_FILE_LIMIT) {
     if (!confirm('The size of the file is too big. Are you sure you want to continue?')) {
