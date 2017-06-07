@@ -353,9 +353,15 @@ export default StorageAdapter.extend({
        data: formData,
        processData: false,
        contentType: false,
-       stattusCode: {
+       statusCode: {
+        200: function() {
+          callback(false, "");
+        },
+        201: function() {
+          callback(false, "");
+        },
         500: function() {
-          callback(false);
+          callback(true, "500");
         }
       }
      });
