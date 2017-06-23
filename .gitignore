@@ -43,4 +43,3 @@ testem.log
 # exclude ui build files
 synnefo_ui/static/snf-ui
 synnefo_ui/templates/index.html
-synnefo_ui/version.py

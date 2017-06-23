@@ -28,12 +28,11 @@
       $.fn.live = $.fn.on;
     </script>
     {{content-for 'body-footer'}}
+    {{ CLOUDBAR_CODE }}
+    <script>
+      $(document).foundation({
+        animation_speed: 400
+      });
+    </script>
   </body>
-  {{ CLOUDBAR_CODE }}
-  <script>
-    $(document).foundation({
-      animation_speed: 400
-    });
-  </script>
- </body>
 </html>
