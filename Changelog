@@ -1,3 +1,10 @@
+v0.19
+=====
+
+Released: Fri Jun 23 12:37:36 EEST 2017
+
+* Adapt to Django 1.7.
+
 v0.18
 =====
 
