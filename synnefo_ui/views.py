@@ -19,9 +19,9 @@ import json
 from urllib import unquote
 
 from django.http import HttpResponseRedirect
-from django.views.generic.simple import direct_to_template
 from django.conf import settings
 from synnefo_branding.utils import get_branding_dict
+from synnefo.webproject.views import TemplateViewExtra
 
 from synnefo_ui import ui_settings
 
@@ -44,5 +44,6 @@ def app(request, path):
         'UI_MEDIA_URL': ui_settings.UI_MEDIA_URL,
         'UI_BASE_URL': ui_settings.BASE_URL
     }
-    return direct_to_template(request, "snf_ui_index.html",
-                              extra_context=context)
+    return TemplateViewExtra.as_view(
+        template_name="snf_ui_index.html",
+        extra_context=context)(request)
