@@ -1,6 +1,17 @@
 import Ember from 'ember';
 import NameMixin from 'snf-ui/mixins/name';
 
+function check_size(size, file_limit) {
+  var default_limit = 1000000;
+  var OPEN_FILE_LIMIT = file_limit || default_limit;
+  if (size >= OPEN_FILE_LIMIT) {
+    if (!confirm('The size of the file is too big. Are you sure you want to continue?')) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export default Ember.Controller.extend(NameMixin, {
   itemType: 'object',
   object_view: true,
@@ -40,10 +51,15 @@ export default Ember.Controller.extend(NameMixin, {
   }.property('trash', 'mine'),
 
   canEdit: function() {
-    let EDIT_TYPES = ['source code', /* ... additional editable file types ... */];
-    return EDIT_TYPES.indexOf(this.get('model.type')) > -1
-  }.property('type'),
+    let EDIT_TYPES = ['source code', 'text', 'stylesheet', /* ... additional editable file types ... */];
+    return EDIT_TYPES.indexOf(this.get('model.type')) > -1 && !this.get('trash') && (this.get('mine') || this.get('write_only'))
+  }.property('type', 'trash', 'mine', 'write_only'),
 
+  canPreview: function() {
+    let PREVIEW_TYPES = ['source code', 'text', 'stylesheet', /* ... additional editable file types ... */];
+    return PREVIEW_TYPES.indexOf(this.get('model.type')) > -1
+  }.property('type'),
+ 
   canVersions: function(){
     return this.get('model.is_file') && !this.get('trash') && this.get('mine') && this.get('versioning');
   }.property('model.is_file', 'trash', 'mine', 'versioning'),
@@ -177,6 +193,10 @@ export default Ember.Controller.extend(NameMixin, {
   freezeRenameObject: true,
 
   actions: {
+    saveFile: function(file, content, callback) {
+      file.update(content, callback);
+    },
+
     initAction: function(action){
       this.get('parentController').send('clearSelected');
       this.set('isSelected', true);
@@ -184,9 +204,23 @@ export default Ember.Controller.extend(NameMixin, {
     },
 
     openEditor: function(){
-      this.send('showDialog', 'editor', this, this.get('model'));
+      var size = this.get('model.size');
+      var file_limit = this.get('settings').get('open_file_limit');
+      if (check_size(size, file_limit)) {
+        this.get('model').set('readOnly', false);
+        this.send('showDialog', 'editor', this, this.get('model'));
+      }
     },
 
+    openPreviewer: function(){
+      var size = this.get('model.size');
+      var file_limit = this.get('settings').get('open_file_limit');
+      if (check_size(size, file_limit)) { 
+        this.get('model').set('readOnly', true);
+        this.send('showDialog', 'editor', this, this.get('model'));
+      }
+    },
+ 
     openDelete: function(){
       this.send('showDialog', 'confirm-simple', this, this.get('model'), 'deleteObject');
     },
@@ -246,5 +280,8 @@ export default Ember.Controller.extend(NameMixin, {
     moveToTrash: function(){
       this.send('moveObjectsToTrash');
     },
+    closeDialog: function() {
+      this.set('closeDialog', true);
+    }
   }
 });

@@ -301,6 +301,70 @@ export default StorageAdapter.extend({
         }
       });
     });
-  }
+  },
+
+  /**
+   * 
+   * readFile gets the content of an object
+   *
+   * @method readFile
+   * @param snapshot {Object}
+   * @return {string} with the contents of the file
+   */
+   readFile(snapshot) {
+     var url = this.buildURL('object', null, snapshot.id);
+     var headers = this.get('headers');
+     return jQuery.ajax({
+       type: 'GET',
+       url: url,
+       headers: headers,
+     })
+   },
+
+   /**
+   * 
+   * updateFile updates the content of an object
+   *
+   * @method updateFile
+   * @param snapshot {Object}
+   */
+   updateFile(snapshot, content, callback) {
+     var url = this.buildURL('object', null, snapshot.id);
+     var headers = this.get('headers');
+ 
+     // https://www.synnefo.org/docs/synnefo/latest/object-api-guide.html#id8
+     // mimic form-data file upload
+ 
+     // let browser decide formdata content type applying the proper boundary
+     delete headers['Content-Type'];
+ 
+     // post formdata in order to enforce browser to choose formdata encoding
+     let formData = new FormData();
+     
+     // in order to enforce filename to be appended to X-Object-Data property
+     // this enables django to parse object data in request.FILES
+     let file = new File([content], snapshot.get('name'));
+     formData.append('X-Object-Data', file);
+ 
+     jQuery.ajax({
+       type: 'POST',
+       url: url,
+       headers: headers,
+       data: formData,
+       processData: false,
+       contentType: false,
+       statusCode: {
+        200: function() {
+          callback(false, "");
+        },
+        201: function() {
+          callback(false, "");
+        },
+        500: function() {
+          callback(true, "500");
+        }
+      }
+     });
+   }
 
 });

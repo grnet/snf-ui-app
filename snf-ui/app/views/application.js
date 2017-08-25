@@ -1,32 +1,15 @@
 import Ember from 'ember';
 import {RefreshViewMixin} from 'snf-ui/snf/refresh';
+import {bindKeyboardShortcuts} from 'snf-ui/snf/common';
 
 export default Ember.View.extend(RefreshViewMixin, {
   classNames: ['app'],
   refreshInterval: Ember.computed.alias('controller.settings.modelRefreshInterval'),
   refreshTasks: ['controller.groups', 'controller.containers', 'controller.projects'],
-  showUsageOnKeyUp: function() {
-    var quotasKey = 85; // "u"
-    $(document).keyup(function(e) {
-      if(e.keyCode == quotasKey) {
-        $('.footer').find('[data-popover-trigger="usage-btn"]').trigger('click');
-      }
-    });
-  }.on('didInsertElement'),
-
-  showGroupsOnKeyUp: function() {
-    var self = this;
-    var groups = this.get('controller').get('groups');
-    var groupKey = 71; // "g"
-    $(document).keyup(function(e) {
-      if(e.keyCode == groupKey) {
-        self.get('controller').send('showDialog', 'groups', 'groups', groups)
-      }
-    });
-  }.on('didInsertElement'),
-
-
+  
   didInsertElement: function(){
+    
+    bindKeyboardShortcuts();    
 
     var stickyOffset = $('.sticky').offset().top;
 

@@ -1,1 +1,1 @@
-{{ view 'editor' model=model }}
+{{file-editor model=model onSave="saveFile" onCancel="closeDialog" readOnly=model.readOnly}}

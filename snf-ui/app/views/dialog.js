@@ -38,6 +38,7 @@ export default Ember.View.extend({
     this.$().foundation('reveal', 'open', {
       animation: 'fade',
       animation_speed: 250,
+      close_on_background_click: true
     });
   }.on('didInsertElement'),
 
@@ -52,7 +53,7 @@ export default Ember.View.extend({
   */
   closeDialog: function() {
     var closeDialog = this.get('controller').get('closeDialog');
-
+     
     if(closeDialog && this.get('_state') === 'inDOM') {
       this.$().foundation('reveal', 'close');
       this.get('controller').set('closeDialog', false)
@@ -79,7 +80,7 @@ export default Ember.View.extend({
       e.preventDefault();
       self.$().foundation('reveal', 'close');
       });
-
+    
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
       if(self.get('_state') === 'inDOM') {
         if(self.get('controller').get('name_stripped') === 'groups') {

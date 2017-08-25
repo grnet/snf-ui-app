@@ -22,7 +22,7 @@
     "chartist": "~0.7.3",
     "jquery-cookie": "~1.4.1",
     "async": "~1.2.1",
-    "quill": "https://github.com/quilljs/quill/releases/download/v1.2.4/quill.tar.gz"
+    "ace-builds": "^1.2.6"
   },
   "resolutions": {
     "jquery": ">= 1.7.0 < 1.12.0"
